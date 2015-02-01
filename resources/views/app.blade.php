@@ -12,11 +12,12 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	@yield('inline-css')
 </head>
 <body>
 	@yield('content')
-
 	<script src="{{ elixir("js/jquery.js") }}"></script>
 	<script type="javascript" src="{{ elixir("js/app.js") }}"></script>
+	@yield('inline-js')
 </body>
 </html>
