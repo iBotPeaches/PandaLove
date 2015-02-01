@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="745dc188-63e3-4df5-9830-8c285ac3918a" name="Default" comment="">
+    <list default="true" id="745dc188-63e3-4df5-9830-8c285ac3918a" name="Default" comment="Remove IntelliJ config files - part2&#10;&#10; - updated gitignore for intelliJ / mac">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
@@ -10,7 +10,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env.example" afterPath="$PROJECT_DIR$/.env.example" />
     </list>
     <ignored path="pandalove.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,20 +68,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".env.example" pinned="false" current-in-tab="false">
+      <file leaf-file-name=".env.example" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.env.example">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.18064517" vertical-offset="0" max-vertical-offset="620">
+              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23225807" vertical-offset="0" max-vertical-offset="620">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
               <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
               <folding />
             </state>
@@ -107,8 +107,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/readme.md" />
-        <option value="$PROJECT_DIR$/.env.example" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/.env.example" />
       </list>
     </option>
   </component>
@@ -252,7 +252,13 @@
       <option name="project" value="LOCAL" />
       <updated>1422799831439</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Remove IntelliJ config files - part2&#10;&#10; - updated gitignore for intelliJ / mac">
+      <created>1422800018752</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1422800018752</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -300,7 +306,8 @@
     </option>
     <MESSAGE value="update readme" />
     <MESSAGE value="Remove IntelliJ config files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove IntelliJ config files" />
+    <MESSAGE value="Remove IntelliJ config files - part2&#10;&#10; - updated gitignore for intelliJ / mac" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove IntelliJ config files - part2&#10;&#10; - updated gitignore for intelliJ / mac" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -350,18 +357,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env.example">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/.env.example">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23225807" vertical-offset="0" max-vertical-offset="620">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.18064517" vertical-offset="0" max-vertical-offset="620">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
           <folding />
         </state>
       </provider>
