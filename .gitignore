@@ -8,3 +8,11 @@
 
 # Mac
 .DS_Store
+
+# Windows
+Thumbs.db
+
+# Other
+_ide_helper.php
+composer.phar
+composer.lock
