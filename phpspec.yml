@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: PandaLove
+        psr4_prefix: PandaLove
+        src_path: app
