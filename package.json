@@ -1,6 +1,8 @@
 {
   "devDependencies": {
     "gulp": "^3.8.8",
-    "laravel-elixir": "*"
+    "laravel-elixir": "*",
+    "semantic-ui": "1.8.1",
+    "jquery": "2.1.3"
   }
 }

@@ -1,5 +1,11 @@
 /vendor
+/node_modules
 .env
+
+/public/build/*
+/public/css/*
+/public/default/*
+/public/js/*
 
 # IntelliJ
 .idea/
