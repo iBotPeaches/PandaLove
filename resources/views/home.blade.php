@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="ui one column centered grid" style="padding-top: 20px;">
-        <img class="big-image" src="{{ asset('images/panda-logo.png') }}" />
+        <img class="ui large centered image" src="{{ asset('images/panda-logo.png') }}" />
     </div>
 @endsection
 
