@@ -1,5 +1,7 @@
 <?php namespace PandaLove\Http\Controllers;
 
+use Onyx\Destiny\Client as Client;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,7 +32,9 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+		$client = new Client();
+		$account = $client->fetchAccountByGamertag(1, 'iBotPeaches v5');
+		return $account->toJson();
 	}
 
 }
