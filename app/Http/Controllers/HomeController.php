@@ -34,7 +34,8 @@ class HomeController extends Controller {
 	{
 		$client = new Client();
 		$account = $client->fetchAccountByGamertag(1, 'iBotPeaches v5');
-		return $account->toJson();
+
+		return $client->fetchAccountData($account, 1, $account->membershipId);
 	}
 
 }

@@ -4,6 +4,7 @@ use GuzzleHttp;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Hash;
 
 class Client extends Http {
 
@@ -35,6 +36,43 @@ class Client extends Http {
         {
             throw new PlayerNotFoundException();
         }
+    }
+
+    /**
+     * @param /Onyx/Account $account
+     * @param int $platform
+     * @param string $membershipId
+     * @return array
+     * @throws Helpers\Network\BungieOfflineException
+     */
+    public function fetchAccountData($account, $platform, $membershipId)
+    {
+        $platform = intval($platform);
+        $url = sprintf(Constants::$platformDestiny, $platform, $membershipId);
+
+        $json = $this->getJson($url);
+
+        $account->clanName = $json['Response']['data']['clanName'];
+        $account->clanTag = $json['Response']['data']['clanTag'];
+        $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
+        $account->grimoire = $json['Response']['data']['grimoireScore'];
+
+        // characters
+        $account->character_1 = isset($json['Response']['data']['characters'][0])
+            ? $json['Response']['data']['characters'][0]['characterBase']['characterId']
+            : null;
+
+        $account->character_2 = isset($json['Response']['data']['characters'][1])
+            ? $json['Response']['data']['characters'][1]['characterBase']['characterId']
+            : null;
+
+        $account->character_3 = isset($json['Response']['data']['characters'][2])
+            ? $json['Response']['data']['characters'][2]['characterBase']['characterId']
+            : null;
+
+        $account->save();
+
+        return $json;
     }
 
     /**
