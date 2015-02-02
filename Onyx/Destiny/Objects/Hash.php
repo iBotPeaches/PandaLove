@@ -33,85 +33,44 @@ class Hash extends Model {
 
     public static function loadHashesFromApi($data)
     {
-        self::loadDefinitionRaces(array_get($data, 'races', []));
-        self::loadDefinitionGenders(array_get($data, 'genders', []));
-        self::loadDefinitionClasses(array_get($data, 'classes', []));
-        self::loadDefinitionActivities(array_get($data, 'activities', []));
-        self::loadDefinitionItems(array_get($data, 'items', []));
+        self::loadDefinitions($data, 'items', 'itemHash', 'itemName', 'itemDescription', 'icon');
+        self::loadDefinitions($data, 'activities', 'activityHash', 'activityName', 'activityDescription');
+        self::loadDefinitions($data, 'classes', 'classHash', 'className', '');
+        self::loadDefinitions($data, 'genders', 'genderHash', 'genderName', 'genderType');
+        self::loadDefinitions($data, 'races', 'raceHash', 'raceName', 'raceDescription');
     }
 
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
 
-    private static function loadDefinitionItems($items)
+    /**
+     * @param array $data Array of Definitions
+     * @param string $index Index for this iteration
+     * @param string $hash Index for hash of item
+     * @param string $title Index for title of item
+     * @param string $desc Index for description of item
+     * @param null $extra Index for anything extra (optional)
+     * @return bool
+     */
+    private static function loadDefinitions(&$data, $index, $hash, $title, $desc, $extra = null)
     {
-        foreach($items as $item)
+        if (isset($data[$index]))
         {
-            if ($hash = Hash::where('hash', $item['itemHash'])->first() != null) continue;
+            foreach($data[$index] as $item)
+            {
+                if ($hash = Hash::where('hash', $item[$hash])->first() != null) continue;
 
-            $hash = new Hash();
-            $hash->hash = $item['itemHash'];
-            $hash->title = $item['itemName'];
-            $hash->description = isset($item['itemDescription']) ? $item['itemDescription'] : '';
-            $hash->extra = $item['icon'];
-            $hash->save();
+                $mHash = new Hash();
+                $mHash->hash = $item[$hash];
+                $mHash->title = $item[$title];
+                $mHash->description = isset($item[$desc]) ? $item[$desc] : null;
+                $mHash->extra = ($extra != null) ? $item[$extra] : null;
+                $mHash->save();
+
+            }
         }
+
+        return false;
     }
-
-    private static function loadDefinitionActivities($activities)
-    {
-        foreach($activities as $activity)
-        {
-            if ($hash = Hash::where('hash', $activity['activityHash'])->first() != null) continue;
-
-            $hash = new Hash();
-            $hash->hash = $activity['activityHash'];
-            $hash->title = $activity['activityName'];
-            $hash->description = $activity['activityDescription'];
-            $hash->save();
-        }
-    }
-
-    private static function loadDefinitionClasses($classes)
-    {
-        foreach($classes as $class)
-        {
-            if ($hash = Hash::where('hash', $class['classHash'])->first() != null) continue;
-
-            $hash = new Hash();
-            $hash->hash = $class['classHash'];
-            $hash->title = $class['className'];
-            $hash->save();
-        }
-    }
-
-    private static function loadDefinitionGenders($genders)
-    {
-        foreach($genders as $gender)
-        {
-            if ($hash = Hash::where('hash', $gender['genderHash'])->first() != null) continue;
-
-            $hash = new Hash();
-            $hash->hash = $gender['genderHash'];
-            $hash->title = $gender['genderName'];
-            $hash->extra = $gender['genderType'];
-            $hash->save();
-        }
-    }
-
-    private static function loadDefinitionRaces($races)
-    {
-        foreach($races as $race)
-        {
-            if ($hash = Hash::where('hash', $race['raceHash'])->first() != null) continue;
-
-            $hash = new Hash();
-            $hash->hash = $race['raceHash'];
-            $hash->title = $race['raceName'];
-            $hash->description = $race['raceDescription'];
-            $hash->save();
-        }
-    }
-
 }
