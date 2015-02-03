@@ -6,6 +6,7 @@
 /public/css/*
 /public/default/*
 /public/js/*
+/public/uploads/*
 
 # IntelliJ
 .idea/

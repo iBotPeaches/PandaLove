@@ -2,12 +2,13 @@
 
 use Carbon\Carbon;
 use GuzzleHttp;
+use Intervention\Image\Facades\Image;
 use Onyx\Account;
+use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
-use Onyx\Destiny\Objects\Hash;
 
 class Client extends Http {
 
@@ -70,9 +71,9 @@ class Client extends Http {
         {
             if (isset($json['Response']['data']['characters'][$i]))
             {
-                $this->updateOrAddCharacter($url, $account, $json['Response']['data']['characters'][$i]);
-
-                $characterId = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
+                $this->updateOrAddCharacter($url, $json['Response']['data']['characters'][$i]);
+                $pair = "character_" . ($i + 1);
+                $account->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
             }
         }
 
@@ -83,10 +84,9 @@ class Client extends Http {
 
     /**
      * @param string $url
-     * @param \Onyx\Account $account
      * @param array $data
      */
-    private function updateOrAddCharacter($url, $account, $data)
+    private function updateOrAddCharacter($url, $data)
     {
         $charBase = $data['characterBase'];
 
@@ -110,6 +110,21 @@ class Client extends Http {
         $character->gender = $translator->map($charBase['genderHash']);
         $character->class = $translator->map($charBase['classHash']);
         $character->defense = $charBase['stats']['STAT_DEFENSE']['value'];
+        $character->intellect = $charBase['stats']['STAT_INTELLECT']['value'];
+        $character->discipline = $charBase['stats']['STAT_DISCIPLINE']['value'];
+        $character->strength = $charBase['stats']['STAT_STRENGTH']['value'];
+        $character->light = $charBase['stats']['STAT_LIGHT']['value'];
+
+        $character->subclass = $charBase['peerView']['equipment'][0]['itemHash'];
+        Images::saveImageLocally($translator->map($character->subclass, false), 'other');
+
+        $character->helmet = $charBase['peerView']['equipment'][1]['itemHash'];
+        Images::saveImageLocally($translator->map($character->helmet, false), 'armor');
+
+        $character->arms = $charBase['peerView']['equipment'][2]['itemHash'];
+        Images::saveImageLocally($translator->map($character->arms, false), 'armor');
+
+        // @todo finish character
         $character->save();
     }
 
