@@ -62,6 +62,7 @@ class Hashes extends Http{
             if ($this->allowedRetry)
             {
                 $this->updateHashes();
+                $this->items = Hash::all();
                 return $this->map($hash, $title);
             }
             else
