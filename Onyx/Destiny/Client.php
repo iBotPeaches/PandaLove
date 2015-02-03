@@ -79,7 +79,7 @@ class Client extends Http {
 
         $account->save();
 
-        return $json;
+        return $account;
     }
 
     /**
@@ -90,9 +90,6 @@ class Client extends Http {
     {
         $charBase = $data['characterBase'];
 
-        $translator = new Hashes();
-        $translator->setUrl($url);
-
         $character = Character::where('characterId', $charBase['characterId'])->first();
 
         if ( ! $character instanceof Character)
@@ -102,13 +99,15 @@ class Client extends Http {
             $character->characterId = $charBase['characterId'];
         }
 
+        $character->setTranslatorUrl($url);
+
         $character->last_played = new Carbon($charBase['dateLastPlayed']);
         $character->minutes_played = $charBase['minutesPlayedTotal'];
         $character->minutes_played_last_session = $charBase['minutesPlayedThisSession'];
         $character->level = $charBase['powerLevel'];
-        $character->race = $translator->map($charBase['raceHash']);
-        $character->gender = $translator->map($charBase['genderHash']);
-        $character->class = $translator->map($charBase['classHash']);
+        $character->race = $charBase['raceHash'];
+        $character->gender = $charBase['genderHash'];
+        $character->class = $charBase['classHash'];
         $character->defense = $charBase['stats']['STAT_DEFENSE']['value'];
         $character->intellect = $charBase['stats']['STAT_INTELLECT']['value'];
         $character->discipline = $charBase['stats']['STAT_DISCIPLINE']['value'];
@@ -116,15 +115,19 @@ class Client extends Http {
         $character->light = $charBase['stats']['STAT_LIGHT']['value'];
 
         $character->subclass = $charBase['peerView']['equipment'][0]['itemHash'];
-        Images::saveImageLocally($translator->map($character->subclass, false), 'other');
-
         $character->helmet = $charBase['peerView']['equipment'][1]['itemHash'];
-        Images::saveImageLocally($translator->map($character->helmet, false), 'armor');
-
         $character->arms = $charBase['peerView']['equipment'][2]['itemHash'];
-        Images::saveImageLocally($translator->map($character->arms, false), 'armor');
+        $character->chest = $charBase['peerView']['equipment'][3]['itemHash'];
+        $character->boots = $charBase['peerView']['equipment'][4]['itemHash'];
+        $character->class_item = $charBase['peerView']['equipment'][5]['itemHash'];
 
-        // @todo finish character
+        $character->primary = $charBase['peerView']['equipment'][6]['itemHash'];
+        $character->secondary = $charBase['peerView']['equipment'][7]['itemHash'];
+        $character->heavy = $charBase['peerView']['equipment'][8]['itemHash'];
+        $character->ship = $charBase['peerView']['equipment'][9]['itemHash'];
+        $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
+        $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
+        $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
         $character->save();
     }
 
