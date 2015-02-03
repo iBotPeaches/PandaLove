@@ -14,6 +14,11 @@ class Http {
      */
     public function __construct()
     {
+        $this->setupGuzzle();
+    }
+
+    private function setupGuzzle()
+    {
         $this->guzzle = new Guzzle();
         $this->guzzle->setDefaultOption('headers', array('X-API-Key', env('BUNGIE_KEY')));
     }
@@ -26,6 +31,11 @@ class Http {
      */
     public function getJson($url)
     {
+        if (! $this->guzzle instanceof Guzzle)
+        {
+            $this->setupGuzzle();
+        }
+
         $response = $this->guzzle->get($url);
 
         if ($response->getStatusCode() != 200)
