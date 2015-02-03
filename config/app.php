@@ -162,7 +162,6 @@ return [
 	*/
 
 	'aliases' => [
-
 		'App'       => 'Illuminate\Support\Facades\App',
 		'Artisan'   => 'Illuminate\Support\Facades\Artisan',
 		'Auth'      => 'Illuminate\Support\Facades\Auth',
@@ -197,7 +196,7 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'HTML'		=> 'Illuminate\Html\HtmlFacade',
-		'Image' 	=> 'Intervention\Image\Facades\Image'
+		'Image' 	=> 'Intervention\Image\Facades\Image',
 
 	],
 

@@ -4,21 +4,9 @@ use Onyx\Destiny\Client as Client;
 
 class HomeController extends Controller {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
-
 	/**
 	 * Create a new controller instance.
 	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -30,12 +18,12 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function getIndex()
 	{
-		$client = new Client();
-		$account = $client->fetchAccountByGamertag(1, 'iBotPeaches v5');
+		return view('home');
+		//$client = new Client();
+		//$account = $client->fetchAccountByGamertag(1, 'iBotPeaches v5');
 
-		return $client->fetchAccountData($account, 1, $account->membershipId);
+		//return $client->fetchAccountData($account, 1, $account->membershipId);
 	}
-
 }

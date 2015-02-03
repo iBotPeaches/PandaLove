@@ -2,7 +2,8 @@ var elixir = require('laravel-elixir');
 
 var paths = {
  'semantic': './node_modules/semantic-ui/dist/',
- 'jquery': './node_modules/jquery/dist/'
+ 'jquery': './node_modules/jquery/dist/',
+    'css': './resources/css/'
 };
 
 /*
@@ -18,10 +19,11 @@ var paths = {
 
 elixir(function(mix) {
  mix
-     .copy(paths.semantic + 'themes/default', 'public/default')
+     .copy(paths.semantic + 'themes', 'public/build/css/themes')
      .copy(paths.jquery + 'jquery.js', 'public/js/jquery.js')
      .styles([
-         paths.semantic + 'semantic.css'
+         paths.semantic + 'semantic.css',
+         paths.css + 'main.css'
      ], "public/css/app.css", "./")
      .scripts([
          paths.semantic + 'semantic.js'
