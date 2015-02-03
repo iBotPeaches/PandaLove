@@ -8,13 +8,12 @@ class Images {
 
     /**
      * @param \Onyx\Destiny\Objects\Hash $hash
-     * @param string $type
      * @return bool
      */
-    public static function saveImageLocally($hash, $type = 'other')
+    public static function saveImageLocally($hash)
     {
         $url = "https://bungie.net" . $hash->extra;
-        $location = public_path('uploads/' . $type . '/');
+        $location = public_path('uploads/thumbs/');
         $filename = $hash->hash . "." . pathinfo($hash->extra, PATHINFO_EXTENSION);
 
         if (File::isFile($location . $filename))

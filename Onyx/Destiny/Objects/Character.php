@@ -45,67 +45,67 @@ class Character extends Model {
 
     public function setSubclassAttribute($value)
     {
-        $this->setAttributePullImage('subclass', $value, 'other');
+        $this->setAttributePullImage('subclass', $value);
     }
 
     public function setHelmetAttribute($value)
     {
-        $this->setAttributePullImage('helmet', $value, 'armor');
+        $this->setAttributePullImage('helmet', $value);
     }
 
     public function setArmsAttribute($value)
     {
-        $this->setAttributePullImage('arms', $value, 'armor');
+        $this->setAttributePullImage('arms', $value);
     }
 
     public function setChestAttribute($value)
     {
-        $this->setAttributePullImage('chest', $value, 'armor');
+        $this->setAttributePullImage('chest', $value);
     }
 
     public function setBootsAttribute($value)
     {
-        $this->setAttributePullImage('boots', $value, 'armor');
+        $this->setAttributePullImage('boots', $value);
     }
 
     public function setClassItemAttribute($value)
     {
-        $this->setAttributePullImage('class_item', $value, 'armor');
+        $this->setAttributePullImage('class_item', $value);
     }
 
     public function setPrimaryAttribute($value)
     {
-        $this->setAttributePullImage('primary', $value, 'weapons');
+        $this->setAttributePullImage('primary', $value);
     }
 
     public function setSecondaryAttribute($value)
     {
-        $this->setAttributePullImage('secondary', $value, 'weapons');
+        $this->setAttributePullImage('secondary', $value);
     }
 
     public function setHeavyAttribute($value)
     {
-        $this->setAttributePullImage('heavy', $value, 'weapons');
+        $this->setAttributePullImage('heavy', $value);
     }
 
     public function setShipAttribute($value)
     {
-        $this->setAttributePullImage('ship', $value, 'other');
+        $this->setAttributePullImage('ship', $value);
     }
 
     public function setSparrowAttribute($value)
     {
-        $this->setAttributePullImage('sparrow', $value, 'other');
+        $this->setAttributePullImage('sparrow', $value);
     }
 
     public function setGhostAttribute($value)
     {
-        $this->setAttributePullImage('ghost', $value, 'other');
+        $this->setAttributePullImage('ghost', $value);
     }
 
     public function setShaderAttribute($value)
     {
-        $this->setAttributePullImage('shader', $value, 'other');
+        $this->setAttributePullImage('shader', $value);
     }
 
     //---------------------------------------------------------------------------------
@@ -132,9 +132,9 @@ class Character extends Model {
      * @param string $type ('other', 'armor', 'weapons')
      * @throws \Onyx\Destiny\Helpers\String\HashNotLocatedException
      */
-    private function setAttributePullImage($index, $hash, $type = 'other')
+    private function setAttributePullImage($index, $hash)
     {
-        Images::saveImageLocally($this->translator->map($hash, false), $type);
+        Images::saveImageLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }
 }
