@@ -34,4 +34,10 @@ return [
 		'secret' => '',
 	],
 
+	'google' => [
+		'client_id' => '91509261390-e0t993ktrhgql2kbp1sndfrfrso76pvc.apps.googleusercontent.com',
+		'client_secret' => 'ZPOfNqyTJUTmXy1tJmg6G27q',
+		'redirect' => 'http://pandalove.club/oauth2callbackl',
+	],
+
 ];

@@ -1,4 +1,4 @@
-<?php namespace PandaLove;
+<?php namespace Onyx;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
