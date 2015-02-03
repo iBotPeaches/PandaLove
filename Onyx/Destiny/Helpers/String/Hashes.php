@@ -41,15 +41,21 @@ class Hashes extends Http{
     // Public Methods
     //---------------------------------------------------------------------------------
 
-    public function map($hash, $title = false)
+    public function map($hash, $title = true)
     {
-        if (array_key_exists($hash, $this->items))
+        $object = $this->items->filter(function($item) use ($hash)
+        {
+            return $item->hash == $hash;
+        })->first();
+
+        if ($object instanceof Hash)
         {
             if ($title)
             {
-                return $this->items['hash']->title;
+                return $object->title;
             }
-            return $this->items['hash'];
+
+            return $object;
         }
         else
         {
@@ -74,7 +80,7 @@ class Hashes extends Http{
      */
     private function updateHashes()
     {
-        $json = $this->getJson($this->url);
+        $json = $this->getJson($this->url . "?definitions=true");
         Hash::loadHashesFromApi($json['Response']['definitions']);
         $this->allowedRetry = false;
     }

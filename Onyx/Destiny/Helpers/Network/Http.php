@@ -15,6 +15,7 @@ class Http {
     public function __construct()
     {
         $this->guzzle = new Guzzle();
+        $this->guzzle->setDefaultOption('headers', array('X-API-Key', env('BUNGIE_KEY')));
     }
 
     /**

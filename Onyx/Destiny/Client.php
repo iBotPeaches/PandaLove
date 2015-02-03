@@ -1,9 +1,12 @@
 <?php namespace Onyx\Destiny;
 
+use Carbon\Carbon;
 use GuzzleHttp;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
+use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Hash;
 
 class Client extends Http {
@@ -20,7 +23,12 @@ class Client extends Http {
         $platform = intval($platform);
         $url = sprintf(Constants::$searchDestinyPlayer, $platform, $gamertag);
 
-        $this->checkCacheForGamertag($gamertag);
+        $account = $this->checkCacheForGamertag($gamertag);
+
+        if ($account instanceof Account)
+        {
+            return $account;
+        }
 
         $json = $this->getJson($url);
 
@@ -58,21 +66,51 @@ class Client extends Http {
         $account->grimoire = $json['Response']['data']['grimoireScore'];
 
         // characters
-        $account->character_1 = isset($json['Response']['data']['characters'][0])
-            ? $json['Response']['data']['characters'][0]['characterBase']['characterId']
-            : null;
+        for ($i = 0; $i <= 3; $i++)
+        {
+            if (isset($json['Response']['data']['characters'][$i]))
+            {
+                $this->updateOrAddCharacter($url, $account, $json['Response']['data']['characters'][$i]);
 
-        $account->character_2 = isset($json['Response']['data']['characters'][1])
-            ? $json['Response']['data']['characters'][1]['characterBase']['characterId']
-            : null;
-
-        $account->character_3 = isset($json['Response']['data']['characters'][2])
-            ? $json['Response']['data']['characters'][2]['characterBase']['characterId']
-            : null;
+                $characterId = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
+            }
+        }
 
         $account->save();
 
         return $json;
+    }
+
+    /**
+     * @param string $url
+     * @param \Onyx\Account $account
+     * @param array $data
+     */
+    private function updateOrAddCharacter($url, $account, $data)
+    {
+        $charBase = $data['characterBase'];
+
+        $translator = new Hashes();
+        $translator->setUrl($url);
+
+        $character = Character::where('characterId', $charBase['characterId'])->first();
+
+        if ( ! $character instanceof Character)
+        {
+            $character = new Character();
+            $character->membershipId = $charBase['membershipId'];
+            $character->characterId = $charBase['characterId'];
+        }
+
+        $character->last_played = new Carbon($charBase['dateLastPlayed']);
+        $character->minutes_played = $charBase['minutesPlayedTotal'];
+        $character->minutes_played_last_session = $charBase['minutesPlayedThisSession'];
+        $character->level = $charBase['powerLevel'];
+        $character->race = $translator->map($charBase['raceHash']);
+        $character->gender = $translator->map($charBase['genderHash']);
+        $character->class = $translator->map($charBase['classHash']);
+        $character->defense = $charBase['stats']['STAT_DEFENSE']['value'];
+        $character->save();
     }
 
     /**
@@ -87,6 +125,8 @@ class Client extends Http {
         {
             return $account;
         }
+
+        return false;
     }
 }
 
