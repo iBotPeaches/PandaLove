@@ -147,6 +147,7 @@ return [
 		'PandaLove\Providers\RouteServiceProvider',
 
 		'Intervention\Image\ImageServiceProvider',
+		'Laravel\Socialite\SocialiteServiceProvider',
 
 	],
 
@@ -197,6 +198,7 @@ return [
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'HTML'		=> 'Illuminate\Html\HtmlFacade',
 		'Image' 	=> 'Intervention\Image\Facades\Image',
+		'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 
 	],
 
