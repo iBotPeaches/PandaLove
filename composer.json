@@ -5,8 +5,8 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.0.*@dev",
-		"illuminate/html": "5.0.*@dev",
+		"laravel/framework": "5.0.*",
+		"illuminate/html": "5.0.*",
 		"guzzlehttp/guzzle": "~4.0",
 		"intervention/image": "~2.1",
 		"laravel/socialite": "dev-master"
