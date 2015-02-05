@@ -1,9 +1,12 @@
 var elixir = require('laravel-elixir');
 
 var paths = {
- 'semantic': './node_modules/semantic-ui/dist/',
- 'jquery': './node_modules/jquery/dist/',
-    'css': './resources/css/'
+    'jquery': './node_modules/jquery/dist/',
+    'fontawesome': './node_modules/font-awesome/',
+    'css': './resources/css/',
+    'js': './resources/js/',
+    'images': './resources/images/',
+    'fonts': './resources/fonts/'
 };
 
 /*
@@ -19,17 +22,20 @@ var paths = {
 
 elixir(function(mix) {
  mix
-     .copy(paths.semantic + 'themes', 'public/build/css/themes')
-     .copy(paths.jquery + 'jquery.js', 'public/js/jquery.js')
+     .copy(paths.jquery + 'jquery.js', 'public/js/jquery.min.js')
+     .copy(paths.fontawesome + 'css/font-awesome.css', 'public/css/font-awesome.min.css')
+     .copy(paths.fontawesome + 'fonts', 'public/fonts/')
+     .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
+     .copy(paths.css, 'public/css')
+     .copy(paths.js, 'public/js/')
      .styles([
-         paths.semantic + 'semantic.css',
          paths.css + 'main.css'
      ], "public/css/app.css", "./")
-     .scripts([
-         paths.semantic + 'semantic.js'
+     .styles([
+         paths.js + 'main.js'
      ], "public/js/app.js", "./")
      .version([
-         'js/*',
-         'css/*'
-     ], "public");
+         'css/*',
+         'js/*'
+     ], "public")
 });
