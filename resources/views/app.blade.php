@@ -21,6 +21,7 @@
 <body>
 	@include('includes.navigation')
 	@yield('content')
+	@include('includes.footer')
 	@yield('inline-js')
 </body>
 </html>
