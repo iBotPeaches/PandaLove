@@ -21,6 +21,19 @@ class AuthController extends Controller {
         return $this->redirectToProvider();
     }
 
+    public function getLogout()
+    {
+        \Auth::logout();
+
+        return \Redirect::to('/')
+            ->with('flash_message', [
+                'type' => 'green',
+                'header' => 'See you soon',
+                'close' => true,
+                'body' => 'Your sign out was successful.'
+            ]);
+    }
+
     public function getCallback()
     {
         return $this->handleProviderCallback();
@@ -38,7 +51,13 @@ class AuthController extends Controller {
         \Event::fire(new GoogleLoggedIn($user));
         \Auth::login(User::where('google_id', $user->id)->first(), true);
 
-        return \Redirect::to('/');
+        return \Redirect::to('/')
+            ->with('flash_message', [
+                'type' => 'green',
+                'close' => true,
+                'header' => 'Your sign in was successful.',
+                'body' => 'You have correctly authenticated with PandaLove.'
+            ]);
     }
 
 }

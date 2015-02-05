@@ -1,9 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-}
-
-body{
-    font-family: 'Open Sans', sans-serif;
-    margin-bottom: 60px;
+.top-message {
+    width: 50%;
+    margin: 65px auto !important;
 }

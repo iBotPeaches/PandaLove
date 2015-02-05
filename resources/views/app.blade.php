@@ -9,6 +9,7 @@
 	<script src="{{ elixir("js/jquery.scrolly.min.js") }}"></script>
 	<script src="{{ elixir("js/skel.min.js") }}"></script>
 	<script src="{{ elixir('js/init.js') }}"></script>
+	<script src="{{ elixir('js/app.js') }}"></script>
 	<noscript>
 		<link rel="stylesheet" href="{{ elixir('css/skel.css') }}" />
 		<link rel="stylesheet" href="{{ elixir('css/style.css') }}" />
@@ -16,10 +17,12 @@
 	</noscript>
 	<!--[if lte IE 8]><link rel="stylesheet" href="{{ asset('css/ie/v8.css') }}" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="{{ asset('css/ie/v9.css') }}" /><![endif]-->
+	<link rel="stylesheet" href="{{ elixir('css/app.css') }}" />
 	@yield('inline-css')
 </head>
 <body>
 	@include('includes.navigation')
+	@include('includes.message')
 	@yield('content')
 	@include('includes.footer')
 	@yield('inline-js')
