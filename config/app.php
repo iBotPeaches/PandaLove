@@ -136,6 +136,9 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
+		'Intervention\Image\ImageServiceProvider',
+		'Laravel\Socialite\SocialiteServiceProvider',
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -145,9 +148,6 @@ return [
 		'PandaLove\Providers\ConfigServiceProvider',
 		'PandaLove\Providers\EventServiceProvider',
 		'PandaLove\Providers\RouteServiceProvider',
-
-		'Intervention\Image\ImageServiceProvider',
-		'Laravel\Socialite\SocialiteServiceProvider',
 
 	],
 
@@ -198,7 +198,7 @@ return [
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'HTML'		=> 'Illuminate\Html\HtmlFacade',
 		'Image' 	=> 'Intervention\Image\Facades\Image',
-		'Socialize' => 'Laravel\Socialite\Facades\Socialite',
+		'Socialite' => 'Laravel\Socialite\Facades\Socialite',
 
 	],
 
