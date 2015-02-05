@@ -1,8 +1,8 @@
 <nav id="nav">
     <ul class="container">
         <li><a href="#top">Top</a></li>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#work">Home</a></li>
+        <li><a href="#portfolio">Roster</a></li>
+        <li><a href="#contact">Games</a></li>
     </ul>
 </nav>

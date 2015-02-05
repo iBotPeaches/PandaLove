@@ -5,7 +5,7 @@
         <article class="container" id="top">
             <div class="row">
                 <div class="4u">
-                    <span class="image fit"><img src="http://pandalove.club/images/panda-logo.png" alt="" /></span>
+                    <span class="image fit"><img src="{{ asset('images/panda-logo-medium.png') }}" alt="" /></span>
                 </div>
                 <div class="8u">
                     <header>
@@ -21,7 +21,7 @@
         <article id="work">
             <header>
                 <h2>Here's all we do</h2>
-                <p>Ranging from PVP, Raids and much more</p>
+                <p>Ranging from raids, multiplayer and much more</p>
             </header>
             <div class="container">
                 <div class="row">
@@ -29,12 +29,12 @@
                         <section class="box style1">
                             <span class="icon featured fa-comments-o"></span>
                             <h3>Raids</h3>
-                            <p>Crota's End, Vault of Glass and soon House of Wolves</p>
+                            <p>Every Tuesday during reset, Raid Tuesday begins with the current hardest Raid available</p>
                         </section>
                     </div>
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-camera-retro"></span>
+                            <span class="icon featured fa-crosshairs"></span>
                             <h3>Multiplayer</h3>
                             <p>6 or 3 of us online creates an unstoppable force in Skirmish or Control alike</p>
                         </section>
@@ -43,7 +43,7 @@
                         <section class="box style1">
                             <span class="icon featured fa-thumbs-o-up"></span>
                             <h3>Flawless Raider</h3>
-                            <p>Still chasing that hard to reach achievement? We have earned in numerous times</p>
+                            <p>Still chasing that hard to reach achievement? We have earned it numerous times</p>
                         </section>
                     </div>
                 </div>
