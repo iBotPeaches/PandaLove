@@ -3,7 +3,6 @@
 use Onyx\User;
 use PandaLove\Events\GoogleLoggedIn;
 use PandaLove\Http\Requests;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller {
 
@@ -21,30 +20,21 @@ class AuthController extends Controller {
         return $this->redirectToProvider();
     }
 
-    public function getLogout()
-    {
-        \Auth::logout();
-
-        return \Redirect::to('/')
-            ->with('flash_message', [
-                'type' => 'green',
-                'header' => 'See you soon',
-                'close' => true,
-                'body' => 'Your sign out was successful.'
-            ]);
-    }
-
     public function getCallback()
     {
         return $this->handleProviderCallback();
     }
+
+    //---------------------------------------------------------------------------------
+    // Private Methods
+    //---------------------------------------------------------------------------------
 
     private function redirectToProvider()
     {
         return \Socialite::with('google')->redirect();
     }
 
-    public function handleProviderCallback()
+    private function handleProviderCallback()
     {
         $user = \Socialite::with('google')->user();
 

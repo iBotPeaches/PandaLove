@@ -2,3 +2,8 @@
     width: 50%;
     margin: 65px auto !important;
 }
+.rounded {
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}

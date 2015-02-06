@@ -31,4 +31,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	//---------------------------------------------------------------------------------
+	// Public Methods
+	//---------------------------------------------------------------------------------
+
+	public function account()
+	{
+		return $this->hasOne('Onyx\Account', 'id', 'account_id');
+	}
+
 }

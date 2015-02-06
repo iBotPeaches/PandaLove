@@ -14,4 +14,10 @@ class Constants {
      * @url https://www.bungie.net/platform/destiny/help/HelpDetail/GET?uri=%7bmembershipType%7d%2fAccount%2f%7bdestinyMembershipId%7d%2f
      */
     public static $platformDestiny = 'https://www.bungie.net/Platform/Destiny/%1$d/Account/%2$s';
+
+    /**
+     * Obtain profile information (motto, clans, groups) about a membershipId / membershipType
+     * @var string
+     */
+    public static $getBungieAccount = 'https://www.bungie.net/Platform/User/GetBungieAccount/%1$s/%2$d';
 }

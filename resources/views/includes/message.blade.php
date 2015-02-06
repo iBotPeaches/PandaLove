@@ -6,11 +6,11 @@
 
         @if (isset($message['header']))
             <div class="header">
-                {{{ $message['header'] or '' }}}
+                {{ $message['header'] or '' }}
             </div>
         @endif
 
-        {{ $message['body'] or '' }}
+        {!! $message['body'] or '' !!}
     </div>
 @endif
 
