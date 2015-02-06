@@ -16,3 +16,6 @@ PandaLove is a website devoted to tracking our weekly raid Tuesdays, PVP destruc
 8. `php artisan db:seed`
 9. `php artisan serve`
 10. done
+
+
+test
