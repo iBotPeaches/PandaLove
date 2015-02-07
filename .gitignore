@@ -8,6 +8,7 @@
 /public/js/*
 /public/uploads/*
 /public/fonts/*
+/public/themes/*
 /public/default
 
 # IntelliJ
@@ -25,3 +26,4 @@ Thumbs.db
 _ide_helper.php
 composer.phar
 composer.lock
+error_log
