@@ -3,6 +3,9 @@
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use PandaLove\Handlers\Events\SignIntoUser;
+use PandaLove\Events\GoogleLoggedIn;
+
 class EventServiceProvider extends ServiceProvider {
 
 	/**
@@ -13,6 +16,10 @@ class EventServiceProvider extends ServiceProvider {
 	protected $listen = [
 		'event.name' => [
 			'EventListener',
+		],
+
+		GoogleLoggedIn::class => [
+			SignIntoUser::class,
 		],
 	];
 

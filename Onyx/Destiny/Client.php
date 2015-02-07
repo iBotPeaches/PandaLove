@@ -12,6 +12,10 @@ use Onyx\Destiny\Objects\Character;
 
 class Client extends Http {
 
+    //---------------------------------------------------------------------------------
+    // Public Methods
+    //---------------------------------------------------------------------------------
+
     /**
      * @param $platform
      * @param $gamertag
@@ -81,6 +85,23 @@ class Client extends Http {
 
         return $account;
     }
+
+    /**
+     * @param /Onyx/Account $account
+     * @return array|null
+     */
+    public function getBungieProfile($account)
+    {
+        $url = sprintf(Constants::$getBungieAccount, $account->membershipId, $account->accountType);
+
+        $json = $this->getJson($url);
+
+        return isset($json['Response']['bungieNetUser']) ? $json['Response']['bungieNetUser'] : null;
+    }
+
+    //---------------------------------------------------------------------------------
+    // Private Methods
+    //---------------------------------------------------------------------------------
 
     /**
      * @param string $url

@@ -1,9 +1,9 @@
-*{
-    margin: 0;
-    padding: 0;
+.top-message {
+    width: 50%;
+    margin: 65px auto !important;
 }
-
-body{
-    font-family: 'Open Sans', sans-serif;
-    margin-bottom: 60px;
+.rounded {
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
 }

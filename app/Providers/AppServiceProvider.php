@@ -1,6 +1,8 @@
 <?php namespace PandaLove\Providers;
 
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use Onyx\Laravel\CustomValidator;
 
 class AppServiceProvider extends ServiceProvider {
 
@@ -11,7 +13,19 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		\HTML::macro('activeClass', function($path, $active = 'active') {
+			if (Request::is($path . "*"))
+			{
+				return $active;
+			}
+
+			return '';
+		});
+
+		\Validator::resolver(function($translator, $data, $rules, $messages)
+		{
+			return new CustomValidator($translator, $data, $rules, $messages);
+		});
 	}
 
 	/**

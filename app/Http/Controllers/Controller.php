@@ -8,4 +8,12 @@ abstract class Controller extends BaseController {
 
 	use DispatchesCommands, ValidatesRequests;
 
+	public $user;
+
+	function __construct()
+	{
+		$this->user = \Auth::user();
+		\View::share('user', $this->user);
+	}
+
 }

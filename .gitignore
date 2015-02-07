@@ -8,6 +8,7 @@
 /public/js/*
 /public/uploads/*
 /public/fonts/*
+/public/default
 
 # IntelliJ
 .idea/

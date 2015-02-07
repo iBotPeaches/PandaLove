@@ -129,7 +129,6 @@ class Character extends Model {
     /**
      * @param string $index Index for $this->attributes
      * @param string $hash hashCode for item
-     * @param string $type ('other', 'armor', 'weapons')
      * @throws \Onyx\Destiny\Helpers\String\HashNotLocatedException
      */
     private function setAttributePullImage($index, $hash)

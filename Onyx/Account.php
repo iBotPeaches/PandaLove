@@ -37,4 +37,9 @@ class Account extends Model {
     {
         return $this->hasMany('Onyx\Destiny\Objects\Character', 'characterId', 'characterId');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('Onyx\User');
+    }
 }
