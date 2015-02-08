@@ -140,6 +140,7 @@ return [
 		'Laravel\Socialite\SocialiteServiceProvider',
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
+		'Barryvdh\Debugbar\ServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -201,6 +202,7 @@ return [
 		'Image' 	=> 'Intervention\Image\Facades\Image',
 		'Socialite' => 'Laravel\Socialite\Facades\Socialite',
 		'Agent'     => 'Jenssegers\Agent\Facades\Agent',
+		'Debugbar'  => 'Barryvdh\Debugbar\Facade',
 
 	],
 

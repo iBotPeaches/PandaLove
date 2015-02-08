@@ -194,6 +194,11 @@ class Character extends Model {
         $this->translator->setUrl($url);
     }
 
+    public function name()
+    {
+        return $this->level . " " . $this->class->title;
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------

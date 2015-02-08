@@ -1,5 +1,6 @@
 <?php namespace Onyx\Destiny\Helpers\String;
 
+use Illuminate\Support\Facades\Cache;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Objects\Hash;
 
@@ -15,18 +16,13 @@ class Hashes extends Http{
     /**
      * @var \Illuminate\Database\Eloquent\Collection|static[]
      */
-    private $items;
+    private $items = null;
 
     /**
      *
      * @var bool
      */
     private $allowedRetry = true;
-
-    function __construct()
-    {
-        $this->items = Hash::all();
-    }
 
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
@@ -43,6 +39,11 @@ class Hashes extends Http{
 
     public function map($hash, $title = true)
     {
+        if ($this->items == null)
+        {
+            $this->getItems();
+        }
+
         $object = $this->items->filter(function($item) use ($hash)
         {
             return $item->hash == $hash;
@@ -62,7 +63,7 @@ class Hashes extends Http{
             if ($this->allowedRetry)
             {
                 $this->updateHashes();
-                $this->items = Hash::all();
+                $this->updateItems();
                 return $this->map($hash, $title);
             }
             else
@@ -75,6 +76,20 @@ class Hashes extends Http{
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    private function getItems()
+    {
+        $this->items = Cache::remember('hashes', 3600, function()
+        {
+            return Hash::all();
+        });
+    }
+
+    private function updateItems()
+    {
+        Cache::forget('hashes');
+        return $this->getItems();
+    }
 
     /**
      * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException

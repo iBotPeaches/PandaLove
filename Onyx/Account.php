@@ -58,6 +58,12 @@ class Account extends Model {
         return $this->characters()->first();
     }
 
+    public function characterAtPosition($index)
+    {
+        $index--;
+        return $this->characters->get($index);
+    }
+
     public function charsAbove($level = 30)
     {
         return $this->characters()->where('level', '>=', $level)->count();
