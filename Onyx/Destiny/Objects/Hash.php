@@ -16,7 +16,7 @@ class Hash extends Model {
      *
      * @var array
      */
-    protected $fillable = ['hash', 'title', 'description', 'extra'];
+    protected $fillable = ['hash', 'title', 'description', 'extra', 'extraSecondary'];
 
     /**
      * @var bool
@@ -38,7 +38,7 @@ class Hash extends Model {
             return asset($live_path . $filename);
         }
 
-        return null;
+        return $value;
     }
 
     public function getExtraSecondaryAttribute($value)
@@ -52,7 +52,7 @@ class Hash extends Model {
             return asset($live_path . $filename);
         }
 
-        return null;
+        return $value;
     }
 
     //---------------------------------------------------------------------------------
