@@ -25,13 +25,19 @@ class Images {
 
     /**
      * @param \Onyx\Destiny\Objects\Hash $hash
+     * @param string $index
      * @return bool
      */
     public static function saveImageLocally($hash, $index = 'extra')
     {
-        $url = "https://bungie.net" . $hash->{$index};
+        // BUG: Can't use variable object indexes implicitly
+        // $hash->{$index} should work but doesn't
+        // map the index explicitly with the attributes dumped into $bug
+        $bug = $hash->getAttributes();
+        $url = "https://bungie.net" . $bug[$index];
+
         $location = public_path('uploads/thumbs/');
-        $filename = $hash->hash . (($index != 'extra') ? '_bg' : null) . "." . pathinfo($hash->{$index}, PATHINFO_EXTENSION);
+        $filename = $hash->hash . (($index != 'extra') ? '_bg' : null) . "." . pathinfo($bug[$index], PATHINFO_EXTENSION);
 
         if (File::isFile($location . $filename))
         {
