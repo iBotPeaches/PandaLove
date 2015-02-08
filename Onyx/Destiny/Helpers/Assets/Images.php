@@ -35,9 +35,11 @@ class Images {
         // map the index explicitly with the attributes dumped into $bug
         $bug = $hash->getAttributes();
         $url = "https://bungie.net" . $bug[$index];
+        $name = (($index != 'extra') ? '_bg' : null);
+        $name = $hash->hash . $name;
 
         $location = public_path('uploads/thumbs/');
-        $filename = $hash->hash . (($index != 'extra') ? '_bg' : null) . "." . pathinfo($bug[$index], PATHINFO_EXTENSION);
+        $filename = $name . "." . pathinfo($bug[$index], PATHINFO_EXTENSION);
 
         if (File::isFile($location . $filename))
         {
