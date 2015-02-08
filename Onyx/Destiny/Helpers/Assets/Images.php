@@ -1,6 +1,8 @@
 <?php namespace Onyx\Destiny\Helpers\Assets;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManager;
 use Onyx\Destiny\Objects\Hash;
 
@@ -39,8 +41,15 @@ class Images {
         if ($hash instanceof Hash)
         {
             $manager = new ImageManager();
-            $img = $manager->make($url);
-            $img->save($location . $filename);
+            try
+            {
+                $img = $manager->make($url);
+                $img->save($location . $filename);
+            }
+            catch (NotReadableException $e)
+            {
+                Log::error('Could not download: ' . $url);
+            }
             return true;
         }
     }
