@@ -29,17 +29,37 @@ class Account extends Model {
         $this->attributes['seo'] = Text::seoGamertag($value);
     }
 
+    public function getGlimmerAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getGrimoireAttribute($value)
+    {
+        return number_format($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
 
     public function characters()
     {
-        return $this->hasMany('Onyx\Destiny\Objects\Character', 'characterId', 'characterId');
+        return $this->hasMany('Onyx\Destiny\Objects\Character', 'membershipId', 'membershipId');
     }
 
     public function user()
     {
         return $this->belongsTo('Onyx\User');
+    }
+
+    public function firstCharacter()
+    {
+        return $this->characters()->first();
+    }
+
+    public function charsAbove($level = 30)
+    {
+        return $this->characters()->where('level', '>=', $level)->count();
     }
 }

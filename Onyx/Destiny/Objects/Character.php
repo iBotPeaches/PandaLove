@@ -1,5 +1,6 @@
 <?php namespace Onyx\Destiny\Objects;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
@@ -42,6 +43,16 @@ class Character extends Model {
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
+
+    public function setEmblemAttribute($value)
+    {
+        $this->setAttributePullImage('emblem', $value);
+    }
+
+    public function setBackgroundAttribute($value)
+    {
+        $this->setAttributePullImage('background', $value);
+    }
 
     public function setSubclassAttribute($value)
     {
@@ -108,6 +119,67 @@ class Character extends Model {
         $this->setAttributePullImage('shader', $value);
     }
 
+    public function getMinutesPlayedAttribute($value)
+    {
+        $time = Carbon::now()->addMinutes($value);
+
+        $days = $time->diffInDays();
+        $hours = $time->subDays($days)->diffInHours();
+        $minutes = $time->subHours($hours)->diffInMinutes();
+
+        $rtr = '';
+
+        if ($days > 0)
+        {
+            $name = ($days > 1) ? 'days' : 'day';
+            $rtr .= $days . " " . $name . " ";
+        }
+
+        if ($hours > 0)
+        {
+            $name = ($hours > 1) ? 'hours' : 'hour';
+            $rtr .= $hours . " " . $name . " ";
+        }
+
+        if ($days == 0)
+        {
+            $name = ($minutes > 1) ? 'minutes' : 'minute';
+            $rtr .= $minutes . " " . $name . ".";
+        }
+
+        return $rtr;
+    }
+
+    public function getRaceAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getGenderAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getClassAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getEmblemAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getBackgroundAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getSubclassAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -133,7 +205,7 @@ class Character extends Model {
      */
     private function setAttributePullImage($index, $hash)
     {
-        Images::saveImageLocally($this->translator->map($hash, false));
+        Images::saveImagesLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }
 }

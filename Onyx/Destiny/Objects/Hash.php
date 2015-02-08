@@ -27,6 +27,34 @@ class Hash extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
+    public function getExtraAttribute($value)
+    {
+        $live_path = 'uploads/thumbs/';
+        $location = public_path($live_path);
+        $filename = $this->hash . "." . pathinfo($value, PATHINFO_EXTENSION);
+
+        if (\File::isFile($location . $filename))
+        {
+            return asset($live_path . $filename);
+        }
+
+        return null;
+    }
+
+    public function getExtraSecondaryAttribute($value)
+    {
+        $live_path = 'uploads/thumbs/';
+        $location = public_path($live_path);
+        $filename = $this->hash . "_bg" . "." . pathinfo($value, PATHINFO_EXTENSION);
+
+        if (\File::isFile($location . $filename))
+        {
+            return asset($live_path . $filename);
+        }
+
+        return null;
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -68,6 +96,13 @@ class Hash extends Model {
                 $mHash->title = $item[$title];
                 $mHash->description = isset($item[$desc]) ? $item[$desc] : null;
                 $mHash->extra = ($extra != null) ? $item[$extra] : null;
+
+                if ($extra == 'icon')
+                {
+                    $mIndex = 'secondary' . ucfirst($extra);
+                    $mHash->extraSecondary = isset($item[$mIndex]) ? $item[$mIndex] : null;
+                }
+
                 $mHash->save();
             }
         }

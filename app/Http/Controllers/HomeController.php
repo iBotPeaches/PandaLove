@@ -1,6 +1,5 @@
 <?php namespace PandaLove\Http\Controllers;
 
-use Onyx\Destiny\Client as Client;
 
 class HomeController extends Controller {
 
@@ -16,14 +15,10 @@ class HomeController extends Controller {
 	/**
 	 * Show the application dashboard to the user.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function getIndex()
 	{
 		return view('home');
-		//$client = new Client();
-		//$account = $client->fetchAccountByGamertag(1, 'iBotPeaches v5');
-
-		//return $client->fetchAccountData($account, 1, $account->membershipId);
 	}
 }

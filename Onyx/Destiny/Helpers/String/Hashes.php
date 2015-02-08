@@ -10,7 +10,7 @@ class Hashes extends Http{
      *
      * @var string
      */
-    private $url = '';
+    private $url = null;
 
     /**
      * @var \Illuminate\Database\Eloquent\Collection|static[]
@@ -81,9 +81,16 @@ class Hashes extends Http{
      */
     private function updateHashes()
     {
-        $json = $this->getJson($this->url . "?definitions=true");
-        Hash::loadHashesFromApi($json['Response']['definitions']);
-        $this->allowedRetry = false;
+        if ($this->url == null)
+        {
+            $this->allowedRetry = false;
+        }
+        else
+        {
+            $json = $this->getJson($this->url . "?definitions=true");
+            Hash::loadHashesFromApi($json['Response']['definitions']);
+            $this->allowedRetry = false;
+        }
     }
 }
 

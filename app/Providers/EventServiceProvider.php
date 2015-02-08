@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use Onyx\User;
 use PandaLove\Handlers\Events\SignIntoUser;
 use PandaLove\Events\GoogleLoggedIn;
 
@@ -33,7 +34,13 @@ class EventServiceProvider extends ServiceProvider {
 	{
 		parent::boot($events);
 
-		//
+		User::creating(function($user)
+		{
+			if (User::count() == 0)
+			{
+				$user->admin = true;
+			}
+		});
 	}
 
 }

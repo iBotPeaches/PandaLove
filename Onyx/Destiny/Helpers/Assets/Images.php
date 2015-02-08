@@ -10,11 +10,26 @@ class Images {
      * @param \Onyx\Destiny\Objects\Hash $hash
      * @return bool
      */
-    public static function saveImageLocally($hash)
+    public static function saveImagesLocally($hash)
     {
-        $url = "https://bungie.net" . $hash->extra;
+        Images::saveImageLocally($hash, 'extra');
+
+        // check for extraSecondary
+        if ($hash->extraSecondary != null && ! str_contains($hash->extraSecondary, 'missing_icon'))
+        {
+            Images::saveImageLocally($hash, 'extraSecondary');
+        }
+    }
+
+    /**
+     * @param \Onyx\Destiny\Objects\Hash $hash
+     * @return bool
+     */
+    public static function saveImageLocally($hash, $index = 'extra')
+    {
+        $url = "https://bungie.net" . $hash->{$index};
         $location = public_path('uploads/thumbs/');
-        $filename = $hash->hash . "." . pathinfo($hash->extra, PATHINFO_EXTENSION);
+        $filename = $hash->hash . (($index != 'extra') ? '_bg' : null) . "." . pathinfo($hash->{$index}, PATHINFO_EXTENSION);
 
         if (File::isFile($location . $filename))
         {

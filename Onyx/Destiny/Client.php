@@ -53,15 +53,12 @@ class Client extends Http {
 
     /**
      * @param /Onyx/Account $account
-     * @param int $platform
-     * @param string $membershipId
      * @return array
      * @throws Helpers\Network\BungieOfflineException
      */
-    public function fetchAccountData($account, $platform, $membershipId)
+    public function fetchAccountData($account)
     {
-        $platform = intval($platform);
-        $url = sprintf(Constants::$platformDestiny, $platform, $membershipId);
+        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->membershipId);
 
         $json = $this->getJson($url);
 
@@ -148,7 +145,9 @@ class Client extends Http {
         $character->ship = $charBase['peerView']['equipment'][9]['itemHash'];
         $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
         $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
+        $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
         $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
+        $character->emblem = $data['emblemHash'];
         $character->save();
     }
 

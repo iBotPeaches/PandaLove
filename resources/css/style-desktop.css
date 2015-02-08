@@ -179,7 +179,7 @@
 		text-align: left;
 	}
 
-		#top .image
+		#top:not(.no-image) .image
 		{
 			width: 20em;
 			height: 20em;
