@@ -8,6 +8,7 @@ use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
+use Onyx\Destiny\Objects\GamePlayer;
 
 class Client extends Http {
 
@@ -167,23 +168,42 @@ class Client extends Http {
         $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
 
         $game->type = $type;
-        // take mod of completed gamers at use it
-        //$game->occurred_at = $
-        //$game->timeTookInMinutes
+        $game->occurredAt = $data['Response']['data']['period'];
 
-        $i = 1;
-
+        $time = [];
         foreach($entries as $entry)
         {
-            if ($entry['values']['completed']['basic']['value'] == 1)
-            {
-                $game->{$i . "_player"} = $entry['characterId'];
-                $game->{$i . "_level"} = $entry['player']['characterLevel'];
-                $game->{$i . "_class"} = $entry['player']['characterClass'];
+            $player = new GamePlayer();
+            $player->game_id = $game->instanceId;
+            $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
+            $player->characterId = $entry['characterId'];
+            $player->level = $entry['player']['characterLevel'];
+            $player->class = $entry['player']['characterClass'];
+            $player->emblem = $entry['player']['destinyUserInfo']['iconPath'];
 
-                // @todo finishing add game support
+            $player->assists = $entry['values']['assists']['basic']['value'];
+            $player->deaths = $entry['values']['deaths']['basic']['value'];
+            $player->kills = $entry['values']['kills']['basic']['value'];
+            $player->completed = boolval($entry['values']['completed']['basic']['value']);
+            $player->secondsPlayed = $entry['extended']['values']['secondsPlayed']['basic']['value'];
+            $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+            $player->save();
+
+            $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
+            if (isset($time[$duration]))
+            {
+                $time[$duration] += 1;
+            }
+            else
+            {
+                $time[$duration] = 1;
             }
         }
+
+        // get highest $duration (MODE)
+        $max = max($time);
+        $game->timeTookInSeconds = array_search($max, $time);
+        $game->save();
     }
 
     /**

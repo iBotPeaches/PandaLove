@@ -2,16 +2,18 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Destiny\Constants;
+use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 
-class Game extends Model {
+class GamePlayer extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'games';
+    protected $table = 'game_players';
 
     /**
      * The attributes that are mass assignable.
@@ -41,9 +43,19 @@ class Game extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
-    public function setOccurredAtAttribute($value)
+    public function setEmblemAttribute($value)
     {
-        $this->attributes['occurredAt'] = new Carbon($value);
+        $hash = Hash::where('extra', $value)->first();
+
+        if (! $hash instanceof Hash)
+        {
+            $this->translator->setUrl(sprintf(Constants::$explorerItems, 160, 'Emblem'));
+            $this->translator->updateHashes(true);
+
+            $this->setEmblemAttribute($value);
+        }
+
+        $this->setAttributePullImage('emblem', $hash->hash);
     }
 
     //---------------------------------------------------------------------------------
@@ -53,5 +65,20 @@ class Game extends Model {
     public function setTranslatorUrl($url)
     {
         $this->translator->setUrl($url);
+    }
+
+    //---------------------------------------------------------------------------------
+    // Private Methods
+    //---------------------------------------------------------------------------------
+
+    /**
+     * @param string $index Index for $this->attributes
+     * @param string $hash hashCode for item
+     * @throws \Onyx\Destiny\Helpers\String\HashNotLocatedException
+     */
+    private function setAttributePullImage($index, $hash)
+    {
+        Images::saveImagesLocally($this->translator->map($hash, false));
+        $this->attributes[$index] = $hash;
     }
 }

@@ -26,4 +26,10 @@ class Constants {
      * @var string
      */
     public static $postGameCarnageReport = 'https://www.bungie.net/platform/Destiny/Stats/PostGameCarnageReport/%1$s';
+
+    /**
+     * Obtain Item hashes / emblems
+     * @var string
+     */
+    public static $explorerItems = 'https://www.bungie.net/platform/Destiny/Explorer/Items/?count=%1$d&bucket=%2$s';
 }

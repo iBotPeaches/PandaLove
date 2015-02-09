@@ -63,13 +63,32 @@ class Hashes extends Http{
             if ($this->allowedRetry)
             {
                 $this->updateHashes();
-                $this->updateItems();
                 return $this->map($hash, $title);
             }
             else
             {
                 throw new HashNotLocatedException();
             }
+        }
+    }
+
+    /**
+     * @param boolean $andsign
+     * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException
+     */
+    public function updateHashes($andsign = false)
+    {
+        if ($this->url == null)
+        {
+            $this->allowedRetry = false;
+            $this->updateItems();
+        }
+        else
+        {
+            $json = $this->getJson($this->url . (($andsign) ? "&" : "?") . "definitions=true");
+            Hash::loadHashesFromApi($json['Response']['definitions']);
+            $this->allowedRetry = false;
+            $this->updateItems();
         }
     }
 
@@ -83,29 +102,14 @@ class Hashes extends Http{
         {
             return Hash::all();
         });
+
+        return $this->items;
     }
 
     private function updateItems()
     {
         Cache::forget('hashes');
         return $this->getItems();
-    }
-
-    /**
-     * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException
-     */
-    private function updateHashes()
-    {
-        if ($this->url == null)
-        {
-            $this->allowedRetry = false;
-        }
-        else
-        {
-            $json = $this->getJson($this->url . "?definitions=true");
-            Hash::loadHashesFromApi($json['Response']['definitions']);
-            $this->allowedRetry = false;
-        }
     }
 }
 

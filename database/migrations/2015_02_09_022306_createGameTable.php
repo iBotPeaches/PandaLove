@@ -16,22 +16,35 @@ class CreateGameTable extends Migration {
 			$table->increments('id');
 			$table->string('instanceId');
 			$table->string('referenceId');
-			$table->enum('type', ['Raid', 'Flawless', 'PVP']);
+			$table->enum('type', ['Raid', 'Flawless', 'PVP'])->nullable();
 			$table->dateTime('occurredAt');
 			$table->tinyInteger('raidTuesday', false, true);
-			$table->mediumInteger('timeTookInMinutes', false, true);
+			$table->mediumInteger('timeTookInSeconds', false, true);
+		});
 
-			for ($i = 1; $i <= 6; $i++)
-			{
-				$table->string($i . "_player");
-				$table->tinyInteger($i . "_level", false, true);
-				$table->string($i . "_class", 16);
-				$table->string($i . "_emblem", 32);
+		Schema::create('game_players', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('game_id', false, true);
 
-				$table->mediumInteger($i . "_assists", false, true);
-				$table->mediumInteger($i . "_deaths", false, true);
-				$table->mediumInteger($i . "_kills", false, true);
-			}
+			$table->string('membershipId', 64);
+			$table->string('characterId', 64);
+
+			$table->tinyInteger('level', false, true);
+			$table->string('class', 16);
+			$table->string('emblem', 32);
+			$table->mediumInteger('assists', false, true);
+			$table->mediumInteger('deaths', false, true);
+			$table->mediumInteger('kills', false, true);
+
+			$table->boolean('completed');
+			$table->integer('secondsPlayed', false, true);
+			$table->float('averageLifespan');
+		});
+
+		Schema::table('hashes', function(Blueprint $table)
+		{
+			$table->unique('hash');
 		});
 	}
 
@@ -43,6 +56,12 @@ class CreateGameTable extends Migration {
 	public function down()
 	{
 		Schema::drop('games');
+		Schema::drop('game_players');
+
+		Schema::table('hashes', function(Blueprint $table)
+		{
+			$table->dropUnique('hashes_hash_unique');
+		});
 	}
 
 }
