@@ -130,7 +130,16 @@ class Client extends Http {
         $character->intellect = $charBase['stats']['STAT_INTELLECT']['value'];
         $character->discipline = $charBase['stats']['STAT_DISCIPLINE']['value'];
         $character->strength = $charBase['stats']['STAT_STRENGTH']['value'];
-        $character->light = $charBase['stats']['STAT_LIGHT']['value'];
+
+        if (isset($charBase['stats']['STAT_LIGHT']))
+        {
+            $character->light = $charBase['stats']['STAT_LIGHT']['value'];
+        }
+        else
+        {
+            // under lvl20, no LIGHT
+            $character->light = 0;
+        }
 
         $character->subclass = $charBase['peerView']['equipment'][0]['itemHash'];
         $character->helmet = $charBase['peerView']['equipment'][1]['itemHash'];
