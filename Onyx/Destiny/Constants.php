@@ -20,4 +20,10 @@ class Constants {
      * @var string
      */
     public static $getBungieAccount = 'https://www.bungie.net/Platform/User/GetBungieAccount/%1$s/%2$d';
+
+    /**
+     * Obtain Post Game Carnage Report for a game (instanceId)
+     * @var string
+     */
+    public static $postGameCarnageReport = 'https://www.bungie.net/platform/Destiny/Stats/PostGameCarnageReport/%1$s';
 }

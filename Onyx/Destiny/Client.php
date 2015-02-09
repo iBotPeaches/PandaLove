@@ -2,19 +2,70 @@
 
 use Carbon\Carbon;
 use GuzzleHttp;
-use Intervention\Image\Facades\Image;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\Network\Http;
-use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
+use Onyx\Destiny\Objects\Game;
 
 class Client extends Http {
 
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $instanceId
+     * @param $type (Raid, Flawless, PVP)
+     * @return mixed
+     * @throws GameNotFoundException
+     * @throws Helpers\Network\BungieOfflineException
+     */
+    public function fetchGameByInstanceId($instanceId, $type = null)
+    {
+        $url = sprintf(Constants::$postGameCarnageReport, $instanceId);
+
+        try
+        {
+            $game = Game::where('instanceId', $instanceId)->firstOrFail();
+            return $game;
+        }
+        catch (ModelNotFoundException $e)
+        {
+            $json = $this->getJson($url);
+
+            if (isset($json['Response']['data']['activityDetails']))
+            {
+                $this->createGame($url, $json, $type);
+            }
+            else
+            {
+                throw new GameNotFoundException();
+            }
+        }
+    }
+
+    /**
+     * @param $instanceId
+     * @param $type
+     * @throws GameNotFoundException
+     */
+    public function updateTypeOfGame($instanceId, $type)
+    {
+        try
+        {
+            $game = Game::where('instanceId', $instanceId)->firstOrFail();
+            $game->type = $type;
+            $game->save();
+
+            return $game;
+        }
+        catch (ModelNotFoundException $e)
+        {
+            throw new GameNotFoundException();
+        }
+    }
 
     /**
      * @param $platform
@@ -103,6 +154,41 @@ class Client extends Http {
     /**
      * @param string $url
      * @param array $data
+     * @param string $type
+     */
+    private function createGame($url, $data, $type)
+    {
+        $entries = $data['Response']['data']['entries'];
+
+        $game = new Game();
+        $game->setTranslatorUrl($url);
+
+        $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
+        $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
+
+        $game->type = $type;
+        // take mod of completed gamers at use it
+        //$game->occurred_at = $
+        //$game->timeTookInMinutes
+
+        $i = 1;
+
+        foreach($entries as $entry)
+        {
+            if ($entry['values']['completed']['basic']['value'] == 1)
+            {
+                $game->{$i . "_player"} = $entry['characterId'];
+                $game->{$i . "_level"} = $entry['player']['characterLevel'];
+                $game->{$i . "_class"} = $entry['player']['characterClass'];
+
+                // @todo finishing add game support
+            }
+        }
+    }
+
+    /**
+     * @param string $url
+     * @param array $data
      */
     private function updateOrAddCharacter($url, $data)
     {
@@ -178,3 +264,4 @@ class Client extends Http {
 }
 
 class PlayerNotFoundException extends \Exception {};
+class GameNotFoundException extends \Exception {};

@@ -7,6 +7,7 @@ use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Requests;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests\AdminAddGamertagRequest;
+use PandaLove\Http\Requests\AddGameRequest;
 
 class AdminController extends Controller
 {
@@ -26,5 +27,14 @@ class AdminController extends Controller
         $this->dispatch(new UpdateAccount($account));
 
         return \Redirect::action('ProfileController@index', [$account->seo]);
+    }
+
+    public function postAddGame(AddGameRequest $request)
+    {
+        $client = new Client();
+
+        $game = $client->updateTypeOfGame($request->request->get('instanceId'), $request->request->get('type'));
+
+        // redirect to game page
     }
 }
