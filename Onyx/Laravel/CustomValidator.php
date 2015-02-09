@@ -4,9 +4,26 @@ use Illuminate\Validation\Validator;
 use Onyx\Account;
 use Onyx\Destiny\Client;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\User;
 
 class CustomValidator extends Validator {
+
+    public function validateGamertagReal($attribute, $value, $parameters)
+    {
+        $client = new Client();
+
+        try
+        {
+            $account = $client->fetchAccountByGamertag(1, $value);
+        }
+        catch (PlayerNotFoundException $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public function validateGamertagExists($attribute, $value, $parameters)
     {

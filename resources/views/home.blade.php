@@ -12,7 +12,7 @@
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
                     <p>A <strong>Destiny</strong> clan, who frequently run raids, obliterate the competition in PVP and take an occasional flawless raid.</p>
-                    <a href="#work" class="button big scrolly">Meet our Group</a>
+                    <a href="{{ URL::action('RosterController@getIndex') }}" class="button big scrolly">Meet our Group</a>
                 </div>
             </div>
         </article>

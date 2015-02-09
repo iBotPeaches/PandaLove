@@ -25,6 +25,7 @@ class Kernel extends HttpKernel {
 	 */
 	protected $routeMiddleware = [
 		'auth' => 'PandaLove\Http\Middleware\Authenticate',
+		'auth.admin' => 'PandaLove\Http\Middleware\AdminAuthenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'PandaLove\Http\Middleware\RedirectIfAuthenticated',
 	];

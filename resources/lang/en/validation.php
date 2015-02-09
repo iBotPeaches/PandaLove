@@ -38,6 +38,7 @@ return [
 	"filled"               => "The :attribute field is required.",
 	"exists"               => "The selected :attribute is invalid.",
 	"gamertag_exists"	   => "The :attribute is not in our system to be validated.",
+	"gamertag_real"		   => "The :attribute is not a real gamertag.",
 	"image"                => "The :attribute must be an image.",
 	"in"                   => "The selected :attribute is invalid.",
 	"integer"              => "The :attribute must be an integer.",

@@ -26,7 +26,6 @@ class SemanticPresenter extends BootstrapThreePresenter {
         return '<div class="disabled item">' . $text . '</div>';
     }
 
-
     /**
      * Get HTML wrapper for a page link.
      *

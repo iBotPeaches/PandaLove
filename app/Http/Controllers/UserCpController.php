@@ -4,8 +4,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text;
 use PandaLove\Http\Requests;
-
 use PandaLove\Http\Requests\OwnershipFormRequest;
+
 class UserCpController extends Controller {
 
     public function __construct(Guard $auth)
