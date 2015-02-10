@@ -45,7 +45,6 @@ class CreateGameTable extends Migration {
 
 		Schema::table('hashes', function(Blueprint $table)
 		{
-			$table->unique('hash');
 			$table->text('extraThird');
 		});
 	}
@@ -62,7 +61,6 @@ class CreateGameTable extends Migration {
 
 		Schema::table('hashes', function(Blueprint $table)
 		{
-			$table->dropUnique('hashes_hash_unique');
 			$table->dropColumn('extraThird');
 		});
 	}
