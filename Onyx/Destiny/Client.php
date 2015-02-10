@@ -124,15 +124,19 @@ class Client extends Http {
         $account->grimoire = $json['Response']['data']['grimoireScore'];
 
         // characters
+        $chars = [];
         for ($i = 0; $i <= 3; $i++)
         {
             if (isset($json['Response']['data']['characters'][$i]))
             {
-                $this->updateOrAddCharacter($url, $json['Response']['data']['characters'][$i]);
+                $chars[$i] = $this->updateOrAddCharacter($url, $json['Response']['data']['characters'][$i]);
                 $pair = "character_" . ($i + 1);
                 $account->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
             }
         }
+
+        // check for inactivity
+        $this->tabulateActivity($account, $chars);
 
         $account->save();
 
@@ -216,6 +220,7 @@ class Client extends Http {
      */
     private function updateOrAddCharacter($url, $data)
     {
+        $activity = false;
         $charBase = $data['characterBase'];
 
         $character = Character::where('characterId', $charBase['characterId'])->first();
@@ -225,6 +230,10 @@ class Client extends Http {
             $character = new Character();
             $character->membershipId = $charBase['membershipId'];
             $character->characterId = $charBase['characterId'];
+        }
+        else
+        {
+            $activity = $this->checkForActivity($character, $charBase['minutesPlayedTotal']);
         }
 
         $character->setTranslatorUrl($url);
@@ -274,6 +283,7 @@ class Client extends Http {
 
         $character->emblem = $data['emblemHash'];
         $character->save();
+        return $activity;
     }
 
     /**
@@ -287,6 +297,50 @@ class Client extends Http {
         if ($account instanceof Account)
         {
             return $account;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \Onyx\Account $account
+     * @param array $chars
+     */
+    private function tabulateActivity($account, $chars)
+    {
+        $reset = false;
+
+        foreach($chars as $key => $value)
+        {
+            if ($value)
+            {
+                $reset = true;
+            }
+        }
+
+        if ($reset)
+        {
+            $account->inactiveCounter = 0;
+            $account->save();
+        }
+        else
+        {
+            $account->inactiveCounter++;
+            $account->save();
+        }
+    }
+
+    /**
+     * @param \Onyx\Destiny\Objects\Character $char
+     * @return bool
+     */
+    private function checkForActivity($char, $new_minutes)
+    {
+        $minutes_old = $char->getMinutesPlayedRaw();
+
+        if ($minutes_old != $new_minutes)
+        {
+            return true;
         }
 
         return false;

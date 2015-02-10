@@ -309,6 +309,11 @@ class Character extends Model {
         return $date->diffForHumans();
     }
 
+    public function getMinutesPlayedRaw()
+    {
+        return $this->attributes['minutes_played'];
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
