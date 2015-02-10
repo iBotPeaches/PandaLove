@@ -1,5 +1,6 @@
 <?php namespace PandaLove\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Destiny\Objects\Game;
 use PandaLove\Http\Requests;
 
@@ -15,7 +16,17 @@ class GameController extends Controller {
 
     public function getGame($instanceId)
     {
-        dd($instanceId);
+        try
+        {
+            $game = Game::with('players.character')->where('instanceId', $instanceId)->firstOrFail();
+
+            return view('games.game')
+                ->with('game', $game);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            \App::abort(404);
+        }
     }
 
     public function getHistory($category = '')
