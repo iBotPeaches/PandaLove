@@ -46,10 +46,10 @@ class ProfileController extends Controller {
                     // update this
                     $this->dispatch(new UpdateAccount($account));
 
-                    return response()->json(['updated' => true]);
+                    return response()->json(['updated' => true, 'last_update' => $account->getLastUpdatedRelative()]);
                 }
 
-                return response()->json(['updated' => false]);
+                return response()->json(['updated' => false, 'last_update' => $account->getLastUpdatedRelative()]);
             }
             catch (ModelNotFoundException $e)
             {

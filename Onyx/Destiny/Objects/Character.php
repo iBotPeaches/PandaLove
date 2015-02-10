@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Destiny\Enums\LightLevels;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 
@@ -180,6 +181,66 @@ class Character extends Model {
         return $this->translator->map($value, false);
     }
 
+    public function getHelmetAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getArmsAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getChestAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getBootsAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getPrimaryAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getSecondaryAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getHeavyAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getClassItemAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getShipAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getSparrowAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getGhostAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getShaderAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -202,6 +263,36 @@ class Character extends Model {
     public function name()
     {
         return $this->level . " " . $this->class->title;
+    }
+
+    public function armor()
+    {
+        return [
+            $this->helmet,
+            $this->arms,
+            $this->chest,
+            $this->boots
+        ];
+    }
+
+    public function weapons()
+    {
+        return [
+            $this->primary,
+            $this->secondary,
+            $this->heavy,
+            $this->class_item
+        ];
+    }
+
+    public function other()
+    {
+        return [
+            $this->ship,
+            $this->sparrow,
+            $this->ghost,
+            $this->shader
+        ];
     }
 
     //---------------------------------------------------------------------------------

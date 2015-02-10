@@ -1,5 +1,6 @@
 <?php namespace Onyx;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\String\Text;
 
@@ -67,5 +68,12 @@ class Account extends Model {
     public function charsAbove($level = 30)
     {
         return $this->characters()->where('level', '>=', $level)->count();
+    }
+
+    public function getLastUpdatedRelative()
+    {
+        $date = new Carbon($this->updated_at);
+
+        return $date->diffForHumans();
     }
 }

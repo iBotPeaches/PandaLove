@@ -141,6 +141,7 @@ return [
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'GrahamCampbell\Exceptions\ExceptionsServiceProvider',
 
 		/*
 		 * Application Service Providers...
