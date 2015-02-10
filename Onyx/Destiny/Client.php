@@ -2,19 +2,71 @@
 
 use Carbon\Carbon;
 use GuzzleHttp;
-use Intervention\Image\Facades\Image;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\Network\Http;
-use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
+use Onyx\Destiny\Objects\Game;
+use Onyx\Destiny\Objects\GamePlayer;
 
 class Client extends Http {
 
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $instanceId
+     * @param $type (Raid, Flawless, PVP)
+     * @return mixed
+     * @throws GameNotFoundException
+     * @throws Helpers\Network\BungieOfflineException
+     */
+    public function fetchGameByInstanceId($instanceId, $type = null)
+    {
+        $url = sprintf(Constants::$postGameCarnageReport, $instanceId);
+
+        try
+        {
+            $game = Game::where('instanceId', $instanceId)->firstOrFail();
+            return $game;
+        }
+        catch (ModelNotFoundException $e)
+        {
+            $json = $this->getJson($url);
+
+            if (isset($json['Response']['data']['activityDetails']))
+            {
+                $this->createGame($url, $json, $type);
+            }
+            else
+            {
+                throw new GameNotFoundException();
+            }
+        }
+    }
+
+    /**
+     * @param $instanceId
+     * @param $type
+     * @throws GameNotFoundException
+     */
+    public function updateTypeOfGame($instanceId, $type)
+    {
+        try
+        {
+            $game = Game::where('instanceId', $instanceId)->firstOrFail();
+            $game->type = $type;
+            $game->save();
+
+            return $game;
+        }
+        catch (ModelNotFoundException $e)
+        {
+            throw new GameNotFoundException();
+        }
+    }
 
     /**
      * @param $platform
@@ -62,8 +114,12 @@ class Client extends Http {
 
         $json = $this->getJson($url);
 
-        $account->clanName = $json['Response']['data']['clanName'];
-        $account->clanTag = $json['Response']['data']['clanTag'];
+        if (isset($json['Response']['data']['clanName']))
+        {
+            $account->clanName = $json['Response']['data']['clanName'];
+            $account->clanTag = $json['Response']['data']['clanTag'];
+        }
+
         $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
         $account->grimoire = $json['Response']['data']['grimoireScore'];
 
@@ -99,6 +155,60 @@ class Client extends Http {
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param string $url
+     * @param array $data
+     * @param string $type
+     */
+    private function createGame($url, $data, $type)
+    {
+        $entries = $data['Response']['data']['entries'];
+
+        $game = new Game();
+        $game->setTranslatorUrl($url);
+
+        $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
+        $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
+
+        $game->type = $type;
+        $game->occurredAt = $data['Response']['data']['period'];
+
+        $time = [];
+        foreach($entries as $entry)
+        {
+            $player = new GamePlayer();
+            $player->game_id = $game->instanceId;
+            $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
+            $player->characterId = $entry['characterId'];
+            $player->level = $entry['player']['characterLevel'];
+            $player->class = $entry['player']['characterClass'];
+            $player->emblem = $entry['player']['destinyUserInfo']['iconPath'];
+
+            $player->assists = $entry['values']['assists']['basic']['value'];
+            $player->deaths = $entry['values']['deaths']['basic']['value'];
+            $player->kills = $entry['values']['kills']['basic']['value'];
+            $player->completed = boolval($entry['values']['completed']['basic']['value']);
+            $player->secondsPlayed = $entry['extended']['values']['secondsPlayed']['basic']['value'];
+            $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+            $player->save();
+
+            $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
+            if (isset($time[$duration]))
+            {
+                $time[$duration] += 1;
+            }
+            else
+            {
+                $time[$duration] = 1;
+            }
+        }
+
+        // get highest $duration (MODE)
+        $max = max($time);
+        $game->timeTookInSeconds = array_search($max, $time);
+        $game->save();
+    }
 
     /**
      * @param string $url
@@ -155,7 +265,13 @@ class Client extends Http {
         $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
         $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
         $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
-        $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
+
+        // chars under 20 have no shader
+        if (isset($charBase['peerView']['equipment'][13]['itemHash']))
+        {
+            $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
+        }
+
         $character->emblem = $data['emblemHash'];
         $character->save();
     }
@@ -178,3 +294,4 @@ class Client extends Http {
 }
 
 class PlayerNotFoundException extends \Exception {};
+class GameNotFoundException extends \Exception {};

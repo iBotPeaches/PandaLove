@@ -63,11 +63,13 @@ class Hash extends Model {
     {
         self::loadDefinitions($data, 'buckets', 'bucketHash', 'bucketName', 'bucketDescription');
         self::loadDefinitions($data, 'stats', 'statHash', 'statName', 'statDescription');
-        self::loadDefinitions($data, 'items', 'itemHash', 'itemName', 'itemDescription', 'icon');
-        self::loadDefinitions($data, 'activities', 'activityHash', 'activityName', 'activityDescription');
+        self::loadDefinitions($data, 'items', 'itemHash', 'itemName', 'itemDescription', 'icon', 'secondaryIcon');
+        self::loadDefinitions($data, 'activities', 'activityHash', 'activityName', 'activityDescription', 'icon', 'pgcrImage', 'activityLevel');
         self::loadDefinitions($data, 'classes', 'classHash', 'className', '');
         self::loadDefinitions($data, 'genders', 'genderHash', 'genderName', 'genderType');
         self::loadDefinitions($data, 'races', 'raceHash', 'raceName', 'raceDescription');
+        self::loadDefinitions($data, 'destinations', 'destinationHash', 'destinationName', 'destinationDescription', 'icon');
+        self::loadDefinitions($data, 'places', 'placeHash', 'placeName', 'placeDescription');
     }
 
     //---------------------------------------------------------------------------------
@@ -81,9 +83,11 @@ class Hash extends Model {
      * @param string $title Index for title of item
      * @param string $desc Index for description of item
      * @param null $extra Index for anything extra (optional)
+     * @param null $secondary Index for anything secondary extra (optional)
      * @return bool
      */
-    private static function loadDefinitions(&$data, $index, $hash, $title, $desc, $extra = null)
+    private static function loadDefinitions(&$data, $index, $hash, $title,
+                                            $desc, $extra = null, $secondary = null, $third = null)
     {
         if (isset($data[$index]))
         {
@@ -91,16 +95,24 @@ class Hash extends Model {
             {
                 if ($mHash = Hash::where('hash', $item[$hash])->first() != null) continue;
 
+                // There are some records in the Hash response that have "FIELD_HIDDEN"
+                // Probably from a future DLC, but we can't decode these. So skip em.
+                if (! isset($item[$title])) continue;
+
                 $mHash = new Hash();
                 $mHash->hash = $item[$hash];
                 $mHash->title = $item[$title];
                 $mHash->description = isset($item[$desc]) ? $item[$desc] : null;
                 $mHash->extra = ($extra != null) ? $item[$extra] : null;
 
-                if ($extra == 'icon')
+                if ($secondary != null)
                 {
-                    $mIndex = 'secondary' . ucfirst($extra);
-                    $mHash->extraSecondary = isset($item[$mIndex]) ? $item[$mIndex] : null;
+                    $mHash->extraSecondary = isset($item[$secondary]) ? $item[$secondary] : null;
+                }
+
+                if ($third != null)
+                {
+                    $mHash->extraThird = isset($item[$third]) ? $item[$third] : null;
                 }
 
                 $mHash->save();

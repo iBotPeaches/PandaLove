@@ -19,7 +19,20 @@
     <script type="text/javascript">
         $(function() {
             $.ajax({
-                url: '{{ URL::action('ProfileController@checkForUpdate', array($account->gamertag)) }}'
+                url: '{{ URL::action('ProfileController@checkForUpdate', array($account->gamertag)) }}',
+                success: function(result) {
+                    $msg = $("#update-message");
+                    if (result.updated) {
+                        $msg.removeClass('icon').addClass('green');
+                        $("#update-message .content p").empty().text("Account Updated! Refresh for new data");
+                    } else {
+                        $msg.removeClass('icon').addClass('blue');
+                        $("#update-message .content p").empty().text("Account last updated: " + result.last_update);
+                    }
+
+                    $("#update-message i").remove();
+                    $("#update-message .header").remove();
+                }
             });
         })
     </script>

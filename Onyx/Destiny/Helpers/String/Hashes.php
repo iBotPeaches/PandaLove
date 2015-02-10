@@ -16,7 +16,7 @@ class Hashes extends Http{
     /**
      * @var \Illuminate\Database\Eloquent\Collection|static[]
      */
-    private $items = null;
+    private static $items = null;
 
     /**
      *
@@ -39,12 +39,12 @@ class Hashes extends Http{
 
     public function map($hash, $title = true)
     {
-        if ($this->items == null)
+        if (Hashes::$items == null)
         {
             $this->getItems();
         }
 
-        $object = $this->items->filter(function($item) use ($hash)
+        $object = Hashes::$items->filter(function($item) use ($hash)
         {
             return $item->hash == $hash;
         })->first();
@@ -63,7 +63,6 @@ class Hashes extends Http{
             if ($this->allowedRetry)
             {
                 $this->updateHashes();
-                $this->updateItems();
                 return $this->map($hash, $title);
             }
             else
@@ -73,39 +72,40 @@ class Hashes extends Http{
         }
     }
 
+    /**
+     * @param boolean $andsign
+     * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException
+     */
+    public function updateHashes($andsign = false)
+    {
+        if ($this->url == null)
+        {
+            $this->allowedRetry = false;
+            $this->updateItems();
+        }
+        else
+        {
+            $json = $this->getJson($this->url . (($andsign) ? "&" : "?") . "definitions=true");
+            Hash::loadHashesFromApi($json['Response']['definitions']);
+            $this->allowedRetry = false;
+            $this->updateItems();
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
 
     private function getItems()
     {
-        $this->items = Cache::remember('hashes', 3600, function()
-        {
-            return Hash::all();
-        });
+        Hashes::$items = Hash::all();
+        return Hashes::$items;
     }
 
     private function updateItems()
     {
         Cache::forget('hashes');
         return $this->getItems();
-    }
-
-    /**
-     * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException
-     */
-    private function updateHashes()
-    {
-        if ($this->url == null)
-        {
-            $this->allowedRetry = false;
-        }
-        else
-        {
-            $json = $this->getJson($this->url . "?definitions=true");
-            Hash::loadHashesFromApi($json['Response']['definitions']);
-            $this->allowedRetry = false;
-        }
     }
 }
 

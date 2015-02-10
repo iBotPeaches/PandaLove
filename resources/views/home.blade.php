@@ -29,7 +29,7 @@
                         <section class="box style1">
                             <span class="icon featured fa-comments-o"></span>
                             <h3>Raids</h3>
-                            <p>Every Tuesday during reset, Raid Tuesday begins with the current hardest Raid available</p>
+                            <p>Every Tuesday during reset, Raid Tuesday begins with the hardest Raid available</p>
                         </section>
                     </div>
                     <div class="4u">
@@ -50,7 +50,7 @@
             </div>
             <footer>
                 <p>Want to see more? Take a look at our game history from these top moments</p>
-                <a href="#portfolio" class="button big scrolly">View the Vault of History</a>
+                <a href="{{ URL::action('GameController@getIndex') }}" class="button big scrolly">View our Games</a>
             </footer>
         </article>
     </div>

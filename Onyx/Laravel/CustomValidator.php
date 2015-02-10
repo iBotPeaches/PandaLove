@@ -3,11 +3,28 @@
 use Illuminate\Validation\Validator;
 use Onyx\Account;
 use Onyx\Destiny\Client;
+use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\User;
 
 class CustomValidator extends Validator {
+
+    public function validateGameReal($attribute, $value, $parameters)
+    {
+        $client = new Client();
+
+        try
+        {
+            $game = $client->fetchGameByInstanceId($value);
+        }
+        catch (GameNotFoundException $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public function validateGamertagReal($attribute, $value, $parameters)
     {

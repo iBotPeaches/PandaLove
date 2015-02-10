@@ -38,6 +38,11 @@ class Images {
         $name = (($index != 'extra') ? '_bg' : null);
         $name = $hash->hash . $name;
 
+        // Make sure we aren't trying to save something that isn't an image
+        // We only need this check because we cheat and store all hash related objects
+        // in one table. This means we have crazy cheats to get things done.
+        if (strlen($bug[$index]) < 5) return false;
+
         $location = public_path('uploads/thumbs/');
         $filename = $name . "." . pathinfo($bug[$index], PATHINFO_EXTENSION);
 
