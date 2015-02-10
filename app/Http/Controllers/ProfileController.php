@@ -23,9 +23,6 @@ class ProfileController extends Controller {
         try
         {
             $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
-
-            $client = new \Onyx\Destiny\Client();
-            $client->fetchAccountData($account);
             return view('profile', ['account' => $account]);
         }
         catch (ModelNotFoundException $e)

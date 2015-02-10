@@ -16,7 +16,7 @@ class Hashes extends Http{
     /**
      * @var \Illuminate\Database\Eloquent\Collection|static[]
      */
-    private $items = null;
+    private static $items = null;
 
     /**
      *
@@ -39,12 +39,12 @@ class Hashes extends Http{
 
     public function map($hash, $title = true)
     {
-        if ($this->items == null)
+        if (Hashes::$items == null)
         {
             $this->getItems();
         }
 
-        $object = $this->items->filter(function($item) use ($hash)
+        $object = Hashes::$items->filter(function($item) use ($hash)
         {
             return $item->hash == $hash;
         })->first();
@@ -98,12 +98,8 @@ class Hashes extends Http{
 
     private function getItems()
     {
-        $this->items = Cache::remember('hashes', 3600, function()
-        {
-            return Hash::all();
-        });
-
-        return $this->items;
+        Hashes::$items = Hash::all();
+        return Hashes::$items;
     }
 
     private function updateItems()

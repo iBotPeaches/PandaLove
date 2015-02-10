@@ -64,10 +64,12 @@ class Hash extends Model {
         self::loadDefinitions($data, 'buckets', 'bucketHash', 'bucketName', 'bucketDescription');
         self::loadDefinitions($data, 'stats', 'statHash', 'statName', 'statDescription');
         self::loadDefinitions($data, 'items', 'itemHash', 'itemName', 'itemDescription', 'icon', 'secondaryIcon');
-        self::loadDefinitions($data, 'activities', 'activityHash', 'activityName', 'activityDescription', 'activityLevel', 'pgcrImage');
+        self::loadDefinitions($data, 'activities', 'activityHash', 'activityName', 'activityDescription', 'icon', 'pgcrImage', 'activityLevel');
         self::loadDefinitions($data, 'classes', 'classHash', 'className', '');
         self::loadDefinitions($data, 'genders', 'genderHash', 'genderName', 'genderType');
         self::loadDefinitions($data, 'races', 'raceHash', 'raceName', 'raceDescription');
+        self::loadDefinitions($data, 'destinations', 'destinationHash', 'destinationName', 'destinationDescription', 'icon');
+        self::loadDefinitions($data, 'places', 'placeHash', 'placeName', 'placeDescription');
     }
 
     //---------------------------------------------------------------------------------
@@ -84,7 +86,8 @@ class Hash extends Model {
      * @param null $secondary Index for anything secondary extra (optional)
      * @return bool
      */
-    private static function loadDefinitions(&$data, $index, $hash, $title, $desc, $extra = null, $secondary = null)
+    private static function loadDefinitions(&$data, $index, $hash, $title,
+                                            $desc, $extra = null, $secondary = null, $third = null)
     {
         if (isset($data[$index]))
         {
@@ -101,6 +104,11 @@ class Hash extends Model {
                 if ($secondary != null)
                 {
                     $mHash->extraSecondary = isset($item[$secondary]) ? $item[$secondary] : null;
+                }
+
+                if ($third != null)
+                {
+                    $mHash->extraThird = isset($item[$third]) ? $item[$third] : null;
                 }
 
                 $mHash->save();

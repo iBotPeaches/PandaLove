@@ -16,6 +16,7 @@ class CreateGameTable extends Migration {
 			$table->increments('id');
 			$table->string('instanceId');
 			$table->string('referenceId');
+			$table->boolean('isHard');
 			$table->enum('type', ['Raid', 'Flawless', 'PVP'])->nullable();
 			$table->dateTime('occurredAt');
 			$table->tinyInteger('raidTuesday', false, true);
@@ -45,6 +46,7 @@ class CreateGameTable extends Migration {
 		Schema::table('hashes', function(Blueprint $table)
 		{
 			$table->unique('hash');
+			$table->text('extraThird');
 		});
 	}
 
@@ -61,6 +63,7 @@ class CreateGameTable extends Migration {
 		Schema::table('hashes', function(Blueprint $table)
 		{
 			$table->dropUnique('hashes_hash_unique');
+			$table->dropColumn('extraThird');
 		});
 	}
 
