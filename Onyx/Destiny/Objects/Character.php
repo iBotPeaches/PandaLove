@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Onyx\Destiny\Enums\LightLevels;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
@@ -287,12 +288,25 @@ class Character extends Model {
 
     public function other()
     {
-        return [
+        $data = [
             $this->ship,
             $this->sparrow,
-            $this->ghost,
-            $this->shader
+            $this->ghost
         ];
+
+        if ($this->level < 20)
+        {
+            return $data;
+        }
+
+        return array_merge($data, [$this->shader]);
+    }
+
+    public function getLastUpdatedRelative()
+    {
+        $date = new Carbon($this->updated_at);
+
+        return $date->diffForHumans();
     }
 
     //---------------------------------------------------------------------------------
@@ -306,6 +320,7 @@ class Character extends Model {
      */
     private function setAttributePullImage($index, $hash)
     {
+        if ($hash == null || $hash == "") return;
         Images::saveImagesLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }

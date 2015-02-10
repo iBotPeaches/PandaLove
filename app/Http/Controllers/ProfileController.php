@@ -15,6 +15,7 @@ class ProfileController extends Controller {
 
     public function __construct(Request $request)
     {
+        parent::__construct();
         $this->request = $request;
     }
 
@@ -41,15 +42,15 @@ class ProfileController extends Controller {
 
                 $char = $account->firstCharacter();
 
-                if (Carbon::now()->diffInMinutes($char->updated_at) >= 100)
+                if ($char->updated_at->diffInMinutes() >= 10)
                 {
                     // update this
                     $this->dispatch(new UpdateAccount($account));
 
-                    return response()->json(['updated' => true, 'last_update' => $account->getLastUpdatedRelative()]);
+                    return response()->json(['updated' => true, 'last_update' => $char->getLastUpdatedRelative()]);
                 }
 
-                return response()->json(['updated' => false, 'last_update' => $account->getLastUpdatedRelative()]);
+                return response()->json(['updated' => false, 'last_update' => $char->getLastUpdatedRelative()]);
             }
             catch (ModelNotFoundException $e)
             {

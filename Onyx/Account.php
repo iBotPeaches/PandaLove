@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Character;
 
 class Account extends Model {
 
@@ -19,6 +20,16 @@ class Account extends Model {
      * @var array
      */
     protected $fillable = ['gamertag', 'membershipId', 'accountType'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        Account::deleting(function($account)
+        {
+            Character::where('membershipId', $account->membershipId)->delete();
+        });
+    }
 
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
@@ -68,12 +79,5 @@ class Account extends Model {
     public function charsAbove($level = 30)
     {
         return $this->characters()->where('level', '>=', $level)->count();
-    }
-
-    public function getLastUpdatedRelative()
-    {
-        $date = new Carbon($this->updated_at);
-
-        return $date->diffForHumans();
     }
 }

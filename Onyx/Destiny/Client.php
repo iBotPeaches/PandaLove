@@ -114,8 +114,12 @@ class Client extends Http {
 
         $json = $this->getJson($url);
 
-        $account->clanName = $json['Response']['data']['clanName'];
-        $account->clanTag = $json['Response']['data']['clanTag'];
+        if (isset($json['Response']['data']['clanName']))
+        {
+            $account->clanName = $json['Response']['data']['clanName'];
+            $account->clanTag = $json['Response']['data']['clanTag'];
+        }
+
         $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
         $account->grimoire = $json['Response']['data']['grimoireScore'];
 
@@ -261,7 +265,13 @@ class Client extends Http {
         $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
         $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
         $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
-        $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
+
+        // chars under 20 have no shader
+        if (isset($charBase['peerView']['equipment'][13]['itemHash']))
+        {
+            $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
+        }
+
         $character->emblem = $data['emblemHash'];
         $character->save();
     }

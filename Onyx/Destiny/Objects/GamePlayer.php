@@ -93,6 +93,7 @@ class GamePlayer extends Model {
      */
     private function setAttributePullImage($index, $hash)
     {
+        if ($hash == null || $hash == "") return;
         Images::saveImagesLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }
