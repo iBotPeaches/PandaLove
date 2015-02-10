@@ -95,6 +95,10 @@ class Hash extends Model {
             {
                 if ($mHash = Hash::where('hash', $item[$hash])->first() != null) continue;
 
+                // There are some records in the Hash response that have "FIELD_HIDDEN"
+                // Probably from a future DLC, but we can't decode these. So skip em.
+                if (! isset($item[$title])) continue;
+
                 $mHash = new Hash();
                 $mHash->hash = $item[$hash];
                 $mHash->title = $item[$title];

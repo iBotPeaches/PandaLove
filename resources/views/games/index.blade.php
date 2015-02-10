@@ -8,37 +8,59 @@
                     <h1>Welcome to our <strong>Game History</strong></h1>
                 </header>
                 <div class="9u">
-                    <h4 class="ui horizontal header divider">
+                    <h3 class="ui horizontal header divider">
                         Raids
-                    </h4>
+                    </h3>
                     <div class="ui divided list">
                         @foreach($raids as $raid)
-                            <div class="item">
-                                <div class="right floated compact ui button">View</div>
+                            <a class="item no_underline" href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
+                                @if ($raid->isHard)
+                                    <div class="right floated compact ui red button">Hard</div>
+                                @else
+                                    <div class="right floated compact ui green button">Normal</div>
+                                @endif
                                 <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
                                 <div class="content">
                                     <div class="header">
                                         {{ $raid->type()->title }}
-                                        @if ($raid->isHard)
-                                            <span class="ui horizontal red label">Hard</span>
-                                        @else
-                                            <span class="ui horizontal green label">Normal</span>
-                                        @endif
+                                    </div>
+                                    <div class="description">
+                                        {{ $raid->occurredAt }}
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
-
-                    <h4 class="ui horizontal header divider">
+                    <h3 class="ui horizontal header divider">
                         Raid Tuesdays
-                    </h4>
-                    <h4 class="ui horizontal header divider">
-                        Flawless Raid
-                    </h4>
+                    </h3>
+                    <h3 class="ui horizontal header divider">
+                        Flawless Raids
+                    </h3>
                 </div>
                 <div class="3u">
-
+                    <h3 class="ui horizontal header divider">
+                        Complete History
+                    </h3>
+                    <div class="ui orange segment">
+                        <div class="ui selection list">
+                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['Raid']) }}">
+                                <div class="content">
+                                    Raids
+                                </div>
+                            </a>
+                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['RaidTuesdays']) }}">
+                                <div class="content">
+                                    Raid Tuesdays
+                                </div>
+                            </a>
+                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['Flawless']) }}">
+                                <div class="content">
+                                    Flawless Raids
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
@@ -53,6 +75,9 @@
             background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 100px, #000 100px);
             background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 100px, #000 100px);
             background: linear-gradient(top, rgba(0, 0, 0, 0) 100px, #000 100px);
+        }
+        .no_underline {
+            text-decoration: none;
         }
     </style>
 @append

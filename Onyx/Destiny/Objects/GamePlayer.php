@@ -62,6 +62,21 @@ class GamePlayer extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function game()
+    {
+        return $this->belongsTo('Onyx\Destiny\Objects\Game');
+    }
+
+    public function character()
+    {
+        return $this->hasOne('Onyx\Destiny\Objects\Character', 'characterId', 'characterId');
+    }
+
+    public function account()
+    {
+        return $this->hasOne('Onyx\Account', 'membershipId', 'membershipId');
+    }
+
     public function setTranslatorUrl($url)
     {
         $this->translator->setUrl($url);

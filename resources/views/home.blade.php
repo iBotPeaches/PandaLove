@@ -50,7 +50,7 @@
             </div>
             <footer>
                 <p>Want to see more? Take a look at our game history from these top moments</p>
-                <a href="#portfolio" class="button big scrolly">View our Games</a>
+                <a href="{{ URL::action('GameController@getIndex') }}" class="button big scrolly">View our Games</a>
             </footer>
         </article>
     </div>

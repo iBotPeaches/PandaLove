@@ -189,6 +189,11 @@ class Character extends Model {
         return $this->belongsTo('Onyx\Account');
     }
 
+    public function players()
+    {
+        return $this->belongsToMany('Onyx\Destiny\Objects\Game');
+    }
+
     public function setTranslatorUrl($url)
     {
         $this->translator->setUrl($url);

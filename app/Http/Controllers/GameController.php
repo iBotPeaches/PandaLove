@@ -2,9 +2,6 @@
 
 use Onyx\Destiny\Objects\Game;
 use PandaLove\Http\Requests;
-use PandaLove\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
 
 class GameController extends Controller {
 
@@ -14,6 +11,42 @@ class GameController extends Controller {
 
         return view('games.index')
             ->with('raids', $raids);
+    }
+
+    public function getGame($instanceId)
+    {
+        dd($instanceId);
+    }
+
+    public function getHistory($category = '')
+    {
+        $allowed = ['Raid', 'Flawless', 'RaidTuesdays'];
+
+        if (in_array($category, $allowed))
+        {
+            if ($category == "RaidTuesdays")
+            {
+                $raids = Game::where('type', 'Raid')
+                    ->where('raidTuesday', '!=', 0)
+                    ->orderBy('occurredAt', 'DESC')
+                    ->groupBy('raidTuesday')
+                    ->paginate(10);
+            }
+            else
+            {
+                $raids = Game::where('type', $category)
+                    ->with('players.account')
+                    ->orderBy('occurredAt', 'DESC')
+                    ->paginate(10);
+            }
+
+            return view('games.history')
+                ->with('raids', $raids);
+        }
+        else
+        {
+            \App::abort(404);
+        }
     }
 
 }

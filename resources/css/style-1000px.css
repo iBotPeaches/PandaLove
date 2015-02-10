@@ -52,7 +52,7 @@
 	{
 	}
 
-		#top .image
+		#top:not(.no-image) .image
 		{
 			width: 19.5em;
 			height: 19.5em;

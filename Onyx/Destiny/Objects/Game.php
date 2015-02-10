@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
+use Onyx\Destiny\Helpers\String\Text;
 
 class Game extends Model {
 
@@ -77,9 +78,50 @@ class Game extends Model {
         return boolval($value);
     }
 
+    public function getOccurredAtAttribute($value)
+    {
+        $date = new Carbon($value);
+
+        if ($date->diffInDays() > 30)
+        {
+            return $date->format('M j, Y - g:ma');
+        }
+        else
+        {
+            return $date->diffForHumans();
+        }
+    }
+
+    public function getTimeTookInSecondsAttribute($value)
+    {
+        return Text::timeDuration($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public function players()
+    {
+        return $this->hasMany('Onyx\Destiny\Objects\GamePlayer', 'game_id', 'instanceId');
+    }
+
+    public function completed()
+    {
+        $count = 0;
+        foreach($this->getRelation('players') as $player)
+        {
+            if ($player->account != null)
+            {
+                if ($player->account->clanName == "Panda Love")
+                {
+                    $count++;
+                }
+            }
+        }
+
+        return $count;
+    }
 
     public function setTranslatorUrl($url)
     {
