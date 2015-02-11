@@ -97,7 +97,7 @@
     <script type="text/javascript">
         $(function() {
             $(".item.tool").popup({
-                inline: true,
+                inline: false,
                 position: 'top center'
             });
 
