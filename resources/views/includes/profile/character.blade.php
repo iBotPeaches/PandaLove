@@ -34,7 +34,7 @@
             <div class="ui list">
                 @foreach($char->armor() as $obj)
                     <div class="item tool" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
-                        <img class="ui bordered avatar image" src="{{ $obj->extra }}" />
+                        <img class="ui avatar image" src="{{ $obj->extra }}" />
                         <div class="content">
                             <a class="header">{{ $obj->title }}</a>
                             <div class="description">
@@ -54,7 +54,7 @@
             <div class="ui list">
                 @foreach($char->weapons() as $obj)
                     <div class="item tool" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
-                        <img class="ui bordered avatar image" src="{{ $obj->extra }}" />
+                        <img class="ui avatar image" src="{{ $obj->extra }}" />
                         <div class="content">
                             <a class="header">{{ $obj->title }}</a>
                             <div class="description">
@@ -73,7 +73,7 @@
         <div class="ui horizontal list">
             @foreach($char->other() as $obj)
                 <div class="item tool" data-position="bottom center" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
-                    <img class="ui bordered avatar image" src="{{ $obj->extra }}" />
+                    <img class="ui avatar image" src="{{ $obj->extra }}" />
                     <div class="content">
                         <a class="header">{{ $obj->title }}</a>
                     </div>
@@ -104,7 +104,7 @@
             $(".ui.progress").progress({
                 label: 'ratio',
                 text: {
-                    ratio: '{value} light out of required {total}'
+                    ratio: '{value}/{total} light'
                 }
             });
         });
