@@ -58,6 +58,11 @@ class GamePlayer extends Model {
         $this->setAttributePullImage('emblem', $hash->hash);
     }
 
+    public function getEmblemAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -80,6 +85,32 @@ class GamePlayer extends Model {
     public function setTranslatorUrl($url)
     {
         $this->translator->setUrl($url);
+    }
+
+    public function kdr()
+    {
+        if ($this->deaths == 0)
+        {
+            return $this->kills;
+        }
+        else
+        {
+            return round($this->kills / $this->deaths, 2);
+        }
+    }
+
+    public function kadr()
+    {
+        $total = $this->kills + $this->assists;
+
+        if ($this->deaths == 0)
+        {
+            return $this->total;
+        }
+        else
+        {
+            return round($total / $this->deaths, 2);
+        }
     }
 
     //---------------------------------------------------------------------------------

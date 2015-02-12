@@ -7,3 +7,6 @@
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
+.wrapper-footer {
+    padding: 2em 0 2em 0 !important;
+}

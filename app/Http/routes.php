@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/profile/check-for-update/{gamertag}', 'ProfileController@checkForUpdate');
-Route::get('/profile/{gamertag}', 'ProfileController@index');
+Route::get('/profile/{gamertag}/{characterId?}', 'ProfileController@index');
 Route::get('/profile/manual-update/{seo}', 'ProfileController@manualUpdate');
 
 Route::controller('/games', 'GameController');

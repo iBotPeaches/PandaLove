@@ -23,12 +23,16 @@ class ProfileController extends Controller {
         $this->request = $request;
     }
 
-	public function index($gamertag = '')
+	public function index($gamertag = '', $characterId = '')
     {
         try
         {
             $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
-            return view('profile', ['account' => $account]);
+
+            return view('profile', [
+                'account' => $account,
+                'characterId' => ($account->characterExists($characterId) ? $characterId : false)
+            ]);
         }
         catch (ModelNotFoundException $e)
         {

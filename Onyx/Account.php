@@ -80,4 +80,19 @@ class Account extends Model {
     {
         return $this->characters()->where('level', '>=', $level)->count();
     }
+
+    public function characterExists($charId)
+    {
+        $chars = $this->characters;
+
+        foreach($chars as $char)
+        {
+            if ($char->characterId == $charId)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -70,7 +70,7 @@ class Game extends Model {
 
     public function setOccurredAtAttribute($value)
     {
-        $this->attributes['occurredAt'] = new Carbon($value);
+        $this->attributes['occurredAt'] = new Carbon($value, 'America/Chicago');
     }
 
     public function getIsHardAttribute($value)
@@ -81,6 +81,7 @@ class Game extends Model {
     public function getOccurredAtAttribute($value)
     {
         $date = new Carbon($value);
+        $date = $date->timezone('America/Chicago');
 
         if ($date->diffInDays() > 30)
         {

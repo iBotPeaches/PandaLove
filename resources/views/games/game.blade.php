@@ -4,7 +4,20 @@
     <div class="wrapper style1">
         <article class="container no-image" id="top">
             <div class="row">
-                <?= dd($game); ?>
+                <div class="12u">
+                    <h1 class="header">
+                        @if ($game->isHard)
+                            <div class="ui red button">Hard</div>
+                        @else
+                            <div class="ui green button">Normal</div>
+                        @endif
+                        {{ $game->type()->title }}
+                    </h1>
+                    <div class="ui inverted segment">
+                        {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
+                    </div>
+                    @include('includes.games.game-table')
+                </div>
             </div>
         </article>
     </div>

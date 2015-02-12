@@ -14,14 +14,20 @@ class GameController extends Controller {
             ->with('raids', $raids);
     }
 
-    public function getGame($instanceId)
+    public function getGame($instanceId, $all = false)
     {
         try
         {
-            $game = Game::with('players.character')->where('instanceId', $instanceId)->firstOrFail();
+            $game = Game::with('players.character', 'players.account')->where('instanceId', $instanceId)->firstOrFail();
+
+            $game->players->each(function($player)
+            {
+                $player->kd = $player->kdr();
+            })->sortByDesc('kd');
 
             return view('games.game')
-                ->with('game', $game);
+                ->with('game', $game)
+                ->with('showAll', boolval($all));
         }
         catch (ModelNotFoundException $e)
         {
