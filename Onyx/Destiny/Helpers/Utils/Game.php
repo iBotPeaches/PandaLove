@@ -1,6 +1,7 @@
 <?php namespace Onyx\Destiny\Helpers\Utils;
 
 use Illuminate\Support\Collection;
+use Onyx\Destiny\Helpers\String\Text;
 
 class Game {
 
@@ -45,6 +46,9 @@ class Game {
     {
         // combined numbers (move out of controller in future)
         $combined = [];
+        $gameCount = 0;
+        $timeCount = 0;
+
         foreach($games as $game)
         {
             foreach($game->players as $player)
@@ -68,8 +72,26 @@ class Game {
                         'level' => $player->level,
                         'count' => 1
                     ];
+
+                    if (isset($player->account->gamertag))
+                    {
+                        $extra = [
+                            'gamertag' => $player->account->gamertag,
+                            'seo' => $player->account->seo
+                        ];
+
+                        $combined[$player->membershipId] = array_merge($combined[$player->membershipId], ['player' => $extra]);
+                    }
                 }
             }
+
+            $game->players->each(function($player)
+            {
+                $player->kd = $player->kdr();
+            })->sortByDesc('kd');
+
+            $gameCount++;
+            $timeCount += $game->getRawSeconds();
         }
 
         foreach($combined as $key => $user)
@@ -82,6 +104,12 @@ class Game {
         $combined = new Collection($combined);
         $combined->sortByDesc('kdr');
 
-        return $combined;
+        return [
+            'players' => $combined,
+            'stats' => [
+                'games' => $gameCount,
+                'combinedGameTime' => Text::timeDuration($timeCount)
+            ]
+        ];
     }
 }

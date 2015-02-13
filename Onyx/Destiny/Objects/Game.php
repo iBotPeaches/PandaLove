@@ -163,6 +163,11 @@ class Game extends Model {
         return $this->translator->map($this->referenceId, false);
     }
 
+    public function getRawSeconds()
+    {
+        return $this->attributes['timeTookInSeconds'];
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
