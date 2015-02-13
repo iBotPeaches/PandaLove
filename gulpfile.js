@@ -36,7 +36,8 @@ elixir(function(mix) {
      ], "public/css/app.css", "./")
      .scripts([
          paths.js + 'main.js',
-         paths.js + 'semantic.min.js'
+         paths.js + 'semantic.min.js',
+         paths.js + 'tablesort.js'
      ], "public/js/app.js", "./")
      .version([
          'css/*',

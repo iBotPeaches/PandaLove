@@ -1,4 +1,4 @@
-<table class="ui table">
+<table class="ui sortable table">
     <thead>
     <tr>
         <th>Guardian</th>
@@ -43,3 +43,11 @@
     @endforeach
     </tbody>
 </table>
+
+@section('inline-js')
+    <script type="text/javascript">
+        $(function() {
+            $(".ui.sortable.table").tablesort();
+        });
+    </script>
+@append
