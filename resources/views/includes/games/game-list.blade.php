@@ -3,9 +3,9 @@
         @if ($raid->raidTuesday != 0)
             <a class="item no_underline" href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
                 @if ($raid->isHard)
-                    <div class="right floated compact ui red button">Hard</div>
+                    <div class="right floated compact ui red button fb">Hard</div>
                 @else
-                    <div class="right floated compact ui green button">Normal</div>
+                    <div class="right floated compact ui green button fb">Normal</div>
                 @endif
                 <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
                 <div class="content">
@@ -20,9 +20,9 @@
         @else
             <a class="item no_underline" href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
                 @if ($raid->isHard)
-                    <div class="right floated compact ui red button">Hard</div>
+                    <div class="right floated compact ui red button fb">Hard</div>
                 @else
-                    <div class="right floated compact ui green button">Normal</div>
+                    <div class="right floated compact ui green button fb">Normal</div>
                 @endif
                 <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
                 <div class="content">

@@ -16,12 +16,24 @@
                 @else
                     <div class="ui green horizontal label">Normal</div>
                 @endif
-                <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
-                    {{ $raid->type()->title }}
-                </a>
+                @if ($raid->raidTuesday != 0)
+                    <a href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
+                        {{ $raid->type()->title }}
+                    </a>
+                @else
+                    <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
+                        {{ $raid->type()->title }}
+                    </a>
+                @endif
             </td>
             <td>{{ $raid->occurredAt }}</td>
-            <td>{{ $raid->timeTookInSeconds }}</td>
+            <td>
+                @if ($raid->raidTuesday != 0)
+                    {{ \Onyx\Destiny\Helpers\String\Text::timeDuration($raid->totalTime) }}
+                @else
+                    {{ $raid->occurredAt }}
+                @endif
+            </td>
             <td>
                 {{ $raid->completed() }}
             </td>

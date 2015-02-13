@@ -152,7 +152,7 @@ class Game extends Model {
     public function scopeTuesday($query)
     {
         return $this->scopeRaid($query)
-            ->selectRaw('*, count(*) as raidCount')
+            ->selectRaw('*, count(*) as raidCount, sum(timeTookInSeconds) as totalTime')
             ->groupBy('raidTuesday')
             ->orderBy('raidTuesday', 'DESC')
             ->having('raidTuesday', '>', 0);

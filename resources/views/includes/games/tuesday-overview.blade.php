@@ -26,13 +26,15 @@
                     <i>Unknown</i>
                 @endif
             </td>
-            <td>{{ $player['avgLevel'] }}</td>
-            <td>{{ $player['count'] }}</td>
-            <td>{{ $player['kills'] }}</td>
-            <td>{!! $player['deaths'] == 0 ? '<i class="smile icon"></i> no deaths' : $player['deaths'] !!}</td>
-            <td>{{ $player['assists'] }}</td>
-            <td>{{ $player['kdr'] }}</td>
-            <td>{{ $player['kadr'] }}</td>
+            <td class="avglevel-table">{{ $player['avgLevel'] }}</td>
+            <td class="gamesplayed-table">{{ $player['count'] }}</td>
+            <td class="kills-table">{{ $player['kills'] }}</td>
+            <td class="deaths-table {{ $player['deaths'] == 0 ? 'no-deaths' : null }}">
+                {!! $player['deaths'] == 0 ? '<i class="smile icon"></i> no deaths' : $player['deaths'] !!}
+            </td>
+            <td class="assists-table">{{ $player['assists'] }}</td>
+            <td class="kdr-table">{{ $player['kdr'] }}</td>
+            <td class="kadr-table">{{ $player['kadr'] }}</td>
         </tr>
     @endforeach
     </tbody>

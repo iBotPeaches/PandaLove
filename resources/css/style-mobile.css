@@ -69,7 +69,7 @@
 		input[type="button"],
 		input[type="submit"],
 		input[type="reset"],
-		.button
+		.button:not('.fb')
 		{
 			text-align: center;
 			font-size: 1.2em;
@@ -217,3 +217,29 @@
 		{
 			display: block;
 		}
+
+/*********************************************************************************/
+/* PandaLove Changes                                                             */
+/*********************************************************************************/
+
+.avglevel-table:after {
+	content: " Avg Level";
+}
+.gamesplayed-table:after {
+	content: " Games Played";
+}
+.deaths-table:not(.no-deaths):after {
+	content: " Deaths";
+}
+.kills-table:after {
+	content: " Kills";
+}
+.assists-table:after {
+	content: " Assists";
+}
+.kdr-table:after {
+	content: " KD Ratio";
+}
+.kadr-table:after {
+	content: " KA/D Ratio";
+}

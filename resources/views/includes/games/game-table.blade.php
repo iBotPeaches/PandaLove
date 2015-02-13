@@ -33,11 +33,13 @@
                         {{ $player->level }} {{ $player->class }}
                     @endif
                 </td>
-                <td>{{ $player->kills }}</td>
-                <td>{!! $player->deaths == 0 ? '<i class="smile icon"></i> no deaths' : $player->deaths !!}</td>
-                <td>{{ $player->assists }}</td>
-                <td>{{ $player->kdr() }}</td>
-                <td>{{ $player->kadr() }}</td>
+                <td class="kills-table">{{ $player->kills }}</td>
+                <td class="deaths-table {{ $player->deaths == 0 ? 'no-deaths' : null }}">
+                    {!! $player->deaths == 0 ? '<i class="smile icon"></i> no deaths' : $player->deaths !!}
+                </td>
+                <td class="assists-table">{{ $player->assists }}</td>
+                <td class="kdr-table">{{ $player->kdr() }}</td>
+                <td class="kadr-table">{{ $player->kadr() }}</td>
             </tr>
         @endif
     @endforeach
