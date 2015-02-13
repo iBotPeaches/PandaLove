@@ -36,7 +36,7 @@
 	
 	a
 	{
-		color: #43B3E0;
+		color: #001510;
 		text-decoration: underline;
 		-moz-transition: color .2s ease-in-out;
 		-webkit-transition: color .2s ease-in-out;
@@ -47,7 +47,7 @@
 	
 		a:hover
 		{
-			color: #43bff0 !important;
+			color: #004a36 !important;
 		}
 
 		a img
