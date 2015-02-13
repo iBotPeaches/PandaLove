@@ -12,7 +12,7 @@
         @foreach($members as $member)
             <tr>
                 <td><a href="{{ URL::action('ProfileController@index', array($member->seo)) }}">{{ $member->gamertag }}</a></td>
-                <td>{{ $member->grimoire }}</td>
+                <td class="grimoire-table">{{ $member->grimoire }}</td>
                 <td>
                     <span class="right floated author">
                         <img class="ui avatar image" src="{{ $member->characterAtPosition(1)->background->extra}}" />
