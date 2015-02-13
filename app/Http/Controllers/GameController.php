@@ -8,10 +8,14 @@ class GameController extends Controller {
 
     public function getIndex()
     {
-        $raids = Game::where('type', 'Raid')->orderBy('occurredAt', 'DESC')->limit(10)->get();
+        $raids = Game::raid()->singular()->limit(4)->get();
+        $flawless = Game::flawless()->singular()->limit(4)->get();
+        $tuesday = Game::tuesday()->limit(4)->get();
 
         return view('games.index')
-            ->with('raids', $raids);
+            ->with('raids', $raids)
+            ->with('flawless', $flawless)
+            ->with('tuesday', $tuesday);
     }
 
     public function getGame($instanceId, $all = false)
@@ -35,35 +39,44 @@ class GameController extends Controller {
         }
     }
 
+    public function getTuesday($raidTuesday)
+    {
+        dd($raidTuesday);
+    }
+
     public function getHistory($category = '')
     {
-        $allowed = ['Raid', 'Flawless', 'RaidTuesdays'];
+        $raids = null;
 
-        if (in_array($category, $allowed))
+        switch ($category)
         {
-            if ($category == "RaidTuesdays")
-            {
-                $raids = Game::where('type', 'Raid')
-                    ->where('raidTuesday', '!=', 0)
-                    ->orderBy('occurredAt', 'DESC')
-                    ->groupBy('raidTuesday')
-                    ->paginate(10);
-            }
-            else
-            {
-                $raids = Game::where('type', $category)
+            case "Raid":
+                $raids = Game::raid()
+                    ->singular()
                     ->with('players.account')
-                    ->orderBy('occurredAt', 'DESC')
                     ->paginate(10);
-            }
+                break;
 
-            return view('games.history')
-                ->with('raids', $raids);
+            case "Flawless";
+                $raids = Game::flawless()
+                    ->singular()
+                    ->with('players.account')
+                    ->paginate(10);
+                break;
+
+            case "RaidTuesdays";
+                $raids = Game::tuesday()
+                    ->with('players.account')
+                    ->paginate(10);
+                break;
+
+            default:
+                \App::abort(404);
+                break;
         }
-        else
-        {
-            \App::abort(404);
-        }
+
+        return view('games.history')
+            ->with('raids', $raids);
     }
 
 }

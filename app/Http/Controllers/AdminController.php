@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Redirect;
 use Onyx\Destiny\Client;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Requests;
@@ -33,8 +34,8 @@ class AdminController extends Controller
     {
         $client = new Client();
 
-        $game = $client->updateTypeOfGame($request->request->get('instanceId'), $request->request->get('type'));
+        $game = $client->updateTypeOfGame($request->request->get('instanceId'), $request->request->get('type'), $request->request->get('raidTuesday'));
 
-        // redirect to game page
+        return \Redirect::action('GameController@getGame', [$game->instanceId]);
     }
 }

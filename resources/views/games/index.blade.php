@@ -11,32 +11,15 @@
                     <h3 class="ui horizontal header divider">
                         Raids
                     </h3>
-                    <div class="ui divided list">
-                        @foreach($raids as $raid)
-                            <a class="item no_underline" href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
-                                @if ($raid->isHard)
-                                    <div class="right floated compact ui red button">Hard</div>
-                                @else
-                                    <div class="right floated compact ui green button">Normal</div>
-                                @endif
-                                <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
-                                <div class="content">
-                                    <div class="header">
-                                        {{ $raid->type()->title }}
-                                    </div>
-                                    <div class="description">
-                                        {{ $raid->occurredAt }}
-                                    </div>
-                                </div>
-                            </a>
-                        @endforeach
-                    </div>
+                    @include('includes.games.game-list', ['games' => $raids])
                     <h3 class="ui horizontal header divider">
                         Raid Tuesdays
                     </h3>
+                    @include('includes.games.game-list', ['games' => $tuesday])
                     <h3 class="ui horizontal header divider">
                         Flawless Raids
                     </h3>
+                    @include('includes.games.game-list', ['games' => $flawless])
                 </div>
                 <div class="3u">
                     <h3 class="ui horizontal header divider">

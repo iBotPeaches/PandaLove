@@ -129,6 +129,30 @@ class Game extends Model {
         $this->translator->setUrl($url);
     }
 
+    public function scopeSingular($query)
+    {
+        return $query->where('raidTuesday', 0)->orderBy('occurredAt', 'DESC');
+    }
+
+    public function scopeRaid($query)
+    {
+        return $query->where('type', 'Raid');
+    }
+
+    public function scopeFlawless($query)
+    {
+        return $query->where('type', 'Flawless');
+    }
+
+    public function scopeTuesday($query)
+    {
+        return $this->scopeRaid($query)
+            ->selectRaw('*, count(*) as raidCount')
+            ->groupBy('raidTuesday')
+            ->orderBy('raidTuesday', 'DESC')
+            ->having('raidTuesday', '>', 0);
+    }
+
     public function type()
     {
         return $this->translator->map($this->referenceId, false);

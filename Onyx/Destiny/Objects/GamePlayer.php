@@ -105,7 +105,7 @@ class GamePlayer extends Model {
 
         if ($this->deaths == 0)
         {
-            return $this->total;
+            return $total;
         }
         else
         {
