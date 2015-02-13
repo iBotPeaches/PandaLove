@@ -1,10 +1,10 @@
 <?php namespace Onyx\Destiny\Objects;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Constants;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
+use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 
 class GamePlayer extends Model {
 
@@ -89,28 +89,12 @@ class GamePlayer extends Model {
 
     public function kdr()
     {
-        if ($this->deaths == 0)
-        {
-            return $this->kills;
-        }
-        else
-        {
-            return round($this->kills / $this->deaths, 2);
-        }
+        return GameHelper::kd($this->kills, $this->deaths);
     }
 
     public function kadr()
     {
-        $total = $this->kills + $this->assists;
-
-        if ($this->deaths == 0)
-        {
-            return $total;
-        }
-        else
-        {
-            return round($total / $this->deaths, 2);
-        }
+        return GameHelper::kadr($this->kills, $this->assists, $this->deaths);
     }
 
     //---------------------------------------------------------------------------------

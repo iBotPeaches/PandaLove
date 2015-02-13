@@ -48,16 +48,22 @@ class Client extends Http {
     }
 
     /**
-     * @param $instanceId
-     * @param $type
+     * @param string $instanceId
+     * @param string $type
+     * @param int $raidTuesday
      * @throws GameNotFoundException
      */
-    public function updateTypeOfGame($instanceId, $type)
+    public function updateTypeOfGame($instanceId, $type, $raidTuesday = null)
     {
         try
         {
             $game = Game::where('instanceId', $instanceId)->firstOrFail();
             $game->type = $type;
+
+            if ($raidTuesday != null)
+            {
+                $game->raidTuesday = intval($raidTuesday);
+            }
             $game->save();
 
             return $game;

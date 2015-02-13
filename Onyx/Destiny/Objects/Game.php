@@ -134,6 +134,11 @@ class Game extends Model {
         return $query->where('raidTuesday', 0)->orderBy('occurredAt', 'DESC');
     }
 
+    public function scopeOfTuesday($query, $value)
+    {
+        return $query->where('raidTuesday', $value)->orderBy('occurredAt', 'DESC');
+    }
+
     public function scopeRaid($query)
     {
         return $query->where('type', 'Raid');

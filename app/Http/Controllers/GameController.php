@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Destiny\Objects\Game;
+use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 use PandaLove\Http\Requests;
 
 class GameController extends Controller {
@@ -41,7 +42,19 @@ class GameController extends Controller {
 
     public function getTuesday($raidTuesday)
     {
-        dd($raidTuesday);
+        $games = Game::with('players.character', 'players.account')->OfTuesday($raidTuesday)->get();
+
+        if ($games->isEmpty())
+        {
+            \App::abort(404);
+        }
+
+        $combined = GameHelper::buildCombinedStats($games);
+
+        return view('games.tuesday')
+            ->with('raidTuesday', intval($raidTuesday))
+            ->with('games', $games)
+            ->with('combined', $combined);
     }
 
     public function getHistory($category = '')
