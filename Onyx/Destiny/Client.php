@@ -287,7 +287,12 @@ class Client extends Http {
         $character->secondary = $charBase['peerView']['equipment'][7]['itemHash'];
         $character->heavy = $charBase['peerView']['equipment'][8]['itemHash'];
         $character->ship = $charBase['peerView']['equipment'][9]['itemHash'];
-        $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
+
+        // chars at lvl1 have no sparrow.
+        if (isset($charBase['peerView']['equipment'][10]['itemHash']))
+        {
+            $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
+        }
         $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
         $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
 
