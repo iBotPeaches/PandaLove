@@ -5,7 +5,7 @@
         <article class="container no-image" id="top">
             <div class="row">
                 <header>
-                    <h1>Welcome to <strong>Raid Tuesday {{ $raidTuesday }}</strong></h1>
+                    <h1>Welcome to another <strong>Raid Tuesday</strong></h1>
                 </header>
                 <div class="12u">
                     <div class="ui top attached tabular menu">
