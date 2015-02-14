@@ -38,7 +38,7 @@
                         <div class="content">
                             <a class="header">{{ $obj->title }}</a>
                             <div class="description">
-                                {{ \Illuminate\Support\Str::limit($obj->description, 30) }}
+                                {{ \Illuminate\Support\Str::limit($obj->description, 25) }}
                             </div>
                         </div>
                     </div>
