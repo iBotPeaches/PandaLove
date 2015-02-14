@@ -288,18 +288,18 @@ class Character extends Model {
 
     public function other()
     {
-        $data = [
-            $this->ship,
-            $this->sparrow,
-            $this->ghost
-        ];
+        $attrs = ['ship', 'sparrow', 'ghost', 'shader'];
 
-        if ($this->level < 20)
+        $data = [];
+        foreach ($attrs as $attribute)
         {
-            return $data;
+            if (strlen($this->attributes[$attribute]) > 0)
+            {
+                $data[] = $this->{$attribute};
+            }
         }
 
-        return array_merge($data, [$this->shader]);
+        return $data;
     }
 
     public function getLastUpdatedRelative()

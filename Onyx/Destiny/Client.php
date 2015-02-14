@@ -183,6 +183,9 @@ class Client extends Http {
         $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
         $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
 
+        // delete old game-players
+        GamePlayer::where('game_id', $game->instanceId)->delete();
+
         $game->type = $type;
         $game->occurredAt = $data['Response']['data']['period'];
 
@@ -288,15 +291,22 @@ class Client extends Http {
         $character->heavy = $charBase['peerView']['equipment'][8]['itemHash'];
         $character->ship = $charBase['peerView']['equipment'][9]['itemHash'];
 
-        // chars at lvl1 have no sparrow.
+        // ugly shit checking if items exist before using
         if (isset($charBase['peerView']['equipment'][10]['itemHash']))
         {
             $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
         }
-        $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
-        $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
 
-        // chars under 20 have no shader
+        if (isset($charBase['peerView']['equipment'][11]['itemHash']))
+        {
+            $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
+        }
+
+        if (isset($charBase['peerView']['equipment'][12]['itemHash']))
+        {
+            $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
+        }
+
         if (isset($charBase['peerView']['equipment'][13]['itemHash']))
         {
             $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
