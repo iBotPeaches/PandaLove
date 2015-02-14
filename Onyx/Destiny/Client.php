@@ -3,12 +3,14 @@
 use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Bus;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
+use PandaLove\Commands\UpdateGamertag;
 
 class Client extends Http {
 
@@ -190,6 +192,14 @@ class Client extends Http {
             $player = new GamePlayer();
             $player->game_id = $game->instanceId;
             $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
+
+            // check if we have player
+            if ($this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName']) == false)
+            {
+                Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
+                    $entry['player']['destinyUserInfo']['membershipType']));
+            }
+
             $player->characterId = $entry['characterId'];
             $player->level = $entry['player']['characterLevel'];
             $player->class = $entry['player']['characterClass'];
