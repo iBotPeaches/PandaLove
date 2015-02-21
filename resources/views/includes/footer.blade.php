@@ -20,5 +20,8 @@
         ga('create', 'UA-3737795-16', 'auto');
         ga('send', 'pageview');
 
+        @if (isset($user) && $user != null)
+            ga('set', '&uid', '{{ $user->google_id }}');
+        @endif
     </script>
 @append
