@@ -3,7 +3,7 @@
     "gulp": "^3.8.8",
     "laravel-elixir": "*",
     "jquery": "1.11.1",
-    "semantic-ui": "1.8.1",
+    "semantic-ui": "1.9.3",
     "font-awesome": "4.2.0"
   }
 }

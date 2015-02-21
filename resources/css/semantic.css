@@ -1,5 +1,5 @@
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -21,7 +21,7 @@
   border: none;
   vertical-align: baseline;
   background-color: #e0e0e0;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.6);
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0em 0.25em 0em 0em;
   padding: 0.78571em 1.5em 0.78571em;
@@ -122,11 +122,12 @@
 .ui.loading.loading.loading.loading.loading.loading.button {
   position: relative;
   cursor: default;
-  point-events: none;
   text-shadow: none !important;
   color: transparent !important;
-  -webkit-transition: all 0s linear;
-  transition: all 0s linear;
+  opacity: 1;
+  pointer-events: none;
+  -webkit-transition: all 0s linear, opacity 0.2s ease;
+  transition: all 0s linear, opacity 0.2s ease;
 }
 
 .ui.loading.button:before {
@@ -138,7 +139,7 @@
   width: 1.2857em;
   height: 1.2857em;
   border-radius: 500rem;
-  border: 0.2em solid rgba(255, 255, 255, 0.15);
+  border: 0.2em solid rgba(0, 0, 0, 0.15);
 }
 
 .ui.loading.button:after {
@@ -702,7 +703,7 @@
 .ui.basic.button {
   background: transparent !important;
   background-image: none;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
   font-weight: normal;
   border-radius: 0.2857rem;
   text-transform: none;
@@ -1338,7 +1339,7 @@
 .ui.basic.black.buttons .button,
 .ui.basic.black.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.black.buttons .button:hover,
@@ -1431,7 +1432,7 @@
 .ui.blue.buttons .button,
 .ui.blue.button {
   background-color: #3b83c0;
-  color: #3b83c0;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -1450,7 +1451,7 @@
 .ui.blue.buttons .button:active,
 .ui.blue.button:active {
   background-color: #3370a5;
-  color: #3b83c0;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1459,7 +1460,7 @@
 .ui.blue.active.button,
 .ui.blue.button .active.button:active {
   background-color: #3576ac;
-  color: #3b83c0;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1468,7 +1469,7 @@
 .ui.basic.blue.buttons .button,
 .ui.basic.blue.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.blue.buttons .button:hover,
@@ -1561,7 +1562,7 @@
 .ui.green.buttons .button,
 .ui.green.button {
   background-color: #5bbd72;
-  color: #1ebc30;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -1580,7 +1581,7 @@
 .ui.green.buttons .button:active,
 .ui.green.button:active {
   background-color: #46ae5f;
-  color: #1ebc30;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1589,7 +1590,7 @@
 .ui.green.active.button,
 .ui.green.button .active.button:active {
   background-color: #49b562;
-  color: #1ebc30;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1598,7 +1599,7 @@
 .ui.basic.green.buttons .button,
 .ui.basic.green.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.green.buttons .button:hover,
@@ -1691,7 +1692,7 @@
 .ui.orange.buttons .button,
 .ui.orange.button {
   background-color: #e07b53;
-  color: #e07b53;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -1710,7 +1711,7 @@
 .ui.orange.buttons .button:active,
 .ui.orange.button:active {
   background-color: #db6435;
-  color: #e07b53;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1719,7 +1720,7 @@
 .ui.orange.active.button,
 .ui.orange.button .active.button:active {
   background-color: #dc6a3d;
-  color: #e07b53;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1728,7 +1729,7 @@
 .ui.basic.orange.buttons .button,
 .ui.basic.orange.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.orange.buttons .button:hover,
@@ -1821,7 +1822,7 @@
 .ui.pink.buttons .button,
 .ui.pink.button {
   background-color: #d9499a;
-  color: #d9499a;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -1840,7 +1841,7 @@
 .ui.pink.buttons .button:active,
 .ui.pink.button:active {
   background-color: #d22c8a;
-  color: #d9499a;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1849,7 +1850,7 @@
 .ui.pink.active.button,
 .ui.pink.button .active.button:active {
   background-color: #d5348e;
-  color: #d9499a;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1858,7 +1859,7 @@
 .ui.basic.pink.buttons .button,
 .ui.basic.pink.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.pink.buttons .button:hover,
@@ -1951,7 +1952,7 @@
 .ui.purple.buttons .button,
 .ui.purple.button {
   background-color: #564f8a;
-  color: #564f8a;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -1970,7 +1971,7 @@
 .ui.purple.buttons .button:active,
 .ui.purple.button:active {
   background-color: #484273;
-  color: #564f8a;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1979,7 +1980,7 @@
 .ui.purple.active.button,
 .ui.purple.button .active.button:active {
   background-color: #4c467a;
-  color: #564f8a;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -1988,7 +1989,7 @@
 .ui.basic.purple.buttons .button,
 .ui.basic.purple.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.purple.buttons .button:hover,
@@ -2081,7 +2082,7 @@
 .ui.red.buttons .button,
 .ui.red.button {
   background-color: #d95c5c;
-  color: #d95c5c;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -2100,7 +2101,7 @@
 .ui.red.buttons .button:active,
 .ui.red.button:active {
   background-color: #d23f3f;
-  color: #d95c5c;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -2109,7 +2110,7 @@
 .ui.red.active.button,
 .ui.red.button .active.button:active {
   background-color: #d44747;
-  color: #d95c5c;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -2118,7 +2119,7 @@
 .ui.basic.red.buttons .button,
 .ui.basic.red.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.red.buttons .button:hover,
@@ -2211,7 +2212,7 @@
 .ui.teal.buttons .button,
 .ui.teal.button {
   background-color: #00b5ad;
-  color: #10a3a3;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -2230,7 +2231,7 @@
 .ui.teal.buttons .button:active,
 .ui.teal.button:active {
   background-color: #00918b;
-  color: #10a3a3;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -2239,7 +2240,7 @@
 .ui.teal.active.button,
 .ui.teal.button .active.button:active {
   background-color: #009c95;
-  color: #10a3a3;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -2248,7 +2249,7 @@
 .ui.basic.teal.buttons .button,
 .ui.basic.teal.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.teal.buttons .button:hover,
@@ -2341,7 +2342,7 @@
 .ui.yellow.buttons .button,
 .ui.yellow.button {
   background-color: #f2c61f;
-  color: #b58105;
+  color: #ffffff;
   text-shadow: none;
   background-image: none;
 }
@@ -2360,7 +2361,7 @@
 .ui.yellow.buttons .button:active,
 .ui.yellow.button:active {
   background-color: #e0b40d;
-  color: #b58105;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -2369,7 +2370,7 @@
 .ui.yellow.active.button,
 .ui.yellow.button .active.button:active {
   background-color: #eabc0e;
-  color: #b58105;
+  color: #ffffff;
   text-shadow: none;
 }
 
@@ -2378,7 +2379,7 @@
 .ui.basic.yellow.buttons .button,
 .ui.basic.yellow.button {
   box-shadow: 0px 0px 0px 2px rgba(39, 41, 43, 0.15) inset !important;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .ui.basic.yellow.buttons .button:hover,
@@ -2717,7 +2718,7 @@
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -2906,10 +2907,7 @@
     Inverted
 ---------------*/
 
-.ui.divider.inverted {
-  color: #ffffff;
-}
-
+.ui.divider.inverted,
 .ui.vertical.inverted.divider,
 .ui.horizontal.inverted.divider {
   color: #ffffff;
@@ -2965,7 +2963,7 @@
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -2974,6 +2972,10 @@
  * http://opensource.org/licenses/MIT
  *
  */
+
+/*******************************
+             Flag
+*******************************/
 
 i.flag:not(.icon) {
   display: inline-block;
@@ -2989,10 +2991,12 @@ i.flag:not(.icon) {
   backface-visibility: hidden;
 }
 
+/* Sprite */
+
 i.flag:not(.icon):before {
   display: inline-block;
   content: '';
-  background: url("../../themes/default/assets/images/flags.png") no-repeat 0px 0px;
+  background: url("themes/default/assets/images/flags.png") no-repeat 0px 0px;
   width: 16px;
   height: 11px;
 }
@@ -4221,7 +4225,7 @@ i.flag.zimbabwe:before {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -4280,16 +4284,32 @@ i.flag.zimbabwe:before {
   font-size: 1.5em;
   padding-top: 0.165em;
   vertical-align: middle;
-  padding-right: 0.5rem;
 }
 
-/* Only One */
+/* With Text Node */
 
 .ui.header .icon:only-child {
   display: inline-block;
   padding: 0em;
-  margin-right: 0.5rem;
-  vertical-align: baseline;
+  margin-right: 0.75rem;
+}
+
+/*-------------------
+        Image
+--------------------*/
+
+.ui.header > .image,
+.ui.header > img {
+  display: inline-block;
+  margin-top: 0.165em;
+  width: 2.5em;
+  height: auto;
+  vertical-align: middle;
+}
+
+.ui.header > .image:only-child,
+.ui.header > img:only-child {
+  margin-right: 0.75rem;
 }
 
 /*--------------
@@ -4301,8 +4321,18 @@ i.flag.zimbabwe:before {
   vertical-align: top;
 }
 
+/* After Image */
+
+.ui.header > img + .content,
+.ui.header > .image + .content {
+  padding-left: 0.75rem;
+  vertical-align: middle;
+}
+
+/* After Icon */
+
 .ui.header > .icon + .content {
-  padding-left: 0.5rem;
+  padding-left: 0.75rem;
   display: table-cell;
   vertical-align: middle;
 }
@@ -4882,7 +4912,7 @@ a.ui.inverted.yellow.header:hover {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -4898,8 +4928,8 @@ a.ui.inverted.yellow.header:hover {
 
 @font-face {
   font-family: 'Icons';
-  src: url("../../themes/default/assets/fonts/icons.eot");
-  src: url("../../themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("../../themes/default/assets/fonts/icons.svg#icons") format('svg'), url("../../themes/default/assets/fonts/icons.woff") format('woff'), url("../../themes/default/assets/fonts/icons.ttf") format('truetype');
+  src: url("themes/default/assets/fonts/icons.eot");
+  src: url("themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("themes/default/assets/fonts/icons.woff2") format('woff'), url("themes/default/assets/fonts/icons.woff") format('woff'), url("themes/default/assets/fonts/icons.ttf") format('truetype'), url("themes/default/assets/fonts/icons.svg#icons") format('svg');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -5273,19 +5303,9 @@ i.massive.icon {
  */
 
 /*
- *  Font Awesome 4.0.3
- *  the iconic font designed for Bootstrap
- *  ------------------------------------------------------------------------------
- *  The full suite of pictographic icons, examples, and documentation can be
- *  found at http://fon.io.  Stay up to date on Twitter at
- *  http://twitter.com/fon.
- *
- *  License
- *  ------------------------------------------------------------------------------
- *  - The Font Awesome font is licensed under SIL OFL 1.1 -
- *    http://scripts.sil.org/OFL
-
-
+ * Font Awesome 4.3.0 by @davegandy - http://fontawesome.io - @fontawesome
+ * License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
 
 /*******************************
 
@@ -5324,11 +5344,11 @@ i.icon.mail.outline:before {
   content: "\f003";
 }
 
-i.icon.external.link:before {
+i.icon.external:before {
   content: "\f08e";
 }
 
-i.icon.wifi:before {
+i.icon.signal:before {
   content: "\f012";
 }
 
@@ -5448,7 +5468,7 @@ i.icon.ticket:before {
   content: "\f145";
 }
 
-i.icon.external.link.square:before {
+i.icon.external.square:before {
   content: "\f14c";
 }
 
@@ -5478,6 +5498,46 @@ i.icon.comment.outline:before {
 
 i.icon.comments.outline:before {
   content: "\f0e6";
+}
+
+i.icon.text.telephone:before {
+  content: "\f1e4";
+}
+
+i.icon.find:before {
+  content: "\f1e5";
+}
+
+i.icon.wifi:before {
+  content: "\f1eb";
+}
+
+i.icon.alarm.slash:before {
+  content: "\f1f6";
+}
+
+i.icon.alarm.slash.outline:before {
+  content: "\f1f7";
+}
+
+i.icon.copyright:before {
+  content: "\f1f9";
+}
+
+i.icon.at:before {
+  content: "\f1fa";
+}
+
+i.icon.eyedropper:before {
+  content: "\f1fb";
+}
+
+i.icon.paint.brush:before {
+  content: "\f1fc";
+}
+
+i.icon.heartbeat:before {
+  content: "\f21e";
 }
 
 /* User Actions */
@@ -5678,6 +5738,22 @@ i.icon.share.square:before {
   content: "\f14d";
 }
 
+i.icon.add.to.cart:before {
+  content: "\f217";
+}
+
+i.icon.in.cart:before {
+  content: "\f218";
+}
+
+i.icon.add.user:before {
+  content: "\f234";
+}
+
+i.icon.remove.user:before {
+  content: "\f235";
+}
+
 /* Messages */
 
 i.icon.help.circle:before {
@@ -5712,6 +5788,10 @@ i.icon.announcement:before {
   content: "\f0a1";
 }
 
+i.icon.birthday:before {
+  content: "\f1fd";
+}
+
 /* Users */
 
 i.icon.users:before {
@@ -5720,14 +5800,6 @@ i.icon.users:before {
 
 i.icon.doctor:before {
   content: "\f0f0";
-}
-
-i.icon.female:before {
-  content: "\f182";
-}
-
-i.icon.male:before {
-  content: "\f183";
 }
 
 i.icon.child:before {
@@ -5744,6 +5816,68 @@ i.icon.handicap:before {
 
 i.icon.student:before {
   content: "\f19d";
+}
+
+i.icon.spy:before {
+  content: "\f21b";
+}
+
+/* Gender & Sexuality */
+
+i.icon.female:before {
+  content: "\f182";
+}
+
+i.icon.male:before {
+  content: "\f183";
+}
+
+i.icon.woman:before {
+  content: "\f221";
+}
+
+i.icon.man:before {
+  content: "\f222";
+}
+
+i.icon.non.binary.transgender:before {
+  content: "\f223";
+}
+
+i.icon.intergender:before {
+  content: "\f224";
+}
+
+i.icon.transgender:before {
+  content: "\f225";
+}
+
+i.icon.lesbian:before {
+  content: "\f226";
+}
+
+i.icon.gay:before {
+  content: "\f227";
+}
+
+i.icon.heterosexual:before {
+  content: "\f228";
+}
+
+i.icon.other.gender:before {
+  content: "\f229";
+}
+
+i.icon.other.gender.vertical:before {
+  content: "\f22a";
+}
+
+i.icon.other.gender.horizontal:before {
+  content: "\f22b";
+}
+
+i.icon.neuter:before {
+  content: "\f22c";
 }
 
 /* View Adjustment */
@@ -5914,6 +6048,18 @@ i.icon.bomb:before {
   content: "\f1e2";
 }
 
+i.icon.soccer:before {
+  content: "\f1e3";
+}
+
+i.icon.calculator:before {
+  content: "\f1ec";
+}
+
+i.icon.diamond:before {
+  content: "\f219";
+}
+
 /* Shapes */
 
 i.icon.crosshairs:before {
@@ -6042,6 +6188,14 @@ i.icon.plus.square.outline:before {
   content: "\f196";
 }
 
+i.icon.toggle.off:before {
+  content: "\f204";
+}
+
+i.icon.toggle.on:before {
+  content: "\f205";
+}
+
 /* Media */
 
 i.icon.film:before {
@@ -6062,6 +6216,22 @@ i.icon.bar.chart:before {
 
 i.icon.camera.retro:before {
   content: "\f083";
+}
+
+i.icon.newspaper:before {
+  content: "\f1ea";
+}
+
+i.icon.area.chart:before {
+  content: "\f1fe";
+}
+
+i.icon.pie.chart:before {
+  content: "\f200";
+}
+
+i.icon.line.chart:before {
+  content: "\f201";
 }
 
 /* Pointers */
@@ -6249,6 +6419,10 @@ i.icon.power:before {
 }
 
 i.icon.trash:before {
+  content: "\f1f8";
+}
+
+i.icon.trash.outline:before {
   content: "\f014";
 }
 
@@ -6278,6 +6452,10 @@ i.icon.game:before {
 
 i.icon.keyboard:before {
   content: "\f11c";
+}
+
+i.icon.plug:before {
+  content: "\f1e6";
 }
 
 /* File System */
@@ -6380,6 +6558,10 @@ i.icon.css3:before {
   content: "\f13c";
 }
 
+i.icon.rss:before {
+  content: "\f09e";
+}
+
 i.icon.rss.square:before {
   content: "\f143";
 }
@@ -6390,6 +6572,10 @@ i.icon.openid:before {
 
 i.icon.database:before {
   content: "\f1c0";
+}
+
+i.icon.server:before {
+  content: "\f233";
 }
 
 /* Rating */
@@ -6524,7 +6710,11 @@ i.icon.video.play:before {
   content: "\f144";
 }
 
-/* Map & Locations */
+i.icon.closed.captioning:before {
+  content: "\f20a";
+}
+
+/* Map, Locations, & Transportation */
 
 i.icon.marker:before {
   content: "\f041";
@@ -6596,6 +6786,38 @@ i.icon.taxi:before {
 
 i.icon.tree:before {
   content: "\f1bb";
+}
+
+i.icon.bicycle:before {
+  content: "\f206";
+}
+
+i.icon.bus:before {
+  content: "\f207";
+}
+
+i.icon.ship:before {
+  content: "\f21a";
+}
+
+i.icon.motorcycle:before {
+  content: "\f21c";
+}
+
+i.icon.street.view:before {
+  content: "\f21d";
+}
+
+i.icon.hotel:before {
+  content: "\f236";
+}
+
+i.icon.train:before {
+  content: "\f238";
+}
+
+i.icon.subway:before {
+  content: "\f239";
 }
 
 /* Tables */
@@ -6790,6 +7012,44 @@ i.icon.won:before {
 
 i.icon.lira:before {
   content: "\f195";
+}
+
+i.icon.shekel:before {
+  content: "\f20b";
+}
+
+/* Payment Options */
+
+i.icon.paypal:before {
+  content: "\f1ed";
+}
+
+i.icon.paypal.card:before {
+  content: "\f1f4";
+}
+
+i.icon.google.wallet:before {
+  content: "\f1ee";
+}
+
+i.icon.visa:before {
+  content: "\f1f0";
+}
+
+i.icon.mastercard:before {
+  content: "\f1f1";
+}
+
+i.icon.discover:before {
+  content: "\f1f2";
+}
+
+i.icon.american.express:before {
+  content: "\f1f3";
+}
+
+i.icon.stripe:before {
+  content: "\f1f5";
 }
 
 /* Networks and Websites*/
@@ -7098,6 +7358,86 @@ i.icon.wechat:before {
   content: "\f1d7";
 }
 
+i.icon.slideshare:before {
+  content: "\f1e7";
+}
+
+i.icon.twitch:before {
+  content: "\f1e8";
+}
+
+i.icon.yelp:before {
+  content: "\f1e9";
+}
+
+i.icon.lastfm:before {
+  content: "\f202";
+}
+
+i.icon.lastfm.square:before {
+  content: "\f203";
+}
+
+i.icon.ioxhost:before {
+  content: "\f208";
+}
+
+i.icon.angellist:before {
+  content: "\f209";
+}
+
+i.icon.meanpath:before {
+  content: "\f20c";
+}
+
+i.icon.buysellads:before {
+  content: "\f20d";
+}
+
+i.icon.connectdevelop:before {
+  content: "\f20e";
+}
+
+i.icon.dashcube:before {
+  content: "\f210";
+}
+
+i.icon.forumbee:before {
+  content: "\f211";
+}
+
+i.icon.leanpub:before {
+  content: "\f212";
+}
+
+i.icon.sellsy:before {
+  content: "\f213";
+}
+
+i.icon.shirtsinbulk:before {
+  content: "\f214";
+}
+
+i.icon.simplybuilt:before {
+  content: "\f215";
+}
+
+i.icon.skyatlas:before {
+  content: "\f216";
+}
+
+i.icon.whatsapp:before {
+  content: "\f232";
+}
+
+i.icon.viacoin:before {
+  content: "\f237";
+}
+
+i.icon.medium:before {
+  content: "\f23a";
+}
+
 /*******************************
             Aliases
 *******************************/
@@ -7138,6 +7478,26 @@ i.icon.x:before {
   content: "\f00d";
 }
 
+i.icon.user.times:before {
+  content: "\f235";
+}
+
+i.icon.user.close:before {
+  content: "\f235";
+}
+
+i.icon.user.cancel:before {
+  content: "\f235";
+}
+
+i.icon.user.delete:before {
+  content: "\f235";
+}
+
+i.icon.user.x:before {
+  content: "\f235";
+}
+
 i.icon.zoom.in:before {
   content: "\f00e";
 }
@@ -7148,10 +7508,6 @@ i.icon.magnify:before {
 
 i.icon.shutdown:before {
   content: "\f011";
-}
-
-i.icon.signal:before {
-  content: "\f012";
 }
 
 i.icon.clock:before {
@@ -7242,10 +7598,6 @@ i.icon.cart:before {
   content: "\f07a";
 }
 
-i.icon.plane:before {
-  content: "\f072";
-}
-
 i.icon.shuffle:before {
   content: "\f074";
 }
@@ -7264,6 +7616,18 @@ i.icon.shopping.cart:before {
 
 i.icon.bar.graph:before {
   content: "\f080";
+}
+
+i.icon.area.graph:before {
+  content: "\f1fe";
+}
+
+i.icon.pie.graph:before {
+  content: "\f200";
+}
+
+i.icon.line.graph:before {
+  content: "\f201";
 }
 
 i.icon.key:before {
@@ -7322,10 +7686,6 @@ i.icon.credit.card:before {
   content: "\f09d";
 }
 
-i.icon.rss:before {
-  content: "\f09e";
-}
-
 i.icon.hdd.outline:before {
   content: "\f0a0";
 }
@@ -7336,6 +7696,18 @@ i.icon.bullhorn:before {
 
 i.icon.bell:before {
   content: "\f0f3";
+}
+
+i.icon.bell.outline:before {
+  content: "\f0a2";
+}
+
+i.icon.bell.slash:before {
+  content: "\f1f6";
+}
+
+i.icon.bell.slash.outline:before {
+  content: "\f1f7";
 }
 
 i.icon.hand.outline.right:before {
@@ -7482,6 +7854,14 @@ i.icon.circle.outline:before {
   content: "\f10c";
 }
 
+i.icon.intersex:before {
+  content: "\f10c";
+}
+
+i.icon.asexual:before {
+  content: "\f10c";
+}
+
 i.icon.spinner:before {
   content: "\f110";
 }
@@ -7570,6 +7950,11 @@ i.icon.btc:before {
   content: "\f15a";
 }
 
+i.icon.sheqel:before,
+i.icon.ils:before {
+  content: "\f20b";
+}
+
 i.icon.try:before {
   content: "\f195";
 }
@@ -7586,6 +7971,10 @@ i.icon.sliders:before {
   content: "\f1de";
 }
 
+i.icon.wi-fi:before {
+  content: "\f1eb";
+}
+
 i.icon.graduation:before {
   content: "\f19d";
 }
@@ -7598,11 +7987,127 @@ i.icon.weixin:before {
   content: "\f1d7";
 }
 
+i.icon.binoculars:before {
+  content: "\f1e5";
+}
+
+i.icon.gratipay:before {
+  content: "\f184";
+}
+
+i.icon.genderless:before {
+  content: "\f1db";
+}
+
+i.icon.teletype:before {
+  content: "\f1e4";
+}
+
+i.icon.power.cord:before {
+  content: "\f1e6";
+}
+
+i.icon.tty:before {
+  content: "\f1e4";
+}
+
+i.icon.cc:before {
+  content: "\f20a";
+}
+
+i.icon.ils:before {
+  content: "\f20b";
+}
+
+i.icon.plus.cart:before {
+  content: "\f217";
+}
+
+i.icon.arrow.down.cart:before {
+  content: "\f218";
+}
+
+i.icon.detective:before {
+  content: "\f21b";
+}
+
+i.icon.venus:before {
+  content: "\f221";
+}
+
+i.icon.mars:before {
+  content: "\f222";
+}
+
+i.icon.mercury:before {
+  content: "\f223";
+}
+
+i.icon.venus.double:before {
+  content: "\f226";
+}
+
+i.icon.female.homosexual:before {
+  content: "\f226";
+}
+
+i.icon.mars.double:before {
+  content: "\f227";
+}
+
+i.icon.male.homosexual:before {
+  content: "\f227";
+}
+
+i.icon.venus.mars:before {
+  content: "\f228";
+}
+
+i.icon.mars.stroke:before {
+  content: "\f229";
+}
+
+i.icon.mars.alternate:before {
+  content: "\f229";
+}
+
+i.icon.mars.vertical:before {
+  content: "\f22a";
+}
+
+i.icon.mars.horizontal:before {
+  content: "\f22b";
+}
+
+i.icon.mars.stroke.vertical:before {
+  content: "\f22a";
+}
+
+i.icon.mars.stroke.horizontal:before {
+  content: "\f22b";
+}
+
+i.icon.neuter:before {
+  content: "\f22c";
+}
+
+i.icon.facebook.official {
+  content: "\f230";
+}
+
+i.icon.pinterest.official {
+  content: "\f231";
+}
+
+i.icon.bed:before {
+  content: "\f236";
+}
+
 /*******************************
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -7883,7 +8388,7 @@ img.ui.bordered.image {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -8160,35 +8665,33 @@ img.ui.bordered.image {
 /* Adjacent Label */
 
 .ui.labeled.input {
-  display: table;
-}
-
-.ui.labeled.input > input {
-  display: table-cell;
-  vertical-align: top;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 
 .ui.labeled.input > .label {
-  display: table-cell !important;
-  vertical-align: middle;
-  white-space: nowrap;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  margin: 0;
   font-size: 1em;
 }
 
-.ui.labeled.input > .label > .icon {
-  display: inline;
-  vertical-align: top;
+.ui.labeled.input > .label:not(.corner) {
+  padding-top: 0.78571em;
+  padding-bottom: 0.78571em;
 }
 
 /* Fluid Labeled */
 
 .ui.fluid.labeled.input {
-  display: table;
-  width: 100%;
-}
-
-.ui.fluid.labeled.input > .label {
-  width: 0.01%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 /* Label on Left */
@@ -8232,14 +8735,6 @@ img.ui.bordered.image {
 
 /* Spacing with corner label */
 
-.ui[class*="corner labeled"].input {
-  display: inline-block;
-}
-
-.ui[class*="corner labeled"].input > input {
-  display: block;
-}
-
 .ui[class*="corner labeled"].icon.input:not(.left) > input {
   padding-right: 3.25em !important;
 }
@@ -8253,46 +8748,34 @@ img.ui.bordered.image {
 ---------------------*/
 
 .ui.action.input {
-  display: table;
-}
-
-.ui.action.input > input {
-  display: table-cell;
-  vertical-align: top;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 
 .ui.action.input > .button,
 .ui.action.input > .buttons {
-  display: table-cell !important;
-  vertical-align: middle;
-  white-space: nowrap;
-  margin: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
 .ui.action.input > .button,
 .ui.action.input > .buttons > .button {
-  vertical-align: middle;
-  white-space: nowrap;
-  margin: 0;
   padding-top: 0.78571em;
   padding-bottom: 0.78571em;
-}
-
-.ui.action.input > .button > .icon,
-.ui.action.input > .buttons > .button > .icon {
-  display: inline;
-  vertical-align: top;
+  margin: 0;
 }
 
 /* Fluid */
 
 .ui.fluid.action.input {
-  display: table;
-  width: 100%;
-}
-
-.ui.fluid.action.input > .button {
-  width: 0.01%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 /* Button on Right */
@@ -8381,7 +8864,7 @@ img.ui.bordered.image {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -8698,17 +9181,16 @@ a.ui.label {
 .ui.ribbon.label {
   position: relative;
   margin: 0em;
-  left: -webkit-calc( -1rem  -  1.2em );
-  left: calc( -1rem  -  1.2em );
-  padding-left: -webkit-calc( 1rem  +  1.2em );
-  padding-left: calc( 1rem  +  1.2em );
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
   border-radius: 0em 0.2857rem 0.2857rem 0em;
   border-color: rgba(0, 0, 0, 0.15);
 }
 
 .ui.ribbon.label:after {
   position: absolute;
-  content: "";
+  content: '';
   top: 100%;
   left: 0%;
   background-color: transparent !important;
@@ -8720,17 +9202,15 @@ a.ui.label {
   height: 0em;
 }
 
+/* Right Ribbon */
+
 .ui[class*="right ribbon"].label {
   text-align: left;
   -webkit-transform: translateX(-100%);
   -ms-transform: translateX(-100%);
   transform: translateX(-100%);
-  left: -webkit-calc(100% +  1rem  +  1.2em );
-  left: calc(100% +  1rem  +  1.2em );
   border-radius: 0.2857rem 0em 0em 0.2857rem;
   padding-left: 0.8em;
-  padding-right: -webkit-calc( 1rem  +  1.2em );
-  padding-right: calc( 1rem  +  1.2em );
 }
 
 .ui[class*="right ribbon"].label:after {
@@ -8740,6 +9220,48 @@ a.ui.label {
   border-width: 1.2em 1.2em 0em 0em;
   border-color: transparent;
   border-top-color: inherit;
+}
+
+/* Positioning */
+
+.ui.ribbon.label {
+  left: -webkit-calc( -1rem  -  1.2em );
+  left: calc( -1rem  -  1.2em );
+  margin-right: -1.2em;
+  padding-left: -webkit-calc( 1rem  +  1.2em );
+  padding-left: calc( 1rem  +  1.2em );
+}
+
+.ui[class*="right ribbon"].label {
+  left: -webkit-calc(100% +  1rem  +  1.2em );
+  left: calc(100% +  1rem  +  1.2em );
+  padding-right: -webkit-calc( 1rem  +  1.2em );
+  padding-right: calc( 1rem  +  1.2em );
+}
+
+/* Inside Image */
+
+.ui.image > .ribbon.label,
+.ui.card .image > .ribbon.label {
+  position: absolute;
+  top: 1rem;
+}
+
+.ui.card .image > .ui.ribbon.label,
+.ui.image > .ui.ribbon.label {
+  left: -webkit-calc( 0.05rem  -  1.2em );
+  left: calc( 0.05rem  -  1.2em );
+  padding-left: -webkit-calc( -0.05rem  +  1.2em );
+  padding-left: calc( -0.05rem  +  1.2em );
+}
+
+.ui.card .image > .ui[class*="right ribbon"].label,
+.ui.image > .ui[class*="right ribbon"].label {
+  left: -webkit-calc(100% +  -0.05rem  +  1.2em );
+  left: calc(100% +  -0.05rem  +  1.2em );
+  padding-left: 0.8em;
+  padding-right: -webkit-calc( -0.05rem  +  1.2em );
+  padding-right: calc( -0.05rem  +  1.2em );
 }
 
 /*-------------------
@@ -9397,7 +9919,7 @@ a.ui.yellow.label:hover:before {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -10388,7 +10910,7 @@ ol.ui.horizontal.list li:before,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -10684,7 +11206,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -10699,10 +11221,10 @@ ol.ui.horizontal.list li:before,
 *******************************/
 
 .ui.rail {
-  font-size: 1em;
   position: absolute;
   top: 0%;
   width: 300px;
+  height: 100%;
   box-sizing: content-box;
 }
 
@@ -10808,7 +11330,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -11124,7 +11646,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -11765,6 +12287,49 @@ ol.ui.horizontal.list li:before,
   margin-bottom: 0em;
 }
 
+/*-------------------
+       Groups
+--------------------*/
+
+.ui.segments > .segment {
+  top: 0px;
+  bottom: 0px;
+  margin: 0em -1px;
+  width: -webkit-calc(100% +  2px );
+  width: calc(100% +  2px );
+  max-width: -webkit-calc(100% +  2px );
+  max-width: calc(100% +  2px );
+  border-radius: 0px;
+  box-shadow: none;
+  border: 1px solid #d4d4d5;
+}
+
+.ui.segments > .segment:not(:first-child) {
+  border-top: none;
+}
+
+/* Top */
+
+.ui.segments > .segment:first-child {
+  margin-top: 0em;
+  bottom: 0px;
+  margin-bottom: 0em;
+  top: 0px;
+  margin-top: 1rem;
+  border-radius: 0.2857rem 0.2857rem 0em 0em;
+}
+
+/* Bottom */
+
+.ui.segments > .segment:last-child {
+  bottom: 0px;
+  margin-top: 0em;
+  margin-bottom: 0em;
+  top: 0px;
+  box-shadow: none, 0px 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0em 0em 0.2857rem 0.2857rem;
+}
+
 /*******************************
          Theme Overrides
 *******************************/
@@ -11773,7 +12338,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -12172,7 +12737,7 @@ ol.ui.horizontal.list li:before,
 .ui.six.steps,
 .ui.seven.steps,
 .ui.eight.steps {
-  display: block;
+  width: 100%;
 }
 
 .ui.one.steps > .step {
@@ -12246,7 +12811,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -12302,8 +12867,8 @@ ol.ui.horizontal.list li:before,
 /* Icon Divider */
 
 .ui.breadcrumb .icon.divider {
-  font-size: 0.7em;
-  vertical-align: middle;
+  font-size: 0.85714286em;
+  vertical-align: baseline;
 }
 
 /* Section */
@@ -12377,7 +12942,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -12460,28 +13025,30 @@ ol.ui.horizontal.list li:before,
 
 .ui.form textarea,
 .ui.form input:not([type]),
-.ui.form input[type="text"],
-.ui.form input[type="email"],
 .ui.form input[type="date"],
 .ui.form input[type="datetime-local"],
-.ui.form input[type="password"],
+.ui.form input[type="email"],
 .ui.form input[type="number"],
-.ui.form input[type="url"],
+.ui.form input[type="password"],
 .ui.form input[type="tel"],
+.ui.form input[type="time"],
+.ui.form input[type="text"],
+.ui.form input[type="url"],
 .ui.form .ui.input {
   width: 100%;
   vertical-align: top;
 }
 
 .ui.form input:not([type]),
-.ui.form input[type="text"],
-.ui.form input[type="email"],
 .ui.form input[type="date"],
 .ui.form input[type="datetime-local"],
-.ui.form input[type="password"],
+.ui.form input[type="email"],
 .ui.form input[type="number"],
-.ui.form input[type="url"],
-.ui.form input[type="tel"] {
+.ui.form input[type="password"],
+.ui.form input[type="tel"],
+.ui.form input[type="time"],
+.ui.form input[type="text"],
+.ui.form input[type="url"] {
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0em;
   outline: none;
@@ -12585,7 +13152,6 @@ ol.ui.horizontal.list li:before,
    Types of Messages
 ---------------------*/
 
-.ui.form .info.message,
 .ui.form .success.message,
 .ui.form .warning.message,
 .ui.form .error.message {
@@ -12667,14 +13233,15 @@ ol.ui.horizontal.list li:before,
 ---------------------*/
 
 .ui.form input:not([type]):focus,
-.ui.form input[type="text"]:focus,
-.ui.form input[type="email"]:focus,
 .ui.form input[type="date"]:focus,
 .ui.form input[type="datetime-local"]:focus,
-.ui.form input[type="password"]:focus,
+.ui.form input[type="email"]:focus,
 .ui.form input[type="number"]:focus,
-.ui.form input[type="url"]:focus,
-.ui.form input[type="tel"]:focus {
+.ui.form input[type="password"]:focus,
+.ui.form input[type="tel"]:focus,
+.ui.form input[type="time"]:focus,
+.ui.form input[type="text"]:focus,
+.ui.form input[type="url"]:focus {
   color: rgba(0, 0, 0, 0.85);
   border-color: rgba(39, 41, 43, 0.3);
   border-radius: 0em 0.2857rem 0.2857rem 0em;
@@ -12723,39 +13290,41 @@ ol.ui.horizontal.list li:before,
 
 /* On Field(s) */
 
-.form .fields.error .field label,
-.form .field.error label,
-.form .fields.error .field .input,
-.form .field.error .input {
+.ui.form .fields.error .field label,
+.ui.form .field.error label,
+.ui.form .fields.error .field .input,
+.ui.form .field.error .input {
   color: #d95c5c;
 }
 
-.form .fields.error .field .corner.label,
-.form .field.error .corner.label {
+.ui.form .fields.error .field .corner.label,
+.ui.form .field.error .corner.label {
   border-color: #d95c5c;
   color: #ffffff;
 }
 
-.form .fields.error .field textarea,
-.form .fields.error .field input:not([type]),
-.form .fields.error .field input[type="text"],
-.form .fields.error .field input[type="email"],
-.form .fields.error .field input[type="date"],
-.form .fields.error .field input[type="datetime-local"],
-.form .fields.error .field input[type="password"],
-.form .fields.error .field input[type="number"],
-.form .fields.error .field input[type="url"],
-.form .fields.error .field input[type="tel"],
-.form .field.error textarea,
-.form .field.error input:not([type]),
-.form .field.error input[type="text"],
-.form .field.error input[type="email"],
-.form .field.error input[type="date"],
-.form .field.error input[type="datetime-local"],
-.form .field.error input[type="password"],
-.form .field.error input[type="number"],
-.form .field.error input[type="url"],
-.form .field.error input[type="tel"] {
+.ui.form .fields.error .field textarea,
+.ui.form .fields.error .field input:not([type]),
+.ui.form .fields.error .field input[type="date"],
+.ui.form .fields.error .field input[type="datetime-local"],
+.ui.form .fields.error .field input[type="email"],
+.ui.form .fields.error .field input[type="number"],
+.ui.form .fields.error .field input[type="password"],
+.ui.form .fields.error .field input[type="tel"],
+.ui.form .fields.error .field input[type="time"],
+.ui.form .fields.error .field input[type="text"],
+.ui.form .fields.error .field input[type="url"],
+.ui.form .field.error textarea,
+.ui.form .field.error input:not([type]),
+.ui.form .field.error input[type="date"],
+.ui.form .field.error input[type="datetime-local"],
+.ui.form .field.error input[type="email"],
+.ui.form .field.error input[type="number"],
+.ui.form .field.error input[type="password"],
+.ui.form .field.error input[type="tel"],
+.ui.form .field.error input[type="time"],
+.ui.form .field.error input[type="text"],
+.ui.form .field.error input[type="url"] {
   background: #fff0f0;
   border-color: #dbb1b1;
   color: #d95c5c;
@@ -12763,16 +13332,17 @@ ol.ui.horizontal.list li:before,
   box-shadow: 2px 0em 0em 0em #d95c5c inset;
 }
 
-.form .field.error textarea:focus,
-.form .field.error input:not([type]):focus,
-.form .field.error input[type="text"]:focus,
-.form .field.error input[type="email"]:focus,
-.form .field.error input[type="date"]:focus,
-.form .field.error input[type="datetime-local"]:focus,
-.form .field.error input[type="password"]:focus,
-.form .field.error input[type="number"]:focus,
-.form .field.error input[type="url"]:focus,
-.form .field.error input[type="tel"]:focus {
+.ui.form .field.error textarea:focus,
+.ui.form .field.error input:not([type]):focus,
+.ui.form .field.error input[type="date"]:focus,
+.ui.form .field.error input[type="datetime-local"]:focus,
+.ui.form .field.error input[type="email"]:focus,
+.ui.form .field.error input[type="number"]:focus,
+.ui.form .field.error input[type="password"]:focus,
+.ui.form .field.error input[type="tel"]:focus,
+.ui.form .field.error input[type="time"]:focus,
+.ui.form .field.error input[type="text"]:focus,
+.ui.form .field.error input[type="url"]:focus {
   background: #fff0f0;
   border-color: #dbb1b1;
   color: #dc6868;
@@ -12812,7 +13382,7 @@ ol.ui.horizontal.list li:before,
 
 .ui.form .fields.error .field .ui.dropdown .menu .item:hover,
 .ui.form .field.error .ui.dropdown .menu .item:hover {
-  background-color: #fff2f2;
+  background-color: #fbe7e7;
 }
 
 /* Active */
@@ -13325,7 +13895,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -13346,7 +13916,7 @@ ol.ui.horizontal.list li:before,
 .ui.menu {
   margin: 1rem 0rem;
   background: #ffffff;
-  font-size: 0px;
+  font-size: 0em;
   font-weight: normal;
   box-shadow: 0px 0px 0px 1px rgba(39, 41, 43, 0.15), 0px 1px 2px 0 rgba(0, 0, 0, 0.05);
   border-radius: 0.2857rem;
@@ -13366,6 +13936,14 @@ ol.ui.horizontal.list li:before,
 
 .ui.menu:last-child {
   margin-bottom: 0rem;
+}
+
+.ui.menu .menu {
+  margin: 0em;
+}
+
+.ui.menu:not(.vertical) .menu {
+  font-size: 0em;
 }
 
 /*--------------
@@ -13410,10 +13988,6 @@ ol.ui.horizontal.list li:before,
   user-select: none;
   -webkit-transition: opacity 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   transition: opacity 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-}
-
-.ui.menu .menu {
-  margin: 0em;
 }
 
 /* Floated Content */
@@ -14009,13 +14583,14 @@ ol.ui.horizontal.list li:before,
 
 .ui.tabular.menu .active.item {
   position: relative;
+  border-bottom: none;
+  vertical-align: bottom;
   background-color: #ffffff;
   color: rgba(0, 0, 0, 0.8);
   border-color: #d4d4d5;
   font-weight: bold;
   margin-bottom: -1px;
-  border-bottom: none;
-  box-shadow: 0px 2px 0px -1px #ffffff;
+  box-shadow: none;
   border-radius: 5px 5px 0px 0px;
 }
 
@@ -15109,7 +15684,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -15585,7 +16160,7 @@ ol.ui.horizontal.list li:before,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -16724,7 +17299,7 @@ ol.ui.horizontal.list li:before,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -16743,13 +17318,23 @@ ol.ui.horizontal.list li:before,
 ---------------*/
 
 .ui.cards {
-  margin: 1em -0.5em 0em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: -0.75em -0.5em;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .ui.cards > .card {
-  display: block;
-  margin: 0em 0.5em 1.5em;
-  float: left;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0.75em 0.5em;
+  float: none;
 }
 
 .ui.cards:first-child,
@@ -16782,14 +17367,22 @@ ol.ui.horizontal.list li:before,
 .ui.card {
   max-width: 100%;
   position: relative;
-  display: block;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   width: 290px;
   min-height: 0px;
   background: #ffffff;
   padding: 0em;
   border: none;
   border-radius: 0.2857rem;
-  box-shadow: 0px 0.2em 0px 0px #d4d4d5, 0px 0px 0px 1px #d4d4d5;
+  box-shadow: 0px 3px 0px 0px #d4d4d5, 0px 0px 0px 1px #d4d4d5;
   -webkit-transition: box-shadow 0.2s ease;
   transition: box-shadow 0.2s ease;
   z-index: '';
@@ -16850,6 +17443,10 @@ ol.ui.horizontal.list li:before,
 
 .ui.cards > .card > .content,
 .ui.card > .content {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   background: none;
   margin: 0em;
   padding: 1em 1em;
@@ -16909,6 +17506,25 @@ ol.ui.horizontal.list li:before,
 }
 
 /*--------------
+     Aligned
+---------------*/
+
+.ui.cards > .card [class*="left aligned"],
+.ui.card [class*="left aligned"] {
+  text-align: left;
+}
+
+.ui.cards > .card [class*="center aligned"],
+.ui.card [class*="center aligned"] {
+  text-align: center;
+}
+
+.ui.cards > .card [class*="right aligned"],
+.ui.card [class*="right aligned"] {
+  text-align: right;
+}
+
+/*--------------
   Content Image
 ---------------*/
 
@@ -16916,15 +17532,15 @@ ol.ui.horizontal.list li:before,
 .ui.card .content img {
   display: inline-block;
   vertical-align: middle;
-  width: 2em;
+  width: auto;
 }
 
 .ui.cards > .card img.avatar,
 .ui.cards > .card .avatar img,
 .ui.card img.avatar,
 .ui.card .avatar img {
-  width: 2em;
-  height: 2em;
+  width: 2.5em;
+  height: 2.5em;
   border-radius: 500rem;
 }
 
@@ -17028,9 +17644,8 @@ ol.ui.horizontal.list li:before,
 .ui.card > .buttons:last-child,
 .ui.cards > .card > .button:last-child,
 .ui.card > .button:last-child {
-  margin: 0em -1px -0.2em;
-  width: -webkit-calc(100% +  2px );
-  width: calc(100% +  2px );
+  margin: 0em 0em -1px;
+  width: 100%;
 }
 
 /*--------------
@@ -17052,12 +17667,12 @@ ol.ui.horizontal.list li:before,
 .ui.cards > .card > .content .star.icon:hover,
 .ui.card > .content .star.icon:hover {
   opacity: 1;
-  color: #ac9400;
+  color: #ffb70a;
 }
 
 .ui.cards > .card > .content .active.star.icon,
 .ui.card > .content .active.star.icon {
-  color: #e9b539;
+  color: #ffe623;
 }
 
 /*-----Like----- */
@@ -17075,12 +17690,12 @@ ol.ui.horizontal.list li:before,
 .ui.cards > .card > .content .like.icon:hover,
 .ui.card > .content .like.icon:hover {
   opacity: 1;
-  color: #ffadae;
+  color: #ff2733;
 }
 
 .ui.cards > .card > .content .active.like.icon,
 .ui.card > .content .active.like.icon {
-  color: #ef404a;
+  color: #ff2733;
 }
 
 /*----------------
@@ -17091,6 +17706,10 @@ ol.ui.horizontal.list li:before,
 .ui.card > .extra {
   max-width: 100%;
   min-height: 0em !important;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
   position: static;
   background: none;
   width: auto;
@@ -17140,7 +17759,121 @@ a.ui.card:hover,
   z-index: 5;
   background: '';
   border: none;
-  box-shadow: 0px 0.2em 0px 0px #bebebf, 0px 0px 0px 1px rgba(39, 41, 43, 0.3);
+  box-shadow: 0px 3px 0px 0px #bebebf, 0px 0px 0px 1px rgba(39, 41, 43, 0.3);
+}
+
+/*-------------------
+       Colors
+--------------------*/
+
+.ui.black.cards > .card,
+.ui.cards > .black.card,
+.ui.black.card {
+  box-shadow: 0px 3px 0px 0px #1b1c1d, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.blue.cards > .card,
+.ui.cards > .blue.card,
+.ui.blue.card {
+  box-shadow: 0px 3px 0px 0px #3b83c0, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.green.cards > .card,
+.ui.cards > .green.card,
+.ui.green.card {
+  box-shadow: 0px 3px 0px 0px #5bbd72, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.orange.cards > .card,
+.ui.cards > .orange.card,
+.ui.orange.card {
+  box-shadow: 0px 3px 0px 0px #e07b53, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.pink.cards > .card,
+.ui.cards > .pink.card,
+.ui.pink.card {
+  box-shadow: 0px 3px 0px 0px #d9499a, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.purple.cards > .card,
+.ui.cards > .purple.card,
+.ui.purple.card {
+  box-shadow: 0px 3px 0px 0px #564f8a, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.red.cards > .card,
+.ui.cards > .red.card,
+.ui.red.card {
+  box-shadow: 0px 3px 0px 0px #d95c5c, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.teal.cards > .card,
+.ui.cards > .teal.card,
+.ui.teal.card {
+  box-shadow: 0px 3px 0px 0px #00b5ad, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.yellow.cards > .card,
+.ui.cards > .yellow.card,
+.ui.yellow.card {
+  box-shadow: 0px 3px 0px 0px #f2c61f, 0px 0px 0px 1px #d4d4d5;
+}
+
+/* Hover */
+
+.ui.black.cards > .card:hover,
+.ui.cards > .black.card:hover,
+.ui.black.card:hover {
+  box-shadow: 0px 3px 0px 0px #1b1c1d, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.blue.cards > .card:hover,
+.ui.cards > .blue.card:hover,
+.ui.blue.card:hover {
+  box-shadow: 0px 3px 0px 0px #458ac6, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.green.cards > .card:hover,
+.ui.cards > .green.card:hover,
+.ui.green.card:hover {
+  box-shadow: 0px 3px 0px 0px #66c17b, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.orange.cards > .card:hover,
+.ui.cards > .orange.card:hover,
+.ui.orange.card:hover {
+  box-shadow: 0px 3px 0px 0px #e28560, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.pink.cards > .card:hover,
+.ui.cards > .pink.card:hover,
+.ui.pink.card:hover {
+  box-shadow: 0px 3px 0px 0px #dc56a1, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.purple.cards > .card:hover,
+.ui.cards > .purple.card:hover,
+.ui.purple.card:hover {
+  box-shadow: 0px 3px 0px 0px #5c5594, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.red.cards > .card:hover,
+.ui.cards > .red.card:hover,
+.ui.red.card:hover {
+  box-shadow: 0px 3px 0px 0px #dc6868, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.teal.cards > .card:hover,
+.ui.cards > .teal.card:hover,
+.ui.teal.card:hover {
+  box-shadow: 0px 3px 0px 0px #00c4bc, 0px 0px 0px 1px #d4d4d5;
+}
+
+.ui.yellow.cards > .card:hover,
+.ui.cards > .yellow.card:hover,
+.ui.yellow.card:hover {
+  box-shadow: 0px 3px 0px 0px #f3ca2d, 0px 0px 0px 1px #d4d4d5;
 }
 
 /*--------------
@@ -17567,7 +18300,7 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -17837,7 +18570,7 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -18132,7 +18865,7 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -18624,7 +19357,7 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -19071,7 +19804,7 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -19337,7 +20070,7 @@ a.ui.card:hover,
         User Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -19867,7 +20600,7 @@ a.ui.card:hover,
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -20059,7 +20792,7 @@ body.dimmed.dimmable > :not(.dimmer) {
         User Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -20120,7 +20853,7 @@ body.dimmed.dimmable > :not(.dimmer) {
   Hidden Input
 ---------------*/
 
-.ui.dropdown > input[type="hidden"],
+.ui.dropdown > input:not(.search):first-child,
 .ui.dropdown > select {
   display: none !important;
 }
@@ -20416,10 +21149,12 @@ select.ui.dropdown {
 .ui.selection.dropdown > .search.icon,
 .ui.selection.dropdown > .delete.icon,
 .ui.selection.dropdown > .dropdown.icon {
+  cursor: pointer;
   position: absolute;
   top: auto;
-  margin: 0em;
   width: auto;
+  margin: -0.8em;
+  padding: 0.8em;
   right: 1.1em;
   opacity: 0.8;
   -webkit-transition: opacity 0.2s ease;
@@ -20529,16 +21264,20 @@ select.ui.dropdown {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
 }
 
-.ui.visible.selection.dropdown > .dropdown.icon {
-  opacity: 1;
-}
-
 /* Active Item */
 
 .ui.selection.active.dropdown > .text:not(.default),
 .ui.selection.visible.dropdown > .text:not(.default) {
   font-weight: normal;
   color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dropdown Icon */
+
+.ui.active.selection.dropdown > .dropdown.icon,
+.ui.visible.selection.dropdown > .dropdown.icon {
+  opacity: 1;
+  z-index: 3;
 }
 
 /* Connecting Border */
@@ -21209,6 +21948,12 @@ select.ui.dropdown {
   content: "\f0d9" ;
 }
 
+/* Upward Dropdown */
+
+.ui.upward.dropdown > .dropdown.icon:before {
+  content: "\f0d8";
+}
+
 /* Vertical Menu Dropdown */
 
 .ui.vertical.menu .dropdown.item > .dropdown.icon:before {
@@ -21234,7 +21979,7 @@ select.ui.dropdown {
         User Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -21350,7 +22095,7 @@ select.ui.dropdown {
   vertical-align: top;
 }
 
-.ui.modal > .content > .image[class*="top aligned"] {
+.ui.modal > .content > .image[class*="middle aligned"] {
   vertical-align: middle;
 }
 
@@ -21702,7 +22447,7 @@ select.ui.dropdown {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -22004,7 +22749,7 @@ select.ui.dropdown {
         User Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -22357,7 +23102,7 @@ select.ui.dropdown {
 .ui.progress.attached,
 .ui.progress.attached .bar {
   display: block;
-  height: 3px;
+  height: 0.2rem;
   padding: 0px;
   overflow: hidden;
   border-radius: 0em 0em 0.2857rem 0.2857rem;
@@ -22377,6 +23122,23 @@ select.ui.dropdown {
 
 .ui.progress.top.attached .bar {
   border-radius: 0em;
+}
+
+/* Coupling */
+
+.ui.segment > .ui.attached.progress,
+.ui.card > .ui.attached.progress {
+  position: absolute;
+  top: auto;
+  left: 0;
+  bottom: 100%;
+  width: 100%;
+}
+
+.ui.segment > .ui.bottom.attached.progress,
+.ui.card > .ui.bottom.attached.progress {
+  top: 100%;
+  bottom: auto;
 }
 
 /*--------------
@@ -22507,7 +23269,7 @@ select.ui.dropdown {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -22523,8 +23285,7 @@ select.ui.dropdown {
 
 .ui.rating {
   display: inline-block;
-  font-size: 0em;
-  vertical-align: baseline;
+  vertical-align: middle;
 }
 
 .ui.rating:last-child {
@@ -22545,12 +23306,11 @@ select.ui.dropdown {
   cursor: pointer;
   margin: 0em;
   width: 1.1em;
-  text-align: center;
   height: auto;
+  text-align: center;
   padding: 0em;
   font-weight: normal;
   font-style: normal;
-  vertical-align: baseline;
 }
 
 /*******************************
@@ -22695,14 +23455,6 @@ select.ui.dropdown {
   font-size: 2rem;
 }
 
-/* Realign */
-
-.ui.large.rating,
-.ui.huge.rating,
-.ui.massive.rating {
-  vertical-align: middle;
-}
-
 /*******************************
          Theme Overrides
 *******************************/
@@ -22717,7 +23469,6 @@ select.ui.dropdown {
 .ui.rating .icon {
   font-family: 'Rating';
   line-height: 1;
-  height: 1em;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   font-weight: normal;
@@ -22787,7 +23538,7 @@ select.ui.dropdown {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -23129,7 +23880,7 @@ select.ui.dropdown {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -23286,7 +24037,7 @@ select.ui.dropdown {
         User Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -23374,7 +24125,7 @@ select.ui.dropdown {
         User Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -24513,7 +25264,7 @@ select.ui.dropdown {
          Site Overrides
 *******************************/
 /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.9.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -24596,28 +25347,30 @@ select.ui.dropdown {
 
 .ui.form textarea,
 .ui.form input:not([type]),
-.ui.form input[type="text"],
-.ui.form input[type="email"],
 .ui.form input[type="date"],
 .ui.form input[type="datetime-local"],
-.ui.form input[type="password"],
+.ui.form input[type="email"],
 .ui.form input[type="number"],
-.ui.form input[type="url"],
+.ui.form input[type="password"],
 .ui.form input[type="tel"],
+.ui.form input[type="time"],
+.ui.form input[type="text"],
+.ui.form input[type="url"],
 .ui.form .ui.input {
   width: 100%;
   vertical-align: top;
 }
 
 .ui.form input:not([type]),
-.ui.form input[type="text"],
-.ui.form input[type="email"],
 .ui.form input[type="date"],
 .ui.form input[type="datetime-local"],
-.ui.form input[type="password"],
+.ui.form input[type="email"],
 .ui.form input[type="number"],
-.ui.form input[type="url"],
-.ui.form input[type="tel"] {
+.ui.form input[type="password"],
+.ui.form input[type="tel"],
+.ui.form input[type="time"],
+.ui.form input[type="text"],
+.ui.form input[type="url"] {
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0em;
   outline: none;
@@ -24721,7 +25474,6 @@ select.ui.dropdown {
    Types of Messages
 ---------------------*/
 
-.ui.form .info.message,
 .ui.form .success.message,
 .ui.form .warning.message,
 .ui.form .error.message {
@@ -24803,14 +25555,15 @@ select.ui.dropdown {
 ---------------------*/
 
 .ui.form input:not([type]):focus,
-.ui.form input[type="text"]:focus,
-.ui.form input[type="email"]:focus,
 .ui.form input[type="date"]:focus,
 .ui.form input[type="datetime-local"]:focus,
-.ui.form input[type="password"]:focus,
+.ui.form input[type="email"]:focus,
 .ui.form input[type="number"]:focus,
-.ui.form input[type="url"]:focus,
-.ui.form input[type="tel"]:focus {
+.ui.form input[type="password"]:focus,
+.ui.form input[type="tel"]:focus,
+.ui.form input[type="time"]:focus,
+.ui.form input[type="text"]:focus,
+.ui.form input[type="url"]:focus {
   color: rgba(0, 0, 0, 0.85);
   border-color: rgba(39, 41, 43, 0.3);
   border-radius: 0em 0.2857rem 0.2857rem 0em;
@@ -24874,24 +25627,26 @@ select.ui.dropdown {
 
 .ui.form .fields.error .field textarea,
 .ui.form .fields.error .field input:not([type]),
-.ui.form .fields.error .field input[type="text"],
-.ui.form .fields.error .field input[type="email"],
 .ui.form .fields.error .field input[type="date"],
 .ui.form .fields.error .field input[type="datetime-local"],
-.ui.form .fields.error .field input[type="password"],
+.ui.form .fields.error .field input[type="email"],
 .ui.form .fields.error .field input[type="number"],
-.ui.form .fields.error .field input[type="url"],
+.ui.form .fields.error .field input[type="password"],
 .ui.form .fields.error .field input[type="tel"],
+.ui.form .fields.error .field input[type="time"],
+.ui.form .fields.error .field input[type="text"],
+.ui.form .fields.error .field input[type="url"],
 .ui.form .field.error textarea,
 .ui.form .field.error input:not([type]),
-.ui.form .field.error input[type="text"],
-.ui.form .field.error input[type="email"],
 .ui.form .field.error input[type="date"],
 .ui.form .field.error input[type="datetime-local"],
-.ui.form .field.error input[type="password"],
+.ui.form .field.error input[type="email"],
 .ui.form .field.error input[type="number"],
-.ui.form .field.error input[type="url"],
-.ui.form .field.error input[type="tel"] {
+.ui.form .field.error input[type="password"],
+.ui.form .field.error input[type="tel"],
+.ui.form .field.error input[type="time"],
+.ui.form .field.error input[type="text"],
+.ui.form .field.error input[type="url"] {
   background: #fff0f0;
   border-color: #dbb1b1;
   color: #d95c5c;
@@ -24901,14 +25656,15 @@ select.ui.dropdown {
 
 .ui.form .field.error textarea:focus,
 .ui.form .field.error input:not([type]):focus,
-.ui.form .field.error input[type="text"]:focus,
-.ui.form .field.error input[type="email"]:focus,
 .ui.form .field.error input[type="date"]:focus,
 .ui.form .field.error input[type="datetime-local"]:focus,
-.ui.form .field.error input[type="password"]:focus,
+.ui.form .field.error input[type="email"]:focus,
 .ui.form .field.error input[type="number"]:focus,
-.ui.form .field.error input[type="url"]:focus,
-.ui.form .field.error input[type="tel"]:focus {
+.ui.form .field.error input[type="password"]:focus,
+.ui.form .field.error input[type="tel"]:focus,
+.ui.form .field.error input[type="time"]:focus,
+.ui.form .field.error input[type="text"]:focus,
+.ui.form .field.error input[type="url"]:focus {
   background: #fff0f0;
   border-color: #dbb1b1;
   color: #dc6868;
@@ -24948,7 +25704,7 @@ select.ui.dropdown {
 
 .ui.form .fields.error .field .ui.dropdown .menu .item:hover,
 .ui.form .field.error .ui.dropdown .menu .item:hover {
-  background-color: #fff2f2;
+  background-color: #fbe7e7;
 }
 
 /* Active */
