@@ -1,6 +1,5 @@
 <?php namespace PandaLove\Http\Controllers;
 
-use Guzzle\Http\QueryAggregator\CommaAggregator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
