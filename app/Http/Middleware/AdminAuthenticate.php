@@ -39,7 +39,7 @@ class AdminAuthenticate {
 		}
 		else
 		{
-			return redirect()->guest('auth/login');
+			return redirect('/');
 		}
 	}
 

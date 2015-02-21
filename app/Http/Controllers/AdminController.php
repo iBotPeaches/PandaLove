@@ -11,8 +11,7 @@ use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests\AdminAddGamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
-class AdminController extends Controller
-{
+class AdminController extends Controller {
 
     public function __construct(Guard $auth)
     {
