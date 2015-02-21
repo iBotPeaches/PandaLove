@@ -40,7 +40,7 @@ return [
 	"gamertag_exists"	   => "The :attribute is not in our system to be validated.",
 	"gamertag_real"		   => "The :attribute is not a real gamertag.",
 	"image"                => "The :attribute must be an image.",
-    "game_exists_real"     => "The :attribute is not a valid stored game.",
+	"game_exists_real"     => "The :attribute is not a valid stored game.",
 	"in"                   => "The selected :attribute is invalid.",
 	"integer"              => "The :attribute must be an integer.",
 	"ip"                   => "The :attribute must be a valid IP address.",

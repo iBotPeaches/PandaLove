@@ -14,7 +14,7 @@
                     @foreach($game->comments as $comment)
                         <div class="comment">
                             <a href="{{ action('ProfileController@index', $comment->account->seo) }}" class="avatar">
-                                <img src="{{ $comment->player->emblem->extra }}" />
+                                <img class="ui rounded" src="{{ $comment->player->emblem->extra }}" />
                             </a>
                             <div class="content">
                                 <a href="{{ action('ProfileController@index', $comment->account->seo) }}" class="author">{{ $comment->account->gamertag }}</a>
@@ -28,6 +28,9 @@
                         </div>
                     @endforeach
                 </div>
+                @if (isset($user) && $user->account_id != 0)
+                    @include('includes.comments.comment-form')
+                @endif
             @endif
         </div>
     </div>

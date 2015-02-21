@@ -40,7 +40,7 @@ class GameController extends Controller {
     {
         try
         {
-            $game = Game::with('players.character', 'players.account', 'comments.player')
+            $game = Game::with('players.character', 'players.account', 'comments.player', 'comments.account')
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
 
