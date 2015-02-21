@@ -40,7 +40,11 @@ class GameController extends Controller {
     {
         try
         {
-            $game = Game::with('players.character', 'players.account', 'comments.player', 'comments.account')
+            $game = Game::with(
+                array('comments.player' => function($query) use ($instanceId)
+                {
+                    $query->where('game_id', $instanceId);
+                }, 'players.character', 'players.account', 'comments.account'))
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
 
