@@ -1,11 +1,28 @@
 <?php namespace PandaLove\Http\Controllers;
 
+use Guzzle\Http\QueryAggregator\CommaAggregator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+
+use Onyx\Destiny\Objects\Comment;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
+
 use PandaLove\Http\Requests;
+use PandaLove\Http\Requests\AddCommentRequest;
 
 class GameController extends Controller {
+
+    /**
+     * @var \Illuminate\Http\Request
+     */
+    private $request;
+
+    public function __construct(Request $request)
+    {
+        parent::__construct();
+        $this->request = $request;
+    }
 
     public function getIndex()
     {
@@ -23,7 +40,9 @@ class GameController extends Controller {
     {
         try
         {
-            $game = Game::with('players.character', 'players.account')->where('instanceId', $instanceId)->firstOrFail();
+            $game = Game::with('players.character', 'players.account', 'comments.player', 'comments.account')
+                ->where('instanceId', $instanceId)
+                ->firstOrFail();
 
             $game->players->each(function($player)
             {
@@ -90,6 +109,22 @@ class GameController extends Controller {
 
         return view('games.history')
             ->with('raids', $raids);
+    }
+
+    public function postComment(AddCommentRequest $request)
+    {
+        $game = Game::where('instanceId', $request->get('game_id'))->first();
+        $membershipId =  $this->user->account->membershipId;
+
+        $comment = new Comment();
+        $comment->comment = $request->get('message');
+        $comment->membershipId = $membershipId;
+        $comment->characterId = $game->findAccountViaMembershipId($membershipId, false)->characterId;
+        $comment->parent_comment_id = 0;
+
+        $game->comments()->save($comment);
+
+        return response()->json(['flag' => true, 'url' => \URL::action('GameController@getGame', $game->instanceId)]);
     }
 
 }

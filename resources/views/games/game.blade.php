@@ -20,5 +20,6 @@
                 </div>
             </div>
         </article>
+        @include('includes.comments.view')
     </div>
 @endsection

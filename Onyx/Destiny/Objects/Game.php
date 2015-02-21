@@ -107,6 +107,32 @@ class Game extends Model {
         return $this->hasMany('Onyx\Destiny\Objects\GamePlayer', 'game_id', 'instanceId');
     }
 
+    public function comments()
+    {
+        return $this->morphMany('Onyx\Destiny\Objects\Comment', 'commentable')
+            ->where('parent_comment_id', 0);
+    }
+
+    public function findAccountViaMembershipId($membershipId, $returnAccount = true)
+    {
+        foreach($this->players as $player)
+        {
+            if ($player->membershipId == $membershipId)
+            {
+                if ($returnAccount == false)
+                {
+                    return $player;
+                }
+                else
+                {
+                    return $player->account;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public function completed()
     {
         $count = 0;
