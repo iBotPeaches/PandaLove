@@ -6,13 +6,18 @@ PandaLove is a website devoted to tracking our weekly raid Tuesdays, PVP destruc
 
 
 # How to install
-1. Get [Composer](ssh://git@gitlab.techcomworldwide.com:22774/iBotPeaches/PandaLove.git)
-2. `git clone ssh://git@gitlab.techcomworldwide.com:22774/iBotPeaches/PandaLove.git`
-3. `cd PandaLove`
-4. `composer install`
-5. `cp .env.example .env`
-6. Change values in `.env` to match your settings. Obviously create DB
-7. `php artisan db:migrate`
-8. `php artisan db:seed`
-9. `php artisan serve`
-10. done
+1. Get [Composer](https://getcomposer.org/)
+2. Get [NodeJs](http://nodejs.org/)
+3. `git clone ssh://git@gitlab.techcomworldwide.com:22774/iBotPeaches/PandaLove.git`
+4. `cd PandaLove`
+5. `composer install`
+6. `npm install`
+7. `npm install -g gulp`
+8. `cp .env.example .env`
+9. Create a local database. Write down the database name, along with database username & password.
+10. Change values in `.env` to match your settings (the 3 database fields)
+11. `php artisan db:migrate`
+12. `php artisan db:seed`
+13. `gulp`
+14. `php artisan serve`
+15. done
