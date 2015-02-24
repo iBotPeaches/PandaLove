@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="4u">
+    <div class="4u desktop only">
         <div class="ui cards">
             <div class="card">
                 <div class="image">

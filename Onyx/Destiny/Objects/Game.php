@@ -110,7 +110,8 @@ class Game extends Model {
     public function comments()
     {
         return $this->morphMany('Onyx\Destiny\Objects\Comment', 'commentable')
-            ->where('parent_comment_id', 0);
+            ->where('parent_comment_id', 0)
+            ->orderBy('created_at', 'DESC');
     }
 
     public function findAccountViaMembershipId($membershipId, $returnAccount = true)

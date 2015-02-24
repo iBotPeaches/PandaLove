@@ -2,7 +2,7 @@
     {{ $combined['stats']['games'] }} Raids. Completed in {{ $combined['stats']['combinedGameTime'] }}
 </div>
 <table class="ui sortable table">
-    <thead>
+    <thead class="desktop only">
     <tr>
         <th>Guardian</th>
         <th>Avg Level</th>

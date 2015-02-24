@@ -1,5 +1,5 @@
 <table class="ui table">
-    <thead>
+    <thead class="desktop only">
         <tr>
             <th>Gamertag</th>
             <th>Grimoire</th>
@@ -16,19 +16,25 @@
                 <td>
                     <span class="right floated author">
                         <img class="ui avatar image" src="{{ $member->characterAtPosition(1)->background->extra}}" />
-                        {{ $member->characterAtPosition(1)->name() }}
+                        <a href="{{ URL::action('ProfileController@index', [$member->seo, $member->characterAtPosition(1)->characterId]) }}">
+                            {{ $member->characterAtPosition(1)->name() }}
+                        </a>
                     </span>
                 </td>
                 <td>
                     <span class="right floated author">
                         <img class="ui avatar image" src="{{ $member->characterAtPosition(2)->background->extra}}" />
-                        {{ $member->characterAtPosition(2)->name() }}
+                        <a href="{{ URL::action('ProfileController@index', [$member->seo, $member->characterAtPosition(2)->characterId]) }}">
+                            {{ $member->characterAtPosition(2)->name() }}
+                        </a>
                     </span>
                 </td>
                 <td>
                     <span class="right floated author">
                         <img class="ui avatar image" src="{{ $member->characterAtPosition(3)->background->extra}}" />
-                        {{ $member->characterAtPosition(3)->name() }}
+                        <a href="{{ URL::action('ProfileController@index', [$member->seo, $member->characterAtPosition(3)->characterId]) }}">
+                            {{ $member->characterAtPosition(3)->name() }}
+                        </a>
                     </span>
                 </td>
             </tr>
