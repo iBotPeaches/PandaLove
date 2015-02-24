@@ -214,6 +214,11 @@ class Client extends Http {
             $player->completed = boolval($entry['values']['completed']['basic']['value']);
             $player->secondsPlayed = $entry['extended']['values']['secondsPlayed']['basic']['value'];
             $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+
+            $player->score = $entry['values']['score']['basic']['value'];
+            $player->standing = $entry['values']['standing']['basic']['value'];
+            $player->team = $entry['values']['team']['basic']['value'];
+
             $player->save();
 
             $duration = $entry['values']['activityDurationSeconds']['basic']['value'];

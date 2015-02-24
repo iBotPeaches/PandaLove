@@ -200,6 +200,11 @@ class Game extends Model {
             ->having('raidTuesday', '>', 0);
     }
 
+    public function scopePVP($query)
+    {
+        return $query->where('type', 'PVP');
+    }
+
     public function type()
     {
         return $this->translator->map($this->referenceId, false);

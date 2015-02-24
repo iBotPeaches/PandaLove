@@ -6,6 +6,16 @@ use Onyx\Destiny\Helpers\String\Text;
 class Game {
 
     /**
+     * Used for converting team value to string
+     *
+     * @var array
+     */
+    private $team_val_to_str = array(
+        16 => 'Alpha',
+        17 => 'Bravo',
+    );
+
+    /**
      * @param $kills
      * @param $deaths
      * @return float
@@ -111,5 +121,19 @@ class Game {
                 'combinedGameTime' => Text::timeDuration($timeCount)
             ]
         ];
+    }
+
+    /**
+     * Converts team value into string
+     *
+     * @param $value
+     * @return string
+     */
+    public static function team($value)
+    {
+        if(isset($team_val_to_str[$value]))
+        {
+            return $team_val_to_str[$value];
+        }
     }
 }

@@ -20,6 +20,10 @@
                         Flawless Raids
                     </h3>
                     @include('includes.games.game-list', ['games' => $flawless])
+                    <h3 class="ui horizontal header divider">
+                        PVP
+                    </h3>
+                    @include('includes.games.game-list', ['games' => $pvp])
                 </div>
                 <div class="3u">
                     <h3 class="ui horizontal header divider">

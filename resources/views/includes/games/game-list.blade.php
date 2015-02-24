@@ -19,12 +19,18 @@
             </a>
         @else
             <a class="item no_underline" href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
-                @if ($raid->isHard)
-                    <div class="right floated compact ui red button fb">Hard</div>
-                @else
-                    <div class="right floated compact ui green button fb">Normal</div>
+                @if ($raid->type != "PVP")
+                    @if ($raid->isHard)
+                        <div class="right floated compact ui red button fb">Hard</div>
+                    @else
+                        <div class="right floated compact ui green button fb">Normal</div>
+                    @endif
                 @endif
-                <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
+                @if ($raid->type == "PVP")
+                    <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
+                @else
+                    <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
+                @endif
                 <div class="content">
                     <div class="header">
                         {{ $raid->type()->title }}
@@ -37,3 +43,11 @@
         @endif
     @endforeach
 </div>
+
+@section('inline-css')
+    <style type="text/css">
+        .pvp-emblem {
+            background: #9f342f !important;
+        }
+    </style>
+@append

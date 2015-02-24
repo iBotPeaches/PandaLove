@@ -29,11 +29,13 @@ class GameController extends Controller {
         $raids = Game::raid()->singular()->limit(4)->get();
         $flawless = Game::flawless()->singular()->limit(4)->get();
         $tuesday = Game::tuesday()->limit(4)->get();
+        $pvp = Game::PVP()->limit(10)->get();
 
         return view('games.index')
             ->with('raids', $raids)
             ->with('flawless', $flawless)
-            ->with('tuesday', $tuesday);
+            ->with('tuesday', $tuesday)
+            ->with('pvp', $pvp);
     }
 
     public function getGame($instanceId, $all = false)
@@ -48,14 +50,28 @@ class GameController extends Controller {
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
 
+
             $game->players->each(function($player)
             {
                 $player->kd = $player->kdr();
-            })->sortByDesc('kd');
+            });
 
-            return view('games.game')
-                ->with('game', $game)
-                ->with('showAll', boolval($all));
+            if($game->type == "PVP")
+            {
+                $game->players->sortByDesc('standing');
+
+                return view('games.pvp')
+                    ->with('game', $game)
+                    ->with('showAll', boolval($all));
+            }
+            else
+            {
+                $game->sortByDesc('kd');
+
+                return view('games.game')
+                    ->with('game', $game)
+                    ->with('showAll', boolval($all));
+            }
         }
         catch (ModelNotFoundException $e)
         {
