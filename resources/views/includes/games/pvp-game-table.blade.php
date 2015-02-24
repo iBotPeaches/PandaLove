@@ -1,6 +1,6 @@
-@foreach(array('Alpha', 'Bravo') as $team)
+@foreach(array(16, 17) as $team)
     <div class="ui raised blue segment">
-        <h3>{{ $team }} Team</h3>
+        <h3>{{ Helper::teamIdToString($team) }} Team</h3>
         <table class="ui sortable table">
             <thead>
             <tr>

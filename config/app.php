@@ -151,6 +151,7 @@ return [
 		'PandaLove\Providers\ConfigServiceProvider',
 		'PandaLove\Providers\EventServiceProvider',
 		'PandaLove\Providers\RouteServiceProvider',
+        'PandaLove\Providers\HelperServiceProvider',
 
 	],
 
