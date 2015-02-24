@@ -39,6 +39,21 @@ class Game extends Model {
         $this->translator = new Hashes();
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        Game::deleting(function($game)
+        {
+            foreach($game->players as $player)
+            {
+                $player->delete();
+            }
+
+            $game->comments()->delete();
+        });
+    }
+
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 
 use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AddCommentRequest;
+use PandaLove\Http\Requests\deleteGameRequest;
 
 class GameController extends Controller {
 
@@ -60,6 +61,20 @@ class GameController extends Controller {
         {
             \App::abort(404);
         }
+    }
+
+    public function deleteGame(deleteGameRequest $request)
+    {
+        $game = Game::where('instanceId', $request->get('game_id'))->first();
+        $game->delete();
+
+        return \Redirect::to('/games')
+            ->with('flash_message', [
+                'type' => 'green',
+                'header' => 'Game Delete!',
+                'close' => true,
+                'body' => 'You deleted gameId (' . $request->get('game_id') . ") "
+            ]);
     }
 
     public function getTuesday($raidTuesday)
