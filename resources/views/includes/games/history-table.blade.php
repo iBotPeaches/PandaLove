@@ -11,10 +11,14 @@
     @foreach($raids as $raid)
         <tr>
             <td>
-                @if ($raid->isHard)
-                    <div class="ui red horizontal label">Hard</div>
+                @if ($raid->type == "PVP")
+                    <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
                 @else
-                    <div class="ui green horizontal label">Normal</div>
+                    @if ($raid->isHard)
+                        <div class="ui red horizontal label">Hard</div>
+                    @else
+                        <div class="ui green horizontal label">Normal</div>
+                    @endif
                 @endif
                 @if ($raid->raidTuesday != 0)
                     <a href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
@@ -44,3 +48,11 @@
 <div class="ui pagination menu">
     {!! with(new Onyx\Laravel\SemanticPresenter($raids))->render() !!}
 </div>
+
+@section('inline-css')
+    <style type="text/css">
+        .pvp-emblem {
+            background: #9f342f !important;
+        }
+    </style>
+@append

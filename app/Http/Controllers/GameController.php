@@ -136,6 +136,12 @@ class GameController extends Controller {
                     ->paginate(10);
                 break;
 
+            case "PVP":
+                $raids = Game::PVP()
+                    ->with('players.account')
+                    ->paginate(10);
+                break;
+
             default:
                 \App::abort(404);
                 break;

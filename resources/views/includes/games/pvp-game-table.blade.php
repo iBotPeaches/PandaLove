@@ -21,7 +21,11 @@
                         <img class="ui avatar image" src="{{ $player->emblem->extra }}" />
                         @if (isset($player->account))
                             <a href="{{ URL::action('ProfileController@index', [$player->account->seo]) }}">
-                                {{ $player->account->gamertag or 'Unknown' }}
+                                @if($player->completed != 0)
+                                    {{ $player->account->gamertag or 'Unknown' }}
+                                @else
+                                    <s>{{ $player->account->gamertag or 'Unknown' }}</s>
+                                @endif
                             </a>
                         @else
                             <i>Unknown</i>

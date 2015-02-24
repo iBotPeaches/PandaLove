@@ -70,6 +70,7 @@ class Hash extends Model {
         self::loadDefinitions($data, 'races', 'raceHash', 'raceName', 'raceDescription');
         self::loadDefinitions($data, 'destinations', 'destinationHash', 'destinationName', 'destinationDescription', 'icon');
         self::loadDefinitions($data, 'places', 'placeHash', 'placeName', 'placeDescription');
+        self::loadDefinitions($data, 'activityTypes', 'activityTypeHash', 'activityTypeName', 'identifier', 'icon');
     }
 
     //---------------------------------------------------------------------------------

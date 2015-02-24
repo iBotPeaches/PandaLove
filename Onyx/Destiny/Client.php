@@ -217,7 +217,12 @@ class Client extends Http {
 
             $player->score = $entry['values']['score']['basic']['value'];
             $player->standing = $entry['values']['standing']['basic']['value'];
-            $player->team = $entry['values']['team']['basic']['value'];
+
+            // Check for team or rumble
+            if (isset($entry['values']['team']['basic']['value']))
+            {
+                $player->team = $entry['values']['team']['basic']['value'];
+            }
 
             $player->save();
 

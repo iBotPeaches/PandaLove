@@ -46,6 +46,11 @@
                                     Flawless Raids
                                 </div>
                             </a>
+                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['PVP']) }}">
+                                <div class="content">
+                                    PVP
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
