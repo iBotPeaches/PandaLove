@@ -122,6 +122,22 @@ class Game extends Model {
         return $this->hasMany('Onyx\Destiny\Objects\GamePlayer', 'game_id', 'instanceId');
     }
 
+    public function teamPlayers($team_id)
+    {
+        $players = $this->players;
+
+        $rtr = null;
+        foreach($players as $player)
+        {
+            if ($player->team == $team_id)
+            {
+                $rtr[] = $player;
+            }
+        }
+
+        return $rtr;
+    }
+
     public function comments()
     {
         return $this->morphMany('Onyx\Destiny\Objects\Comment', 'commentable')

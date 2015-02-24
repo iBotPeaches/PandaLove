@@ -56,7 +56,7 @@ class GameController extends Controller {
                 $player->kd = $player->kdr();
             });
 
-            if($game->type == "PVP")
+            if ($game->type == "PVP")
             {
                 $game->players->sortByDesc('standing');
 
