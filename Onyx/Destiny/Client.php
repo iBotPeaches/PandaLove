@@ -4,12 +4,14 @@ use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
+use Onyx\Destiny\Objects\PVP;
 use PandaLove\Commands\UpdateGamertag;
 
 class Client extends Http {
@@ -185,7 +187,29 @@ class Client extends Http {
 
         if (isset($data['Response']['data']['activityDetails']['mode']))
         {
-            $game->gametype = $data['Response']['data']['activityDetails']['mode'];
+            $pvp = new PVP();
+            $pvp->instanceId = $game->instanceId;
+            $pvp->gametype = $data['Response']['data']['activityDetails']['mode'];
+
+            foreach($data['Response']['data']['teams'] as $team)
+            {
+                if ($team['standing']['basic']['value'] == 0) // 0 = victory
+                {
+                    $pvp->winnerPts = $team['score']['basic']['value'];
+                    $pvp->winnerId = $team['teamId'];
+                }
+                elseif ($team['standing']['basic']['value'] == 1) // 1 = defeat
+                {
+                    $pvp->loserPts = $team['score']['basic']['value'];
+                    $pvp->loserId = $team['teamId'];
+                }
+                else
+                {
+                    Log::warning('Unknown Team');
+                }
+            }
+
+            $pvp->save();
         }
 
         // delete old game-players

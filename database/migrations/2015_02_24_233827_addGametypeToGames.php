@@ -12,9 +12,16 @@ class AddGametypeToGames extends Migration {
      */
     public function up()
     {
-        Schema::table('games', function(Blueprint $table)
+        Schema::create('pvp_games', function(Blueprint $table)
         {
+            $table->increments('id');
+            $table->string('instanceId', 32);
             $table->string('gametype', 32)->nullable();
+            $table->mediumInteger('winnerPts', false, true);
+            $table->mediumInteger('loserPts', false, true);
+
+            $table->tinyInteger('winnerId', false, true);
+            $table->tinyInteger('loserId', false, true);
         });
     }
 
@@ -25,9 +32,6 @@ class AddGametypeToGames extends Migration {
      */
     public function down()
     {
-        Schema::table('games', function(Blueprint $table)
-        {
-            $table->dropColumn('gametype');
-        });
+        Schema::drop('pvp_games');
     }
 }

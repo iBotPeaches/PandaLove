@@ -7,7 +7,7 @@
                 <div class="12u">
                     <h1 class="header">
                         <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $game->type()->extra }}" />
-                        {{ $game->gametype }} <small>({{ $game->type()->title }} - {{ $game->type()->description }})</small>
+                        {{ $game->pvp->gametype }} <small>({{ $game->type()->title }} - {{ $game->type()->description }})</small>
                     </h1>
                     <div class="ui inverted segment">
                         {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
@@ -18,6 +18,12 @@
         </article>
         @include('includes.comments.view')
     </div>
+    @if ($user->admin)
+        <div class="wrapper style3">
+            <h2 class="header">Admin Options</h2>
+            @include('includes.games.admin-deletegame')
+        </div>
+    @endif
 @endsection
 
 @section('inline-css')

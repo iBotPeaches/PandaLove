@@ -63,6 +63,11 @@ class GamePlayer extends Model {
         return $this->translator->map($value, false);
     }
 
+    public function getScoreAttribute($value)
+    {
+        return number_format($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------

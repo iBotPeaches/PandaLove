@@ -1,6 +1,6 @@
-@foreach(\Onyx\Destiny\Helpers\Utils\Team::getTeamIds() as $team_id)
-    <div class="ui raised blue segment">
-        <h3>{{ \Onyx\Destiny\Helpers\Utils\Team::teamIdToString($team_id) }} Team</h3>
+@foreach($game->pvp->getTeamsInOrder() as $team_id)
+    <div class="ui raised {{ $game->pvp->color($team_id) }} segment">
+        <h3><span class="ui {{ $game->pvp->color($team_id) }} button fb">{{ $game->pvp->pts($team_id) }} Points</span>{{ \Onyx\Destiny\Helpers\Utils\Team::teamIdToString($team_id) }} Team</h3>
         <table class="ui sortable table">
             <thead class="desktop only">
             <tr>

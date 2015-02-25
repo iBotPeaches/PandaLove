@@ -1,7 +1,7 @@
 <table class="ui table">
     <thead class="desktop only">
     <tr>
-        <th>Raid</th>
+        <th>{{ $title or 'Raid' }}</th>
         <th>Date</th>
         <th>Completion Time</th>
         <th>PandaLove Members Present</th>
@@ -26,7 +26,11 @@
                     </a>
                 @else
                     <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
-                        {{ $raid->type()->title }}
+                        @if ($raid->type == "PVP")
+                            {{ $raid->pvp->gametype }}
+                        @else
+                            {{ $raid->type()->title }}
+                        @endif
                     </a>
                 @endif
             </td>

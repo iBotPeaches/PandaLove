@@ -29,7 +29,7 @@ class GameController extends Controller {
         $raids = Game::raid()->singular()->limit(4)->get();
         $flawless = Game::flawless()->singular()->limit(4)->get();
         $tuesday = Game::tuesday()->limit(4)->get();
-        $pvp = Game::PVP()->limit(10)->get();
+        $pvp = Game::multiplayer()->limit(10)->get();
 
         return view('games.index')
             ->with('raids', $raids)
@@ -58,7 +58,7 @@ class GameController extends Controller {
 
             if ($game->type == "PVP")
             {
-                $game->players->sortByDesc('standing');
+                $game->players->sortByDesc('score');
 
                 return view('games.pvp')
                     ->with('game', $game)
@@ -114,6 +114,8 @@ class GameController extends Controller {
     {
         $raids = null;
 
+        $title = 'Raid';
+
         switch ($category)
         {
             case "Raid":
@@ -137,8 +139,9 @@ class GameController extends Controller {
                 break;
 
             case "PVP":
-                $raids = Game::PVP()
-                    ->with('players.account')
+                $title = 'Gametype';
+                $raids = Game::multiplayer()
+                    ->with('players.account', 'pvp')
                     ->paginate(10);
                 break;
 
@@ -148,7 +151,8 @@ class GameController extends Controller {
         }
 
         return view('games.history')
-            ->with('raids', $raids);
+            ->with('raids', $raids)
+            ->with('title', $title);
     }
 
     public function postComment(AddCommentRequest $request)

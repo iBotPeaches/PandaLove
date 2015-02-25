@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Helpers\Utils\Gametype;
 
 class Game extends Model {
 
@@ -52,6 +51,11 @@ class Game extends Model {
             }
 
             $game->comments()->delete();
+
+            if ($game->pvp instanceof PVP)
+            {
+                $game->pvp->delete();
+            }
         });
     }
 
@@ -89,11 +93,6 @@ class Game extends Model {
         $this->attributes['occurredAt'] = new Carbon($value, 'America/Chicago');
     }
 
-    public function getGametypeAttribute($value)
-    {
-        return Gametype::getGametype($value);
-    }
-
     public function getIsHardAttribute($value)
     {
         return boolval($value);
@@ -126,6 +125,11 @@ class Game extends Model {
     public function players()
     {
         return $this->hasMany('Onyx\Destiny\Objects\GamePlayer', 'game_id', 'instanceId');
+    }
+
+    public function pvp()
+    {
+        return $this->hasOne('Onyx\Destiny\Objects\PVP', 'instanceId', 'instanceId');
     }
 
     public function teamPlayers($team_id)
@@ -222,7 +226,7 @@ class Game extends Model {
             ->having('raidTuesday', '>', 0);
     }
 
-    public function scopePVP($query)
+    public function scopeMultiplayer($query)
     {
         return $query->where('type', 'PVP');
     }
