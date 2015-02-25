@@ -258,3 +258,6 @@
 .pandacount-table:after {
     content: " PandaLove members";
 }
+.score-table:after {
+    content: " Points";
+}
