@@ -7,8 +7,7 @@
                 <div class="12u">
                     <h1 class="header">
                         <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $game->type()->extra }}" />
-                        {{ $game->type()->title }}
-                        <div class="ui red button fb">{{ $game->gametype }}</div>
+                        {{ $game->gametype }} <small>({{ $game->type()->title }} - {{ $game->type()->description }})</small>
                     </h1>
                     <div class="ui inverted segment">
                         {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
@@ -27,6 +26,9 @@
             background: #9f342f !important;
             height: 1.5em !important;
             width: 1.5em !important;
+        }
+        small {
+            font-size: 0.50em;
         }
     </style>
 @append

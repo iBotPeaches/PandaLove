@@ -25,6 +25,8 @@
                     @else
                         <div class="right floated compact ui green button fb">Normal</div>
                     @endif
+                @elseif ($raid->type == "PVP")
+                    <div class="right floated compact ui blue button fb">{{ $raid->gametype }}</div>
                 @endif
                 @if ($raid->type == "PVP")
                     <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />

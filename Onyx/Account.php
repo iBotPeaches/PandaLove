@@ -55,6 +55,11 @@ class Account extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function isPandaLove()
+    {
+        return $this->attributes['clanName'] == "Panda Love" && $this->attributes['clanTag'] == "WRKD";
+    }
+
     public function characters()
     {
         return $this->hasMany('Onyx\Destiny\Objects\Character', 'membershipId', 'membershipId');
