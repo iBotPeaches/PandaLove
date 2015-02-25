@@ -29,7 +29,7 @@ class GameController extends Controller {
         $raids = Game::raid()->singular()->limit(4)->get();
         $flawless = Game::flawless()->singular()->limit(4)->get();
         $tuesday = Game::tuesday()->limit(4)->get();
-        $pvp = Game::multiplayer()->limit(10)->get();
+        $pvp = Game::with('pvp')->multiplayer()->limit(10)->get();
 
         return view('games.index')
             ->with('raids', $raids)
