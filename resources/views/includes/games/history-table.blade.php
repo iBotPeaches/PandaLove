@@ -1,5 +1,5 @@
 <table class="ui table">
-    <thead>
+    <thead class="desktop only">
     <tr>
         <th>Raid</th>
         <th>Date</th>
@@ -26,15 +26,15 @@
                     </a>
                 @endif
             </td>
-            <td>{{ $raid->occurredAt }}</td>
-            <td>
+            <td class="completed-table">{{ $raid->occurredAt }}</td>
+            <td class="timetook-table">
                 @if ($raid->raidTuesday != 0)
                     {{ \Onyx\Destiny\Helpers\String\Text::timeDuration($raid->totalTime) }}
                 @else
-                    {{ $raid->occurredAt }}
+                    {{ $raid->timeTookInSeconds }}
                 @endif
             </td>
-            <td>
+            <td class="pandacount-table">
                 {{ $raid->completed() }}
             </td>
         </tr>

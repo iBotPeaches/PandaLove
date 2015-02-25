@@ -39,6 +39,21 @@ class Game extends Model {
         $this->translator = new Hashes();
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        Game::deleting(function($game)
+        {
+            foreach($game->players as $player)
+            {
+                $player->delete();
+            }
+
+            $game->comments()->delete();
+        });
+    }
+
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
@@ -110,7 +125,8 @@ class Game extends Model {
     public function comments()
     {
         return $this->morphMany('Onyx\Destiny\Objects\Comment', 'commentable')
-            ->where('parent_comment_id', 0);
+            ->where('parent_comment_id', 0)
+            ->orderBy('created_at', 'DESC');
     }
 
     public function findAccountViaMembershipId($membershipId, $returnAccount = true)

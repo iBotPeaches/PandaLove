@@ -1,5 +1,5 @@
 <table class="ui sortable table">
-    <thead>
+    <thead class="desktop only">
     <tr>
         <th>Guardian</th>
         <th>Character</th>

@@ -27,7 +27,6 @@ class AppServiceProvider extends ServiceProvider {
 			return new CustomValidator($translator, $data, $rules, $messages);
 		});
 
-
 		\Blade::extend(function($value) {
 			return preg_replace('/\@define(.+)/', '<?php ${1}; ?>', $value);
 		});

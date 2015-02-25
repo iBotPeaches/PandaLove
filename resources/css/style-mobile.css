@@ -246,3 +246,15 @@
 .grimoire-table:after {
 	content: " Grimoire";
 }
+.desktop.only {
+    display: none !important;
+}
+.completed-table:before {
+    content: "Completed: ";
+}
+.timetook-table:before {
+    content: "Time Took: ";
+}
+.pandacount-table:after {
+    content: " PandaLove members";
+}
