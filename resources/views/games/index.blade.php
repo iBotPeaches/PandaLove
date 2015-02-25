@@ -20,6 +20,10 @@
                         Flawless Raids
                     </h3>
                     @include('includes.games.game-list', ['games' => $flawless])
+                    <h3 class="ui horizontal header divider">
+                        PVP
+                    </h3>
+                    @include('includes.games.game-list', ['games' => $pvp])
                 </div>
                 <div class="3u">
                     <h3 class="ui horizontal header divider">
@@ -40,6 +44,11 @@
                             <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['Flawless']) }}">
                                 <div class="content">
                                     Flawless Raids
+                                </div>
+                            </a>
+                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['PVP']) }}">
+                                <div class="content">
+                                    PVP
                                 </div>
                             </a>
                         </div>

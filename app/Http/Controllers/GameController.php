@@ -29,11 +29,13 @@ class GameController extends Controller {
         $raids = Game::raid()->singular()->limit(4)->get();
         $flawless = Game::flawless()->singular()->limit(4)->get();
         $tuesday = Game::tuesday()->limit(4)->get();
+        $pvp = Game::with('pvp')->multiplayer()->limit(10)->get();
 
         return view('games.index')
             ->with('raids', $raids)
             ->with('flawless', $flawless)
-            ->with('tuesday', $tuesday);
+            ->with('tuesday', $tuesday)
+            ->with('pvp', $pvp);
     }
 
     public function getGame($instanceId, $all = false)
@@ -48,14 +50,28 @@ class GameController extends Controller {
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
 
+
             $game->players->each(function($player)
             {
                 $player->kd = $player->kdr();
-            })->sortByDesc('kd');
+            });
 
-            return view('games.game')
-                ->with('game', $game)
-                ->with('showAll', boolval($all));
+            if ($game->type == "PVP")
+            {
+                $game->players->sortByDesc('score');
+
+                return view('games.pvp')
+                    ->with('game', $game)
+                    ->with('showAll', boolval($all));
+            }
+            else
+            {
+                $game->players->sortByDesc('kd');
+
+                return view('games.game')
+                    ->with('game', $game)
+                    ->with('showAll', boolval($all));
+            }
         }
         catch (ModelNotFoundException $e)
         {
@@ -98,6 +114,8 @@ class GameController extends Controller {
     {
         $raids = null;
 
+        $title = 'Raid';
+
         switch ($category)
         {
             case "Raid":
@@ -120,13 +138,21 @@ class GameController extends Controller {
                     ->paginate(10);
                 break;
 
+            case "PVP":
+                $title = 'Gametype';
+                $raids = Game::multiplayer()
+                    ->with('players.account', 'pvp')
+                    ->paginate(10);
+                break;
+
             default:
                 \App::abort(404);
                 break;
         }
 
         return view('games.history')
-            ->with('raids', $raids);
+            ->with('raids', $raids)
+            ->with('title', $title);
     }
 
     public function postComment(AddCommentRequest $request)

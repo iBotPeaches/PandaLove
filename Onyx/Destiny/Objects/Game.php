@@ -51,6 +51,11 @@ class Game extends Model {
             }
 
             $game->comments()->delete();
+
+            if ($game->pvp instanceof PVP)
+            {
+                $game->pvp->delete();
+            }
         });
     }
 
@@ -120,6 +125,27 @@ class Game extends Model {
     public function players()
     {
         return $this->hasMany('Onyx\Destiny\Objects\GamePlayer', 'game_id', 'instanceId');
+    }
+
+    public function pvp()
+    {
+        return $this->hasOne('Onyx\Destiny\Objects\PVP', 'instanceId', 'instanceId');
+    }
+
+    public function teamPlayers($team_id)
+    {
+        $players = $this->players;
+
+        $rtr = null;
+        foreach($players as $player)
+        {
+            if ($player->team == $team_id)
+            {
+                $rtr[] = $player;
+            }
+        }
+
+        return $rtr;
     }
 
     public function comments()
@@ -198,6 +224,11 @@ class Game extends Model {
             ->groupBy('raidTuesday')
             ->orderBy('occurredAt', 'DESC')
             ->having('raidTuesday', '>', 0);
+    }
+
+    public function scopeMultiplayer($query)
+    {
+        return $query->where('type', 'PVP');
     }
 
     public function type()

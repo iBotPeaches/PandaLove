@@ -98,6 +98,12 @@ class ProfileController extends Controller {
                     ->where('seo', Text::seoGamertag($gamertag))
                     ->firstOrFail();
 
+                // We don't care about non-panda members
+                if (! $account->isPandaLove())
+                {
+                    $this->inactiveCounter = 1;
+                }
+
                 // check for 10 inactive checks
                 if ($account->inactiveCounter >= $this->inactiveCounter)
                 {

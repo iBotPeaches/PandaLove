@@ -4,12 +4,14 @@ use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
+use Onyx\Destiny\Objects\PVP;
 use PandaLove\Commands\UpdateGamertag;
 
 class Client extends Http {
@@ -183,6 +185,33 @@ class Client extends Http {
         $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
         $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
 
+        if (isset($data['Response']['data']['activityDetails']['mode']))
+        {
+            $pvp = new PVP();
+            $pvp->instanceId = $game->instanceId;
+            $pvp->gametype = $data['Response']['data']['activityDetails']['mode'];
+
+            foreach($data['Response']['data']['teams'] as $team)
+            {
+                if ($team['standing']['basic']['value'] == 0) // 0 = victory
+                {
+                    $pvp->winnerPts = $team['score']['basic']['value'];
+                    $pvp->winnerId = $team['teamId'];
+                }
+                elseif ($team['standing']['basic']['value'] == 1) // 1 = defeat
+                {
+                    $pvp->loserPts = $team['score']['basic']['value'];
+                    $pvp->loserId = $team['teamId'];
+                }
+                else
+                {
+                    Log::warning('Unknown Team');
+                }
+            }
+
+            $pvp->save();
+        }
+
         // delete old game-players
         GamePlayer::where('game_id', $game->instanceId)->delete();
 
@@ -214,6 +243,23 @@ class Client extends Http {
             $player->completed = boolval($entry['values']['completed']['basic']['value']);
             $player->secondsPlayed = $entry['extended']['values']['secondsPlayed']['basic']['value'];
             $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+
+            if (isset($entry['values']['score']['basic']['value']))
+            {
+                $player->score = $entry['values']['score']['basic']['value'];
+            }
+
+            if (isset($entry['values']['standing']['basic']['values']))
+            {
+                $player->standing = $entry['values']['standing']['basic']['value'];
+            }
+
+            // Check for team or rumble
+            if (isset($entry['values']['team']['basic']['value']))
+            {
+                $player->team = $entry['values']['team']['basic']['value'];
+            }
+
             $player->save();
 
             $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
