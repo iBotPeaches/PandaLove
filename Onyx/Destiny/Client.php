@@ -183,6 +183,11 @@ class Client extends Http {
         $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
         $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
 
+        if (isset($data['Response']['data']['activityDetails']['mode']))
+        {
+            $game->gametype = $data['Response']['data']['activityDetails']['mode'];
+        }
+
         // delete old game-players
         GamePlayer::where('game_id', $game->instanceId)->delete();
 
@@ -215,8 +220,15 @@ class Client extends Http {
             $player->secondsPlayed = $entry['extended']['values']['secondsPlayed']['basic']['value'];
             $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
 
-            $player->score = $entry['values']['score']['basic']['value'];
-            $player->standing = $entry['values']['standing']['basic']['value'];
+            if (isset($entry['values']['score']['basic']['value']))
+            {
+                $player->score = $entry['values']['score']['basic']['value'];
+            }
+
+            if (isset($entry['values']['standing']['basic']['values']))
+            {
+                $player->standing = $entry['values']['standing']['basic']['value'];
+            }
 
             // Check for team or rumble
             if (isset($entry['values']['team']['basic']['value']))

@@ -66,7 +66,7 @@ class GameController extends Controller {
             }
             else
             {
-                $game->sortByDesc('kd');
+                $game->players->sortByDesc('kd');
 
                 return view('games.game')
                     ->with('game', $game)

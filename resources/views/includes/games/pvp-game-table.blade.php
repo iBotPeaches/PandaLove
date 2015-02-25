@@ -2,7 +2,7 @@
     <div class="ui raised blue segment">
         <h3>{{ \Onyx\Destiny\Helpers\Utils\Team::teamIdToString($team_id) }} Team</h3>
         <table class="ui sortable table">
-            <thead>
+            <thead class="desktop only">
             <tr>
                 <th>Guardian</th>
                 <th>Character</th>
@@ -21,7 +21,7 @@
                         <img class="ui avatar image" src="{{ $player->emblem->extra }}" />
                         @if (isset($player->account))
                             <a href="{{ URL::action('ProfileController@index', [$player->account->seo]) }}">
-                                @if($player->completed != 0)
+                                @if ($player->completed != 0)
                                     {{ $player->account->gamertag or 'Unknown' }}
                                 @else
                                     <s>{{ $player->account->gamertag or 'Unknown' }}</s>

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Helpers\Utils\Gametype;
 
 class Game extends Model {
 
@@ -86,6 +87,11 @@ class Game extends Model {
     public function setOccurredAtAttribute($value)
     {
         $this->attributes['occurredAt'] = new Carbon($value, 'America/Chicago');
+    }
+
+    public function getGametypeAttribute($value)
+    {
+        return Gametype::getGametype($value);
     }
 
     public function getIsHardAttribute($value)
