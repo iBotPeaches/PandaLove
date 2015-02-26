@@ -22,7 +22,7 @@
         </article>
         @include('includes.comments.view')
     </div>
-    @if ($user->admin)
+    @if (isset($user) && $user->admin)
         <div class="wrapper style3">
             <h2 class="header">Admin Options</h2>
             @include('includes.games.admin-deletegame')
