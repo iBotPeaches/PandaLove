@@ -40,7 +40,7 @@
                             {{ $player->level }} {{ $player->class }}
                         @endif
                     </td>
-                    <td class="score-table">{{ $player->score }}</td>
+                    <td class="score-table">{{ number_format($player->score) }}</td>
                     <td class="kills-table">{{ $player->kills }}</td>
                     <td class="deaths-table {{ $player->deaths == 0 ? 'no-deaths' : null }}">
                         {!! $player->deaths == 0 ? '<i class="smile icon"></i> no deaths' : $player->deaths !!}

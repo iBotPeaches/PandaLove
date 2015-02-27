@@ -1,6 +1,7 @@
 <?php namespace Onyx\Destiny\Objects;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
@@ -134,18 +135,12 @@ class Game extends Model {
 
     public function teamPlayers($team_id)
     {
-        $players = $this->players;
-
-        $rtr = null;
-        foreach($players as $player)
+        $players = $this->players->filter(function($player) use ($team_id)
         {
-            if ($player->team == $team_id)
-            {
-                $rtr[] = $player;
-            }
-        }
+            return $player->team == $team_id;
+        });
 
-        return $rtr;
+        return $players;
     }
 
     public function comments()
