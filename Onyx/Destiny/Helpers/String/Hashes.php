@@ -73,6 +73,55 @@ class Hashes extends Http{
     }
 
     /**
+     * @param array $hashes
+     */
+    public static function setPremadeHashList($hashes)
+    {
+        Hashes::$items = Hash::whereIn('hash', $hashes)->get();
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection $accounts
+     * @return array
+     */
+    public static function cacheAccountsHashes($accounts)
+    {
+        $hashes = null;
+
+        foreach($accounts as $account)
+        {
+            foreach($account->characters as $char)
+            {
+                $hashes[] = $char->getOriginal('race');
+                $hashes[] = $char->getOriginal('gender');
+                $hashes[] = $char->getOriginal('class');
+                $hashes[] = $char->getOriginal('emblem');
+            }
+        }
+
+        return array_unique($hashes);
+    }
+
+    /**
+     * @param \Onyx\Account $account
+     * @return array|null
+     */
+    public static function cacheAccountHashes($account)
+    {
+        $hashes = null;
+
+        foreach($account->characters as $char)
+        {
+            foreach($char->getAllHashTitles() as $hash)
+            {
+                $hashes[] = $char->getOriginal($hash);
+            }
+        }
+
+        return array_unique($hashes);
+    }
+
+    /**
      * @param boolean $andsign
      * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException
      */
