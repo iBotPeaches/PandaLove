@@ -147,6 +147,7 @@ class GameController extends Controller {
             case "PVP":
                 $title = 'Gametype';
                 $raids = Game::multiplayer()
+                    ->singular()
                     ->with('players.historyAccount', 'pvp')
                     ->paginate(10);
                 break;
