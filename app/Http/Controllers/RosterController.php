@@ -17,8 +17,7 @@ class RosterController extends Controller {
             ->paginate(7);
 
         // attempt hash cache
-        $hashes = Hashes::cacheAccountsHashes($members);
-        Hashes::setPremadeHashList($hashes);
+        Hashes::cacheAccountsHashes($members);
 
         return view('roster', ['members' => $members]);
     }

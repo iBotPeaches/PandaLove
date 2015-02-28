@@ -77,9 +77,24 @@ class GamePlayer extends Model {
         return $this->hasOne('Onyx\Destiny\Objects\Character', 'characterId', 'characterId');
     }
 
+    public function gameChar()
+    {
+        // We use this to only return the fields we need on the game character screen as
+        // loading the entire char and all his/her fields is time consuming when we only
+        // need like emblem/background
+        return $this->hasOne('Onyx\Destiny\Objects\Character', 'characterId', 'characterId')
+            ->select('id', 'membershipId', 'characterId', 'emblem');
+    }
+
     public function account()
     {
         return $this->hasOne('Onyx\Account', 'membershipId', 'membershipId');
+    }
+
+    public function historyAccount()
+    {
+        return $this->hasOne('Onyx\Account', 'membershipId', 'membershipId')
+            ->select('id', 'membershipId', 'clanName');
     }
 
     public function setTranslatorUrl($url)

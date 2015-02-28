@@ -32,8 +32,7 @@ class ProfileController extends Controller {
                 ->firstOrFail();
 
             // setup hash cache
-            $hashes = Hashes::cacheAccountHashes($account);
-            Hashes::setPremadeHashList($hashes);
+            Hashes::cacheAccountHashes($account);
 
             return view('profile', [
                 'account' => $account,

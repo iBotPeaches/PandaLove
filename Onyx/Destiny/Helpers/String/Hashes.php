@@ -81,6 +81,83 @@ class Hashes extends Http{
     }
 
     /**
+     * @param $games
+     */
+    public static function cacheHistoryHashes($games)
+    {
+        $hashes = null;
+
+        foreach($games as $game)
+        {
+            $hashes[] = $game->getOriginal('referenceId');
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $games
+     */
+    public static function cacheTuesdayHashes($games)
+    {
+        $hashes = null;
+
+        foreach($games as $game)
+        {
+            $hashes[] = $game->getOriginal('referenceId');
+
+            foreach($game->players as $player)
+            {
+                $hashes[] = $player->getOriginal('emblem');
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $game
+     */
+    public static function cacheSingleGameHashes($game)
+    {
+        $hashes = null;
+
+        $hashes[] = $game->getOriginal('referenceId');
+        foreach($game->players as $player)
+        {
+            $hashes[] = $player->getOriginal('emblem');
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $raids
+     * @param $flawless
+     * @param $tuesday
+     * @param $pvp
+     * @return array
+     */
+    public static function cacheGameHashes($raids, $flawless, $tuesday, $pvp)
+    {
+        $hashes = null;
+
+        foreach([$raids, $flawless, $tuesday, $pvp] as $games)
+        {
+            foreach($games as $game)
+            {
+                $hashes[] = $game->getOriginal('referenceId');
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
      * @param \Illuminate\Database\Eloquent\Collection $accounts
      * @return array
      */
@@ -99,7 +176,8 @@ class Hashes extends Http{
             }
         }
 
-        return self::removeEmptyAndDuplicates($hashes);
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
     }
 
     /**
@@ -118,7 +196,8 @@ class Hashes extends Http{
             }
         }
 
-        return self::removeEmptyAndDuplicates($hashes);
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
     }
 
     /**
