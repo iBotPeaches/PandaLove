@@ -8,7 +8,10 @@ class RosterController extends Controller {
 
 	public function getIndex()
     {
-        $members = Account::with('characters')
+        $members = Account::with(['characters' => function($query)
+            {
+                $query->select('id', 'membershipId', 'characterId', 'emblem', 'level', 'class', 'background');
+            }])
             ->where('clanName', 'Panda Love')
             ->orderBy('gamertag', 'ASC')
             ->paginate(7);

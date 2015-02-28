@@ -99,7 +99,7 @@ class Hashes extends Http{
             }
         }
 
-        return array_unique($hashes);
+        return self::removeEmptyAndDuplicates($hashes);
     }
 
     /**
@@ -118,7 +118,7 @@ class Hashes extends Http{
             }
         }
 
-        return array_unique($hashes);
+        return self::removeEmptyAndDuplicates($hashes);
     }
 
     /**
@@ -144,6 +144,15 @@ class Hashes extends Http{
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $hashes
+     * @return array
+     */
+    private static function removeEmptyAndDuplicates($hashes)
+    {
+        return array_filter(array_unique($hashes));
+    }
 
     private function getItems()
     {
