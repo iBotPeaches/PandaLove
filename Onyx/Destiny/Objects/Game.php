@@ -175,7 +175,7 @@ class Game extends Model {
         $count = 0;
         foreach($this->getRelation('players') as $player)
         {
-            if ($player->historyAccount != null)
+            if ($player->completed && $player->historyAccount != null)
             {
                 if ($player->historyAccount->clanName == "Panda Love")
                 {
