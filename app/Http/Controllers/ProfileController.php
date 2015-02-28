@@ -23,7 +23,7 @@ class ProfileController extends Controller {
         $this->request = $request;
     }
 
-	public function index($gamertag = '', $characterId = '')
+    public function index($gamertag = '', $characterId = '')
     {
         try
         {
