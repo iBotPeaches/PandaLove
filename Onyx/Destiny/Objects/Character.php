@@ -314,6 +314,12 @@ class Character extends Model {
         return $this->attributes['minutes_played'];
     }
 
+    public function getAllHashTitles()
+    {
+        return ['race', 'gender', 'class', 'emblem', 'background', 'subclass', 'helmet', 'arms', 'chest', 'boots',
+            'class_item', 'primary', 'secondary', 'heavy', 'ship', 'sparrow', 'ghost', 'shader'];
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------

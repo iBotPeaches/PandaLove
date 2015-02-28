@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
+use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Objects\Comment;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
@@ -31,6 +32,8 @@ class GameController extends Controller {
         $tuesday = Game::tuesday()->limit(4)->get();
         $pvp = Game::with('pvp')->multiplayer()->singular()->limit(10)->get();
 
+        Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp);
+
         return view('games.index')
             ->with('raids', $raids)
             ->with('flawless', $flawless)
@@ -42,35 +45,35 @@ class GameController extends Controller {
     {
         try
         {
-            $game = Game::with(
-                array('comments.player' => function($query) use ($instanceId)
+            $game = Game::with(['comments.player' => function($query) use ($instanceId)
                 {
                     $query->where('game_id', $instanceId);
-                }, 'players.character', 'players.account', 'comments.account'))
+                }, 'players.gameChar', 'players.account', 'comments.account'
+                ])
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
-
 
             $game->players->each(function($player)
             {
                 $player->kd = $player->kdr();
             });
 
+            // shared views
+            \View::share('game', $game);
+            \View::share('showAll', boolval($all));
+
+            // cache of hashes
+            Hashes::cacheSingleGameHashes($game);
+
             if ($game->type == "PVP")
             {
                 $game->players->sortByDesc('score');
-
-                return view('games.pvp')
-                    ->with('game', $game)
-                    ->with('showAll', boolval($all));
+                return view('games.pvp');
             }
             else
             {
                 $game->players->sortByDesc('kd');
-
-                return view('games.game')
-                    ->with('game', $game)
-                    ->with('showAll', boolval($all));
+                return view('games.game');
             }
         }
         catch (ModelNotFoundException $e)
@@ -95,13 +98,16 @@ class GameController extends Controller {
 
     public function getTuesday($raidTuesday)
     {
-        $games = Game::with('players.character', 'players.account')->OfTuesday($raidTuesday)->get();
+        $games = Game::with('players.gameChar', 'players.account')
+            ->OfTuesday($raidTuesday)
+            ->get();
 
         if ($games->isEmpty())
         {
             \App::abort(404);
         }
 
+        Hashes::cacheTuesdayHashes($games);
         $combined = GameHelper::buildCombinedStats($games);
 
         return view('games.tuesday')
@@ -121,27 +127,27 @@ class GameController extends Controller {
             case "Raid":
                 $raids = Game::raid()
                     ->singular()
-                    ->with('players.account')
+                    ->with('players.historyAccount')
                     ->paginate(10);
                 break;
 
             case "Flawless";
                 $raids = Game::flawless()
                     ->singular()
-                    ->with('players.account')
+                    ->with('players.historyAccount')
                     ->paginate(10);
                 break;
 
             case "RaidTuesdays";
                 $raids = Game::tuesday()
-                    ->with('players.account')
+                    ->with('players.historyAccount')
                     ->paginate(10);
                 break;
 
             case "PVP":
                 $title = 'Gametype';
                 $raids = Game::multiplayer()
-                    ->with('players.account', 'pvp')
+                    ->with('players.historyAccount', 'pvp')
                     ->paginate(10);
                 break;
 
@@ -149,6 +155,8 @@ class GameController extends Controller {
                 \App::abort(404);
                 break;
         }
+
+        Hashes::cacheHistoryHashes($raids);
 
         return view('games.history')
             ->with('raids', $raids)

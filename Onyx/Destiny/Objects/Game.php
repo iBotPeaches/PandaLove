@@ -175,9 +175,9 @@ class Game extends Model {
         $count = 0;
         foreach($this->getRelation('players') as $player)
         {
-            if ($player->account != null)
+            if ($player->historyAccount != null)
             {
-                if ($player->account->clanName == "Panda Love")
+                if ($player->historyAccount->clanName == "Panda Love")
                 {
                     $count++;
                 }

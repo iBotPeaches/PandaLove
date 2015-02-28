@@ -1,9 +1,9 @@
 <?php namespace PandaLove\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
+use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Requests;
@@ -27,7 +27,12 @@ class ProfileController extends Controller {
     {
         try
         {
-            $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
+            $account = Account::with('characters')
+                ->where('seo', Text::seoGamertag($gamertag))
+                ->firstOrFail();
+
+            // setup hash cache
+            Hashes::cacheAccountHashes($account);
 
             return view('profile', [
                 'account' => $account,

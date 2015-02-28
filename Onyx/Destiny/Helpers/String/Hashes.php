@@ -73,6 +73,134 @@ class Hashes extends Http{
     }
 
     /**
+     * @param array $hashes
+     */
+    public static function setPremadeHashList($hashes)
+    {
+        Hashes::$items = Hash::whereIn('hash', $hashes)->get();
+    }
+
+    /**
+     * @param $games
+     */
+    public static function cacheHistoryHashes($games)
+    {
+        $hashes = null;
+
+        foreach($games as $game)
+        {
+            $hashes[] = $game->getOriginal('referenceId');
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $games
+     */
+    public static function cacheTuesdayHashes($games)
+    {
+        $hashes = null;
+
+        foreach($games as $game)
+        {
+            $hashes[] = $game->getOriginal('referenceId');
+
+            foreach($game->players as $player)
+            {
+                $hashes[] = $player->getOriginal('emblem');
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $game
+     */
+    public static function cacheSingleGameHashes($game)
+    {
+        $hashes = null;
+
+        $hashes[] = $game->getOriginal('referenceId');
+        foreach($game->players as $player)
+        {
+            $hashes[] = $player->getOriginal('emblem');
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $raids
+     * @param $flawless
+     * @param $tuesday
+     * @param $pvp
+     * @return array
+     */
+    public static function cacheGameHashes($raids, $flawless, $tuesday, $pvp)
+    {
+        $hashes = null;
+
+        foreach([$raids, $flawless, $tuesday, $pvp] as $games)
+        {
+            foreach($games as $game)
+            {
+                $hashes[] = $game->getOriginal('referenceId');
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection $accounts
+     * @return array
+     */
+    public static function cacheAccountsHashes($accounts)
+    {
+        $hashes = null;
+
+        foreach($accounts as $account)
+        {
+            foreach($account->characters as $char)
+            {
+                $hashes[] = $char->getOriginal('race');
+                $hashes[] = $char->getOriginal('gender');
+                $hashes[] = $char->getOriginal('class');
+                $hashes[] = $char->getOriginal('emblem');
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param \Onyx\Account $account
+     * @return array|null
+     */
+    public static function cacheAccountHashes($account)
+    {
+        $hashes = null;
+
+        foreach($account->characters as $char)
+        {
+            foreach($char->getAllHashTitles() as $hash)
+            {
+                $hashes[] = $char->getOriginal($hash);
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
      * @param boolean $andsign
      * @throws \Onyx\Destiny\Helpers\Network\BungieOfflineException
      */
@@ -95,6 +223,15 @@ class Hashes extends Http{
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $hashes
+     * @return array
+     */
+    private static function removeEmptyAndDuplicates($hashes)
+    {
+        return array_filter(array_unique($hashes));
+    }
 
     private function getItems()
     {
