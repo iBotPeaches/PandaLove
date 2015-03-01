@@ -127,7 +127,11 @@ class Client extends Http {
         if (isset($json['Response']['data']['clanName']))
         {
             $account->clanName = $json['Response']['data']['clanName'];
-            $account->clanTag = $json['Response']['data']['clanTag'];
+
+            if (isset($json['Response']['data']['clanTag']))
+            {
+                $account->clanTag = $json['Response']['data']['clanTag'];
+            }
         }
 
         $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
@@ -260,16 +264,24 @@ class Client extends Http {
                 $player->team = $entry['values']['team']['basic']['value'];
             }
 
-            $player->save();
-
-            $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
-            if (isset($time[$duration]))
+            // Don't save if 0/0
+            if ($player->score == 0 && $player->deaths == 0)
             {
-                $time[$duration] += 1;
+                continue;
             }
             else
             {
-                $time[$duration] = 1;
+                $player->save();
+
+                $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
+                if (isset($time[$duration]))
+                {
+                    $time[$duration] += 1;
+                }
+                else
+                {
+                    $time[$duration] = 1;
+                }
             }
         }
 
