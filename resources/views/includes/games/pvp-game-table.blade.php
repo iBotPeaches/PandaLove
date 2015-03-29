@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             @foreach($game->teamPlayers($team_id) as $player)
-                <tr class="{{ $player->deaths == 0 ? 'positive' : ($player->deaths > $player->kills ? 'negative' : null) }}">
+                <tr class="{{ $player->deaths == 0 && $player->completed ? 'positive' : ($player->deaths > $player->kills ? 'negative' : null) }}">
                     <td>
                         <img class="ui avatar image" src="{{ $player->emblem->extra }}" />
                         @if (isset($player->account))
@@ -43,7 +43,7 @@
                     <td class="score-table">{{ number_format($player->score) }}</td>
                     <td class="kills-table">{{ $player->kills }}</td>
                     <td class="deaths-table {{ $player->deaths == 0 ? 'no-deaths' : null }}">
-                        {!! $player->deaths == 0 ? '<i class="smile icon"></i> no deaths' : $player->deaths !!}
+                        {!! $player->deaths == 0 && $player->completed ? '<i class="smile icon"></i> no deaths' : $player->deaths !!}
                     </td>
                     <td class="assists-table">{{ $player->assists }}</td>
                     <td class="kdr-table">{{ $player->kdr() }}</td>
