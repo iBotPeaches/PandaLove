@@ -167,7 +167,7 @@ class Game extends Model {
             }
         }
 
-        return null;
+        return \Onyx\Account::where('membershipId', $membershipId)->first();
     }
 
     public function completed()

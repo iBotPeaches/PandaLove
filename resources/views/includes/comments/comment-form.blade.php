@@ -7,7 +7,7 @@
     <button class="ui primary submit labeled icon button">
         <i class="icon edit"></i> Add Comment
     </button>
-    Posting as <strong>{{ $game->findAccountViaMembershipId($user->account->membershipId)->gamertag }}</strong>
+    Posting as <strong>{{ $game->findAccountViaMembershipId($user->account->membershipId)->gamertag or 'Unknown' }}</strong>
 {!! Form::close() !!}
 
 @section('inline-js')
