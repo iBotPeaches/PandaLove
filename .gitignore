@@ -25,5 +25,4 @@ Thumbs.db
 # Other
 _ide_helper.php
 composer.phar
-composer.lock
 error_log
