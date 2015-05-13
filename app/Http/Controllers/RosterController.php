@@ -14,7 +14,7 @@ class RosterController extends Controller {
             }])
             ->where('clanName', 'Panda Love')
             ->orderBy('gamertag', 'ASC')
-            ->paginate(7);
+            ->paginate(12);
 
         // attempt hash cache
         Hashes::cacheAccountsHashes($members);
