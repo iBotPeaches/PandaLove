@@ -18,8 +18,20 @@ class LightLevels {
         29 => 109,
         30 => 120,
         31 => 132,
-        32 => 144
+        32 => 144,
+        33 => 156,
+        34 => 168
     ];
+
+    /**
+     * @var int
+     */
+    public static $MAX_LIGHT = 168;
+
+    /**
+     * @var int
+     */
+    public static $MAX_LEVEL = 34;
 
     /**
      * @param \Onyx\Destiny\Objects\Character $character
@@ -29,11 +41,11 @@ class LightLevels {
     {
         $light = $character->light;
 
-        if ($light == 144)
+        if ($light == self::$MAX_LIGHT)
         {
             return [
-                'max' => 144,
-                'light' => 144,
+                'max' => self::$MAX_LIGHT,
+                'light' => self::$MAX_LIGHT,
                 'message' => 'Max Level Reached'
             ];
         }
@@ -45,7 +57,7 @@ class LightLevels {
                 'max' => $nearest,
                 'light' => $light,
                 'percent' => $light / $nearest,
-                'message' => 'Progress to Level ' . ($character->level + 1)
+                'message' => 'Level ' . $character->level . '. Progress to Level ' . ($character->level + 1)
             ];
         }
     }
@@ -58,15 +70,24 @@ class LightLevels {
     private static function findNearestValue($arr, $value)
     {
         $nearest = null;
+        $key = null;
 
-        foreach($arr as $item)
+        foreach($arr as $index => $item)
         {
             if ($nearest == null || abs($value - $nearest) > abs($item - $value))
             {
+                $key = $index;
                 $nearest = $item;
             }
         }
 
-        return $nearest;
+        if ($nearest == self::$MAX_LIGHT)
+        {
+            return $nearest;
+        }
+        else
+        {
+            return $arr[$key + 1];
+        }
     }
 }
