@@ -19,6 +19,9 @@
         <tr class="{{ $player['deaths'] == 0 ? 'positive' : ($player['deaths'] > $player['kills'] ? 'negative' : null) }}">
             <td>
                 @if (isset($player['player']))
+                    @if ($player['player']['isPandaLove'])
+                        <i class="user icon panda-team"></i>
+                    @endif
                     <a href="{{ URL::action('ProfileController@index', [$player['player']['seo']]) }}">
                         {{ $player['player']['gamertag'] or 'Unknown' }}
                     </a>
@@ -44,6 +47,14 @@
     <script type="text/javascript">
         $(function() {
             $(".ui.sortable.table").tablesort();
+
+            $('.panda-team')
+                    .popup({
+                        title: 'PandaLove Member',
+                        position: 'top center',
+                        inline: true
+                    })
+            ;
         });
     </script>
 @append

@@ -77,7 +77,8 @@ class Game {
                     {
                         $extra = [
                             'gamertag' => $player->account->gamertag,
-                            'seo' => $player->account->seo
+                            'seo' => $player->account->seo,
+                            'isPandaLove' => $player->account->isPandaLove()
                         ];
 
                         $combined[$player->membershipId] = array_merge($combined[$player->membershipId], ['player' => $extra]);

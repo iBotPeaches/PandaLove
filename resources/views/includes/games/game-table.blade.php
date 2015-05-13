@@ -17,6 +17,9 @@
                 <td>
                     <img class="ui avatar image" src="{{ $player->emblem->extra }}" />
                     @if (isset($player->account))
+                        @if ($player->account->isPandaLove())
+                            <i class="user icon panda-team"></i>
+                        @endif
                         <a href="{{ URL::action('ProfileController@index', [$player->account->seo]) }}">
                             {{ $player->account->gamertag or 'Unknown' }}
                         </a>
@@ -50,6 +53,14 @@
     <script type="text/javascript">
         $(function() {
             $(".ui.sortable.table").tablesort();
+
+            $('.panda-team')
+                    .popup({
+                        title: 'PandaLove Member',
+                        position: 'top center',
+                        inline: true
+                    })
+            ;
         });
     </script>
 @append
