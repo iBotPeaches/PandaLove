@@ -4,8 +4,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Onyx\Destiny\Enums\LightLevels;
+use Onyx\Destiny\Enums\MaxStats;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
+use Onyx\Destiny\Helpers\String\Text;
 
 class Character extends Model {
 
@@ -152,6 +154,17 @@ class Character extends Model {
         return $rtr;
     }
 
+    public function getMinutesPlayedLastSessionAttribute($value)
+    {
+        return Text::timeDuration(($value * 60));
+    }
+
+    public function getLastPlayedAttribute($value)
+    {
+        $date = new Carbon($value);
+        return $date->toFormattedDateString();
+    }
+
     public function getRaceAttribute($value)
     {
         return $this->translator->map($value, false);
@@ -242,6 +255,31 @@ class Character extends Model {
         return $this->translator->map($value, false);
     }
 
+    public function getDefenseAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getIntellectAttribute($value)
+    {
+        return $this->getStatRollWithPercent($value, MaxStats::Intellect);
+    }
+
+    public function getDisciplineAttribute($value)
+    {
+        return $this->getStatRollWithPercent($value, MaxStats::Discipline);
+    }
+
+    public function getStrengthAttribute($value)
+    {
+        return $this->getStatRollWithPercent($value, MaxStats::Strength);
+    }
+
+    public function getRealLevelAttribute($value)
+    {
+        return number_format($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -302,6 +340,16 @@ class Character extends Model {
         return $data;
     }
 
+    public function stats()
+    {
+        return array(
+            'Defense' => $this->defense,
+            'Intellect' => $this->intellect,
+            'Discipline' => $this->discipline,
+            'Strength' => $this->strength
+        );
+    }
+
     public function getLastUpdatedRelative()
     {
         $date = new Carbon($this->updated_at);
@@ -323,6 +371,24 @@ class Character extends Model {
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $value
+     * @param $max
+     * @return string
+     */
+    private function getStatRollWithPercent($value, $max)
+    {
+        if ($value > $max)
+        {
+            $percent = 100;
+        }
+        else
+        {
+            $percent = round($value / $max, 2) * 100;
+        }
+        return number_format($value) . " (" . $percent . "%)";
+    }
 
     /**
      * @param string $index Index for $this->attributes

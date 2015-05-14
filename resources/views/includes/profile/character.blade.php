@@ -90,6 +90,39 @@
             </div>
             <div class="label">{{ $light['message'] }}</div>
         </div>
+        <br />
+        <h3 class="ui horizontal header divider">
+            Nerd Stats
+        </h3>
+        <div class="ui accordion">
+            <div class="title">
+                <i class="dropdown icon"></i>
+                What are my current stats?
+            </div>
+            <div class="content">
+                <ul>
+                    @foreach($char->stats() as $title => $value)
+                        <li><span class="ui black label">{{ $title }}</span> - <span class="ui label">{{ $value }}</span></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                What is my real level?
+            </div>
+            <div class="content">
+                <small>This is the amount of times you've earned a mote of light past level 20.</small>
+                <br />
+                <span class="ui blue label">{{ $char->realLevel }}</span>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                When did I last play on this character?
+            </div>
+            <div class="content">
+                You played on {{ $char->last_played }} for {{ $char->minutes_played_last_session }}.
+            </div>
+        </div>
     </div>
 </div>
 
@@ -107,6 +140,10 @@
                     ratio: '{value}/{total} light'
                 }
             });
+
+            $('.ui.accordion')
+                    .accordion()
+            ;
         });
     </script>
 @append

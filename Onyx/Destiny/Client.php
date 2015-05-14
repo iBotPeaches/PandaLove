@@ -315,6 +315,8 @@ class Client extends Http {
 
         $character->setTranslatorUrl($url);
 
+        $character->realLevel = $data['levelProgression']['level'];
+
         $character->last_played = new Carbon($charBase['dateLastPlayed']);
         $character->minutes_played = $charBase['minutesPlayedTotal'];
         $character->minutes_played_last_session = $charBase['minutesPlayedThisSession'];
