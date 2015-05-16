@@ -245,8 +245,17 @@ class Client extends Http {
             $player->deaths = $entry['values']['deaths']['basic']['value'];
             $player->kills = $entry['values']['kills']['basic']['value'];
             $player->completed = boolval($entry['values']['completed']['basic']['value']);
-            $player->secondsPlayed = $entry['extended']['values']['secondsPlayed']['basic']['value'];
-            $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+
+            // PVP games don't seem to have secondsPlayed or averageLifespan
+            if (isset($entry['values']['secondsPlayed']['basic']['value']))
+            {
+                $player->secondsPlayed = $entry['values']['secondsPlayed']['basic']['value'];
+            }
+
+            if (isset($entry['extended']['values']['averageLifespan']['basic']['value']))
+            {
+                $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+            }
 
             if (isset($entry['values']['score']['basic']['value']))
             {
