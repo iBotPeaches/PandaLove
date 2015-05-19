@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Helpers\Utils\Gametype;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
@@ -189,7 +190,8 @@ class Client extends Http {
         $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
         $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
 
-        if (isset($data['Response']['data']['activityDetails']['mode']))
+        if (isset($data['Response']['data']['activityDetails']['mode']) &&
+            Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
         {
             $pvp = new PVP();
             $pvp->instanceId = $game->instanceId;

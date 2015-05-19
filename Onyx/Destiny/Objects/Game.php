@@ -226,6 +226,11 @@ class Game extends Model {
         return $query->where('type', 'PVP');
     }
 
+    public function scopePoE($query)
+    {
+        return $query->where('type', 'PoE');
+    }
+
     public function type()
     {
         return $this->translator->map($this->referenceId, false);
@@ -234,6 +239,11 @@ class Game extends Model {
     public function getRawSeconds()
     {
         return $this->attributes['timeTookInSeconds'];
+    }
+
+    public function isPoE()
+    {
+        return $this->type == "PoE";
     }
 
     //---------------------------------------------------------------------------------

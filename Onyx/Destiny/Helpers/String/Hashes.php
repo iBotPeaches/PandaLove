@@ -139,13 +139,14 @@ class Hashes extends Http{
      * @param $flawless
      * @param $tuesday
      * @param $pvp
+     * @param $poe
      * @return array
      */
-    public static function cacheGameHashes($raids, $flawless, $tuesday, $pvp)
+    public static function cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe)
     {
         $hashes = null;
 
-        foreach([$raids, $flawless, $tuesday, $pvp] as $games)
+        foreach([$raids, $flawless, $tuesday, $pvp, $poe] as $games)
         {
             foreach($games as $game)
             {

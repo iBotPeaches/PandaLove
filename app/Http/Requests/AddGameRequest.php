@@ -30,7 +30,7 @@ class AddGameRequest extends Request {
 	{
 		return [
 			'instanceId' => 'required|game-real',
-			'type' => 'required|in:Raid,Flawless,PVP'
+			'type' => 'required|in:Raid,Flawless,PVP,PoE'
 		];
 	}
 

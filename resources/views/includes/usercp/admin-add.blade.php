@@ -33,7 +33,7 @@
                     <input type="text" name="instanceId" id="instanceId" placeholder="InstanceId of Game" />
                 </div>
                 <label>Type of Game</label>
-                {!! Form::select('type', ['Raid' => 'Raid', 'Flawless' => 'Flawless Raid', 'PVP' => 'PVP']) !!}
+                {!! Form::select('type', ['Raid' => 'Raid', 'Flawless' => 'Flawless Raid', 'PVP' => 'PVP', 'PoE' => 'Prison Of Elders']) !!}
                 <label>Raid ID (If part of series)</label>
                 <div class="field {{ $errors->has('raidTuesday') ? 'error' : '' }}">
                     <input type="text" name="raidTuesday" id="raidTuesday" />

@@ -23,8 +23,30 @@ class Gametype {
         12 => 'Clash',
         13 => 'Rumble',
         14 => 'Unknown', // unknown
-        15 => 'Doubles Skirmish'
+        15 => 'Doubles Skirmish',
+        21 => 'lvl28PoE',
+        22 => 'lvl32PoE',
+        23 => 'lvl34PoE',
+        24 => 'lvl35PoE'
     ];
+
+    /**
+     * Checks if $id is a PVP event
+     *
+     * @param $id
+     * @return bool
+     */
+    public static function isPVP($id)
+    {
+        $pvp = [5, 9, 10, 11, 12, 15];
+
+        if (in_array($id, $pvp))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @param $id

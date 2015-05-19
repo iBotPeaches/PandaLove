@@ -30,15 +30,17 @@ class GameController extends Controller {
         $raids = Game::raid()->singular()->limit(4)->get();
         $flawless = Game::flawless()->singular()->limit(4)->get();
         $tuesday = Game::tuesday()->limit(4)->get();
-        $pvp = Game::with('pvp')->multiplayer()->singular()->limit(10)->get();
+        $pvp = Game::with('pvp')->multiplayer()->singular()->limit(5)->get();
+        $poe = Game::poe()->singular()->limit(4)->get();
 
-        Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp);
+        Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe);
 
         return view('games.index')
             ->with('raids', $raids)
             ->with('flawless', $flawless)
             ->with('tuesday', $tuesday)
-            ->with('pvp', $pvp);
+            ->with('pvp', $pvp)
+            ->with('poe', $poe);
     }
 
     public function getGame($instanceId, $all = false)
@@ -149,6 +151,13 @@ class GameController extends Controller {
                 $raids = Game::multiplayer()
                     ->singular()
                     ->with('players.historyAccount', 'pvp')
+                    ->paginate(10);
+                break;
+
+            case "PoE":
+                $raids = Game::poe()
+                    ->singular()
+                    ->with('players.historyAccount')
                     ->paginate(10);
                 break;
 

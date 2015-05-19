@@ -13,6 +13,8 @@
             <td>
                 @if ($raid->type == "PVP")
                     <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
+                @elseif ($raid->type == "PoE")
+                    <div class="ui purple horizontal label">Level {{ $raid->type()->extraThird }}</div>
                 @else
                     @if ($raid->isHard)
                         <div class="ui red horizontal label">Hard</div>
