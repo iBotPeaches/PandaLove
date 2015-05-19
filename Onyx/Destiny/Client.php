@@ -276,7 +276,7 @@ class Client extends Http {
             }
 
             // Don't save if 0/0
-            if ($player->score == 0 && $player->deaths == 0)
+            if ($player->score == 0 && $player->deaths == 0 && $player->kills == 0)
             {
                 continue;
             }
