@@ -27,7 +27,7 @@
                 @else
                     <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
                         @if ($raid->type == "PVP")
-                            {{ $raid->pvp->gametype }}
+                            {{ $raid->pvp->gametype }} <small>({{ $raid->type()->title }})</small>
                         @else
                             {{ $raid->type()->title }}
                         @endif
