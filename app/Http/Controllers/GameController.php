@@ -55,14 +55,18 @@ class GameController extends Controller {
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
 
-            $game->players->each(function($player)
+            $gts = '';
+            $game->players->each(function($player) use (&$gts)
             {
                 $player->kd = $player->kdr();
+                $gts .= $player->account->gamertag . ", ";
             });
 
             // shared views
             \View::share('game', $game);
             \View::share('showAll', boolval($all));
+            \View::share('description', $game->type()->title . " with players: " . rtrim($gts, ", "));
+            \View::share('title', $game->type()->title);
 
             // cache of hashes
             Hashes::cacheSingleGameHashes($game);
