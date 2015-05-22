@@ -7,7 +7,7 @@
                 @else
                     <div class="right floated compact ui green button fb">Normal</div>
                 @endif
-                <img class="ui avatar bordered image non-white-bg" src="{{ $raid->type()->extra }}" />
+                <img class="ui avatar bordered image non-white-bg pve-emblem" src="{{ $raid->type()->extra }}" />
                 <div class="content">
                     <div class="header">
                         {{ $raid->raidCount }} {{ $raid->type()->title }} Raids
