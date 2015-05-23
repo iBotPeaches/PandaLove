@@ -11,7 +11,7 @@
                     <header>
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
-                    <p>A <strong>Destiny</strong> clan, who frequently run raids, obliterate the competition in PVP and take an occasional flawless raid.</p>
+                    <p>A <strong>Destiny</strong> clan, who frequently run raids, obliterate the competition in PVP &amp; Trials Of Osiris along with dabbing in Prison of Elders and Flawless Raids.</p>
                     <a href="{{ URL::action('RosterController@getIndex') }}" class="button big scrolly">Meet our Group</a>
                 </div>
             </div>
@@ -28,15 +28,15 @@
                     <div class="4u">
                         <section class="box style1">
                             <span class="icon featured fa-comments-o"></span>
-                            <h3>Raids</h3>
-                            <p>Every Tuesday during reset, Raid Tuesday begins with the hardest Raid available</p>
+                            <h3>Raids / Prison of Elders</h3>
+                            <p>Every Tuesday during reset, we take down the hardest challenge available</p>
                         </section>
                     </div>
                     <div class="4u">
                         <section class="box style1">
                             <span class="icon featured fa-crosshairs"></span>
                             <h3>Multiplayer</h3>
-                            <p>6 or 3 of us online creates an unstoppable force in Skirmish or Control alike</p>
+                            <p>Whether its 3 or 6 of us online, an unstoppable force is met.</p>
                         </section>
                     </div>
                     <div class="4u">
