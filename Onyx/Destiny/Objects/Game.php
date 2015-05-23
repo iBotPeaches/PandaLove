@@ -246,7 +246,7 @@ class Game extends Model {
         return $this->scopeToO($query)
             ->selectRaw('*, count(*) as gameCount, sum(timeTookInSeconds) as totalTime')
             ->groupBy('passageId')
-            ->orderBy('occurredAt', 'ASC')
+            ->orderBy('occurredAt', 'DESC')
             ->having('passageId', '>', 0);
     }
 
