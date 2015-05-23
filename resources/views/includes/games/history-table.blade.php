@@ -1,7 +1,7 @@
 <table class="ui table">
     <thead class="desktop only">
     <tr>
-        <th>{{ $title or 'Raid' }}</th>
+        <th>{{ $t_header or 'Raid' }}</th>
         <th>Date</th>
         <th>Completion Time</th>
         <th>PandaLove Members Present</th>

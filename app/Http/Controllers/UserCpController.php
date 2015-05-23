@@ -16,7 +16,9 @@ class UserCpController extends Controller {
 
     public function getIndex()
     {
-        return view('usercp.index');
+        return view('usercp.index', [
+            'title' => 'PandaLove Control Panel'
+        ]);
     }
 
     public function postGamertagOwnership(OwnershipFormRequest $request)

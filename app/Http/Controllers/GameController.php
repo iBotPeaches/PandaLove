@@ -42,7 +42,9 @@ class GameController extends Controller {
             ->with('tuesday', $tuesday)
             ->with('pvp', $pvp)
             ->with('poe', $poe)
-            ->with('passages', $passages);
+            ->with('passages', $passages)
+            ->with('title', 'PandaLove Game Index')
+            ->with('description', 'PandaLove games including Raids, PVP, Trials of Osiris, Prison of Elders and much more.');
     }
 
     public function getGame($instanceId, $all = false)
@@ -71,7 +73,7 @@ class GameController extends Controller {
             \View::share('game', $game);
             \View::share('showAll', boolval($all));
             \View::share('description', $game->type()->title . " with players: " . rtrim($gts, ", "));
-            \View::share('title', $game->type()->title);
+            \View::share('title', 'PandaLove: ' . $game->type()->title);
 
             if ($game->type == "PVP")
             {
@@ -121,7 +123,9 @@ class GameController extends Controller {
         return view('games.tuesday')
             ->with('raidTuesday', intval($raidTuesday))
             ->with('games', $games)
-            ->with('combined', $combined);
+            ->with('combined', $combined)
+            ->with('title', 'PandaLove Raid Tuesday: ' . $raidTuesday)
+            ->with('description', 'PandaLove Raid Tuesday: ' . $raidTuesday . ' including ' . count($games) . ' raids.');
     }
 
     public function getPassage($passageId)
@@ -144,6 +148,8 @@ class GameController extends Controller {
             ->with('games', $games)
             ->with('combined', $combined)
             ->with('passage', $passageCombined)
+            ->with('title', 'PandaLove: Trials Of Osiris #' . $passageId)
+            ->with('description', 'PandaLove: Trials Of Osiris #' . $passageId)
             ->with('showAll', true);
     }
 
@@ -152,10 +158,12 @@ class GameController extends Controller {
         $raids = null;
 
         $title = 'Raid';
+        $description = '';
 
         switch ($category)
         {
             case "Raid":
+                $description = 'Raids';
                 $raids = Game::raid()
                     ->singular()
                     ->with('players.historyAccount')
@@ -163,6 +171,7 @@ class GameController extends Controller {
                 break;
 
             case "Flawless";
+                $description = 'Flawless Raids';
                 $raids = Game::flawless()
                     ->singular()
                     ->with('players.historyAccount')
@@ -170,12 +179,14 @@ class GameController extends Controller {
                 break;
 
             case "RaidTuesdays";
+                $description = 'Raid Tuesdays';
                 $raids = Game::tuesday()
                     ->with('players.historyAccount')
                     ->paginate(10);
                 break;
 
             case "PVP":
+                $description = 'PVP';
                 $title = 'Gametype';
                 $raids = Game::multiplayer()
                     ->singular()
@@ -184,6 +195,7 @@ class GameController extends Controller {
                 break;
 
             case "PoE":
+                $description = 'Prison Of Elders';
                 $raids = Game::poe()
                     ->singular()
                     ->with('players.historyAccount')
@@ -191,6 +203,7 @@ class GameController extends Controller {
                 break;
 
             case "ToO":
+                $description = 'Trials Of Osiris';
                 $title = 'Gametype';
                 $raids = Game::passage()
                     ->with('players.historyAccount')
@@ -206,7 +219,9 @@ class GameController extends Controller {
 
         return view('games.history')
             ->with('raids', $raids)
-            ->with('title', $title);
+            ->with('t_header', $title)
+            ->with('title', 'PandaLove: ' . $description . ' History')
+            ->with('description', 'PandaLove complete history of: ' . $description);
     }
 
     public function postComment(AddCommentRequest $request)

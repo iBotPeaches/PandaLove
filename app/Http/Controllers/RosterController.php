@@ -19,6 +19,10 @@ class RosterController extends Controller {
         // attempt hash cache
         Hashes::cacheAccountsHashes($members);
 
-        return view('roster', ['members' => $members]);
+        return view('roster', [
+            'members' => $members,
+            'description' => 'PandaLove Roster page',
+            'title' => 'PandaLove Roster'
+        ]);
     }
 }
