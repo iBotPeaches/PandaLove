@@ -6,7 +6,7 @@
     <thead class="desktop only">
     <tr>
         <th>Guardian</th>
-        <th>Level</th>
+        <th>Character</th>
         <th>Games Played</th>
         <th>Kills</th>
         <th>Deaths</th>
@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($combined['players'] as $player)
+    @foreach($combined['players'] as $key => $player)
         @if ($player['player']['isPandaLove'])
             <tr class="{{ $player['deaths'] == 0 ? 'positive' : ($player['deaths'] > $player['kills'] ? 'negative' : null) }}">
                 <td>
@@ -31,7 +31,11 @@
                         <i>Unknown</i>
                     @endif
                 </td>
-                <td class="avglevel-table">{{ $player['avgLevel'] }}</td>
+                <td>
+                    <a href="{{ URL::action('ProfileController@index', [$player['player']['seo'], $player['charId']]) }}">
+                        {{ $player['maxLevel'] }} {{ $player['class'] }}
+                    </a>
+                </td>
                 <td class="gamesplayed-table">{{ $player['count'] }}</td>
                 <td class="kills-table">{{ $player['kills'] }}</td>
                 <td class="deaths-table {{ $player['deaths'] == 0 ? 'no-deaths' : null }}">

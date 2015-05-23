@@ -74,7 +74,9 @@ class Game {
                         'assists' => $player->assists,
                         'level' => $player->level,
                         'count' => 1,
-                        'maxLevel' => 0
+                        'maxLevel' => 0,
+                        'class' => $player->class,
+                        'charId' => $player->characterId
                     ];
 
                     if (isset($player->account->gamertag))
