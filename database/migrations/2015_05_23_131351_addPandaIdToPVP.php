@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPoE extends Migration {
+class AddPandaIdToPVP extends Migration {
 
     /**
      * Run the migrations.
@@ -12,7 +12,10 @@ class AddPoE extends Migration {
      */
     public function up()
     {
-        DB::statement("ALTER TABLE games CHANGE COLUMN type type ENUM('Raid', 'Flawless', 'PVP', 'PoE')");
+        Schema::table('pvp_games', function(Blueprint $table)
+        {
+            $table->tinyInteger('pandaId', false, true);
+        });
     }
 
     /**
@@ -22,7 +25,10 @@ class AddPoE extends Migration {
      */
     public function down()
     {
-        DB::statement("ALTER TABLE games CHANGE COLUMN type type ENUM('Raid', 'Flawless', 'PVP')");
+        Schema::table('pvp_games', function(Blueprint $table)
+        {
+            $table->dropColumn('pandaId');
+        });
     }
 
 }

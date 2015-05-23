@@ -54,6 +54,11 @@ class PVP extends Model {
         return number_format($value);
     }
 
+    public function getPandaIdAttribute($value)
+    {
+        return intval($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -82,6 +87,22 @@ class PVP extends Model {
         elseif ($this->attributes['loserId'] == $team_id)
         {
             return $this->loserPts;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public function opposite($team_id)
+    {
+        if ($team_id == 16)
+        {
+            return 17;
+        }
+        elseif ($team_id == 17)
+        {
+            return 16;
         }
         else
         {

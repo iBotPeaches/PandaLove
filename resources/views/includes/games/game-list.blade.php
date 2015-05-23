@@ -17,6 +17,19 @@
                     </div>
                 </div>
             </a>
+        @elseif ($raid->passageId != 0)
+            <a class="item no_underline" href="{{ URL::action('GameController@getPassage', [$raid->passageId]) }}">
+                <!--<div class="right floated compact ui blue button fb">{{ $raid->pvp->gametype }}</div>-->
+                <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
+                <div class="content">
+                    <div class="header">
+                        {{ $raid->gameCount }} Games on {{ $raid->type()->title }}
+                    </div>
+                    <div class="description">
+                        {{ $raid->occurredAt }}
+                    </div>
+                </div>
+            </a>
         @else
             <a class="item no_underline" href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
                 @if ($raid->type != "PVP" && $raid->type != 'PoE')

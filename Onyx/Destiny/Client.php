@@ -65,10 +65,17 @@ class Client extends Http {
             $game = Game::where('instanceId', $instanceId)->firstOrFail();
             $game->type = $type;
 
-            if ($raidTuesday != null)
+            if ($raidTuesday != null && $game->type == "Raid")
             {
                 $game->raidTuesday = intval($raidTuesday);
             }
+
+            if ($raidTuesday != null && $game->type == "ToO")
+            {
+                // Trials Of Osiris
+                $game->passageId = intval($raidTuesday);
+            }
+
             $game->save();
 
             return $game;
@@ -193,6 +200,10 @@ class Client extends Http {
         if (isset($data['Response']['data']['activityDetails']['mode']) &&
             Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
         {
+            // delete old PVP-Games
+            PVP::where('instanceId', $game->instanceId)->delete();
+
+            // create new one
             $pvp = new PVP();
             $pvp->instanceId = $game->instanceId;
             $pvp->gametype = $data['Response']['data']['activityDetails']['mode'];
@@ -292,6 +303,25 @@ class Client extends Http {
                 else
                 {
                     $time[$duration] = 1;
+                }
+
+                if (isset($data['Response']['data']['activityDetails']['mode']) &&
+                    Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
+                {
+                    // We need to figure out which "team" is PandaLove via checking the players
+                    if ($player->account->isPandaLove())
+                    {
+                        if ($entry['standing'] == 0) // Victory
+                        {
+                            $pvp->pandaId = $pvp->winnerId;
+                        }
+                        else
+                        {
+                            $pvp->pandaId = $pvp->loserId;
+                        }
+
+                        $pvp->save();
+                    }
                 }
             }
         }

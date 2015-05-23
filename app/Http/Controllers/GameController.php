@@ -32,15 +32,17 @@ class GameController extends Controller {
         $tuesday = Game::tuesday()->limit(4)->get();
         $pvp = Game::with('pvp')->multiplayer()->singular()->limit(5)->get();
         $poe = Game::poe()->singular()->limit(4)->get();
+        $passages = Game::with('pvp')->passage()->limit(4)->get();
 
-        Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe);
+        Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe, $passages);
 
         return view('games.index')
             ->with('raids', $raids)
             ->with('flawless', $flawless)
             ->with('tuesday', $tuesday)
             ->with('pvp', $pvp)
-            ->with('poe', $poe);
+            ->with('poe', $poe)
+            ->with('passages', $passages);
     }
 
     public function getGame($instanceId, $all = false)
@@ -55,6 +57,9 @@ class GameController extends Controller {
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
 
+            // cache of hashes
+            Hashes::cacheSingleGameHashes($game);
+
             $gts = '';
             $game->players->each(function($player) use (&$gts)
             {
@@ -67,9 +72,6 @@ class GameController extends Controller {
             \View::share('showAll', boolval($all));
             \View::share('description', $game->type()->title . " with players: " . rtrim($gts, ", "));
             \View::share('title', $game->type()->title);
-
-            // cache of hashes
-            Hashes::cacheSingleGameHashes($game);
 
             if ($game->type == "PVP")
             {
@@ -122,6 +124,29 @@ class GameController extends Controller {
             ->with('combined', $combined);
     }
 
+    public function getPassage($passageId)
+    {
+        $games = Game::with('players.gameChar', 'players.account', 'pvp')
+            ->ofPassage($passageId)
+            ->get();
+
+        if ($games->isEmpty())
+        {
+            \App::abort(404);
+        }
+
+        Hashes::cacheTuesdayHashes($games);
+        $combined = GameHelper::buildCombinedStats($games);
+        $passageCombined = GameHelper::buildQuickPassageStats($games);
+
+        return view('games.passage')
+            ->with('passageId', intval($passageId))
+            ->with('games', $games)
+            ->with('combined', $combined)
+            ->with('passage', $passageCombined)
+            ->with('showAll', true);
+    }
+
     public function getHistory($category = '')
     {
         $raids = null;
@@ -161,6 +186,13 @@ class GameController extends Controller {
             case "PoE":
                 $raids = Game::poe()
                     ->singular()
+                    ->with('players.historyAccount')
+                    ->paginate(10);
+                break;
+
+            case "ToO":
+                $title = 'Gametype';
+                $raids = Game::passage()
                     ->with('players.historyAccount')
                     ->paginate(10);
                 break;

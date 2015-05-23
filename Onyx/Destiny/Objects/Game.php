@@ -202,9 +202,19 @@ class Game extends Model {
         return $query->where('raidTuesday', $value)->orderBy('occurredAt', 'DESC');
     }
 
+    public function scopeOfPassage($query, $value)
+    {
+        return $query->where('passageId', $value)->orderBy('occurredAt', 'ASC');
+    }
+
     public function scopeRaid($query)
     {
         return $query->where('type', 'Raid');
+    }
+
+    public function scopeToO($query)
+    {
+        return $query->where('type', 'ToO');
     }
 
     public function scopeFlawless($query)
@@ -229,6 +239,15 @@ class Game extends Model {
     public function scopePoE($query)
     {
         return $query->where('type', 'PoE');
+    }
+
+    public function scopePassage($query)
+    {
+        return $this->scopeToO($query)
+            ->selectRaw('*, count(*) as gameCount, sum(timeTookInSeconds) as totalTime')
+            ->groupBy('passageId')
+            ->orderBy('occurredAt', 'ASC')
+            ->having('passageId', '>', 0);
     }
 
     public function type()

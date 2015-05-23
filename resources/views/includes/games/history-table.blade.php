@@ -15,6 +15,8 @@
                     <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
                 @elseif ($raid->type == "PoE")
                     <div class="ui purple horizontal label">Level {{ $raid->type()->extraThird }}</div>
+                @elseif ($raid->type == "ToO")
+                    <div class="ui black horizontal label">Trials of Osiris</div>
                 @else
                     @if ($raid->isHard)
                         <div class="ui red horizontal label">Hard</div>
@@ -23,9 +25,13 @@
                     @endif
                 @endif
                 @if ($raid->raidTuesday != 0)
-                    <a href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
-                        {{ $raid->type()->title }}
-                    </a>
+                        <a href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
+                            {{ $raid->type()->title }}
+                        </a>
+                @elseif ($raid->passageId != 0)
+                        <a href="{{ URL::action('GameController@getPassage', [$raid->passageId]) }}">
+                            {{ $raid->type()->title }}
+                        </a>
                 @else
                     <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
                         @if ($raid->type == "PVP")
@@ -38,7 +44,7 @@
             </td>
             <td class="completed-table">{{ $raid->occurredAt }}</td>
             <td class="timetook-table">
-                @if ($raid->raidTuesday != 0)
+                @if ($raid->raidTuesday != 0 || $raid->passageId != 0)
                     {{ \Onyx\Destiny\Helpers\String\Text::timeDuration($raid->totalTime) }}
                 @else
                     {{ $raid->timeTookInSeconds }}

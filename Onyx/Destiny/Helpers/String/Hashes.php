@@ -140,13 +140,14 @@ class Hashes extends Http{
      * @param $tuesday
      * @param $pvp
      * @param $poe
+     * @param $passages
      * @return array
      */
-    public static function cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe)
+    public static function cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe, $passages)
     {
         $hashes = null;
 
-        foreach([$raids, $flawless, $tuesday, $pvp, $poe] as $games)
+        foreach([$raids, $flawless, $tuesday, $pvp, $poe, $passages] as $games)
         {
             foreach($games as $game)
             {
@@ -231,6 +232,11 @@ class Hashes extends Http{
      */
     private static function removeEmptyAndDuplicates($hashes)
     {
+        if ($hashes == null)
+        {
+            return;
+        }
+
         return array_filter(array_unique($hashes));
     }
 

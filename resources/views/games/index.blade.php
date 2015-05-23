@@ -17,6 +17,10 @@
                     </h3>
                     @include('includes.games.game-list', ['games' => $poe])
                     <h3 class="ui horizontal header divider">
+                        Trials of Osiris
+                    </h3>
+                    @include('includes.games.game-list', ['games' => $passages])
+                    <h3 class="ui horizontal header divider">
                         Raid Tuesdays
                     </h3>
                     @include('includes.games.game-list', ['games' => $tuesday])
@@ -43,6 +47,11 @@
                             <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['PoE']) }}">
                                 <div class="content">
                                     Prison of Elders
+                                </div>
+                            </a>
+                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['ToO']) }}">
+                                <div class="content">
+                                    Trials of Osiris
                                 </div>
                             </a>
                             <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['RaidTuesdays']) }}">

@@ -22,7 +22,7 @@ class Gametype {
         11 => 'Salvage',
         12 => 'Clash',
         13 => 'Rumble',
-        14 => 'Unknown', // unknown
+        14 => 'ToO',
         15 => 'Doubles Skirmish',
         21 => 'lvl28PoE',
         22 => 'lvl32PoE',
@@ -38,7 +38,7 @@ class Gametype {
      */
     public static function isPVP($id)
     {
-        $pvp = [5, 9, 10, 11, 12, 15];
+        $pvp = [5, 9, 10, 11, 12, 14, 15];
 
         if (in_array($id, $pvp))
         {
