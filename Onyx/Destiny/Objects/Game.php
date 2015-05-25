@@ -265,6 +265,24 @@ class Game extends Model {
         return $this->type == "PoE";
     }
 
+    public function title()
+    {
+        switch($this->type)
+        {
+            case "PoE":
+                return '<span class="ui purple label">Prison Of Elders</span>';
+
+            case "ToO":
+                return '<span class="ui black label">Trials Of Osiris</span>';
+
+            case "PVP":
+                return '<span class="ui red label">PVP</span>';
+
+            case "Raid":
+                return '<span class="ui lablel">Raid</span>';
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------

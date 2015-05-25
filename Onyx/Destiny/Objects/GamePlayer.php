@@ -64,7 +64,7 @@ class GamePlayer extends Model {
 
     public function game()
     {
-        return $this->belongsTo('Onyx\Destiny\Objects\Game');
+        return $this->belongsTo('Onyx\Destiny\Objects\Game', 'game_id', 'instanceId');
     }
 
     public function character()
