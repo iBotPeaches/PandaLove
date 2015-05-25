@@ -6,7 +6,7 @@
             <div class="row">
                 <header>
                     <h1>Welcome to another <strong>Trials of Osiris</strong></h1>
-                    <small>All games here result in a trip to the Lighthouse (9-0).</small>
+                    {{ $games[0]->type()->title }} - {{ $games[0]->type()->description }}.<br />
                 </header>
                 <div class="12u">
                     <div class="ui top pointing secondary menu">

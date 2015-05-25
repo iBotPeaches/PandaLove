@@ -1,6 +1,9 @@
 <div class="ui black segment">
     <ul class="ui list">
         <li>
+            A <strong>Lighthouse</strong> visit was obtained.
+        </li>
+        <li>
             PandaLove out scored opponents <strong>{{ $passage['stats']['pandaPts'] }}</strong> to <strong>{{ $passage['stats']['opponentPts'] }}</strong> throughout
             <strong>{{ $combined['stats']['games'] }}</strong> games.
         </li>
