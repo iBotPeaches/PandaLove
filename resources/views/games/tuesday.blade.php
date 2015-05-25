@@ -23,6 +23,7 @@
                                 {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
                             </div>
                             @include('includes.games.game-table', ['game' => $game])
+                            <a target="_blank" href="https://www.bungie.net/en/Legend/PGCR?instanceId={{ $game->instanceId }}">Bungie.net Game</a>
                         </div>
                     @endforeach
                 </div>
