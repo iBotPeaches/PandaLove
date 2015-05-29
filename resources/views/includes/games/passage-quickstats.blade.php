@@ -37,7 +37,7 @@
         @endif
         @if ($passage['buffs']['quitout'] != 0)
             <li>
-                There were <strong>{{ $passage['buffs']['quitout'] }}</strong> {{ $passage['buffs']['quitout'] > 1 ? 'games' : 'game' }} that the enemy team quit out before it began.
+                There {{ $passage['buffs']['quitout'] > 1 ? 'were' : 'was' }} <strong>{{ $passage['buffs']['quitout'] }}</strong> {{ $passage['buffs']['quitout'] > 1 ? 'games' : 'game' }} that the enemy team quit out before it began.
             </li>
         @endif
         @if (isset($passage['stats']['unbroken']) && is_array($passage['stats']['unbroken']))
