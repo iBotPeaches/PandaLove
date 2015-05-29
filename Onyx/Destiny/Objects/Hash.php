@@ -85,6 +85,7 @@ class Hash extends Model {
      * @param string $desc Index for description of item
      * @param null $extra Index for anything extra (optional)
      * @param null $secondary Index for anything secondary extra (optional)
+     * @param null $third Index for a third extra field (optional)
      * @return bool
      */
     private static function loadDefinitions(&$data, $index, $hash, $title,
@@ -94,13 +95,15 @@ class Hash extends Model {
         {
             foreach($data[$index] as $item)
             {
-                if ($mHash = Hash::where('hash', $item[$hash])->first() != null) continue;
+                if (($mHash = Hash::where('hash', $item[$hash])->first()) == null)
+                {
+                    $mHash = new Hash();
+                }
 
                 // There are some records in the Hash response that have "FIELD_HIDDEN"
                 // Probably from a future DLC, but we can't decode these. So skip em.
                 if (! isset($item[$title])) continue;
 
-                $mHash = new Hash();
                 $mHash->hash = $item[$hash];
                 $mHash->title = $item[$title];
                 $mHash->description = isset($item[$desc]) ? $item[$desc] : null;

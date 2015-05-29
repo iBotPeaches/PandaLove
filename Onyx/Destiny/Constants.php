@@ -31,5 +31,5 @@ class Constants {
      * Obtain Item hashes / emblems
      * @var string
      */
-    public static $explorerItems = 'https://www.bungie.net/platform/Destiny/Explorer/Items/?count=%1$d&bucket=%2$s';
+    public static $explorerItems = 'https://www.bungie.net/Platform/Destiny/Manifest/InventoryItem/%1$s';
 }

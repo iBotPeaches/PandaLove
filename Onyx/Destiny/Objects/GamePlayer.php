@@ -47,15 +47,10 @@ class GamePlayer extends Model {
     {
         $hash = Hash::where('extra', $value)->first();
 
-        if (! $hash instanceof Hash)
+        if ($hash instanceof Hash)
         {
-            $this->translator->setUrl(sprintf(Constants::$explorerItems, 160, 'Emblem'));
-            $this->translator->updateHashes(true);
-
-            $this->setEmblemAttribute($value);
+            $this->setAttributePullImage('emblem', $hash->hash);
         }
-
-        $this->setAttributePullImage('emblem', $hash->hash);
     }
 
     public function getEmblemAttribute($value)
