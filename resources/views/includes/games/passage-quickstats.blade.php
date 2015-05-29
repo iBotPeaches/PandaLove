@@ -35,6 +35,11 @@
                 There are 8 wins. So either the <strong>Favor of Osiris</strong> or <strong>Boon of Osiris</strong> buff was used.
             </li>
         @endif
+        @if ($passage['buffs']['quitout'] != 0)
+            <li>
+                There were <strong>{{ $passage['buffs']['quitout'] }}</strong> games that the enemy team quit out before it began.
+            </li>
+        @endif
         @if (isset($passage['stats']['unbroken']) && is_array($passage['stats']['unbroken']))
             @foreach($passage['stats']['unbroken'] as $unbroken)
                 <li>

@@ -136,7 +136,8 @@ class Game {
             'favor' => false,
             'mercy' => false,
             'boon' => false,
-            'boon-or-favor' => false
+            'boon-or-favor' => false,
+            'quitout' => 0
         ];
 
         foreach($games as $game)
@@ -204,6 +205,11 @@ class Game {
             // We have 7 wins. That means both the Boon and Favor was used.
             $combined['buffs']['favor'] = true;
             $combined['buffs']['boon'] = true;
+        }
+
+        if ($combined['stats']['pandaWins'] < 7)
+        {
+            $combined['buffs']['quitout'] = (7 - $combined['stats']['pandaWins']);
         }
 
 
