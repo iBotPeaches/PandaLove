@@ -186,6 +186,13 @@ class Game {
             }
         }
 
+        $bonus = 0;
+        if ($combined['stats']['pandaWins'] < 7)
+        {
+            $combined['buffs']['quitout'] = (7 - $combined['stats']['pandaWins']);
+            $bonus += $combined['buffs']['quitout'];
+        }
+
         // Lets check for Boon/Mercy/Favor of Osiris
         if ($combined['stats']['pandaWins'] != $combined['stats']['totalGames'])
         {
@@ -193,25 +200,19 @@ class Game {
             $combined['buffs']['mercy'] = true;
         }
 
-        if ($combined['stats']['pandaWins'] == 8)
+        if ($combined['stats']['pandaWins'] == (8 - $bonus))
         {
             // We have 8 wins. This means the group could of either used a Boon (First win = two wins)
             // or a Favor (start with 1 win).
             $combined['buffs']['boon-or-favor'] = true;
         }
 
-        if ($combined['stats']['pandaWins'] == 7)
+        if ($combined['stats']['pandaWins'] == (7 - $bonus))
         {
             // We have 7 wins. That means both the Boon and Favor was used.
             $combined['buffs']['favor'] = true;
             $combined['buffs']['boon'] = true;
         }
-
-        if ($combined['stats']['pandaWins'] < 7)
-        {
-            $combined['buffs']['quitout'] = (7 - $combined['stats']['pandaWins']);
-        }
-
 
         return $combined;
     }
