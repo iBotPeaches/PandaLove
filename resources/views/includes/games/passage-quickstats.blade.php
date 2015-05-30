@@ -12,7 +12,7 @@
         </li>
         @if ($passage['stats']['blowoutGames'] > 0)
             <li>
-                PandaLove had <strong>{{ $passage['stats']['blowoutGames'] }}</strong> perfect {{ $passage['buffs']['blowoutGames'] > 1 ? 'games' : 'game' }}.
+                PandaLove had <strong>{{ $passage['stats']['blowoutGames'] }}</strong> perfect {{ $passage['stats']['blowoutGames'] > 1 ? 'games' : 'game' }}.
             </li>
         @endif
         @if ($passage['buffs']['mercy'])
