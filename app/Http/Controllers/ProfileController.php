@@ -37,6 +37,11 @@ class ProfileController extends Controller {
                 ->where('deaths', 0)
                 ->get();
 
+            $games->each(function($game_player)
+            {
+                $game_player->url = $game_player->game->buildUrl();
+            });
+
             // setup hash cache
             Hashes::cacheAccountHashes($account);
 

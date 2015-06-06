@@ -9,16 +9,17 @@
                 </header>
                 <div class="12u">
                     <div class="ui top attached tabular menu">
-                        <a class="active item" data-tab="overview">Combined</a>
+                        <a class="{{ $gameId == false ? 'active' : null }} item" data-tab="overview">Combined</a>
                         @foreach($games as $game)
-                            <a class="item" data-tab="game_{{ $game->instanceId }}">{{ ($game->isHard ? '[Hard]' : '[Normal]') . " " . $game->type()->title }}</a>
+                            <a class="{{ $gameId == $game->instanceId ? 'active' : null }} item"
+                               data-tab="game_{{ $game->instanceId }}">{{ ($game->isHard ? '[Hard]' : '[Normal]') . " " . $game->type()->title }}</a>
                         @endforeach
                     </div>
-                    <div class="ui bottom attached active tab segment" data-tab="overview">
+                    <div class="ui bottom attached tab segment {{ $gameId == false ? 'active' : null }}" data-tab="overview">
                         @include('includes.games.tuesday-overview')
                     </div>
                     @foreach($games as $game)
-                        <div class="ui bottom attached tab segment" data-tab="game_{{ $game->instanceId }}">
+                        <div class="ui bottom attached tab segment {{ $gameId == $game->instanceId ? 'active' : null }}" data-tab="game_{{ $game->instanceId }}">
                             <div class="ui inverted segment">
                                 {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
                             </div>

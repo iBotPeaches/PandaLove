@@ -106,7 +106,7 @@ class GameController extends Controller {
             ]);
     }
 
-    public function getTuesday($raidTuesday)
+    public function getTuesday($raidTuesday, $gameId = null)
     {
         $games = Game::with('players.gameChar', 'players.account')
             ->OfTuesday($raidTuesday)
@@ -125,10 +125,11 @@ class GameController extends Controller {
             ->with('games', $games)
             ->with('combined', $combined)
             ->with('title', 'PandaLove Raid Tuesday: ' . $raidTuesday)
-            ->with('description', 'PandaLove Raid Tuesday: ' . $raidTuesday . ' including ' . count($games) . ' raids.');
+            ->with('description', 'PandaLove Raid Tuesday: ' . $raidTuesday . ' including ' . count($games) . ' raids.')
+            ->with('gameId', GameHelper::gameIdExists($games, $gameId));
     }
 
-    public function getPassage($passageId)
+    public function getPassage($passageId, $gameId = null)
     {
         $games = Game::with('players.gameChar', 'players.account', 'pvp')
             ->ofPassage($passageId)
@@ -150,7 +151,8 @@ class GameController extends Controller {
             ->with('passage', $passageCombined)
             ->with('title', 'PandaLove: Trials Of Osiris #' . $passageId)
             ->with('description', 'PandaLove: Trials Of Osiris #' . $passageId)
-            ->with('showAll', true);
+            ->with('showAll', true)
+            ->with('gameId', GameHelper::gameIdExists($games, $gameId));
     }
 
     public function getHistory($category = '')

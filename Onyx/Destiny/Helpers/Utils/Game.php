@@ -222,4 +222,22 @@ class Game {
 
         return $combined;
     }
+
+    /**
+     * @param $games
+     * @param $gameId
+     * @return bool
+     */
+    public static function gameIdExists($games, $gameId)
+    {
+        foreach($games as $game)
+        {
+            if ($game->instanceId == $gameId)
+            {
+                return $gameId;
+            }
+        }
+
+        return false;
+    }
 }
