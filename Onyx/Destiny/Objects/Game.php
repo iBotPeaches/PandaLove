@@ -143,6 +143,14 @@ class Game extends Model {
         return $players;
     }
 
+    public function pandas()
+    {
+        return $this->players->reject(function($player)
+        {
+            return ! $player->account->isPandaLove();
+        });
+    }
+
     public function comments()
     {
         return $this->morphMany('Onyx\Destiny\Objects\Comment', 'commentable')
