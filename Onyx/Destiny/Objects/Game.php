@@ -288,7 +288,7 @@ class Game extends Model {
 
             case "Raid":
             case "Flawless":
-                return '<span class="ui lablel">Raid</span>';
+                return '<span class="ui label">Raid</span>';
         }
     }
 

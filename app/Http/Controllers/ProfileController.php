@@ -35,6 +35,7 @@ class ProfileController extends Controller {
             $games = GamePlayer::with('game')
                 ->where('membershipId', $account->membershipId)
                 ->where('deaths', 0)
+                ->orderBy('occurredAt', 'DESC')
                 ->get();
 
             $games->each(function($game_player)
