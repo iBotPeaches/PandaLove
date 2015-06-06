@@ -33,9 +33,10 @@ class ProfileController extends Controller {
                 ->firstOrFail();
 
             $games = GamePlayer::with('game')
+                ->leftJoin('games', 'games.id', '=', 'game_players.game_id')
                 ->where('membershipId', $account->membershipId)
                 ->where('deaths', 0)
-                ->orderBy('occurredAt', 'DESC')
+                ->orderBy('games.occurredAt', 'DESC')
                 ->get();
 
             $games->each(function($game_player)
