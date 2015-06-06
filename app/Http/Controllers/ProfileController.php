@@ -33,7 +33,8 @@ class ProfileController extends Controller {
                 ->firstOrFail();
 
             $games = GamePlayer::with('game')
-                ->leftJoin('games', 'games.id', '=', 'game_players.game_id')
+                ->select('game_players.*', 'games.occurredAt')
+                ->leftJoin('games', 'game_players.game_id', '=', 'games.instanceId')
                 ->where('membershipId', $account->membershipId)
                 ->where('deaths', 0)
                 ->orderBy('games.occurredAt', 'DESC')
@@ -45,7 +46,7 @@ class ProfileController extends Controller {
             });
 
             // setup hash cache
-            Hashes::cacheAccountHashes($account);
+            Hashes::cacheAccountHashes($account, $games);
 
             return view('profile', [
                 'account' => $account,

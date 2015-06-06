@@ -1,5 +1,6 @@
 <?php namespace Onyx\Destiny\Helpers\String;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Objects\Hash;
@@ -184,9 +185,10 @@ class Hashes extends Http{
 
     /**
      * @param \Onyx\Account $account
+     * @param $players
      * @return array|null
      */
-    public static function cacheAccountHashes($account)
+    public static function cacheAccountHashes($account, $players)
     {
         $hashes = null;
 
@@ -195,6 +197,14 @@ class Hashes extends Http{
             foreach($char->getAllHashTitles() as $hash)
             {
                 $hashes[] = $char->getOriginal($hash);
+            }
+        }
+
+        if ($players instanceof Collection)
+        {
+            foreach($players as $player)
+            {
+                $hashes[] = $player->game->getOriginal('referenceId');
             }
         }
 
