@@ -273,6 +273,53 @@ class Game extends Model {
         return $this->type == "PoE";
     }
 
+    public function title()
+    {
+        switch($this->type)
+        {
+            case "PoE":
+                return '<span class="ui purple label">Prison Of Elders</span>';
+
+            case "ToO":
+                return '<span class="ui black label">Trials Of Osiris</span>';
+
+            case "PVP":
+                return '<span class="ui red label">PVP</span>';
+
+            case "Raid":
+            case "Flawless":
+                return '<span class="ui lablel">Raid</span>';
+        }
+    }
+
+    public function buildUrl()
+    {
+        switch ($this->type)
+        {
+            case "PoE":
+            case "PVP":
+            case "Flawless":
+                return \URL::action('GameController@getGame', [$this->instanceId]);
+
+            case "ToO":
+                return \URL::action('GameController@getPassage', [$this->passageId, $this->instanceId]);
+
+            case "Raid":
+                if ($this->raidTuesday != 0)
+                {
+                    return \URL::action('GameController@getTuesday', [$this->raidTuesday, $this->instanceId]);
+                }
+                else
+                {
+                    return \URL::action('GameController@getGame', [$this->instanceId]);
+                }
+                break;
+
+            default:
+                return '#';
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------

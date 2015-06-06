@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\URL;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\GamePlayer;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Requests;
 
@@ -31,11 +32,22 @@ class ProfileController extends Controller {
                 ->where('seo', Text::seoGamertag($gamertag))
                 ->firstOrFail();
 
+            $games = GamePlayer::with('game')
+                ->where('membershipId', $account->membershipId)
+                ->where('deaths', 0)
+                ->get();
+
+            $games->each(function($game_player)
+            {
+                $game_player->url = $game_player->game->buildUrl();
+            });
+
             // setup hash cache
             Hashes::cacheAccountHashes($account);
 
             return view('profile', [
                 'account' => $account,
+                'games' => $games,
                 'characterId' => ($account->characterExists($characterId) ? $characterId : false),
                 'description' => "PandaLove: " . $account->gamertag . " Destiny Profile",
                 'title' => $account->gamertag . " (Panda Love Member)"
