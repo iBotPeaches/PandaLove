@@ -68,7 +68,7 @@ class Hashes extends Http{
             }
             else
             {
-                throw new HashNotLocatedException();
+                throw new HashNotLocatedException($hash);
             }
         }
     }
