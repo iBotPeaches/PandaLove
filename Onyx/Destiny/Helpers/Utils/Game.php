@@ -153,14 +153,10 @@ class Game {
 
             // Check if PandaLove blew them out (15 - 0)
             // Update: Trials #2 maxes at 5-0
+            // Update: Forget max, just check if enemy got 0pts
             if ($pandaId == $game->pvp->winnerId)
             {
-                if ($game->pvp->pts($pandaId) == 15 && $game->pvp->pts($opponentId) == 0)
-                {
-                    $combined['stats']['blowoutGames'] += 1;
-                }
-
-                if ($game->pvp->pts($pandaId) == 5 && $game->pvp->pts($opponentId) == 0)
+                if ($game->pvp->pts($opponentId) == 0)
                 {
                     $combined['stats']['blowoutGames'] += 1;
                 }
