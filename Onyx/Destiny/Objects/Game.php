@@ -273,6 +273,11 @@ class Game extends Model {
         return $this->type == "PoE";
     }
 
+    public function isToO()
+    {
+        return $this->type == "ToO";
+    }
+
     public function title()
     {
         switch($this->type)

@@ -21,7 +21,7 @@
             <tr class="{{ $player['deaths'] == 0 ? 'positive' : ($player['deaths'] > $player['kills'] ? 'negative' : null) }}">
                 <td>
                     @if (isset($player['player']))
-                        @if ($player['player']['isPandaLove'])
+                        @if ($player['player']['isPandaLove'] && ! $player['player']['isPandaGuest'])
                             <i class="user icon panda-team"></i>
                         @endif
                         <a href="{{ URL::action('ProfileController@index', [$player['player']['seo']]) }}">

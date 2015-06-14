@@ -51,6 +51,13 @@ class Game {
 
         foreach($games as $game)
         {
+            // Check for Trials game, and check if any non Panda are playing
+            $pandaId = 0;
+            if ($game->isToO())
+            {
+                $pandaId = $game->pvp->pandaId;
+            }
+
             foreach($game->players as $player)
             {
                 if (! $player->completed) continue;
@@ -84,8 +91,19 @@ class Game {
                         $extra = [
                             'gamertag' => $player->account->gamertag,
                             'seo' => $player->account->seo,
-                            'isPandaLove' => $player->account->isPandaLove()
+                            'isPandaLove' => $player->account->isPandaLove(),
+                            'isPandaGuest' => false
                         ];
+
+                        // Check if this player is on PandaTeam, if so mark them as Panda
+                        if ($game->isToO())
+                        {
+                            if (! $extra['isPandaLove'] && $player->team == $pandaId)
+                            {
+                                $extra['isPandaLove'] = true;
+                                $extra['isPandaGuest'] = true;
+                            }
+                        }
 
                         $combined[$player->membershipId] = array_merge($combined[$player->membershipId], ['player' => $extra]);
                     }
@@ -166,7 +184,7 @@ class Game {
             {
                 $id = $player->account->membershipId;
 
-                if ($player->account->isPandaLove())
+                if ($player->account->isPandaLove() || $player->team == $pandaId)
                 {
                     // check for unbroken
                     if ($player->deaths == 0)
