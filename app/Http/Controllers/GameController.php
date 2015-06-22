@@ -27,7 +27,7 @@ class GameController extends Controller {
 
     public function getIndex()
     {
-        $p = ! $this->isPanda;
+        $p = $this->isPanda;
 
         $raids = Game::raid($p)->singular()->limit(4)->get();
         $flawless = Game::flawless($p)->singular()->limit(4)->get();
@@ -196,7 +196,7 @@ class GameController extends Controller {
 
         $title = 'Raid';
         $description = '';
-        $p = ! $this->isPanda;
+        $p = $this->isPanda;
 
         switch ($category)
         {
