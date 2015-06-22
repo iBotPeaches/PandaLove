@@ -12,6 +12,11 @@
                     <div class="ui inverted segment">
                         {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
                     </div>
+                    @if ($isPanda && $game->hidden)
+                        <div class="ui purple segment">
+                            This game is <strong>hidden</strong> from the public viewing. They can still view via direct url however.
+                        </div>
+                    @endif
                     @include('includes.games.pvp-game-table')
                 </div>
             </div>
@@ -22,6 +27,7 @@
         <div class="wrapper style3">
             <h2 class="header">Admin Options</h2>
             @include('includes.games.admin-deletegame')
+            @include('includes.games.admin-hiddengame')
         </div>
     @endif
 @endsection

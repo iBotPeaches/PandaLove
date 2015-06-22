@@ -27,11 +27,13 @@ class GameController extends Controller {
 
     public function getIndex()
     {
-        $raids = Game::raid()->singular()->limit(4)->get();
-        $flawless = Game::flawless()->singular()->limit(4)->get();
-        $tuesday = Game::tuesday()->limit(4)->get();
-        $pvp = Game::with('pvp')->multiplayer()->singular()->limit(5)->get();
-        $poe = Game::poe()->singular()->limit(4)->get();
+        $p = ! $this->isPanda;
+
+        $raids = Game::raid($p)->singular()->limit(4)->get();
+        $flawless = Game::flawless($p)->singular()->limit(4)->get();
+        $tuesday = Game::tuesday($p)->limit(4)->get();
+        $pvp = Game::with('pvp')->multiplayer($p)->singular()->limit(5)->get();
+        $poe = Game::poe($p)->singular()->limit(4)->get();
         $passages = Game::with('pvp', 'players.account')->passage()->limit(4)->get();
 
         Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe, $passages);
@@ -106,6 +108,39 @@ class GameController extends Controller {
             ]);
     }
 
+    public function postToggleGameVisibility(deleteGameRequest $request)
+    {
+        try
+        {
+            $game = Game::where('instanceId', $request->get('game_id'))->firstOrFail();
+            $game->hidden = ! $game->hidden;
+            $game->save();
+
+            if ($game->hidden)
+            {
+                $msg = 'Game was hidden from public.';
+            }
+            else
+            {
+                $msg = 'Game is now visible to public';
+            }
+
+            return \Redirect::action('GameController@getGame', array($request->get('game_id')))
+                ->with('flash_message', [
+                    'type' => 'green',
+                    'header' => 'Game Visibility Toggled!',
+                    'close' => true,
+                    'body' => $msg
+                ]);
+
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return \Redirect::action('GameController@getIndex');
+        }
+    }
+
+
     public function getTuesday($raidTuesday, $gameId = null)
     {
         $games = Game::with('players.gameChar', 'players.account')
@@ -161,12 +196,13 @@ class GameController extends Controller {
 
         $title = 'Raid';
         $description = '';
+        $p = $this->isPanda;
 
         switch ($category)
         {
             case "Raid":
                 $description = 'Raids';
-                $raids = Game::raid()
+                $raids = Game::raid($p)
                     ->singular()
                     ->with('players.historyAccount')
                     ->paginate(10);
@@ -174,7 +210,7 @@ class GameController extends Controller {
 
             case "Flawless";
                 $description = 'Flawless Raids';
-                $raids = Game::flawless()
+                $raids = Game::flawless($p)
                     ->singular()
                     ->with('players.historyAccount')
                     ->paginate(10);
@@ -182,7 +218,7 @@ class GameController extends Controller {
 
             case "RaidTuesdays";
                 $description = 'Raid Tuesdays';
-                $raids = Game::tuesday()
+                $raids = Game::tuesday($p)
                     ->with('players.historyAccount')
                     ->paginate(10);
                 break;
@@ -190,7 +226,7 @@ class GameController extends Controller {
             case "PVP":
                 $description = 'PVP';
                 $title = 'Gametype';
-                $raids = Game::multiplayer()
+                $raids = Game::multiplayer($p)
                     ->singular()
                     ->with('players.historyAccount', 'pvp')
                     ->paginate(10);
@@ -198,7 +234,7 @@ class GameController extends Controller {
 
             case "PoE":
                 $description = 'Prison Of Elders';
-                $raids = Game::poe()
+                $raids = Game::poe($p)
                     ->singular()
                     ->with('players.historyAccount')
                     ->paginate(10);

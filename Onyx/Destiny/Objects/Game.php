@@ -215,9 +215,9 @@ class Game extends Model {
         return $query->where('passageId', $value)->orderBy('occurredAt', 'ASC');
     }
 
-    public function scopeRaid($query)
+    public function scopeRaid($query, $p)
     {
-        return $query->where('type', 'Raid');
+        return $query->where('type', 'Raid')->where('hidden', $p);
     }
 
     public function scopeToO($query)
@@ -225,28 +225,28 @@ class Game extends Model {
         return $query->where('type', 'ToO');
     }
 
-    public function scopeFlawless($query)
+    public function scopeFlawless($query, $p)
     {
-        return $query->where('type', 'Flawless');
+        return $query->where('type', 'Flawless')->where('hidden', $p);
     }
 
-    public function scopeTuesday($query)
+    public function scopeTuesday($query, $p)
     {
-        return $this->scopeRaid($query)
+        return $this->scopeRaid($query, $p)
             ->selectRaw('*, count(*) as raidCount, sum(timeTookInSeconds) as totalTime')
             ->groupBy('raidTuesday')
             ->orderBy('occurredAt', 'DESC')
             ->having('raidTuesday', '>', 0);
     }
 
-    public function scopeMultiplayer($query)
+    public function scopeMultiplayer($query, $p)
     {
-        return $query->where('type', 'PVP');
+        return $query->where('type', 'PVP')->where('hidden', $p);
     }
 
-    public function scopePoE($query)
+    public function scopePoE($query, $p)
     {
-        return $query->where('type', 'PoE');
+        return $query->where('type', 'PoE')->where('hidden', $p);
     }
 
     public function scopePassage($query)
