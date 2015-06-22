@@ -217,6 +217,10 @@ class Game extends Model {
 
     public function scopeRaid($query, $p)
     {
+        if ($p)
+        {
+            return $query->where('type', 'Raid');
+        }
         return $query->where('type', 'Raid')->where('hidden', $p);
     }
 
@@ -227,6 +231,10 @@ class Game extends Model {
 
     public function scopeFlawless($query, $p)
     {
+        if ($p)
+        {
+            return $query->where('type', 'Flawless');
+        }
         return $query->where('type', 'Flawless')->where('hidden', $p);
     }
 
@@ -241,11 +249,19 @@ class Game extends Model {
 
     public function scopeMultiplayer($query, $p)
     {
+        if ($p)
+        {
+            return $query->where('type', 'PVP');
+        }
         return $query->where('type', 'PVP')->where('hidden', $p);
     }
 
     public function scopePoE($query, $p)
     {
+        if ($p)
+        {
+            return $query->where('type', 'PoE');
+        }
         return $query->where('type', 'PoE')->where('hidden', $p);
     }
 
