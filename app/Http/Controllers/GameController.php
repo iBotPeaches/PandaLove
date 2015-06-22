@@ -196,7 +196,7 @@ class GameController extends Controller {
 
         $title = 'Raid';
         $description = '';
-        $p = $this->isPanda;
+        $p = ! $this->isPanda;
 
         switch ($category)
         {
