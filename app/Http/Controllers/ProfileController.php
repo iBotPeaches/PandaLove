@@ -52,7 +52,7 @@ class ProfileController extends Controller {
                 'account' => $account,
                 'games' => $games,
                 'characterId' => ($account->characterExists($characterId) ? $characterId : false),
-                'description' => "PandaLove: " . $account->gamertag . " Destiny Profile",
+                'description' => ($account->isPandaLove() ? "PandaLove: " : null) . $account->gamertag . " Destiny Profile",
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null)
             ]);
         }
