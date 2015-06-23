@@ -53,7 +53,7 @@ class ProfileController extends Controller {
                 'games' => $games,
                 'characterId' => ($account->characterExists($characterId) ? $characterId : false),
                 'description' => "PandaLove: " . $account->gamertag . " Destiny Profile",
-                'title' => $account->gamertag . " (Panda Love Member)"
+                'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null)
             ]);
         }
         catch (ModelNotFoundException $e)
