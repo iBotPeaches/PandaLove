@@ -145,6 +145,8 @@ class Client extends Http {
         $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
         $account->grimoire = $json['Response']['data']['grimoireScore'];
 
+        $charactersCount = count($account->characters);
+
         // characters
         $chars = [];
         for ($i = 0; $i <= 3; $i++)
@@ -154,6 +156,21 @@ class Client extends Http {
                 $chars[$i] = $this->updateOrAddCharacter($url, $json['Response']['data']['characters'][$i]);
                 $pair = "character_" . ($i + 1);
                 $account->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
+            }
+        }
+
+        if ($charactersCount > 3)
+        {
+            // we have too many characters due to deletions, delete any that don't have the ID anymore
+            $characters = $account->characters;
+            $allowed = $account->characterIds();
+
+            foreach ($characters as $char)
+            {
+                if (! in_array($char->characterId, $allowed))
+                {
+                    $char->delete();
+                }
             }
         }
 
