@@ -39,5 +39,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->hasOne('Onyx\Account', 'id', 'account_id');
 	}
-
 }

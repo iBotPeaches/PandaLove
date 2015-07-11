@@ -2,6 +2,8 @@
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Onyx\Destiny\Client;
+use Onyx\Destiny\Objects\Game;
 
 class Kernel extends ConsoleKernel {
 
@@ -10,9 +12,7 @@ class Kernel extends ConsoleKernel {
 	 *
 	 * @var array
 	 */
-	protected $commands = [
-		'PandaLove\Console\Commands\Inspire',
-	];
+	protected $commands = [];
 
 	/**
 	 * Define the application's command schedule.
@@ -22,8 +22,15 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+		$schedule->call(function() {
+            $game = Game::where('version', '<', config('app.version'))
+                ->limit(1)
+                ->first();
+
+            $client = new Client();
+            $client->updateGame($game->instanceId);
+
+        })->everyTenMinutes();
 	}
 
 }

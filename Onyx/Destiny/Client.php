@@ -87,6 +87,27 @@ class Client extends Http {
     }
 
     /**
+     * @param $instanceId
+     * @return bool
+     * @throws Helpers\Network\BungieOfflineException
+     */
+    public function updateGame($instanceId)
+    {
+        try
+        {
+            $game = Game::where('instanceId', $instanceId)->firstOrFail();
+            $url = sprintf(Constants::$postGameCarnageReport, $instanceId);
+            $json = $this->getJson($url);
+
+            $this->updateGameForNewField($json, $game);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return false;
+        }
+    }
+
+    /**
      * @param $platform
      * @param $gamertag
      * @return \Onyx\Account
@@ -199,6 +220,29 @@ class Client extends Http {
     // Private Methods
     //---------------------------------------------------------------------------------
 
+    private function updateGameForNewField($data, $game)
+    {
+        $game->version = config('app.version', 1);
+
+        if (isset($data['Response']['data']['activityDetails']['mode']) &&
+            Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
+        {
+            $pvp = PVP::where('instanceId', $game->instanceId)->first();
+
+            $entries = $data['Response']['data']['entries'];
+
+            // delete old game-players
+            GamePlayer::where('game_id', $game->instanceId)->delete();
+
+            foreach($entries as $entry)
+            {
+                $this->gamePlayerSetup($entry, $game, $pvp, false);
+            }
+        }
+
+        $game->save();
+    }
+
     /**
      * @param string $url
      * @param array $data
@@ -213,6 +257,7 @@ class Client extends Http {
 
         $game->instanceId = $data['Response']['data']['activityDetails']['instanceId'];
         $game->referenceId = $data['Response']['data']['activityDetails']['referenceId'];
+        $game->version = config('app.version', 1);
 
         if (isset($data['Response']['data']['activityDetails']['mode']) &&
             Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
@@ -255,92 +300,7 @@ class Client extends Http {
         $time = [];
         foreach($entries as $entry)
         {
-            $player = new GamePlayer();
-            $player->game_id = $game->instanceId;
-            $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
-
-            // check if we have player
-            if ($this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName']) == false)
-            {
-                Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
-                    $entry['player']['destinyUserInfo']['membershipType']));
-            }
-
-            $player->characterId = $entry['characterId'];
-            $player->level = $entry['player']['characterLevel'];
-            $player->class = $entry['player']['characterClass'];
-            $player->emblem = $entry['player']['destinyUserInfo']['iconPath'];
-
-            $player->assists = $entry['values']['assists']['basic']['value'];
-            $player->deaths = $entry['values']['deaths']['basic']['value'];
-            $player->kills = $entry['values']['kills']['basic']['value'];
-            $player->completed = boolval($entry['values']['completed']['basic']['value']);
-
-            // PVP games don't seem to have secondsPlayed or averageLifespan
-            if (isset($entry['values']['secondsPlayed']['basic']['value']))
-            {
-                $player->secondsPlayed = $entry['values']['secondsPlayed']['basic']['value'];
-            }
-
-            if (isset($entry['extended']['values']['averageLifespan']['basic']['value']))
-            {
-                $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
-            }
-
-            if (isset($entry['values']['score']['basic']['value']))
-            {
-                $player->score = $entry['values']['score']['basic']['value'];
-            }
-
-            if (isset($entry['values']['standing']['basic']['values']))
-            {
-                $player->standing = $entry['values']['standing']['basic']['value'];
-            }
-
-            // Check for team or rumble
-            if (isset($entry['values']['team']['basic']['value']))
-            {
-                $player->team = $entry['values']['team']['basic']['value'];
-            }
-
-            // Don't save if 0/0
-            if ($player->score == 0 && $player->deaths == 0 && $player->kills == 0)
-            {
-                continue;
-            }
-            else
-            {
-                $player->save();
-
-                $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
-                if (isset($time[$duration]))
-                {
-                    $time[$duration] += 1;
-                }
-                else
-                {
-                    $time[$duration] = 1;
-                }
-
-                if (isset($data['Response']['data']['activityDetails']['mode']) &&
-                    Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
-                {
-                    // We need to figure out which "team" is PandaLove via checking the players
-                    if ($player->account->isPandaLove())
-                    {
-                        if ($entry['standing'] == 0) // Victory
-                        {
-                            $pvp->pandaId = $pvp->winnerId;
-                        }
-                        else
-                        {
-                            $pvp->pandaId = $pvp->loserId;
-                        }
-
-                        $pvp->save();
-                    }
-                }
-            }
+            $time = $this->gamePlayerSetup($entry, $game, $pvp);
         }
 
         // get highest $duration (MODE)
@@ -350,8 +310,118 @@ class Client extends Http {
     }
 
     /**
+     * @param $entry
+     * @param $game
+     * @param $pvp
+     * @param $regular
+     */
+    private function gamePlayerSetup($entry, $game, $pvp, $regular = true)
+    {
+        $player = new GamePlayer();
+        $player->game_id = $game->instanceId;
+        $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
+
+        // check if we have player
+        if ($this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName']) == false && $regular)
+        {
+            Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
+                $entry['player']['destinyUserInfo']['membershipType']));
+        }
+
+        $player->characterId = $entry['characterId'];
+        $player->level = $entry['player']['characterLevel'];
+        $player->class = $entry['player']['characterClass'];
+        $player->emblem = $entry['player']['destinyUserInfo']['iconPath'];
+
+        $player->assists = $entry['values']['assists']['basic']['value'];
+        $player->deaths = $entry['values']['deaths']['basic']['value'];
+        $player->kills = $entry['values']['kills']['basic']['value'];
+        $player->completed = boolval($entry['values']['completed']['basic']['value']);
+
+        // PVP games don't seem to have secondsPlayed or averageLifespan
+        if (isset($entry['values']['secondsPlayed']['basic']['value']))
+        {
+            $player->secondsPlayed = $entry['values']['secondsPlayed']['basic']['value'];
+        }
+
+        if (isset($entry['extended']['values']['averageLifespan']['basic']['value']))
+        {
+            $player->averageLifespan = $entry['extended']['values']['averageLifespan']['basic']['value'];
+        }
+
+        if (isset($entry['values']['score']['basic']['value']))
+        {
+            $player->score = $entry['values']['score']['basic']['value'];
+        }
+
+        if (isset($entry['values']['standing']['basic']['values']))
+        {
+            $player->standing = $entry['values']['standing']['basic']['value'];
+        }
+
+        // Check for team or rumble
+        if (isset($entry['values']['team']['basic']['value']))
+        {
+            $player->team = $entry['values']['team']['basic']['value'];
+        }
+
+        // Check for revives given/received
+        if (isset($entry['extended']['values']['resurrectionsPerformed']['basic']['value']))
+        {
+            $player->revives_given = $entry['extended']['values']['resurrectionsPerformed']['basic']['value'];
+        }
+
+        if (isset($entry['extended']['values']['resurrectionsReceived']['basic']['value']))
+        {
+            $player->revives_taken = $entry['extended']['values']['resurrectionsReceived']['basic']['value'];
+        }
+
+        // Don't save if 0/0
+        if ($player->score == 0 && $player->deaths == 0 && $player->kills == 0)
+        {
+            return;
+        }
+        else
+        {
+            $player->save();
+
+            $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
+            if (isset($time[$duration]))
+            {
+                $time[$duration] += 1;
+            }
+            else
+            {
+                $time[$duration] = 1;
+            }
+
+            if (isset($data['Response']['data']['activityDetails']['mode']) &&
+                Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
+            {
+                // We need to figure out which "team" is PandaLove via checking the players
+                if ($player->account->isPandaLove())
+                {
+                    if ($entry['standing'] == 0) // Victory
+                    {
+                        $pvp->pandaId = $pvp->winnerId;
+                    }
+                    else
+                    {
+                        $pvp->pandaId = $pvp->loserId;
+                    }
+
+                    $pvp->save();
+                }
+            }
+        }
+
+        return isset($time) ? $time : null;
+    }
+
+    /**
      * @param string $url
      * @param array $data
+     * @return bool
      */
     private function updateOrAddCharacter($url, $data)
     {

@@ -1,8 +1,10 @@
 <?php namespace PandaLove\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\DB;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Game;
 use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\OwnershipFormRequest;
 
