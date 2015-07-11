@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel {
             $client = new Client();
             $client->updateGame($game->instanceId);
 
-        })->everyTenMinutes();
+        })->everyFiveMinutes();
 	}
 
 }
