@@ -110,7 +110,7 @@ class Game {
                 }
             }
 
-            $game->players->each(function($player)
+            $game->players = $game->players->each(function($player)
             {
                 $player->kd = $player->kdr();
             })->sortByDesc('kd');
@@ -127,7 +127,7 @@ class Game {
         }
 
         $combined = new Collection($combined);
-        $combined->sortByDesc('kdr');
+        $combined = $combined->sortByDesc('kdr');
 
         return [
             'players' => $combined,

@@ -79,12 +79,12 @@ class GameController extends Controller {
 
             if ($game->type == "PVP")
             {
-                $game->players->sortByDesc('score');
+                $game->players = $game->players->sortByDesc('score');
                 return view('games.pvp');
             }
             else
             {
-                $game->players->sortByDesc('kd');
+                $game->players = $game->players->sortByDesc('kd');
                 return view('games.game');
             }
         }
