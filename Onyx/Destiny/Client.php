@@ -300,7 +300,7 @@ class Client extends Http {
         $time = [];
         foreach($entries as $entry)
         {
-            $time = $this->gamePlayerSetup($entry, $game, $pvp);
+            $time = $this->gamePlayerSetup($entry, $game, isset($pvp) ? $pvp : null);
         }
 
         // get highest $duration (MODE)
