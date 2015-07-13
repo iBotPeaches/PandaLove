@@ -22,15 +22,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->call(function() {
-            $game = Game::where('version', '<', config('app.version'))
-                ->limit(1)
-                ->first();
 
-            $client = new Client();
-            $client->updateGame($game->instanceId);
-
-        })->everyFiveMinutes();
 	}
 
 }
