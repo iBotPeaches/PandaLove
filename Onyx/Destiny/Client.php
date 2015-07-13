@@ -236,7 +236,7 @@ class Client extends Http {
 
             foreach($entries as $entry)
             {
-                $this->gamePlayerSetup($entry, $game, $pvp, false);
+                $this->gamePlayerSetup($data, $entry, $game, $pvp, false);
             }
         }
 
@@ -300,7 +300,7 @@ class Client extends Http {
         $time = [];
         foreach($entries as $entry)
         {
-            $time = $this->gamePlayerSetup($entry, $game, isset($pvp) ? $pvp : null);
+            $time = $this->gamePlayerSetup($data, $entry, $game, isset($pvp) ? $pvp : null);
         }
 
         // get highest $duration (MODE)
@@ -315,7 +315,7 @@ class Client extends Http {
      * @param $pvp
      * @param $regular
      */
-    private function gamePlayerSetup($entry, $game, $pvp, $regular = true)
+    private function gamePlayerSetup($data, $entry, $game, $pvp, $regular = true)
     {
         $player = new GamePlayer();
         $player->game_id = $game->instanceId;
