@@ -48,6 +48,7 @@ class Game {
         $combined = [];
         $gameCount = 0;
         $timeCount = 0;
+        $revives = false;
 
         foreach($games as $game)
         {
@@ -69,6 +70,13 @@ class Game {
                     $combined[$player->membershipId]['assists'] += $player->assists;
                     $combined[$player->membershipId]['level'] += $player->level;
                     $combined[$player->membershipId]['count'] += 1;
+                    $combined[$player->membershipId]['revives_given'] += $player->revives_given;
+                    $combined[$player->membershipId]['revives_taken'] += $player->revives_taken;
+
+                    if ($player->revives_given != 0)
+                    {
+                        $revives = true;
+                    }
 
                     // find players max level
                     $combined[$player->membershipId]['maxLevel'] = max($combined[$player->membershipId]['maxLevel'], $player->level);
@@ -83,7 +91,9 @@ class Game {
                         'count' => 1,
                         'maxLevel' => 0,
                         'class' => $player->class,
-                        'charId' => $player->characterId
+                        'charId' => $player->characterId,
+                        'revives_given' => 0,
+                        'revives_taken' => 0
                     ];
 
                     if (isset($player->account->gamertag))
@@ -133,7 +143,8 @@ class Game {
             'players' => $combined,
             'stats' => [
                 'games' => $gameCount,
-                'combinedGameTime' => Text::timeDuration($timeCount)
+                'combinedGameTime' => Text::timeDuration($timeCount),
+                'revives' => $revives
             ]
         ];
     }

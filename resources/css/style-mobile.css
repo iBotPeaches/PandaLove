@@ -237,6 +237,9 @@
 .assists-table:after {
 	content: " Assists";
 }
+.revives-table:after {
+	content: " Revives";
+}
 .kdr-table:after {
 	content: " KD Ratio";
 }

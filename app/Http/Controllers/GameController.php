@@ -65,10 +65,17 @@ class GameController extends Controller {
             Hashes::cacheSingleGameHashes($game);
 
             $gts = '';
-            $game->players->each(function($player) use (&$gts)
+            $revives = false;
+
+            $game->players->each(function($player) use (&$gts, &$revives)
             {
                 $player->kd = $player->kdr();
                 $gts .= $player->account->gamertag . ", ";
+
+                if ($player->revives_given != 0)
+                {
+                    $revives = true;
+                }
             });
 
             // shared views
@@ -76,6 +83,7 @@ class GameController extends Controller {
             \View::share('showAll', boolval($all));
             \View::share('description', $game->type()->title . " with players: " . rtrim($gts, ", "));
             \View::share('title', 'PandaLove: ' . $game->type()->title);
+            \View::share('revives', $revives);
 
             if ($game->type == "PVP")
             {
@@ -140,7 +148,6 @@ class GameController extends Controller {
         }
     }
 
-
     public function getTuesday($raidTuesday, $gameId = null)
     {
         $games = Game::with('players.gameChar', 'players.account')
@@ -157,6 +164,7 @@ class GameController extends Controller {
 
         return view('games.tuesday')
             ->with('raidTuesday', intval($raidTuesday))
+            ->with('revives', $combined['stats']['revives'])
             ->with('games', $games)
             ->with('combined', $combined)
             ->with('title', 'PandaLove Raid Tuesday: ' . $raidTuesday)
@@ -181,6 +189,7 @@ class GameController extends Controller {
 
         return view('games.passage')
             ->with('passageId', intval($passageId))
+            ->with('revives', $combined['stats']['revives'])
             ->with('games', $games)
             ->with('combined', $combined)
             ->with('passage', $passageCombined)

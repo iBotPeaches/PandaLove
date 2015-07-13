@@ -11,6 +11,7 @@
         <th>Kills</th>
         <th>Deaths</th>
         <th>Assists</th>
+        <th>Revives</th>
         <th><abbr title="Kill Death Ratio">KDR</abbr></th>
         <th><abbr title="Kills + Assists / Deaths Ratio">KADR</abbr></th>
     </tr>
@@ -42,6 +43,7 @@
                     {!! $player['deaths'] == 0 ? '<i class="smile icon"></i> no deaths' : $player['deaths'] !!}
                 </td>
                 <td class="assists-table">{{ $player['assists'] }}</td>
+                <td class="revives-table">{{ $player['revives_given'] }}</td>
                 <td class="kdr-table">{{ $player['kdr'] }}</td>
                 <td class="kadr-table">{{ $player['kadr'] }}</td>
             </tr>
