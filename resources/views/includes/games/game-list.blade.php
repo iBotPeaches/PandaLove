@@ -23,7 +23,7 @@
                 <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
                 <div class="content">
                     <div class="header">
-                        {{ $raid->gameCount }} Games on {{ $raid->type()->title }} with
+                        {{ $raid->gameCount }} Games on {{ $raid->message == false ? $raid->type()->title : $raid->message }} with
                         @foreach ($raid->pandas() as $index => $panda)
                             {{ $panda->account->gamertag }}{{ $index < 2 ? ',' : null }}
                         @endforeach

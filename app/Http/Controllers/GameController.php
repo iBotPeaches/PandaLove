@@ -34,7 +34,7 @@ class GameController extends Controller {
         $tuesday = Game::tuesday($p)->limit(4)->get();
         $pvp = Game::with('pvp')->multiplayer($p)->singular()->limit(5)->get();
         $poe = Game::poe($p)->singular()->limit(4)->get();
-        $passages = Game::with('pvp', 'players.account')->passage()->limit(4)->get();
+        $passages = GameHelper::getMaps(Game::with('pvp', 'players.account')->passage()->limit(4)->get());
 
         Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe, $passages);
 

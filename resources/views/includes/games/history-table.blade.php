@@ -30,7 +30,11 @@
                         </a>
                 @elseif ($raid->passageId != 0)
                         <a href="{{ URL::action('GameController@getPassage', [$raid->passageId]) }}">
-                            {{ $raid->type()->title }}
+                            @if (\Onyx\Destiny\Helpers\Utils\Game::explodeMap($raid->maps) == false)
+                                {{ $raid->type()->title }}
+                            @else
+                                Random Maps
+                            @endif
                         </a>
                 @else
                     <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">

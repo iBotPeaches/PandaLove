@@ -1,6 +1,7 @@
 <?php namespace Onyx\Destiny\Helpers\Utils;
 
 use Illuminate\Support\Collection;
+use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 
 class Game {
@@ -158,7 +159,8 @@ class Game {
             'pandaWins' => 0,
             'opponentWins' => 0,
             'totalGames' => 0,
-            'blowoutGames' => 0
+            'blowoutGames' => 0,
+            'differentMaps' => false
         ];
 
         $combined['buffs'] = [
@@ -169,10 +171,24 @@ class Game {
             'quitout' => 0
         ];
 
+        $previous = null;
+        $maps = new Collection();
+
         foreach($games as $game)
         {
             $pandaId = $game->pvp->pandaId;
             $opponentId = $game->pvp->opposite($pandaId);
+
+            if ($maps->has($game->referenceId))
+            {
+                $count = $maps->get($game->referenceId);
+                $maps->forget($game->referenceId);
+                $maps->put($game->referenceId, ++$count);
+            }
+            else
+            {
+                $maps->put($game->referenceId, 1);
+            }
 
             $combined['stats']['pandaPts'] += $game->pvp->pts($pandaId);
             $combined['stats']['opponentPts'] += $game->pvp->pts($opponentId);
@@ -188,6 +204,18 @@ class Game {
                 if ($game->pvp->pts($opponentId) == 0)
                 {
                     $combined['stats']['blowoutGames'] += 1;
+                }
+            }
+
+            if ($previous == null)
+            {
+                $previous = $game->referenceId;
+            }
+            else
+            {
+                if ($previous != $game->referenceId)
+                {
+                    $combined['stats']['differentMaps'] = true;
                 }
             }
 
@@ -215,6 +243,23 @@ class Game {
                     }
                 }
             }
+        }
+
+        // are we on different maps? If so lets get the names of them
+        if ($combined['stats']['differentMaps'])
+        {
+            $map_list = '';
+            $new_maps = null;
+
+            $maps->each(function($count, $map) use (&$map_list, &$new_maps)
+            {
+                $map_list .= Hashes::quick($map)['title'] . ", ";
+            });
+
+            $combined['stats']['maps'] = rtrim($map_list, ", ");
+            $new_maps = $maps->toArray();
+            arsort($new_maps);
+            $combined['stats']['rMaps'] = $new_maps;
         }
 
         $bonus = 0;
@@ -264,5 +309,48 @@ class Game {
         }
 
         return false;
+    }
+
+    public static function getMaps($passages)
+    {
+        if ($passages instanceof Collection)
+        {
+            $passages->each(function($passage)
+            {
+                $passage['message'] = self::explodeMap($passage->maps);
+            });
+        }
+
+        return $passages;
+    }
+
+    public static function explodeMap($list)
+    {
+        $maps = explode(",", $list);
+
+        $different = false;
+        $previous = $maps[0];
+
+        if (is_array($maps))
+        {
+            foreach ($maps as $map)
+            {
+                if ($previous != $map)
+                {
+                    $different = true;
+                    break;
+                }
+            }
+        }
+
+        // check if we played on different maps
+        if ($different)
+        {
+            return ' a variety of maps';
+        }
+        else
+        {
+            return false; // defer loading to view so we can have autoloaded hashes
+        }
     }
 }

@@ -268,7 +268,7 @@ class Game extends Model {
     public function scopePassage($query)
     {
         return $this->scopeToO($query)
-            ->selectRaw('*, count(*) as gameCount, sum(timeTookInSeconds) as totalTime')
+            ->selectRaw('*, count(*) as gameCount, sum(timeTookInSeconds) as totalTime, GROUP_CONCAT(referenceId) as maps')
             ->groupBy('passageId')
             ->orderBy('occurredAt', 'DESC')
             ->having('passageId', '>', 0);

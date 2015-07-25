@@ -6,7 +6,12 @@
             <div class="row">
                 <header>
                     <h1>Welcome to another <strong>Trials of Osiris</strong></h1>
-                    {{ $games[0]->type()->title }} - {{ $games[0]->type()->description }}.<br />
+                    @if ($passage['stats']['differentMaps'])
+                        On the maps: {{ $passage['stats']['maps'] }}
+                    @else
+                        {{ $games[0]->type()->title }} - {{ $games[0]->type()->description }}.
+                    @endif
+                    <br />
                 </header>
                 <div class="12u">
                     <div class="ui top pointing secondary menu">
@@ -21,6 +26,11 @@
                     </div>
                     @foreach($games as $game)
                         <div class="ui bottom attached tab segment {{ $gameId == $game->instanceId ? 'active' : null }}" data-tab="game_{{ $game->instanceId }}">
+                            @if ($passage['stats']['differentMaps'])
+                                <div class="ui segment">
+                                    {{ $game->type()->title }} - {{ $game->type()->description }}
+                                </div>
+                            @endif
                             <div class="ui inverted segment">
                                 {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
                             </div>

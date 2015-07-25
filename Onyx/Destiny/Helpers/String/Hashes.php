@@ -38,6 +38,24 @@ class Hashes extends Http{
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public static function quick($hash)
+    {
+        if (Hashes::$items != null)
+        {
+            $object = Hashes::$items->filter(function($item) use ($hash)
+            {
+                return $item->hash == $hash;
+            })->first();
+
+            if ($object instanceof Hash)
+            {
+                return $object;
+            }
+        }
+
+        return null;
+    }
+
     public function map($hash, $title = true)
     {
         if (Hashes::$items == null)

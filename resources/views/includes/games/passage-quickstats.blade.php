@@ -10,6 +10,16 @@
         <li>
             PandaLove won <strong>{{ $passage['stats']['pandaWins'] }}</strong> games out of <strong>{{ $combined['stats']['games'] }}</strong> games.
         </li>
+        @if ($passage['stats']['differentMaps'])
+            <li>
+                This was a random map trial, so the maps played were:
+                <ul>
+                    @foreach($passage['stats']['rMaps'] as $hash => $count)
+                        <li>{{ $count }} - {{ \Onyx\Destiny\Helpers\String\Hashes::quick($hash)['title'] }}</li>
+                    @endforeach
+                </ul>
+            </li>
+        @endif
         @if ($passage['stats']['blowoutGames'] > 0)
             <li>
                 PandaLove had <strong>{{ $passage['stats']['blowoutGames'] }}</strong> perfect {{ $passage['stats']['blowoutGames'] > 1 ? 'games' : 'game' }}.
