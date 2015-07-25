@@ -194,6 +194,7 @@ class Hashes extends Http{
                 $hashes[] = $char->getOriginal('gender');
                 $hashes[] = $char->getOriginal('class');
                 $hashes[] = $char->getOriginal('emblem');
+                $hashes[] = $char->getOriginal('background');
             }
         }
 
