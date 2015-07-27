@@ -448,7 +448,7 @@ class Client extends Http {
         $character->last_played = new Carbon($charBase['dateLastPlayed']);
         $character->minutes_played = $charBase['minutesPlayedTotal'];
         $character->minutes_played_last_session = $charBase['minutesPlayedThisSession'];
-        $character->level = $charBase['powerLevel'];
+        $character->level = $charBase['characterLevel'];
         $character->race = $charBase['raceHash'];
         $character->gender = $charBase['genderHash'];
         $character->class = $charBase['classHash'];
