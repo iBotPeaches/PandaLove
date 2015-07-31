@@ -22,7 +22,7 @@
                 <tr class="{{ $player->deaths == 0 && $player->completed ? 'positive' : ($player->deaths > $player->kills ? 'negative' : null) }}">
                     <td>
                         <img class="ui avatar image" src="{{ $player->emblem->extra }}" />
-                        @if (isset($player->account))
+                        @if ($player->account instanceof \Onyx\Account)
                             @if ($player->account->isPandaLove())
                                 <i class="user icon panda-team"></i>
                             @endif
