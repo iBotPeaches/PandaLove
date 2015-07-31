@@ -38,7 +38,7 @@
                         @endif
                     </td>
                     <td>
-                        @if ($player->account)
+                        @if ($player->account instanceof \Onyx\Account)
                             <a href="{{ URL::action('ProfileController@index', [$player->account->seo, $player->gameChar->characterId]) }}">
                                 {{ $player->level }} {{ $player->class }}
                             </a>
