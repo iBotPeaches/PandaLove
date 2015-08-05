@@ -9,15 +9,15 @@
     @endif
 	<title>{{ $title or 'Panda Love' }}</title>
 	<!--[if lte IE 8]><script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script><![endif]-->
-	<script src="{{ elixir("js/jquery.min.js") }}"></script>
-	<script src="{{ elixir("js/jquery.scrolly.min.js") }}"></script>
-	<script src="{{ elixir("js/skel.min.js") }}"></script>
-	<script src="{{ elixir("js/init.js") }}"></script>
+	<script src="{{ asset("js/jquery.min.js") }}"></script>
+	<script src="{{ asset("js/jquery.scrolly.min.js") }}"></script>
+	<script src="{{ asset("js/skel.min.js") }}"></script>
+	<script src="{{ asset("js/init.js") }}"></script>
 	<script src="{{ elixir("js/app.js") }}"></script>
 	<noscript>
-		<link rel="stylesheet" href="{{ elixir('css/skel.css') }}" />
-		<link rel="stylesheet" href="{{ elixir('css/style.css') }}" />
-		<link rel="stylesheet" href="{{ elixir('css/style-desktop.css') }}" />
+		<link rel="stylesheet" href="{{ asset('css/skel.css') }}" />
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+		<link rel="stylesheet" href="{{ asset('css/style-desktop.css') }}" />
 	</noscript>
 	<!--[if lte IE 8]><link rel="stylesheet" href="{{ asset('css/ie/v8.css') }}" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="{{ asset('css/ie/v9.css') }}" /><![endif]-->

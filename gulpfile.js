@@ -33,14 +33,11 @@ elixir(function(mix) {
      .styles([
          paths.css + 'main.css',
          paths.css + 'semantic.css'
-     ], "public/css/app.css", "./")
+     ], "public/css/app.css")
      .scripts([
          paths.js + 'main.js',
          paths.js + 'semantic.min.js',
          paths.js + 'tablesort.js'
-     ], "public/js/app.js", "./")
-     .version([
-         'css/*',
-         'js/*'
-     ], "public");
+     ], "public/js/app.js")
+     .version(["public/css/app.css", "public/js/app.js"]);
 });
