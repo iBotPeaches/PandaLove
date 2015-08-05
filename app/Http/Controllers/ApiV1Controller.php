@@ -69,6 +69,11 @@ class ApiV1Controller extends Controller {
                 $msg .= "<strong> [MAX]</strong>";
             }
 
+            if ($account->getOriginal(['grimoire']) < 3000)
+            {
+                $msg .= "<br /><br /><br />Come on son. Lets get more than 3k";
+            }
+
             return Response::json([
                 'error' => false,
                 'msg' => $msg
