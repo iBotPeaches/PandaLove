@@ -1,4 +1,5 @@
 <?php
+Route::controller('api/v1', 'ApiV1Controller');
 
 Route::get('/profile/check-for-update/{gamertag}', 'ProfileController@checkForUpdate');
 Route::get('/profile/manual-update/{seo}', 'ProfileController@manualUpdate');
