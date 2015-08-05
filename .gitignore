@@ -26,3 +26,7 @@ Thumbs.db
 _ide_helper.php
 composer.phar
 error_log
+
+# Stupid Semantic
+semantic.json
+/semantic
