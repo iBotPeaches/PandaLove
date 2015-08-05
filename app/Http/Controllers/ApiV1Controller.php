@@ -15,6 +15,8 @@ class ApiV1Controller extends Controller {
     private $request;
     private $redirect;
 
+    const MAX_GRIMOIRE = 3620;
+
     protected $layout = "layouts.master";
 
     public function __construct(View $view, Redirect $redirect, Request $request)
@@ -40,6 +42,32 @@ class ApiV1Controller extends Controller {
             {
                $msg .= $char->name() . ": " . $char->realLevel . "<br />";
             });
+
+            return Response::json([
+                'error' => false,
+                'msg' => $msg
+            ], 200);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return $this->_error('Gamertag not found');
+        }
+    }
+
+    public function getGrimoire($gamertag)
+    {
+        try
+        {
+            $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
+
+            $msg = '<strong>' . $account->gamertag . "</strong><br/><br />Grimoire: ";
+
+            $msg .= $account->grimoire;
+
+            if ($account->getOriginal('grimoire') == self::MAX_GRIMOIRE)
+            {
+                $msg .= "<strong> [MAX]</strong>";
+            }
 
             return Response::json([
                 'error' => false,
