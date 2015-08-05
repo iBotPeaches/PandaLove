@@ -16,7 +16,7 @@ PandaLove is a website devoted to tracking our weekly raid Tuesdays, PVP destruc
 8. `cp .env.example .env`
 9. Create a local database. Write down the database name, along with database username & password.
 10. Change values in `.env` to match your settings (the 3 database fields)
-11. `php artisan db:migrate`
+11. `php artisan migrate`
 12. `php artisan db:seed`
 13. `gulp`
 14. `php artisan serve`
