@@ -19,6 +19,7 @@ class ApiV1Controller extends Controller {
 
     public function __construct(View $view, Redirect $redirect, Request $request)
     {
+        parent::__construct();
         $this->view = $view;
         $this->request = $request;
         $this->redirect = $redirect;
