@@ -15,7 +15,7 @@
                 <td class="grimoire-table">{{ $member->grimoire }}</td>
                 <td>
                     <span class="right floated author">
-                        <img class="ui avatar image" src="{{ $member->characterAtPosition(1)->background->extra}}" />
+                        <img class="ui avatar image" src="{{ $member->characterAtPosition(1)->emblem->extra}}" />
                         <a href="{{ URL::action('ProfileController@index', [$member->seo, $member->characterAtPosition(1)->characterId]) }}">
                             {{ $member->characterAtPosition(1)->name() }}
                         </a>
@@ -23,7 +23,7 @@
                 </td>
                 <td>
                     <span class="right floated author">
-                        <img class="ui avatar image" src="{{ $member->characterAtPosition(2)->background->extra}}" />
+                        <img class="ui avatar image" src="{{ $member->characterAtPosition(2)->emblem->extra}}" />
                         <a href="{{ URL::action('ProfileController@index', [$member->seo, $member->characterAtPosition(2)->characterId]) }}">
                             {{ $member->characterAtPosition(2)->name() }}
                         </a>
@@ -31,7 +31,7 @@
                 </td>
                 <td>
                     <span class="right floated author">
-                        <img class="ui avatar image" src="{{ $member->characterAtPosition(3)->background->extra}}" />
+                        <img class="ui avatar image" src="{{ $member->characterAtPosition(3)->emblem->extra}}" />
                         <a href="{{ URL::action('ProfileController@index', [$member->seo, $member->characterAtPosition(3)->characterId]) }}">
                             {{ $member->characterAtPosition(3)->name() }}
                         </a>
