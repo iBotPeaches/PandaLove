@@ -21,3 +21,12 @@ PandaLove is a website devoted to tracking our weekly raid Tuesdays, PVP destruc
 13. `gulp`
 14. `php artisan serve`
 15. done
+
+
+## Full Calendar Information
+API key:            `AIzaSyDQiiMhzBdVuGtyp50pVhdH_SQnPoxzcW8`  
+Referrers:          [http://pandalove.club](http://pandalove.club/)  
+Activation date:    Aug 6, 2015, 1:15:19 AM  
+Activated by:       gmsteuart@gmail.com  
+Calendar ID:        kqg0rmg06d8vrk6nse9cp32d4s@group.calendar.google.com  
+Documentation:      [http://fullcalendar.io/docs](http://fullcalendar.io/docs)

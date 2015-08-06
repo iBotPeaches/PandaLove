@@ -23,6 +23,7 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="{{ asset('css/ie/v9.css') }}" /><![endif]-->
 	<link rel="stylesheet" href="{{ elixir('css/app.css') }}" />
 	@yield('inline-css')
+
 </head>
 <body>
 	@include('includes.navigation')
