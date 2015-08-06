@@ -27,9 +27,9 @@
         });
     </script>
     <script src="{{ asset("js/moment.min.js") }}"></script>
-    <script src="{{ asset("js/fullcalendar.js") }}"></script>
+    <script src="{{ asset("js/fullcalendar.min.js") }}"></script>
 @append
 
 @section('inline-css')
-    <link rel='stylesheet' href="{{ asset('css/fullcalendar/fullcalendar.css') }}" />
+    <link rel='stylesheet' href="{{ asset('css/fullcalendar.min.css') }}" />
 @append
