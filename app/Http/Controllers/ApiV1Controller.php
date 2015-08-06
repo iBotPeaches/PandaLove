@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Response;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\User;
 
 class ApiV1Controller extends Controller {
 
@@ -82,6 +83,23 @@ class ApiV1Controller extends Controller {
         catch (ModelNotFoundException $e)
         {
             return $this->_error('Gamertag not found');
+        }
+    }
+
+    public function postAddGame()
+    {
+        $all = $this->request->all();
+
+        if (isset($all['google_id']))
+        {
+            try
+            {
+                $user = User::where('google_id', $all['google_id'])->findOrFail();
+            }
+            catch (ModelNotFoundException $e)
+            {
+                return $this->_error('User account could not be found.');
+            }
         }
     }
 
