@@ -94,7 +94,12 @@ class ApiV1Controller extends Controller {
         {
             try
             {
-                $user = User::where('google_id', $all['google_id'])->findOrFail();
+                $user = User::where('google_id', $all['google_id'])->firstOrFail();
+
+                return Response::json([
+                    'error' => false,
+                    'msg' => 'This worked, but my API is not done'
+                ], 200);
             }
             catch (ModelNotFoundException $e)
             {
