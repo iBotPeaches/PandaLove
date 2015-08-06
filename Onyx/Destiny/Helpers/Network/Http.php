@@ -20,7 +20,6 @@ class Http {
     private function setupGuzzle()
     {
         $this->guzzle = new Guzzle();
-        $this->guzzle->setDefaultOption('headers', array('X-API-Key', env('BUNGIE_KEY')));
     }
 
     /**
@@ -36,7 +35,9 @@ class Http {
             $this->setupGuzzle();
         }
 
-        $response = $this->guzzle->get($url);
+        $response = $this->guzzle->get($url, [
+            'headers' => ['X-API-Key' => env('BUNGIE_KEY')]
+        ]);
 
         if ($response->getStatusCode() != 200)
         {
