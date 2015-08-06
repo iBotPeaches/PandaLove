@@ -14,6 +14,12 @@
 	<script src="{{ asset("js/skel.min.js") }}"></script>
 	<script src="{{ asset("js/init.js") }}"></script>
 	<script src="{{ elixir("js/app.js") }}"></script>
+
+	<!--Load Calendar after Jquery and Moment-->
+    <link rel='stylesheet' href="{{ asset('css/fullcalendar/fullcalendar.css') }}" />
+    <script src="{{ asset("js/moment.min.js") }}"></script>
+    <script src="{{ asset("js/fullcalendar.js") }}"></script>
+
 	<noscript>
 		<link rel="stylesheet" href="{{ asset('css/skel.css') }}" />
 		<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
@@ -23,6 +29,7 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="{{ asset('css/ie/v9.css') }}" /><![endif]-->
 	<link rel="stylesheet" href="{{ elixir('css/app.css') }}" />
 	@yield('inline-css')
+
 </head>
 <body>
 	@include('includes.navigation')
@@ -32,3 +39,5 @@
 	@yield('inline-js')
 </body>
 </html>
+
+

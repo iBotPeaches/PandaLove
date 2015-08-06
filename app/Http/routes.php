@@ -5,6 +5,7 @@ Route::get('/profile/check-for-update/{gamertag}', 'ProfileController@checkForUp
 Route::get('/profile/manual-update/{seo}', 'ProfileController@manualUpdate');
 Route::get('/profile/{gamertag}/{characterId?}', 'ProfileController@index');
 
+Route::controller('/calendar', 'CalendarController');
 Route::controller('/games', 'GameController');
 Route::controller('/admin', 'AdminController');
 Route::controller('/roster', 'RosterController');

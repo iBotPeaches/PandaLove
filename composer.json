@@ -14,7 +14,8 @@
 		"predis/predis": "~1.0",
 		"jenssegers/agent": "~2.1",
 		"barryvdh/laravel-debugbar": "~2.0",
-		"graham-campbell/exceptions": "~3.2"
+		"graham-campbell/exceptions": "~3.2",
+        "maddhatter/laravel-fullcalendar": "~1.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
