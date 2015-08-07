@@ -254,13 +254,15 @@ class Client extends Http {
                         {
                             if (isset($item['item']['stats']) && count($item['item']['stats']) > 0)
                             {
-                                $items .= $translator->map($item['item']['itemHash'], true) . '<br />';
+                                $items .= "<strong>" . $translator->map($item['item']['itemHash'], true) . '</strong><br />';
                                 foreach ($item['item']['stats'] as $stat)
                                 {
                                     if ($stat['value'] != 0)
                                     {
                                         $items .= '-->' . $translator->map($stat['statHash'], true) . ": " . number_format($stat['value'])  . "<br />";
                                     }
+
+                                    $items .= '<br />';
                                 }
                             }
                         }
