@@ -166,6 +166,29 @@ class ApiV1Controller extends Controller {
         }
     }
 
+    public function postMakeRSVP()
+    {
+        $all = $this->request->all();
+
+        if (isset($all['google_id'])) {
+            try
+            {
+                $user = User::where('google_id', $all['google_id'])->firstOrFail();
+
+
+
+                return Response::json([
+                    'error' => false,
+                    'msg' => 'Event created!'
+                ], 200);
+            }
+            catch (ModelNotFoundException $e)
+            {
+                return $this->_error('User does not have permissions');
+            }
+        }
+    }
+
     private function _error($message)
     {
         return Response::json([
