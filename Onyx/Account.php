@@ -109,4 +109,9 @@ class Account extends Model {
 
         return false;
     }
+
+    public function charactersCount()
+    {
+        return count($this->characters);
+    }
 }
