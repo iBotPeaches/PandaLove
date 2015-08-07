@@ -259,7 +259,7 @@ class Client extends Http {
                                 {
                                     if ($stat['value'] != 0)
                                     {
-                                        $items .= '-->' . $translator->map($stat['statHash'], true) . ": " . number_format($stat['value'])  . "<br />";
+                                        $items .= '  -->' . $translator->map($stat['statHash'], true) . ": " . number_format($stat['value'])  . "<br />";
                                     }
 
                                     $items .= '<br />';
