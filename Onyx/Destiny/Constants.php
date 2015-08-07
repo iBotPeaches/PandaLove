@@ -32,4 +32,11 @@ class Constants {
      * @var string
      */
     public static $explorerItems = 'https://www.bungie.net/Platform/Destiny/Manifest/InventoryItem/%1$s';
+
+    /**
+     * Obtain XUR data when present
+     *
+     * @var string
+     */
+    public static $xurData = 'https://www.bungie.net/Platform/Destiny/Advisors/Xur';
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Onyx\Account;
+use Onyx\Destiny\Client;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\User;
@@ -105,6 +106,24 @@ class ApiV1Controller extends Controller {
             {
                 return $this->_error('User account could not be found.');
             }
+        }
+    }
+
+    public function getXur()
+    {
+        $client = new Client();
+        $xurData = $client->getXurData();
+
+        if ($xurData == false && strlen($xurData) < 30)
+        {
+            return $this->_error('XUR is not here right now.');
+        }
+        else
+        {
+            return Response::json([
+                'error' => false,
+                'msg' => $xurData
+            ]);
         }
     }
 

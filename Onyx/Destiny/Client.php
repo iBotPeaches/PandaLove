@@ -4,9 +4,11 @@ use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Network\Http;
+use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Helpers\Utils\Gametype;
 use Onyx\Destiny\Objects\Character;
@@ -214,6 +216,61 @@ class Client extends Http {
         $json = $this->getJson($url);
 
         return isset($json['Response']['bungieNetUser']) ? $json['Response']['bungieNetUser'] : null;
+    }
+
+    /**
+     * @return bool
+     * @throws Helpers\Network\BungieOfflineException
+     */
+    public function getXurData()
+    {
+        $key = 'xur';
+
+        if (Cache::has($key))
+        {
+            return Cache::get($key);
+        }
+        else
+        {
+            $url = Constants::$xurData;
+            $json = $this->getJson($url);
+
+            if (! isset($json['Response']['data']))
+            {
+                return false; // no xur data
+            }
+            else
+            {
+                $translator = new Hashes();
+                $translator->setUrl($url);
+
+                $items = '<strong>Xur Items</strong><br/><br />';
+
+                foreach($json['Response']['data']['saleItemCategories'] as $category)
+                {
+                    if ($category['categoryTitle'] == "Exotic Gear")
+                    {
+                        foreach($category['saleItems'] as $item)
+                        {
+                            if (isset($item['item']['stats']) && count($item['item']['stats']) > 0)
+                            {
+                                $items .= $translator->map($item['item']['itemHash'], true) . '<br />';
+                                foreach ($item['item']['stats'] as $stat)
+                                {
+                                    if ($stat['value'] != 0)
+                                    {
+                                        $items .= '-->' . $translator->map($stat['statHash'], true) . ": " . number_format($stat['value'])  . "<br />";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Cache::put($key, $items, 120);
+                return $items;
+            }
+        }
     }
 
     //---------------------------------------------------------------------------------
