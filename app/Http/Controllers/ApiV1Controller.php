@@ -7,6 +7,7 @@ use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Onyx\Account;
 use Onyx\Destiny\Client;
+use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\User;
@@ -95,11 +96,26 @@ class ApiV1Controller extends Controller {
         {
             try
             {
-                $user = User::where('google_id', $all['google_id'])->firstOrFail();
+                $user = User::where('google_id', $all['google_id'])
+                    ->where('admin', true)
+                    ->firstOrFail();
+
+                $client = new Client();
+
+                try
+                {
+                    $game = $client->fetchGameByInstanceId($all['instanceId']);
+                }
+                catch (GameNotFoundException $e)
+                {
+                    return $this->_error('Game could not be found');
+                }
+
+                $client->updateTypeOfGame($all['instanceId'], $all['type'], $all['passageId']);
 
                 return Response::json([
                     'error' => false,
-                    'msg' => 'This worked, but my API is not done'
+                    'msg' => 'Game Added: ' . $game->type()->title
                 ], 200);
             }
             catch (ModelNotFoundException $e)
