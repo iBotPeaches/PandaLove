@@ -115,7 +115,7 @@ class ApiV1Controller extends Controller {
 
                 return Response::json([
                     'error' => false,
-                    'msg' => 'Game Added: ' . $game->type()->title
+                    'msg' => 'Game Added! '
                 ], 200);
             }
             catch (ModelNotFoundException $e)
