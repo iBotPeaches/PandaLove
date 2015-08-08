@@ -40,4 +40,29 @@ abstract class Types {
             'ToO' => self::ToO
         ];
     }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public static function getProperFormat($value)
+    {
+        switch (strtolower($value))
+        {
+            case "raid":
+                return 'Raid';
+
+            case "flawless":
+                return 'Flawless';
+
+            case "pvp":
+                return 'PVP';
+
+            case "poe":
+                return 'PoE';
+
+            case "too":
+                return 'ToO';
+        }
+    }
 }

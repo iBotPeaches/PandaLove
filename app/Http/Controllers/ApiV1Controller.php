@@ -7,6 +7,7 @@ use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Onyx\Account;
 use Onyx\Destiny\Client;
+use Onyx\Destiny\Enums\Types;
 use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
@@ -111,7 +112,7 @@ class ApiV1Controller extends Controller {
                     return $this->_error('Game could not be found');
                 }
 
-                $client->updateTypeOfGame($all['instanceId'], $all['type'], $all['passageId']);
+                $client->updateTypeOfGame($all['instanceId'], Types::getProperFormat($all['type']), $all['passageId']);
 
                 return Response::json([
                     'error' => false,
