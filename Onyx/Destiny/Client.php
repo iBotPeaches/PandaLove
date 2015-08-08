@@ -262,8 +262,8 @@ class Client extends Http {
                                         $items .= '  -->' . $translator->map($stat['statHash'], true) . ": " . number_format($stat['value'])  . "<br />";
                                     }
 
-                                    $items .= '<br />';
                                 }
+                                $items .= '<br />';
                             }
                         }
                     }
