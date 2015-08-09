@@ -1,6 +1,9 @@
 <?php namespace PandaLove\Http\Controllers;
 
 
+use Illuminate\Http\Request;
+use Onyx\Destiny\Objects\GameEvent;
+
 class CalendarController extends Controller {
 
     /**
@@ -21,5 +24,11 @@ class CalendarController extends Controller {
     {
         return view('calendar')
             ->with('description', 'PandaLove\'s Calendar of Events');
+    }
+
+    public function getEvents(Request $request)
+    {
+        $events = GameEvent::whereBetween('start', [$request->get('start'), $request->get('end')])->get();
+        return $events->toJson();
     }
 }

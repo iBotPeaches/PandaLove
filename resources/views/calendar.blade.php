@@ -19,10 +19,8 @@
     <script type='text/javascript'>
         $(document).ready(function() {
             $('#calendar').fullCalendar({
-                googleCalendarApiKey: 'AIzaSyDQiiMhzBdVuGtyp50pVhdH_SQnPoxzcW8',
-                events: {
-                    googleCalendarId: 'kqg0rmg06d8vrk6nse9cp32d4s@group.calendar.google.com'
-                }
+                firstDay: 1,
+                events: " {{ URL::action('CalendarController@getEvents') }}"
             });
         });
     </script>
