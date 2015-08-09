@@ -11,6 +11,7 @@
                     <div id='calendar'></div>
                 </div>
             </div>
+            Legend: <button class="ui tiny green button">Raid</button><button class="ui tiny red button">PVP</button><button class="ui tiny purple button">Prison of Elders</button><button class="ui tiny black button">Trials Of Osiris</button>
         </article>
     </div>
 @endsection

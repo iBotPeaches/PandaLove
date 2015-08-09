@@ -36,6 +36,7 @@ class CalendarController extends Controller {
         $events->each(function($event)
         {
             $event->url = action('CalendarController@getEvent', [$event->id]);
+            $event->backgroundColor = $event->getBackgroundColor();
         });
 
         return $events->toJson();
