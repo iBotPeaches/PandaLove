@@ -12,6 +12,7 @@ use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\User;
+use Onyx\XboxLive\Client as XboxClient;
 
 class ApiV1Controller extends Controller {
 
@@ -141,6 +142,21 @@ class ApiV1Controller extends Controller {
                 'error' => false,
                 'msg' => $xurData
             ]);
+        }
+    }
+
+    public function getWhoIsOn()
+    {
+        $accounts = Account::where('clanName', "Panda Love")->get();
+
+        if (count($accounts) > 0)
+        {
+            $xboxclient = new XboxClient();
+            $presence = $xboxclient->fetchAccountsPresence($accounts);
+        }
+        else
+        {
+            $this->_error('No Panda Love members were found');
         }
     }
 

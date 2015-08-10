@@ -27,7 +27,10 @@ class XboxAPI {
         }
 
         $response = $this->guzzle->get($url, [
-            'headers' => ['X-AUTH' => env('XBOXAPI_KEY')]
+            'headers' => [
+                'X-AUTH' => env('XBOXAPI_KEY'),
+                'Accept' => 'application/json'
+            ]
         ]);
 
         if ($response->getStatusCode() != 200)
