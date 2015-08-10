@@ -44,7 +44,7 @@ class Http {
             throw new BungieOfflineException();
         }
 
-        return $response->json();
+        return json_decode($response->getBody(), true);
     }
 }
 
