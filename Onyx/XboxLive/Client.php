@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Promise as GuzzlePromise;
 use Onyx\Destiny\Client as DestinyClient;
 use Onyx\XboxLive\Helpers\Network\XboxAPI;
 use Onyx\XboxLive\Constants as XboxConstants;
@@ -11,7 +12,7 @@ class Client extends XboxAPI {
     public function fetchAccountsPresence($accounts)
     {
         $client = new GuzzleClient([
-            'base_url' => XboxConstants::$getBaseXboxAPI
+            'base_uri' => XboxConstants::$getBaseXboxAPI
         ]);
         $destiny = new DestinyClient();
 
@@ -25,11 +26,13 @@ class Client extends XboxAPI {
             }
 
             $url = sprintf(XboxConstants::$getPresenceUrl, $account->xuid);
-            $requests[] = $client->get($url, ['headers' => ['X-AUTH' => env('XBOXAPI_KEY')]]);
+            $requests[$account->seo] = $client->getAsync($url, [
+                'headers' => ['X-AUTH' => env('XBOXAPI_KEY')]
+            ]);
         }
 
-        $commands = $client->send($requests);
+        $results = GuzzlePromise\Unwrap($requests);
 
-        return $commands;
+        return $results;
     }
 }
