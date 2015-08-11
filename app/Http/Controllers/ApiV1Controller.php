@@ -170,7 +170,12 @@ class ApiV1Controller extends Controller {
                                 if ($title['name'] == "Destiny")
                                 {
                                     $gt = $accounts->where('seo', $seo)->first();
-                                    $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'] . "<br/>";
+                                    $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'];
+                                    if (isset($title['activity']))
+                                    {
+                                        $user_string .= " (" . $title['activity']['richPresence'] . ")";
+                                    }
+                                    $user_string .= "<br/>";
                                 }
                             }
                         }
