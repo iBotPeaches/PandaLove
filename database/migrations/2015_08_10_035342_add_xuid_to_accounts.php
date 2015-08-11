@@ -12,7 +12,8 @@ class AddXuidToAccounts extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function (Blueprint $table) {
+        Schema::table('accounts', function (Blueprint $table)
+        {
             $table->string('xuid', 16)->nullable();
         });
     }
@@ -24,7 +25,8 @@ class AddXuidToAccounts extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function (Blueprint $table) {
+        Schema::table('accounts', function (Blueprint $table)
+        {
             $table->dropColumn('xuid');
         });
     }
