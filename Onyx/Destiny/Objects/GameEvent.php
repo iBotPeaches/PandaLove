@@ -16,6 +16,21 @@ class GameEvent extends Model {
     //---------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------
+    // BOOT Methods
+    //---------------------------------------------------------------------------------
+
+    public static function boot()
+    {
+        GameEvent::creating(function ($event)
+        {
+            if ($event->max_players == 0)
+            {
+                $event->max_players = $event->getPlayerDefaultSize($event->type);
+            }
+        });
+    }
+
+    //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
 
@@ -35,6 +50,21 @@ class GameEvent extends Model {
 
             case "PVP":
                 return '#D95C5C';
+        }
+    }
+
+    public function getPlayerDefaultSize($type)
+    {
+        switch ($type)
+        {
+            case "ToO":
+            case "PoE":
+                return 3;
+
+            case "Raid":
+            case "Flawless":
+            case "PVP":
+                return 6;
         }
     }
 }
