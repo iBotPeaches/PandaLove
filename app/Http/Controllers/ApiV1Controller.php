@@ -154,37 +154,10 @@ class ApiV1Controller extends Controller {
             $xboxclient = new XboxClient();
             $presence = $xboxclient->fetchAccountsPresence($accounts);
 
-            $user_string = '<strong>Online Status</strong><br/>';
-            foreach ($presence as $seo => $response)
-            {
-                $data = json_decode($response->getBody(), true);
-
-                if ($data['state'] == "Online")
-                {
-                    foreach ($data['devices'] as $device)
-                    {
-                        if ($device['type'] == "XboxOne")
-                        {
-                            foreach ($device['titles'] as $title)
-                            {
-                                if ($title['name'] == "Destiny")
-                                {
-                                    $gt = $accounts->where('seo', $seo)->first();
-                                    $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'];
-                                    if (isset($title['activity']))
-                                    {
-                                        $user_string .= " (" . $title['activity']['richPresence'] . ")";
-                                    }
-                                    $user_string .= "<br/>";
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            $status = $xboxclient->prettifyOnlineStatus($presence, $accounts);
             return Response::json([
                 'error' => false,
-                'msg' => $user_string
+                'msg' => $status
             ]);
         }
         else

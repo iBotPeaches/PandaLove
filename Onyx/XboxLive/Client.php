@@ -1,7 +1,7 @@
 <?php namespace Onyx\XboxLive;
 
-use Carbon\Carbon;
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Promise as GuzzlePromise;
 use Onyx\Destiny\Client as DestinyClient;
 use Onyx\XboxLive\Helpers\Network\XboxAPI;
@@ -34,5 +34,49 @@ class Client extends XboxAPI {
         $results = GuzzlePromise\Unwrap($requests);
 
         return $results;
+    }
+
+    public function prettifyOnlineStatus($presence, $accounts)
+    {
+        $key = 'online_status';
+
+        if (Cache::has($key))
+        {
+            return Cache::get($key);
+        }
+        else
+        {
+            $user_string = '<strong>Online Status</strong><br/>';
+            foreach ($presence as $seo => $response)
+            {
+                $data = json_decode($response->getBody(), true);
+
+                if ($data['state'] == "Online")
+                {
+                    foreach ($data['devices'] as $device)
+                    {
+                        if ($device['type'] == "XboxOne")
+                        {
+                            foreach ($device['titles'] as $title)
+                            {
+                                if ($title['name'] == "Destiny")
+                                {
+                                    $gt = $accounts->where('seo', $seo)->first();
+                                    $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'];
+                                    if (isset($title['activity']))
+                                    {
+                                        $user_string .= " (" . $title['activity']['richPresence'] . ")";
+                                    }
+                                    $user_string .= "<br/>";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Cache::put($key, $user_string, 5);
+            return $user_string;
+        }
     }
 }
