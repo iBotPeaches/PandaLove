@@ -14,7 +14,6 @@ class Client extends XboxAPI {
         $client = new GuzzleClient([
             'base_uri' => XboxConstants::$getBaseXboxAPI
         ]);
-        $destiny = new DestinyClient();
 
         // Set up getCommands
         $requests = array();
@@ -22,6 +21,7 @@ class Client extends XboxAPI {
         {
             if ($account->xuid == null)
             {
+                $destiny = new DestinyClient();
                 $account = $destiny->fetchAccountData($account);
             }
 
