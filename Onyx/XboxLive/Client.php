@@ -51,7 +51,7 @@ class Client extends XboxAPI {
             {
                 $data = json_decode($response->getBody(), true);
 
-                if ($data['state'] == "Online")
+                if (isset($data['state']) && $data['state'] == "Online")
                 {
                     foreach ($data['devices'] as $device)
                     {
