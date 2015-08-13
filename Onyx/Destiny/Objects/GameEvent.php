@@ -9,6 +9,8 @@ class GameEvent extends Model {
 
     protected $fillable = ['title'];
 
+    protected $dates = ['start'];
+
     public $timestamps = true;
 
     //---------------------------------------------------------------------------------
@@ -33,6 +35,31 @@ class GameEvent extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public function humanDate()
+    {
+        return $this->start->format('F j - g:ia');
+    }
+
+    public function count()
+    {
+        return count($this->attendees);
+    }
+
+    public function attendees()
+    {
+        return $this->hasMany('Onyx\Destiny\Objects\Attendee', 'game_id', 'id');
+    }
+
+    public function spotsRemaining()
+    {
+        return $this->max_players - count($this->attendees);
+    }
+
+    public function isFull()
+    {
+        return $this->max_players == count($this->attendees);
+    }
 
     public function getBackgroundColor()
     {
