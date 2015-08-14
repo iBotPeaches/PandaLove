@@ -6,7 +6,9 @@ use Onyx\Account;
 use Onyx\Destiny\Client;
 use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
+use Onyx\Destiny\Objects\GameEvent;
 use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\User;
 
@@ -51,6 +53,34 @@ class CustomValidator extends Validator {
             $account = $client->fetchAccountByGamertag(1, $value);
         }
         catch (PlayerNotFoundException $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateCharacterReal($attribute, $value, $parameters)
+    {
+        try
+        {
+            $character = Character::where('characterId', $value)->firstOrFail();
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateEventExists($attribute, $value, $parameters)
+    {
+        try
+        {
+            $event = GameEvent::where('id', $value)->firstOrFail();
+        }
+        catch (ModelNotFoundException $e)
         {
             return false;
         }

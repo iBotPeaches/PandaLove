@@ -154,7 +154,6 @@ return [
 		'Jenssegers\Agent\AgentServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'GrahamCampbell\Exceptions\ExceptionsServiceProvider',
-		'MaddHatter\LaravelFullcalendar\ServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -217,7 +216,6 @@ return [
 		'Socialite' => 'Laravel\Socialite\Facades\Socialite',
 		'Agent'     => 'Jenssegers\Agent\Facades\Agent',
 		'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-		'Calendar'  => 'MaddHatter\LaravelFullcalendar\Facades\Calendar',
 
 	],
 

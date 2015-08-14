@@ -27,6 +27,7 @@ abstract class Controller extends BaseController {
 
         \View::share('isPanda', $this->isPanda);
 		\View::share('user', $this->user);
+        date_default_timezone_set('America/Chicago');
 	}
 
 }

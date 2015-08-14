@@ -11,6 +11,7 @@
                     <div id='calendar'></div>
                 </div>
             </div>
+            Legend: <button class="ui tiny green button">Raid</button><button class="ui tiny red button">PVP</button><button class="ui tiny purple button">Prison of Elders</button><button class="ui tiny black button">Trials Of Osiris</button>
         </article>
     </div>
 @endsection
@@ -19,10 +20,8 @@
     <script type='text/javascript'>
         $(document).ready(function() {
             $('#calendar').fullCalendar({
-                googleCalendarApiKey: 'AIzaSyDQiiMhzBdVuGtyp50pVhdH_SQnPoxzcW8',
-                events: {
-                    googleCalendarId: 'kqg0rmg06d8vrk6nse9cp32d4s@group.calendar.google.com'
-                }
+                firstDay: 1,
+                events: " {{ URL::action('CalendarController@getEvents') }}"
             });
         });
     </script>

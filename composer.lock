@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f449a4ae1417113a150cc3df969a565",
+    "hash": "97f1a0c495f2acc9743be75a308b79b3",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1356,43 +1356,6 @@
                 "twitter"
             ],
             "time": "2015-05-18 00:04:43"
-        },
-        {
-            "name": "maddhatter/laravel-fullcalendar",
-            "version": "v1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maddhatter/laravel-fullcalendar.git",
-                "reference": "dd3c982e9690265c653990a8b72c45420446e6b9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maddhatter/laravel-fullcalendar/zipball/dd3c982e9690265c653990a8b72c45420446e6b9",
-                "reference": "dd3c982e9690265c653990a8b72c45420446e6b9",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "MaddHatter\\LaravelFullcalendar": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Shawn Tunney",
-                    "email": "shawn.tunney@gmail.com"
-                }
-            ],
-            "description": "Laravel helper for FullCalendar.io",
-            "time": "2015-07-24 12:22:43"
         },
         {
             "name": "maximebf/debugbar",
