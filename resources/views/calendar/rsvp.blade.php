@@ -9,7 +9,7 @@
                         <h1><strong>I want to attend</strong>: {{ $event->title }}</h1>
                         <h3>at {{ $event->humanDate() }}.</h3>
                     </header>
-                    <p>Currently <strong>{{ $event->count() }}</strong> attending.</p>
+                    <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
                     @include('includes.calendar.attending_table')
                     @if ($attendee instanceof \Onyx\Destiny\Objects\Attendee)
                         <div class="ui blue message">

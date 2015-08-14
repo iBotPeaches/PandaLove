@@ -21,7 +21,7 @@
                     <td>{{ $attendee->character->name() }}</td>
                     <td>
                         @if ($user->id == $attendee->user_id)
-                            <a href="#">Cancel</a>
+                            <a href="{{ action('CalendarController@getCancelEvent', [$event->id]) }}">Cancel</a>
                         @endif
                     </td>
                 </tr>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\URL;
 use Onyx\Destiny\Objects\Attendee;
 use Onyx\Destiny\Objects\GameEvent;
 use PandaLove\Http\Requests\AddRSVP;
+use PandaLove\Http\Requests\deleteEventRequest;
 
 class CalendarController extends Controller {
 
@@ -81,6 +82,41 @@ class CalendarController extends Controller {
         {
             app()->abort(404, 'Event could not be found.');
         }
+    }
+
+    public function getCancelEvent($id)
+    {
+        try
+        {
+            $event = GameEvent::where('id', intval($id))->firstOrFail();
+            Attendee::where('game_id', $event->id)
+                ->where('user_id', $this->user->id)
+                ->delete();
+
+            return \Redirect::action('CalendarController@getEvent', [$event->id])
+                ->with('flash_message', [
+                    'type' => 'success',
+                    'header' => 'You have cancelled your RSVP.'
+                ]);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            app()->abort(404, 'Event could not be found.');
+        }
+    }
+
+    public function deleteEvent(deleteEventRequest $request)
+    {
+        $event = GameEvent::where('id', $request->get('event_id'))->first();
+        $event->delete();
+
+        return \Redirect::to('/calendar')
+            ->with('flash_message', [
+                'type' => 'green',
+                'header' => 'Event Deleted!',
+                'close' => true,
+                'body' => 'You deleted event (' . $request->get('event_id') . ") "
+            ]);
     }
 
     public function postRsvpEvent(AddRSVP $request)

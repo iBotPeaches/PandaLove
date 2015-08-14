@@ -9,7 +9,7 @@
                         <h1><strong>PandaLove</strong>: {{ $event->title }}</h1>
                         <h3>at {{ $event->humanDate() }}. So far </h3>
                     </header>
-                    <p>Currently <strong>{{ $event->count() }}</strong> attending {{ $event->isFull() ? 'which makes us full :(' : '.' }}</p>
+                    <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
                     @if (count($event->attendees) == 0)
                         <div class="ui blue message">
                             <strong>Whoa there buddy</strong>
@@ -27,5 +27,11 @@
                 </div>
             </div>
         </article>
+        @if (isset($user) && $user->admin)
+            <div class="wrapper style3">
+                <h2 class="header">Admin Options</h2>
+                @include('includes.calendar.admin-deleteevent')
+            </div>
+        @endif
     </div>
 @endsection
