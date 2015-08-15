@@ -21,11 +21,6 @@ use PandaLove\Commands\UpdateGamertag;
 
 class Client extends Http {
 
-    public function __construct()
-    {
-        date_default_timezone_set('America/Chicago');
-    }
-
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------

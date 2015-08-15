@@ -19,6 +19,7 @@ class CalendarController extends Controller {
     {
         parent::__construct();
         $this->middleware('auth.panda');
+        date_default_timezone_set('America/Chicago');
     }
 
     /**
