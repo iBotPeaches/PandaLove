@@ -87,7 +87,13 @@ class GameController extends Controller {
 
             if ($game->type == "PVP")
             {
-                $game->players = $game->players->sortByDesc('score');
+                // This is a fucking mess, but we don't have KD in the table so can't leverage the DB
+                // We append score (1501) to KD (multiplied by 100 to remove decimal)
+                // Thus 1501 w/ KD of .44 becomes 1501.00000044 (padded 8 times)
+                $game->players = $game->players->sortBy(function($player)
+                {
+                    return sprintf('%08d.%08d', $player->getOriginal('score'), ($player->kd * 100));
+                }, SORT_REGULAR, true);
                 return view('games.pvp');
             }
             else
