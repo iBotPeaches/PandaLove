@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -134,11 +135,26 @@ class Client extends Http {
 
         if (isset($json['Response'][0]['membershipId']))
         {
-            return Account::firstOrCreate([
-                'membershipId' => $json['Response'][0]['membershipId'],
-                'gamertag' => $json['Response'][0]['displayName'],
-                'accountType' => $json['Response'][0]['membershipType']
-            ]);
+            try
+            {
+                return Account::firstOrCreate([
+                    'membershipId' => $json['Response'][0]['membershipId'],
+                    'gamertag' => $json['Response'][0]['displayName'],
+                    'accountType' => $json['Response'][0]['membershipType']
+                ]);
+            }
+            catch (QueryException $e)
+            {
+                // Assuming this character already exists, but has had a name change
+                Account::where('membershipId', $json['Response'][0]['membershipId'])
+                    ->update(['gamertag' => $json['Response'][0]['displayName']]);
+
+                return Account::firstOrCreate([
+                    'membershipId' => $json['Response'][0]['membershipId'],
+                    'gamertag' => $json['Response'][0]['displayName'],
+                    'accountType' => $json['Response'][0]['membershipType']
+                ]);
+            }
         }
         else
         {
