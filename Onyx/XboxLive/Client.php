@@ -9,6 +9,8 @@ use Onyx\XboxLive\Constants as XboxConstants;
 
 class Client extends XboxAPI {
 
+    public $acceptedGameIds = ['972249091', '247546985', '1144039928', '1292135256']; // gta5 destiny mcc titanfall
+
     public function fetchAccountsPresence($accounts)
     {
         $client = new GuzzleClient([
@@ -59,7 +61,7 @@ class Client extends XboxAPI {
                         {
                             foreach ($device['titles'] as $title)
                             {
-                                if ($title['name'] == "Destiny")
+                                if (in_array($device['id'], $this->acceptedGameIds))
                                 {
                                     $gt = $accounts->where('seo', $seo)->first();
                                     $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'];
