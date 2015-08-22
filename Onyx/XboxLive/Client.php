@@ -61,7 +61,7 @@ class Client extends XboxAPI {
                         {
                             foreach ($device['titles'] as $title)
                             {
-                                if (in_array($device['id'], $this->acceptedGameIds))
+                                if (in_array($title['id'], $this->acceptedGameIds))
                                 {
                                     $gt = $accounts->where('seo', $seo)->first();
                                     $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'];
