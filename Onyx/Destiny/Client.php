@@ -146,8 +146,15 @@ class Client extends Http {
             catch (QueryException $e)
             {
                 // Assuming this character already exists, but has had a name change
-                Account::where('membershipId', $json['Response'][0]['membershipId'])
-                    ->update(['gamertag' => $json['Response'][0]['displayName']]);
+                $account = Account::where('membershipId', $json['Response'][0]['membershipId'])->first();
+
+                if ($account instanceof Account)
+                {
+                    $account->gamertag = $json['Response'][0]['displayName'];
+                    $account->save();
+
+                    return $account;
+                }
 
                 return Account::firstOrCreate([
                     'membershipId' => $json['Response'][0]['membershipId'],
