@@ -49,6 +49,8 @@ class Client extends XboxAPI {
         else
         {
             $user_string = '<strong>Online Status</strong><br/>';
+            $found = false;
+
             foreach ($presence as $seo => $response)
             {
                 $data = json_decode($response->getBody(), true);
@@ -63,6 +65,7 @@ class Client extends XboxAPI {
                             {
                                 if (in_array($title['id'], $this->acceptedGameIds))
                                 {
+                                    $found = true;
                                     $gt = $accounts->where('seo', $seo)->first();
                                     $user_string .= "<strong>" . $gt->gamertag . ": </strong>" . $title['name'];
                                     if (isset($title['activity']))
@@ -77,6 +80,10 @@ class Client extends XboxAPI {
                 }
             }
 
+            if (! $found)
+            {
+                $user_string = 'No-one is online. Pity us.';
+            }
             Cache::put($key, $user_string, 5);
             return $user_string;
         }
