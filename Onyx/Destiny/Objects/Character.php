@@ -401,7 +401,7 @@ class Character extends Model {
     public function getAllHashTitles()
     {
         return ['race', 'gender', 'class', 'emblem', 'background', 'subclass', 'helmet', 'arms', 'chest', 'boots',
-            'class_item', 'primary', 'secondary', 'heavy', 'ship', 'sparrow', 'ghost', 'shader'];
+            'class_item', 'primary', 'secondary', 'heavy', 'ship', 'sparrow', 'ghost', 'shader', 'emote', 'artifact'];
     }
 
     //---------------------------------------------------------------------------------
