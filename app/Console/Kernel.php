@@ -5,6 +5,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Onyx\Destiny\Client;
 use Onyx\Destiny\Objects\Game;
 
+use PandaLove\Console\Commands\updatePandas;
+
 class Kernel extends ConsoleKernel {
 
 	/**
@@ -12,7 +14,9 @@ class Kernel extends ConsoleKernel {
 	 *
 	 * @var array
 	 */
-	protected $commands = [];
+	protected $commands = [
+		updatePandas::class
+	];
 
 	/**
 	 * Define the application's command schedule.
