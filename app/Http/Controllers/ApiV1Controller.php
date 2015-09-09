@@ -74,7 +74,7 @@ class ApiV1Controller extends Controller {
         {
             $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
 
-            $msg = '<strong>' . $account->gamertag . "</strong> - Light: <br />";
+            $msg = '<strong>' . $account->gamertag . " - Light</strong><br /><br />";
 
             Hashes::cacheAccountHashes($account, null);
 
