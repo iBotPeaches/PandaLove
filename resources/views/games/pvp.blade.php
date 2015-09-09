@@ -17,6 +17,11 @@
                             This game is <strong>hidden</strong> from the public viewing. They can still view via direct url however.
                         </div>
                     @endif
+                    @if ($game->mercy)
+                        <div class="ui inverted blue segment">
+                            This game ended early due to the Shaxx's Mercy Rule. Complete Domination.
+                        </div>
+                    @endif
                     @include('includes.games.pvp-game-table')
                 </div>
             </div>

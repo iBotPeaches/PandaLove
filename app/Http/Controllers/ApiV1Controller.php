@@ -34,29 +34,7 @@ class ApiV1Controller extends Controller {
 
     public function getReallevel($gamertag)
     {
-        try
-        {
-            $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
-
-            $msg = '<strong>' . $account->gamertag . "</strong><br/><br />";
-
-            // attempt hash cache
-            Hashes::cacheAccountHashes($account, null);
-
-            $account->characters->each(function($char) use (&$msg)
-            {
-               $msg .= $char->name() . ": " . $char->realLevel . "<br />";
-            });
-
-            return Response::json([
-                'error' => false,
-                'msg' => $msg
-            ], 200);
-        }
-        catch (ModelNotFoundException $e)
-        {
-            return $this->_error('Gamertag not found');
-        }
+        return $this->_error('Taken King removed this variable. Deprecated');
     }
 
     public function getGrimoire($gamertag)
@@ -78,6 +56,35 @@ class ApiV1Controller extends Controller {
             {
                 $msg .= "<br /><br /><br />Come on son. Lets get more than 3k";
             }
+
+            return Response::json([
+                'error' => false,
+                'msg' => $msg
+            ], 200);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return $this->_error('Gamertag not found');
+        }
+    }
+
+    public function getLight($gamertag)
+    {
+        try
+        {
+            $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
+
+            $msg = '<strong>' . $account->gamertag . "</strong><br/><br />Light: ";
+
+            Hashes::cacheAccountHashes($account, null);
+
+            $account->characters->each(function($char) use (&$msg)
+            {
+                $msg .= $char->name() . ": " . $char->light . "<br />";
+            });
+
+            $msg .= '<br /><br />';
+            $msg .= '<i>Account updated: ' . $account->updated_at->diffForHumans() . "</i>";
 
             return Response::json([
                 'error' => false,

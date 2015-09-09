@@ -27,7 +27,7 @@ class Gametype {
         21 => 'lvl28PoE',
         22 => 'lvl32PoE',
         23 => 'Elimination',
-        24 => 'lvl35PoE'
+        24 => 'Rift'
     ];
 
     /**
@@ -38,7 +38,7 @@ class Gametype {
      */
     public static function isPVP($id)
     {
-        $pvp = [5, 9, 10, 11, 12, 14, 15, 23];
+        $pvp = [5, 9, 10, 11, 12, 14, 15, 23, 24];
 
         if (in_array($id, $pvp))
         {

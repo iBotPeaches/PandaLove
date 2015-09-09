@@ -3,35 +3,14 @@
 class LightLevels {
 
     /**
-     * @var array
-     * @url https://destinytracker.com/Forums/Post/4227/2/re-how-much-light-is-needed-per-level
+     * @var int
      */
-    public static $levels = [
-        21 => 21,
-        22 => 32,
-        23 => 43,
-        24 => 54,
-        25 => 65,
-        26 => 76,
-        27 => 87,
-        28 => 98,
-        29 => 109,
-        30 => 120,
-        31 => 132,
-        32 => 144,
-        33 => 156,
-        34 => 168
-    ];
+    public static $MAX_LIGHT = 300;
 
     /**
      * @var int
      */
-    public static $MAX_LIGHT = 168;
-
-    /**
-     * @var int
-     */
-    public static $MAX_LEVEL = 34;
+    public static $MAX_LEVEL = 40;
 
     /**
      * @param \Onyx\Destiny\Objects\Character $character
@@ -39,9 +18,9 @@ class LightLevels {
      */
     public static function percentageToNextLevel($character)
     {
-        $light = $character->light;
+        $level = $character->level;
 
-        if ($light == self::$MAX_LIGHT)
+        if ($level == self::$MAX_LEVEL)
         {
             return [
                 'max' => self::$MAX_LIGHT,
@@ -51,43 +30,12 @@ class LightLevels {
         }
         else
         {
-            $nearest = self::findNearestValue(self::$levels, $light);
-
             return [
-                'max' => $nearest,
-                'light' => $light,
-                'percent' => $light / $nearest,
+                'max' => self::$MAX_LIGHT,
+                'light' => $character->light,
+                'percent' => 20,
                 'message' => 'Level ' . $character->level . '. Progress to Level ' . ($character->level + 1)
             ];
-        }
-    }
-
-    /**
-     * @param $arr
-     * @param $value
-     * @return null
-     */
-    private static function findNearestValue($arr, $value)
-    {
-        $nearest = null;
-        $key = null;
-
-        foreach($arr as $index => $item)
-        {
-            if ($nearest == null || abs($value - $nearest) > abs($item - $value))
-            {
-                $key = $index;
-                $nearest = $item;
-            }
-        }
-
-        if ($nearest == self::$MAX_LIGHT)
-        {
-            return $nearest;
-        }
-        else
-        {
-            return $arr[$key + 1];
         }
     }
 }

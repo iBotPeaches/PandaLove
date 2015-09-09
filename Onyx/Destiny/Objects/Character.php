@@ -123,6 +123,16 @@ class Character extends Model {
         $this->setAttributePullImage('shader', $value);
     }
 
+    public function setEmoteAttribute($value)
+    {
+        $this->setAttributePullImage('emote', $value);
+    }
+
+    public function setArtifactAttribute($value)
+    {
+        $this->setAttributePullImage('artifact', $value);
+    }
+
     public function getMinutesPlayedAttribute($value)
     {
         $time = Carbon::now()->addMinutes($value);
@@ -255,6 +265,16 @@ class Character extends Model {
         return $this->translator->map($value, false);
     }
 
+    public function getEmoteAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
+    public function getArtifactAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
     public function getDefenseAttribute($value)
     {
         return number_format($value);
@@ -327,6 +347,22 @@ class Character extends Model {
     public function other()
     {
         $attrs = ['ship', 'sparrow', 'ghost', 'shader'];
+
+        $data = [];
+        foreach ($attrs as $attribute)
+        {
+            if (strlen($this->attributes[$attribute]) > 0)
+            {
+                $data[] = $this->{$attribute};
+            }
+        }
+
+        return $data;
+    }
+
+    public function emoartis()
+    {
+        $attrs = ['emote', 'artifact'];
 
         $data = [];
         foreach ($attrs as $attribute)

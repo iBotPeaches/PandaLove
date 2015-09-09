@@ -15,6 +15,14 @@
             Glimmer
         </div>
     </div>
+    <div class="statistic">
+        <div class="value">
+            {{ $account->legendary_marks }}
+        </div>
+        <div class="label">
+            Legendary Marks
+        </div>
+    </div>
     @if ($account->clanName != "")
         <div class="blue statistic">
             <div class="text value">
@@ -27,10 +35,10 @@
     @endif
     <div class="statistic">
         <div class="value">
-            {{ $account->charsAbove(30) }}
+            {{ $account->charsAbove(40) }}
         </div>
         <div class="label">
-            Characters above 30
+            Characters above 40
         </div>
     </div>
 </div>

@@ -470,6 +470,12 @@ class Client extends Http {
             $player->revives_taken = $entry['extended']['values']['resurrectionsReceived']['basic']['value'];
         }
 
+        if (isset($entry['extended']['values']['medalsActivityCompleteVictoryMercy']['basic']['value']))
+        {
+            $game->mercy = true;
+            $game->save();
+        }
+
         // Don't save if 0/0
         if ($player->score == 0 && $player->deaths == 0 && $player->kills == 0)
         {
@@ -537,7 +543,7 @@ class Client extends Http {
 
         $character->setTranslatorUrl($url);
 
-        $character->realLevel = $data['levelProgression']['level'];
+        $character->realLevel = $data['levelProgression']['level']; // deprecated as of TTK
 
         $character->last_played = new Carbon($charBase['dateLastPlayed']);
         $character->minutes_played = $charBase['minutesPlayedTotal'];
@@ -592,6 +598,11 @@ class Client extends Http {
         if (isset($charBase['peerView']['equipment'][13]['itemHash']))
         {
             $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
+        }
+
+        if (isset($charBase['peerView']['equipment'][14]['itemHash']))
+        {
+            $character->emote = $charBase['peerView']['equipment'][14]['itemHash'];
         }
 
         $character->emblem = $data['emblemHash'];

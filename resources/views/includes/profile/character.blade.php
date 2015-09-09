@@ -45,6 +45,24 @@
                 @endforeach
             </div>
         </div>
+        <h3 class="ui horizontal header divider">
+            Other
+        </h3>
+        <div class="ui purple segment tooltips">
+            <div class="ui list">
+                @foreach($char->other() as $obj)
+                    <div class="item tool" data-position="bottom center" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
+                        <img class="ui avatar image" src="{{ $obj->extra }}" />
+                        <div class="content">
+                            <a class="header">{{ $obj->title }}</a>
+                            <div class="description">
+                                {{ \Illuminate\Support\Str::limit($obj->description, 25) }}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
     <div class="4u">
         <h3 class="ui horizontal header divider">
@@ -65,32 +83,40 @@
                 @endforeach
             </div>
         </div>
-    </div>
-    <div class="8u">
         <h3 class="ui horizontal header divider">
-            Other
+            Emotes / Artifacts
         </h3>
-        <div class="ui horizontal list">
-            @foreach($char->other() as $obj)
-                <div class="item tool" data-position="bottom center" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
-                    <img class="ui avatar image" src="{{ $obj->extra }}" />
-                    <div class="content">
-                        <a class="header">{{ $obj->title }}</a>
+        <div class="ui black segment tooltips">
+            <div class="ui list">
+                @foreach($char->emoartis() as $obj)
+                    <div class="item tool" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
+                        <img class="ui avatar image" src="{{ $obj->extra }}" />
+                        <div class="content">
+                            <a class="header">{{ $obj->title }}</a>
+                            <div class="description">
+                                {{ \Illuminate\Support\Str::limit($obj->description, 30) }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
         <h3 class="ui horizontal header divider">
-            Progression
+            Progress to Max Light
         </h3>
         @define $light = \Onyx\Destiny\Enums\LightLevels::percentageToNextLevel($char)
         <div class="ui teal progress" data-value="{{ $light['light'] }}" data-total="{{ $light['max'] }}">
             <div class="bar">
                 <div class="progress"></div>
             </div>
-            <div class="label">{{ $light['message'] }}</div>
         </div>
-        <br />
+        <h3 class="ui horizontal header divider">
+            {{ $light['message'] }}
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="16u">
         <h3 class="ui horizontal header divider">
             Nerd Stats
         </h3>
@@ -105,15 +131,6 @@
                         <li><span class="ui black label">{{ $title }}</span> - <span class="ui label">{{ $value }}</span></li>
                     @endforeach
                 </ul>
-            </div>
-            <div class="title">
-                <i class="dropdown icon"></i>
-                What is my real level?
-            </div>
-            <div class="content">
-                <small>This is the amount of times you've earned a mote of light past level 20.</small>
-                <br />
-                <span class="ui blue label">{{ $char->realLevel }}</span>
             </div>
             <div class="title">
                 <i class="dropdown icon"></i>

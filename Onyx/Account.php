@@ -90,7 +90,7 @@ class Account extends Model {
         return $this->characters->get($index);
     }
 
-    public function charsAbove($level = 30)
+    public function charsAbove($level = 40)
     {
         return $this->characters()->where('level', '>=', $level)->count();
     }
