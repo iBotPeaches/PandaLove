@@ -95,6 +95,11 @@ class Account extends Model {
         return $this->characters()->where('level', '>=', $level)->count();
     }
 
+    public function highestLight()
+    {
+        return $this->characters()->orderBy('light', 'desc')->first();
+    }
+
     public function characterExists($charId)
     {
         $chars = $this->characters;

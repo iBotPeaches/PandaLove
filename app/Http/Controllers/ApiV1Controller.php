@@ -97,6 +97,36 @@ class ApiV1Controller extends Controller {
         }
     }
 
+    public function getLightLeaderboard()
+    {
+        $pandas = Account::where('clanName', 'Panda Love')
+            ->where('clanTag', 'WRKD')
+            ->get();
+
+        $p = [];
+
+        Hashes::cacheAccountsHashes($pandas);
+
+        foreach($pandas as $panda)
+        {
+            $character = $panda->highestLight();
+            $p[$panda->gamertag . " (" . $character->level . " " . $character->class->title . ")"] = $character->light;
+        }
+
+        arsort($p);
+        $msg = '<strong>Light Leaderboard</strong><br /><br />';
+
+        foreach ($p as $key => $value)
+        {
+            $msg .= $key . " <strong>" . $value . "</strong><br />";
+        }
+
+        return Response::json([
+            'error' => false,
+            'msg' => $msg
+        ], 200);
+    }
+
     public function postAddGame()
     {
         $all = $this->request->all();
