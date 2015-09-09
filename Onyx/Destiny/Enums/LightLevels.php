@@ -20,21 +20,23 @@ class LightLevels {
     {
         $level = $character->level;
 
-        if ($level == self::$MAX_LEVEL)
+        if ($level == self::$MAX_LEVEL || $character->progress_exp == 0)
         {
             return [
-                'max' => self::$MAX_LIGHT,
-                'light' => self::$MAX_LIGHT,
-                'message' => 'Max Level Reached'
+                'max' => $character->next_level_exp,
+                'value' => $character->next_level_exp,
+                'message' => 'Max Level Reached',
+                'isMax' => true
             ];
         }
         else
         {
             return [
-                'max' => self::$MAX_LIGHT,
-                'light' => $character->light,
-                'percent' => 20,
-                'message' => 'Level ' . $character->level . '. Progress to Level ' . ($character->level + 1)
+                'max' => $character->next_level_exp,
+                'value' => $character->progress_exp,
+                'percent' => $character->next_level_exp / $character->progress_exp,
+                'message' => 'Level ' . $character->level . '. Progress to Level ' . ($character->level + 1),
+                'isMax' => false
             ];
         }
     }

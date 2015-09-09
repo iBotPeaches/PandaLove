@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="4u desktop only">
+    <div class="4u">
         <div class="ui cards">
             <div class="card">
                 <div class="image">
@@ -12,6 +12,8 @@
                     </div>
                     <div class="meta">
                         {{ $char->gender->title }} {{ $char->race->title }}
+                        <br />
+                        Light: {{ $char->light }}
                     </div>
                     <div class="description">
                         {{ $char->subclass->description }}
@@ -102,17 +104,15 @@
             </div>
         </div>
         <h3 class="ui horizontal header divider">
-            Progress to Max Light
+            Level Progression
         </h3>
         @define $light = \Onyx\Destiny\Enums\LightLevels::percentageToNextLevel($char)
-        <div class="ui teal progress" data-value="{{ $light['light'] }}" data-total="{{ $light['max'] }}">
+        <div class="ui teal progress" data-value="{{ $light['value'] }}" data-total="{{ $light['max'] }}" data-text="{{ ($light['isMax'] ? 'level {value} reached.' : '{value}/{total} experience') }}">
             <div class="bar">
                 <div class="progress"></div>
             </div>
+            <div class="label">{{ $light['message'] }}</div>
         </div>
-        <h3 class="ui horizontal header divider">
-            {{ $light['message'] }}
-        </h3>
     </div>
 </div>
 <div class="row">
@@ -154,7 +154,7 @@
             $(".ui.progress").progress({
                 label: 'ratio',
                 text: {
-                    ratio: '{value}/{total} light'
+                    ratio: '{value}/{total} experience'
                 }
             });
 

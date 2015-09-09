@@ -544,6 +544,8 @@ class Client extends Http {
         $character->setTranslatorUrl($url);
 
         $character->realLevel = $data['levelProgression']['level']; // deprecated as of TTK
+        $character->next_level_exp = $data['levelProgression']['nextLevelAt'];
+        $character->progress_exp = $data['levelProgression']['progressToNextLevel'];
 
         $character->last_played = new Carbon($charBase['dateLastPlayed']);
         $character->minutes_played = $charBase['minutesPlayedTotal'];
