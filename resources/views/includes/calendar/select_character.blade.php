@@ -11,7 +11,7 @@
             <div class="field">
                 <div class="ui radio checkbox">
                     <input type="radio" name="character" value="{{ $character->characterId }}">
-                    <label>{{ $character->name() . " - Real Level (" . $character->realLevel . ")" }}</label>
+                    <label>{{ $character->name() . " - Light (" . $character->light . ")" }}</label>
                 </div>
             </div>
         @endforeach
