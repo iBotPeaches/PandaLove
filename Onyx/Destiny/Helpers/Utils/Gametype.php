@@ -17,17 +17,26 @@ class Gametype {
         6 => 'Patrol',
         7 => 'AllPvE',
         8 => 'PvPIntroduction',
-        9 => 'Skirmish',
+        9 => 'ThreeVSThree', // Skirmish
         10 => 'Control',
-        11 => 'Salvage',
-        12 => 'Clash',
-        13 => 'Rumble',
-        14 => 'ToO',
-        15 => 'Doubles Skirmish',
-        21 => 'lvl28PoE',
-        22 => 'lvl32PoE',
+        11 => 'Lockdown', // Salvage
+        12 => 'Team', // Clash
+        13 => 'FreeForAll', // Rumble
+        14 => 'TrialsOfOsiris',
+        15 => 'Doubles',
+        16 => 'Nightfall',
+        17 => 'Heroic',
+        18 => 'AllStrikes',
+        19 => 'IronBanner',
+        20 => 'AllArena',
+        21 => 'Arena',
+        22 => 'ArenaChallenge',
         23 => 'Elimination',
-        24 => 'Rift'
+        24 => 'Rift',
+        25 => 'AllMayhem',
+        26 => 'MayhemClash',
+        27 => 'MayhemRumble',
+        28 => 'ZoneControl'
     ];
 
     /**
