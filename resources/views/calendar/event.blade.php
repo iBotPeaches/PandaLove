@@ -13,10 +13,16 @@
                     @if (count($event->attendees) == 0)
                         <div class="ui blue message">
                             <strong>Whoa there buddy</strong>
-                            <p>
-                                No one has RSVP`d for this game yet. There are <strong>{{ $event->max_players }}</strong> spots open.
-                                Why don't you <a href="{{ action('CalendarController@getRsvpEvent', [$event->id]) }}">RSVP?</a>
-                            </p>
+                            @if ($event->isOver())
+                                <p>
+                                    This event has passed. Check back for an upcoming event at our <a href="{{ URL::action('CalendarController@getIndex') }}">calendar.</a>
+                                </p>
+                            @else
+                                <p>
+                                    No one has RSVP`d for this game yet. There are <strong>{{ $event->max_players }}</strong> spots open.
+                                    Why don't you <a href="{{ action('CalendarController@getRsvpEvent', [$event->id]) }}">RSVP?</a>
+                                </p>
+                            @endif
                         </div>
                     @else
                         @include('includes.calendar.attending_table')

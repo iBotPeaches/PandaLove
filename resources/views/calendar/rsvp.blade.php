@@ -9,22 +9,28 @@
                         <h1><strong>I want to attend</strong>: {{ $event->title }}</h1>
                         <h3>at {{ $event->humanDate() }}.</h3>
                     </header>
-                    <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
-                    @include('includes.calendar.attending_table')
-                    @if ($attendee instanceof \Onyx\Destiny\Objects\Attendee)
-                        <div class="ui blue message">
-                            You are already attending this event!
+                    @if ($event->isOver())
+                        <div class="ui warning message">
+                            Sorry. You can't apply to an event that has already happened.
                         </div>
                     @else
-                        <header>
-                            <h3>RSVP</h3>
-                        </header>
-                        @if (! $event->isFull())
-                            @include('includes.calendar.select_character')
-                        @else
-                            <div class="ui yellow message">
-                                Uh oh. This game is full.
+                        <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
+                        @include('includes.calendar.attending_table')
+                        @if ($attendee instanceof \Onyx\Destiny\Objects\Attendee)
+                            <div class="ui blue message">
+                                You are already attending this event!
                             </div>
+                        @else
+                            <header>
+                                <h3>RSVP</h3>
+                            </header>
+                            @if (! $event->isFull())
+                                @include('includes.calendar.select_character')
+                            @else
+                                <div class="ui yellow message">
+                                    Uh oh. This game is full.
+                                </div>
+                            @endif
                         @endif
                     @endif
                     <br />

@@ -94,4 +94,9 @@ class GameEvent extends Model {
                 return 6;
         }
     }
+
+    public function isOver()
+    {
+        return $this->start->isPast();
+    }
 }
