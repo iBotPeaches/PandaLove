@@ -230,13 +230,24 @@ class ApiV1Controller extends Controller {
     public function getTtkcountdown()
     {
         $release = Carbon::create(2015, 9, 15, 4, 0, 0, 'America/Chicago');
-        $countdown = $release->diffInSeconds(Carbon::now('America/Chicago'));
-        $countdown = Text::timeDuration($countdown);
 
-        return \Response::json([
-            'error' => false,
-            'msg' => $countdown
-        ]);
+        if ($release->lt(Carbon::now('America/Chicago')))
+        {
+            return \Response::json([
+                'error' => false,
+                'msg' => 'Taken King is out. You better be playing.'
+            ]);
+        }
+        else
+        {
+            $countdown = $release->diffInSeconds(Carbon::now('America/Chicago'));
+            $countdown = Text::timeDuration($countdown);
+
+            return \Response::json([
+                'error' => false,
+                'msg' => $countdown
+            ]);
+        }
     }
 
     private function _error($message)
