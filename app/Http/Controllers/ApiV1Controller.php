@@ -13,6 +13,7 @@ use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
+use Carbon\Carbon;
 
 class ApiV1Controller extends Controller {
 
@@ -224,6 +225,18 @@ class ApiV1Controller extends Controller {
                 return $this->_error('User does not have permissions');
             }
         }
+    }
+
+    public function getTtkcountdown()
+    {
+        $release = Carbon::create(2015, 9, 15, 4, 0, 0, 'America/Chicago');
+        $countdown = $release->diffInSeconds(Carbon::now('America/Chicago'));
+        $countdown = Text::timeDuration($countdown);
+
+        return \Response::json([
+            'error' => false,
+            'msg' => $countdown
+        ]);
     }
 
     private function _error($message)
