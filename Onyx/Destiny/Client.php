@@ -562,6 +562,12 @@ class Client extends Http {
         if (isset($charBase['stats']['STAT_LIGHT']))
         {
             $character->light = $charBase['stats']['STAT_LIGHT']['value'];
+
+            // apply highest light they've earned on this char.
+            if (isset($character->highest_light))
+            {
+                $character->highest_light = max($character->light, $character->highest_light);
+            }
         }
         else
         {

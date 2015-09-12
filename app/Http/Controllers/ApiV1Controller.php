@@ -102,6 +102,7 @@ class ApiV1Controller extends Controller {
     {
         $pandas = Account::where('clanName', 'Panda Love')
             ->where('clanTag', 'WRKD')
+            ->where('inactiveCounter', '<', 10)
             ->get();
 
         $p = [];
@@ -110,16 +111,37 @@ class ApiV1Controller extends Controller {
 
         foreach($pandas as $panda)
         {
-            $character = $panda->highestLight();
-            $p[$panda->gamertag . " (" . $character->level . " " . $character->class->title . ")"] = $character->light;
+            $character = $panda->highestLevelHighestLight();
+            $p[$character->level][] = [
+                'name' => $panda->gamertag . " (" . $character->level . " " . $character->class->title . ")",
+                'maxLight' => $character->highest_light,
+                'light' => $character->light
+            ];
         }
-
-        arsort($p);
-        $msg = '<strong>Light Leaderboard</strong><br /><br />';
 
         foreach ($p as $key => $value)
         {
-            $msg .= $key . " <strong>" . $value . "</strong><br />";
+            // lets sort the sub levels
+            usort($value, function($a, $b)
+            {
+                return $b['maxLight'] - $a['maxLight'];
+            });
+
+            $p[$key] = $value;
+        }
+
+        $msg = '<strong>Light Leaderboard</strong><br /><br />';
+
+        foreach ($p as $level => $chars)
+        {
+            $msg .= "<strong>Level " . $level . "'s</strong><br />";
+
+            foreach($chars as $char)
+            {
+                $msg .= $char['name'] . " <strong>" . $char['maxLight'] . " light</strong><br />";
+            }
+
+            $msg .= '<br />';
         }
 
         return Response::json([

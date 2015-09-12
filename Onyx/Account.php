@@ -97,7 +97,12 @@ class Account extends Model {
 
     public function highestLight()
     {
-        return $this->characters()->orderBy('light', 'desc')->first();
+        return $this->characters()->orderBy('highest_light', 'desc')->first();
+    }
+
+    public function highestLevelHighestLight()
+    {
+        return $this->characters()->orderBy('level', 'DESC')->orderBy('highest_light', 'desc')->first();
     }
 
     public function characterExists($charId)
