@@ -136,9 +136,11 @@ class ApiV1Controller extends Controller {
         {
             $msg .= "<strong>Level " . $level . "'s</strong><br />";
 
+            $i = 1;
             foreach($chars as $char)
             {
-                $msg .= $char['name'] . " <strong>" . $char['maxLight'] . " light</strong><br />";
+                $msg .= $i . ". " . $char['name'] . " <strong>" . $char['maxLight'] . "</strong><br />";
+                $i++;
             }
 
             $msg .= '<br />';
