@@ -14,6 +14,7 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 use Carbon\Carbon;
+use PandaLove\Commands\UpdateAccount;
 
 class ApiV1Controller extends Controller {
 
@@ -150,6 +151,42 @@ class ApiV1Controller extends Controller {
             'error' => false,
             'msg' => $msg
         ], 200);
+    }
+
+    public function postUpdate()
+    {
+        $all = $this->request->all();
+
+        if (isset($all['google_id']))
+        {
+            try
+            {
+                $user = User::where('google_id', $all['google_id'])
+                    ->where('admin', true)
+                    ->firstOrFail();
+
+                if ($user->account_id != 0)
+                {
+                    $this->dispatch(new UpdateAccount($user->account));
+
+                    return Response::json([
+                        'error' => false,
+                        'msg' => 'Stats for: <strong>' . $user->account->gamertag . '</strong> have been updated.'
+                    ], 200);
+                }
+                else
+                {
+                    return Response::json([
+                        'error' => false,
+                        'msg' => 'bitch pls. You need to confirm your gamertag on PandaLove so I know who you are.'
+                    ], 200);
+                }
+            }
+            catch (ModelNotFoundException $e)
+            {
+                return $this->_error('User account could not be found.');
+            }
+        }
     }
 
     public function postAddGame()
