@@ -162,7 +162,6 @@ class ApiV1Controller extends Controller {
             try
             {
                 $user = User::where('google_id', $all['google_id'])
-                    ->where('admin', true)
                     ->firstOrFail();
 
                 if ($user->account_id != 0)
