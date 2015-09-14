@@ -76,13 +76,13 @@ class ApiV1Controller extends Controller {
         {
             $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
 
-            $msg = '<strong>' . $account->gamertag . " - Light</strong><br /><br />";
+            $msg = '<strong>' . $account->gamertag . " - Highest Light</strong><br /><br />";
 
             Hashes::cacheAccountHashes($account, null);
 
             $account->characters->each(function($char) use (&$msg)
             {
-                $msg .= $char->name() . ": " . $char->light . "<br />";
+                $msg .= $char->name() . ": " . $char->highest_light . "<br />";
             });
 
             $msg .= '<br /><br />';
