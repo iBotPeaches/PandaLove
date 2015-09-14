@@ -22,7 +22,7 @@ class ApiV1Controller extends Controller {
     private $request;
     private $redirect;
 
-    const MAX_GRIMOIRE = 3620;
+    const MAX_GRIMOIRE = 3800;
 
     protected $layout = "layouts.master";
 
