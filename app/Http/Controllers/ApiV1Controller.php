@@ -114,7 +114,7 @@ class ApiV1Controller extends Controller {
         {
             $character = $panda->highestLevelHighestLight();
             $p[$character->level][] = [
-                'name' => $panda->gamertag . " (" . $character->level . " " . $character->class->title . ")",
+                'name' => $panda->gamertag . " (" . $character->class->title . ")",
                 'maxLight' => $character->highest_light,
                 'light' => $character->light
             ];
