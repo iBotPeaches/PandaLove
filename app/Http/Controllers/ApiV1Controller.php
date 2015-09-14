@@ -295,7 +295,30 @@ class ApiV1Controller extends Controller {
         {
             return \Response::json([
                 'error' => false,
-                'msg' => 'Taken King is out. You better be playing.'
+                'msg' => 'Listen up <strong>fuckers</strong>. Taken King is out. You better be playing. You may use /bot raidcountdown for Kings Fall countdown.'
+            ]);
+        }
+        else
+        {
+            $countdown = $release->diffInSeconds(Carbon::now('America/Chicago'));
+            $countdown = Text::timeDuration($countdown);
+
+            return \Response::json([
+                'error' => false,
+                'msg' => $countdown
+            ]);
+        }
+    }
+    
+    public function getRaidCountdown()
+    {
+        $release = Carbon::create(2015, 9, 18, 12, 0, 0, 'America/Chicago');
+
+        if ($release->lt(Carbon::now('America/Chicago')))
+        {
+            return \Response::json([
+                'error' => false,
+                'msg' => 'KINGS FALL IS OUT. Lets go'
             ]);
         }
         else
