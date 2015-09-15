@@ -613,6 +613,11 @@ class Client extends Http {
             $character->emote = $charBase['peerView']['equipment'][14]['itemHash'];
         }
 
+        if (isset($charBase['peerView']['equipment'][15]['itemHash']))
+        {
+            $character->artifact = $charBase['peerView']['equipment'][15]['itemHash'];
+        }
+
         $character->emblem = $data['emblemHash'];
         $character->save();
         return $activity;
