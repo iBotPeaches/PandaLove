@@ -4,7 +4,7 @@
         <li><a class="{{ HTML::activeClass('profile') | HTML::activeClass('roster') }}" href="{{ URL::action('RosterController@getIndex') }}">Roster</a></li>
         <li><a class="{{ HTML::activeClass('games') }}" href="{{ URL::action('GameController@getIndex') }}">Games</a></li>
         @if (isset($user) && $user != null)
-            @if ($user->account->isPandaLove())
+            @if ($user->account instanceof \Onyx\Account && $user->account->isPandaLove())
                 <li><a class="{{ HTML::activeClass('calendar') }}" href="{{ URL::action('CalendarController@getIndex') }}">Calendar</a></li>
             @endif
             <li><a class="{{ HTML::activeClass('usercp') }}" href="{{ URL::action('UserCpController@getIndex') }}">Options</a></li>
