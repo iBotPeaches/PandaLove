@@ -23,8 +23,8 @@ class LightLevels {
         if ($level == self::$MAX_LEVEL || $character->progress_exp == 0)
         {
             return [
-                'max' => $character->next_level_exp,
-                'value' => $character->next_level_exp,
+                'max' => 9000,
+                'value' => 9000,
                 'message' => 'Max Level Reached',
                 'isMax' => true
             ];
