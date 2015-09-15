@@ -120,6 +120,8 @@ class ApiV1Controller extends Controller {
             ];
         }
 
+        asort($p);
+        
         foreach ($p as $key => $value)
         {
             // lets sort the sub levels
