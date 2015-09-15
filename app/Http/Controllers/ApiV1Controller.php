@@ -120,7 +120,7 @@ class ApiV1Controller extends Controller {
             ];
         }
 
-        asort($p);
+        krsort($p);
         
         foreach ($p as $key => $value)
         {
