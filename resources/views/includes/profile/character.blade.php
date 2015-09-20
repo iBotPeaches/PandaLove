@@ -13,7 +13,9 @@
                     <div class="meta">
                         {{ $char->gender->title }} {{ $char->race->title }}
                         <br />
-                        Light: {{ $char->light }}
+                        Highest Light: {{ $char->highest_light }}
+                        <br />
+                        Current Light: {{ $char->light }}
                     </div>
                     <div class="description">
                         {{ $char->subclass->description }}
