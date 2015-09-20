@@ -5,6 +5,7 @@ namespace PandaLove\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Onyx\Account;
+use Onyx\Destiny\Helpers\String\HashNotLocatedException;
 use PandaLove\Commands\UpdateAccount;
 
 class updatePandas extends Command
@@ -66,8 +67,16 @@ class updatePandas extends Command
             if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
             {
                 // update this
-                $this->dispatch(new UpdateAccount($panda));
-                $this->info('Stats Updated!');
+                try
+                {
+                    $this->dispatch(new UpdateAccount($panda));
+                    $this->info('Stats Updated!');
+                }
+                catch (HashNotLocatedException $e)
+                {
+                    $this->error('Could not find hash value: ' . $e->getMessage());
+                    $this->info('Stat update has been skipped.');
+                }
             }
         }
     }
