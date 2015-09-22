@@ -1,6 +1,6 @@
 ## PandaLove Raid Website
 
-[![build status](http://warlock.connortumbleson.com/projects/5/status.png?ref=master)](http://warlock.connortumbleson.com/projects/5?ref=master)
+[![build status](https://gitlab.connortumbleson.com/ci/projects/1/status.png?ref=master)](https://gitlab.connortumbleson.com/ci/projects/1?ref=master)
 
 PandaLove is a website devoted to tracking our weekly raid Tuesdays, PVP destruction and more. It helps us to allow trash talking among Panda Love.
 
