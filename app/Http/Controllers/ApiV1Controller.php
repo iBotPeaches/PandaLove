@@ -289,43 +289,20 @@ class ApiV1Controller extends Controller {
         }
     }
 
-    public function getTtkcountdown()
+    public function getRaidTuesdayCountdown()
     {
-        $release = Carbon::create(2015, 9, 15, 4, 0, 0, 'America/Chicago');
+        $raidtuesday = new Carbon('next Tuesday 4 AM','America/Chicago');
 
-        if ($release->lt(Carbon::now('America/Chicago')))
+        if ($raidtuesday->lt(Carbon::now('America/Chicago')))
         {
             return \Response::json([
                 'error' => false,
-                'msg' => 'Listen up <strong>fuckers</strong>. Taken King is out. You better be playing. You may use /bot raidcountdown for Kings Fall countdown.'
+                'msg' => ''
             ]);
         }
         else
         {
-            $countdown = $release->diffInSeconds(Carbon::now('America/Chicago'));
-            $countdown = Text::timeDuration($countdown);
-
-            return \Response::json([
-                'error' => false,
-                'msg' => $countdown
-            ]);
-        }
-    }
-    
-    public function getRaidCountdown()
-    {
-        $release = Carbon::create(2015, 9, 18, 12, 0, 0, 'America/Chicago');
-
-        if ($release->lt(Carbon::now('America/Chicago')))
-        {
-            return \Response::json([
-                'error' => false,
-                'msg' => 'KINGS FALL IS OUT. Lets go'
-            ]);
-        }
-        else
-        {
-            $countdown = $release->diffInSeconds(Carbon::now('America/Chicago'));
+            $countdown = $raidtuesday->diffInSeconds(Carbon::now('America/Chicago'));
             $countdown = Text::timeDuration($countdown);
 
             return \Response::json([
