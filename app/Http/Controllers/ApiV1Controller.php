@@ -178,9 +178,9 @@ class ApiV1Controller extends Controller {
 
                     foreach($user->account->charactersInOrder() as $char)
                     {
-                        $msg .= "<strong>" . $char->name() . "<strong><br /><br />";
+                        $msg .= "<strong>" . $char->name() . "</strong><br />";
                         $msg .= '<i>Highest Light:</i> <strong>' . $char->highest_light . "</strong><br />";
-                        $msg .= '<i>Current Light:</i> <strong>' . $char->light . "</strong><br />";
+                        $msg .= '<i>Current Light:</i> <strong>' . $char->light . "</strong><br /><br />";
                     }
 
                     $msg .= '<br /><br />';
