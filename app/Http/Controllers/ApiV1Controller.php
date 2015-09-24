@@ -174,13 +174,13 @@ class ApiV1Controller extends Controller {
 
                 if ($user->account_id != 0)
                 {
-                    $msg = '<strong>' . $user->account->gamertag . '</strong> Light<br /><br />';
+                    $msg = '<strong>' . $user->account->gamertag . ' Light</strong> <br /><br />';
 
                     foreach($user->account->charactersInOrder() as $char)
                     {
-                        $msg .= $char->name() . "<br />";
-                        $msg .= '<i>Highest Light:</i> ' . $char->highest_light . "<br />";
-                        $msg .= '<i>Current Light:</i> ' . $char->light . "<br />";
+                        $msg .= "<strong>" . $char->name() . "<strong><br /><br />";
+                        $msg .= '<i>Highest Light:</i> <strong>' . $char->highest_light . "</strong><br />";
+                        $msg .= '<i>Current Light:</i> <strong>' . $char->light . "</strong><br />";
                     }
 
                     $msg .= '<br /><br />';
