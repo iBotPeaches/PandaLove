@@ -86,7 +86,15 @@ class Hashes extends Http{
             }
             else
             {
-                throw new HashNotLocatedException($hash);
+                $classified = Hash::where('hash', '9999999999')->first();
+
+                if ($title)
+                {
+                    return $classified->title;
+                }
+
+                return $classified;
+                // throw new HashNotLocatedException($hash);
             }
         }
     }
