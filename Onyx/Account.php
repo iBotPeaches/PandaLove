@@ -105,6 +105,11 @@ class Account extends Model {
         return $this->characters()->orderBy('level', 'DESC')->orderBy('highest_light', 'desc')->first();
     }
 
+    public function charactersInOrder()
+    {
+        return $this->characters()->orderBy('level', 'DESC')->orderBy('highest_light', 'DESC')->get();
+    }
+
     public function characterExists($charId)
     {
         $chars = $this->characters;

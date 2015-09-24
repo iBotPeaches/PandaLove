@@ -190,6 +190,51 @@ class ApiV1Controller extends Controller {
         }
     }
 
+    public function postLight()
+    {
+        $all = $this->request->all();
+
+        if (isset($all['google_id']))
+        {
+            try
+            {
+                $user = User::where('google_id', $all['google_id'])
+                    ->firstOrFail();
+
+                if ($user->account_id != 0)
+                {
+                    $msg = '<strong>' . $user->account->gamertag . '</strong> Light<br /><br />';
+
+                    foreach($user->account->charactersInOrder() as $char)
+                    {
+                        $msg .= $char->name() . "<br />";
+                        $msg .= '<i>Highest Light:</i> ' . $char->highest_light . "<br />";
+                        $msg .= '<i>Current Light:</i> ' . $char->light . "<br />";
+                    }
+
+                    $msg .= '<br /><br />';
+                    $msg .= '<i>Account updated: ' . $user->account->updated_at->diffForHumans() . "</i>";
+
+                    return Response::json([
+                        'error' => false,
+                        'msg' => $msg
+                    ], 200);
+                }
+                else
+                {
+                    return Response::json([
+                        'error' => false,
+                        'msg' => 'bitch pls. You need to confirm your gamertag on PandaLove so I know who you are.'
+                    ], 200);
+                }
+            }
+            catch (ModelNotFoundException $e)
+            {
+                return $this->_error('User account could not be found.');
+            }
+        }
+    }
+
     public function postAddGame()
     {
         $all = $this->request->all();
