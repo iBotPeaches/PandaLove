@@ -70,35 +70,6 @@ class ApiV1Controller extends Controller {
         }
     }
 
-    public function getLight($gamertag)
-    {
-        try
-        {
-            $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
-
-            $msg = '<strong>' . $account->gamertag . " - Highest Light</strong><br /><br />";
-
-            Hashes::cacheAccountHashes($account, null);
-
-            $account->characters->each(function($char) use (&$msg)
-            {
-                $msg .= $char->name() . ": " . $char->highest_light . "<br />";
-            });
-
-            $msg .= '<br /><br />';
-            $msg .= '<i>Account updated: ' . $account->updated_at->diffForHumans() . "</i>";
-
-            return Response::json([
-                'error' => false,
-                'msg' => $msg
-            ], 200);
-        }
-        catch (ModelNotFoundException $e)
-        {
-            return $this->_error('Gamertag not found');
-        }
-    }
-
     public function getLightLeaderboard()
     {
         $pandas = Account::where('clanName', 'Panda Love')
