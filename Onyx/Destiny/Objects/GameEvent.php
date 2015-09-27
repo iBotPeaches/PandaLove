@@ -1,6 +1,5 @@
 <?php namespace Onyx\Destiny\Objects;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Enums\Types;
 
@@ -17,6 +16,11 @@ class GameEvent extends Model {
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = str_replace('"', null, $value);
+    }
 
     public function setTypeAttribute($value)
     {
