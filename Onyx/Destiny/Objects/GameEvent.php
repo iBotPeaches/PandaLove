@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Destiny\Enums\Types;
 
 class GameEvent extends Model {
 
@@ -16,6 +17,16 @@ class GameEvent extends Model {
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
+
+    public function setStartAttribute($value)
+    {
+        $this->attributes['start'] = new Carbon($value);
+    }
+
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = Types::getProperFormat($value);
+    }
 
     //---------------------------------------------------------------------------------
     // BOOT Methods
@@ -93,6 +104,23 @@ class GameEvent extends Model {
             case "PVP":
                 return 6;
         }
+    }
+
+    /**
+     * @param $user
+     * @return bool
+     */
+    public function isAttending($user)
+    {
+        foreach ($this->attendees as $attendee)
+        {
+            if ($attendee->user->id == $user->id)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isOver()

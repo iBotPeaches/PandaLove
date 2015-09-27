@@ -11,7 +11,7 @@
             <div class="field">
                 <div class="ui radio checkbox">
                     <input type="radio" name="character" value="{{ $character->characterId }}">
-                    <label>{{ $character->name() . " - Light (" . $character->light . ")" }}</label>
+                    <label>{{ $character->name() . " - Highest/Current Light (" . $character->highest_light . "/" . $character->light . ")" }}</label>
                 </div>
             </div>
         @endforeach

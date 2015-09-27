@@ -4,6 +4,7 @@
             <tr>
                 <th>Gamertag</th>
                 <th>Guardian</th>
+                <th>Highest/Current Light</th>
                 <th></th>
             </tr>
         </thead>
@@ -19,6 +20,9 @@
                         </span>
                     </td>
                     <td>{{ $attendee->character->name() }}</td>
+                    <td>
+                        {{ $attendee->character->highest_light . "/" . $attendee->character->light }}
+                    </td>
                     <td>
                         @if ($user->id == $attendee->user_id)
                             <a href="{{ action('CalendarController@getCancelEvent', [$event->id]) }}">Cancel</a>

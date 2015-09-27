@@ -26,7 +26,7 @@
                         </div>
                     @else
                         @include('includes.calendar.attending_table')
-                        @if (! $event->isFull())
+                        @if (! $event->isFull() && ! $event->isAttending($user))
                             <a href="{{ action('CalendarController@getRsvpEvent', [$event->id]) }}">RSVP To Event</a>
                         @endif
                     @endif

@@ -11,6 +11,7 @@ use Onyx\Destiny\Enums\Types;
 use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\GameEvent;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 use Carbon\Carbon;
@@ -304,10 +305,16 @@ class ApiV1Controller extends Controller {
                     ->where('admin', true)
                     ->firstOrFail();
 
+                $gameEvent = new GameEvent();
+                $gameEvent->fill($all);
+                $gameEvent->save();
+
+                $msg = 'This event was created. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here.</a>';
+                $msg .= ' or you can apply via the bot via /bot rsvp ' . $gameEvent->id;
 
                 return Response::json([
                     'error' => false,
-                    'msg' => 'This is testing the bot success.'
+                    'msg' => $msg
                 ], 200);
             }
             catch (ModelNotFoundException $e)
