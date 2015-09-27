@@ -42,6 +42,11 @@ class GameEvent extends Model {
         return $this->start->format('F j - g:ia');
     }
 
+    public function botDate()
+    {
+        return $this->start->format('M n (D) - g:ia');
+    }
+
     public function count()
     {
         return count($this->attendees);

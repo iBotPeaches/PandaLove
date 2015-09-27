@@ -36,6 +36,7 @@ class ApiV1Controller extends Controller {
         $this->view = $view;
         $this->request = $request;
         $this->redirect = $redirect;
+        date_default_timezone_set('America/Chicago');
     }
 
     //---------------------------------------------------------------------------------
@@ -177,12 +178,42 @@ class ApiV1Controller extends Controller {
 
     public function getEvents()
     {
+        $events = GameEvent::where('start', '>=', Carbon::now('America/Chicago'))
+            ->orderBy('start', 'DESC')
+            ->get();
 
+        if (count($events) > 0)
+        {
+            $msg = MessageGenerator::buildEventsResponse($events);
+
+            return Response::json([
+                'error' => false,
+                'msg' => $msg
+            ]);
+        }
+        else
+        {
+            return $this->_error('There are no events upcoming.');
+        }
     }
 
     public function getEvent($id)
     {
+        try
+        {
+            $event = GameEvent::where('id', intval($id))->firstOrFail();
 
+            $msg = MessageGenerator::buildSingleEventResponse($event);
+
+            return Response::json([
+                'error' => false,
+                'msg' => $msg
+            ]);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return $this->_error('This game could not be found.');
+        }
     }
 
     //---------------------------------------------------------------------------------

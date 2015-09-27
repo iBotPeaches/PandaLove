@@ -8,6 +8,41 @@ use Onyx\Destiny\Objects\GameEvent;
 class MessageGenerator {
 
     /**
+     * @param \Onyx\Destiny\Objects\GameEvent $event
+     * @return string
+     */
+    public static function buildSingleEventResponse($event)
+    {
+        $msg = '<strong><a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">' . $event->title . '</a></strong><br />';
+        $msg .= '<i>' . $event->botDate() . '</i><br/><br />';
+
+        $count = 1;
+        foreach ($event->attendees as $attendee)
+        {
+            $msg .= $count . ') - <a href="' . \URL::action('ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]) .
+                '">' . $attendee->account->gamertag . "</a> (" . $attendee->character->name() . ")<br />";
+        }
+
+        return $msg;
+    }
+
+    /**
+     * @param $events
+     * @return string
+     */
+    public static function buildEventsResponse($events)
+    {
+        $msg = '<strong>Upcoming Events</strong><br/><br />';
+        foreach ($events as $event)
+        {
+            $msg .= $event->id . ") - " . '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">' . $event->title . '</a> (' . $event->botDate() . ') - ';
+            $msg .= $event->count() . "/" . $event->max_players . ($event->isFull() ? ' [full]' : ' slots') . '<br />';
+        }
+
+        return $msg;
+    }
+
+    /**
      * @param $user
      * @param $all
      * @return string
