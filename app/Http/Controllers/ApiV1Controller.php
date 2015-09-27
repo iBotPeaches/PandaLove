@@ -175,6 +175,16 @@ class ApiV1Controller extends Controller {
         }
     }
 
+    public function getEvents()
+    {
+
+    }
+
+    public function getEvent($id)
+    {
+
+    }
+
     //---------------------------------------------------------------------------------
     // Destiny POST
     //---------------------------------------------------------------------------------
