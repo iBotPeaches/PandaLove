@@ -296,21 +296,23 @@ class ApiV1Controller extends Controller {
     {
         $all = $this->request->all();
 
-        if (isset($all['google_id'])) {
+        if (isset($all['google_id']))
+        {
             try
             {
-                $user = User::where('google_id', $all['google_id'])->firstOrFail();
-
+                $user = User::where('google_id', $all['google_id'])
+                    ->where('admin', true)
+                    ->firstOrFail();
 
 
                 return Response::json([
                     'error' => false,
-                    'msg' => 'Event created!'
+                    'msg' => 'This is testing the bot success.'
                 ], 200);
             }
             catch (ModelNotFoundException $e)
             {
-                return $this->_error('User does not have permissions');
+                return $this->_error('User does not have permission to make events.');
             }
         }
     }
