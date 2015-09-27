@@ -36,7 +36,7 @@ class GameEvent extends Model {
     {
         GameEvent::creating(function ($event)
         {
-            if ($event->max_players == 0)
+            if (! isset($event->max_players) || $event->max_players == 0)
             {
                 $event->max_players = $event->getPlayerDefaultSize($event->type);
             }
