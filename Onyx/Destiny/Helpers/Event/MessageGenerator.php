@@ -51,16 +51,24 @@ class MessageGenerator {
                         }
                         else
                         {
-                            $attendee = new Attendee();
-                            $attendee->game_id = $event->id;
-                            $attendee->membershipId = $user->account->membershipId;
-                            $attendee->characterId = $char->characterId;
-                            $attendee->account_id = $user->account->id;
-                            $attendee->user_id = $user->id;
-                            $attendee->save();
 
-                            $msg = 'Congrats <strong> ' . $user->account->gamertag . '</strong> you have sealed a spot in this ';
-                            $msg .= '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">event</a>. There are <strong>' . ($event->spotsRemaining() - 1) . '</strong> spots remaining.';
+                            if ($event->isOver())
+                            {
+                                $msg = 'Sorry this event is over. No more RSVPs are allowed.';
+                            }
+                            else
+                            {
+                                $attendee = new Attendee();
+                                $attendee->game_id = $event->id;
+                                $attendee->membershipId = $user->account->membershipId;
+                                $attendee->characterId = $char->characterId;
+                                $attendee->account_id = $user->account->id;
+                                $attendee->user_id = $user->id;
+                                $attendee->save();
+
+                                $msg = 'Congrats <strong> ' . $user->account->gamertag . '</strong> you have sealed a spot in this ';
+                                $msg .= '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">event</a>. There are <strong>' . ($event->spotsRemaining() - 1) . '</strong> spots remaining.';
+                            }
                         }
                     }
                 }
@@ -72,13 +80,13 @@ class MessageGenerator {
             else
             {
                 $count = 0;
-                $msg = 'Trying to be funny I see. That character does not exist for you. I guess I have to remind you. <br />';
+                $msg = 'Trying to be funny I see. That character does not exist for you. I guess I have to remind you. <br /><br />';
                 foreach ($user->account->characters as $char)
                 {
                     $msg .= ++$count . ". - " . $char->name() . " " . $char->highest_light . "/" . $char->light . "<br />";
                 }
 
-                $msg .= '<br />. Your new command will be <strong>/bot rsvp ' . $all['game_id'] . ' #</strong> Where # is one of the numbers above.';
+                $msg .= '<br />Your new command will be <strong>/bot rsvp ' . $all['game_id'] . ' #</strong> Where # is one of the numbers above.';
             }
         }
 
