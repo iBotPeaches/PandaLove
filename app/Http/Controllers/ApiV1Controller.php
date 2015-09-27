@@ -22,7 +22,7 @@ class ApiV1Controller extends Controller {
     private $request;
     private $redirect;
 
-    const MAX_GRIMOIRE = 3800;
+    const MAX_GRIMOIRE = 4665; #http://destinytracker.com/destiny/leaderboards/xbox/grimoirescore
 
     protected $layout = "layouts.master";
 
@@ -33,6 +33,10 @@ class ApiV1Controller extends Controller {
         $this->request = $request;
         $this->redirect = $redirect;
     }
+
+    //---------------------------------------------------------------------------------
+    // Destiny GET
+    //---------------------------------------------------------------------------------
 
     public function getReallevel($gamertag)
     {
@@ -92,7 +96,7 @@ class ApiV1Controller extends Controller {
         }
 
         krsort($p);
-        
+
         foreach ($p as $key => $value)
         {
             // lets sort the sub levels
@@ -125,6 +129,51 @@ class ApiV1Controller extends Controller {
             'msg' => $msg
         ], 200);
     }
+
+    public function getXur()
+    {
+        $client = new Client();
+        $xurData = $client->getXurData();
+
+        if ($xurData == false && strlen($xurData) < 30)
+        {
+            return $this->_error('XUR is not here right now.');
+        }
+        else
+        {
+            return Response::json([
+                'error' => false,
+                'msg' => $xurData
+            ]);
+        }
+    }
+
+    public function getRaidTuesdayCountdown()
+    {
+        $raidtuesday = new Carbon('next Tuesday 4 AM','America/Chicago');
+
+        if ($raidtuesday->lt(Carbon::now('America/Chicago')))
+        {
+            return \Response::json([
+                'error' => false,
+                'msg' => ''
+            ]);
+        }
+        else
+        {
+            $countdown = $raidtuesday->diffInSeconds(Carbon::now('America/Chicago'));
+            $countdown = Text::timeDuration($countdown);
+
+            return \Response::json([
+                'error' => false,
+                'msg' => $countdown
+            ]);
+        }
+    }
+
+    //---------------------------------------------------------------------------------
+    // Destiny POST
+    //---------------------------------------------------------------------------------
 
     public function postUpdate()
     {
@@ -243,45 +292,6 @@ class ApiV1Controller extends Controller {
         }
     }
 
-    public function getXur()
-    {
-        $client = new Client();
-        $xurData = $client->getXurData();
-
-        if ($xurData == false && strlen($xurData) < 30)
-        {
-            return $this->_error('XUR is not here right now.');
-        }
-        else
-        {
-            return Response::json([
-                'error' => false,
-                'msg' => $xurData
-            ]);
-        }
-    }
-
-    public function getWhoIsOn()
-    {
-        $accounts = Account::where('clanName', "Panda Love")->get();
-
-        if (count($accounts) > 0)
-        {
-            $xboxclient = new XboxClient();
-            $presence = $xboxclient->fetchAccountsPresence($accounts);
-
-            $status = $xboxclient->prettifyOnlineStatus($presence, $accounts);
-            return Response::json([
-                'error' => false,
-                'msg' => $status
-            ]);
-        }
-        else
-        {
-            $this->_error('No Panda Love members were found');
-        }
-    }
-
     public function postMakeRSVP()
     {
         $all = $this->request->all();
@@ -305,28 +315,34 @@ class ApiV1Controller extends Controller {
         }
     }
 
-    public function getRaidTuesdayCountdown()
-    {
-        $raidtuesday = new Carbon('next Tuesday 4 AM','America/Chicago');
+    //---------------------------------------------------------------------------------
+    // Xbox GET
+    //---------------------------------------------------------------------------------
 
-        if ($raidtuesday->lt(Carbon::now('America/Chicago')))
+    public function getWhoIsOn()
+    {
+        $accounts = Account::where('clanName', "Panda Love")->get();
+
+        if (count($accounts) > 0)
         {
-            return \Response::json([
+            $xboxclient = new XboxClient();
+            $presence = $xboxclient->fetchAccountsPresence($accounts);
+
+            $status = $xboxclient->prettifyOnlineStatus($presence, $accounts);
+            return Response::json([
                 'error' => false,
-                'msg' => ''
+                'msg' => $status
             ]);
         }
         else
         {
-            $countdown = $raidtuesday->diffInSeconds(Carbon::now('America/Chicago'));
-            $countdown = Text::timeDuration($countdown);
-
-            return \Response::json([
-                'error' => false,
-                'msg' => $countdown
-            ]);
+            $this->_error('No Panda Love members were found');
         }
     }
+
+    //---------------------------------------------------------------------------------
+    // XPrivate Functions
+    //---------------------------------------------------------------------------------
 
     private function _error($message)
     {
