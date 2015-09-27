@@ -306,9 +306,6 @@ class ApiV1Controller extends Controller {
                     ->where('admin', true)
                     ->firstOrFail();
 
-                // hack - mutators won't work since start is date
-                $all['start'] = new Carbon(str_replace('"', null, $all['start']));
-
                 $gameEvent = new GameEvent();
                 $gameEvent->fill($all);
                 $gameEvent->save();

@@ -1,5 +1,6 @@
 <?php namespace Onyx\Destiny\Objects;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Enums\Types;
 
@@ -7,7 +8,7 @@ class GameEvent extends Model {
 
     protected $table = 'game_events';
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'type', 'start', 'max_players'];
 
     protected $dates = ['start', 'created_at', 'updated_at'];
 
@@ -16,6 +17,11 @@ class GameEvent extends Model {
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
+
+    public function setStartAttribute($value)
+    {
+        $this->attributes['start'] = new Carbon(str_replace('"', null, $value), 'America/Chicago');
+    }
 
     public function setTitleAttribute($value)
     {
