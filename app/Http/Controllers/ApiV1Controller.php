@@ -297,7 +297,6 @@ class ApiV1Controller extends Controller {
     public function postAddEvent()
     {
         $all = $this->request->all();
-        Log::info(print_r($all, true));
 
         if (isset($all['google_id']))
         {
@@ -307,12 +306,14 @@ class ApiV1Controller extends Controller {
                     ->where('admin', true)
                     ->firstOrFail();
 
+                $all['start'] = new Carbon($all['start']);
+
                 $gameEvent = new GameEvent();
                 $gameEvent->fill($all);
                 $gameEvent->save();
 
-                $msg = 'This event was created. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here.</a>';
-                $msg .= ' or you can apply via the bot via /bot rsvp ' . $gameEvent->id;
+                $msg = 'This event was created. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
+                $msg .= ' or you can apply via the bot via <strong>/bot rsvp ' . $gameEvent->id . '</strong>';
 
                 return Response::json([
                     'error' => false,

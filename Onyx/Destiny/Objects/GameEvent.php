@@ -10,18 +10,13 @@ class GameEvent extends Model {
 
     protected $fillable = ['title'];
 
-    protected $dates = ['start'];
+    protected $dates = ['start', 'created_at', 'updated_at'];
 
     public $timestamps = true;
 
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
-
-    public function setStartAttribute($value)
-    {
-        $this->attributes['start'] = new Carbon($value);
-    }
 
     public function setTypeAttribute($value)
     {
