@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use Onyx\Destiny\Objects\GameEvent;
 use Onyx\Laravel\CustomValidator;
 
 class AppServiceProvider extends ServiceProvider {
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider {
 
 		\Blade::extend(function($value) {
 			return preg_replace('/\@define(.+)/', '<?php ${1}; ?>', $value);
+		});
+
+		GameEvent::creating(function ($event)
+		{
+			$event->max_players = $event->getPlayerDefaultSize($event->type);
 		});
 	}
 
