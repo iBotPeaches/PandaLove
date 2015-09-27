@@ -1,6 +1,7 @@
 <?php namespace PandaLove\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\Factory as View;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
@@ -296,6 +297,7 @@ class ApiV1Controller extends Controller {
     public function postAddEvent()
     {
         $all = $this->request->all();
+        Log::info(print_r($all, true));
 
         if (isset($all['google_id']))
         {
