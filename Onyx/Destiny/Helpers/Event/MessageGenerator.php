@@ -60,7 +60,7 @@ class MessageGenerator {
                             $attendee->save();
 
                             $msg = 'Congrats <strong> ' . $user->account->gamertag . '</strong> you have sealed a spot in this ';
-                            $msg .= '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">event</a>. There are <strong>' . $event->spotsRemaining() . '</strong> spots remaining.';
+                            $msg .= '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">event</a>. There are <strong>' . ($event->spotsRemaining() - 1) . '</strong> spots remaining.';
                         }
                     }
                 }
