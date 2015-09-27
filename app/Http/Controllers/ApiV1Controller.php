@@ -292,7 +292,7 @@ class ApiV1Controller extends Controller {
         }
     }
 
-    public function postMakeRSVP()
+    public function postAddEvent()
     {
         $all = $this->request->all();
 
