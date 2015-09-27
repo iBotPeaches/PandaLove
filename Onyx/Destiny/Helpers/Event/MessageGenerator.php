@@ -20,13 +20,13 @@ class MessageGenerator {
         if (intval($all['char_id']) == 0)
         {
             $count = 0;
-            $msg = 'I need to know which character you want to be <strong>' . $user->account->gamertag . '</strong> for this event. Below are your characters with a number next to them. <br />';
+            $msg = 'I need to know which character you want to be <strong>' . $user->account->gamertag . '</strong> for this event. Below are your characters with a number next to them. <br /><br />';
             foreach ($user->account->characters as $char)
             {
                 $msg .= ++$count . ". - " . $char->name() . " " . $char->highest_light . "/" . $char->light . "<br />";
             }
 
-            $msg .= '<br />. Your new command will be <strong>/bot rsvp ' . $all['game_id'] . ' #</strong> Where # is one of the numbers above.';
+            $msg .= '<br />Your new command will be <strong>/bot rsvp ' . $all['game_id'] . ' #</strong> Where # is one of the numbers above.';
         }
         else
         {
@@ -59,8 +59,7 @@ class MessageGenerator {
                             $attendee->user_id = $user->id;
                             $attendee->save();
 
-                            $msg = 'Congrats <strong> ' . $user->account->gamertag . '</strong> you have sealed a spot in this event. There are <strong>
-                                ' . $event->spotsRemaining() . '</strong> spots remaining.';
+                            $msg = 'Congrats <strong> ' . $user->account->gamertag . '</strong> you have sealed a spot in this event. There are <strong>' . $event->spotsRemaining() . '</strong> spots remaining.';
                         }
                     }
                 }
