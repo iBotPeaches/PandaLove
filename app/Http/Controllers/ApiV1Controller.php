@@ -10,8 +10,10 @@ use Onyx\Account;
 use Onyx\Destiny\Client;
 use Onyx\Destiny\Enums\Types;
 use Onyx\Destiny\GameNotFoundException;
+use Onyx\Destiny\Helpers\Event\MessageGenerator;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\GameEvent;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
@@ -325,6 +327,31 @@ class ApiV1Controller extends Controller {
             catch (ModelNotFoundException $e)
             {
                 return $this->_error('User does not have permission to make events.');
+            }
+        }
+    }
+
+    public function postRsvp()
+    {
+        $all = $this->request->all();
+
+        if (isset($all['google_id']))
+        {
+            try
+            {
+                $user = User::where('google_id', $all['google_id'])
+                    ->firstOrFail();
+
+                $msg = MessageGenerator::buildRSVPResponse($user, $all);
+
+                return Response::json([
+                    'error' => false,
+                    'msg' => $msg
+                ], 200);
+            }
+            catch (ModelNotFoundException $e)
+            {
+                return $this->_error('I do not know who you are. Therefore you cannot RSVP. Sorry.');
             }
         }
     }
