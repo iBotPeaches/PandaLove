@@ -19,8 +19,13 @@ class MessageGenerator {
         $count = 1;
         foreach ($event->attendees as $attendee)
         {
-            $msg .= $count . ') - <a href="' . \URL::action('ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]) .
+            $msg .= $count++ . ') - <a href="' . \URL::action('ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]) .
                 '">' . $attendee->account->gamertag . "</a> (" . $attendee->character->name() . ")<br />";
+        }
+
+        if (! $event->isFull())
+        {
+            $msg .= '<br /> Remember, you can apply via <strong>/bot rsvp ' . $event->id . '</strong>';
         }
 
         return $msg;
@@ -38,6 +43,8 @@ class MessageGenerator {
             $msg .= $event->id . ") - " . '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">' . $event->title . '</a> [' . $event->botDate() . '] - ';
             $msg .= $event->count() . "/" . $event->max_players . ($event->isFull() ? ' [full]' : ' slots') . '<br />';
         }
+
+        $msg .= '<br /> Remember you can RSVP to any of the above events via <strong>/bot rsvp #</strong> where # is one of the IDs above.';
 
         return $msg;
     }
