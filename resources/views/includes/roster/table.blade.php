@@ -1,4 +1,4 @@
-<table class="ui table">
+<table class="ui striped compact table">
     <thead class="desktop only">
         <tr>
             <th>Gamertag</th>
