@@ -31,11 +31,6 @@ class AppServiceProvider extends ServiceProvider {
 		\Blade::extend(function($value) {
 			return preg_replace('/\@define(.+)/', '<?php ${1}; ?>', $value);
 		});
-
-		GameEvent::creating(function ($event)
-		{
-			$event->max_players = $event->getPlayerDefaultSize($event->type);
-		});
 	}
 
 	/**

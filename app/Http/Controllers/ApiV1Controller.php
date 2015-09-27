@@ -310,7 +310,11 @@ class ApiV1Controller extends Controller {
                 $gameEvent->fill($all);
                 $gameEvent->save();
 
-                $msg = 'This event was created. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
+                // now lets set max_players
+                $gameEvent->max_players = $gameEvent->getPlayerDefaultSize($gameEvent->type);
+                $gameEvent->save();
+
+                $msg = 'This event was created. There are <strong>' . $gameEvent->max_players . '</strong> spots left. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
                 $msg .= ' or you can apply via the bot via <strong>/bot rsvp ' . $gameEvent->id . '</strong>';
 
                 return Response::json([
