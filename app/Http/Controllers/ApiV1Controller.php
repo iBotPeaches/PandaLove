@@ -179,7 +179,7 @@ class ApiV1Controller extends Controller {
     public function getEvents()
     {
         $events = GameEvent::where('start', '>=', Carbon::now('America/Chicago'))
-            ->orderBy('start', 'DESC')
+            ->orderBy('start', 'ASC')
             ->get();
 
         if (count($events) > 0)

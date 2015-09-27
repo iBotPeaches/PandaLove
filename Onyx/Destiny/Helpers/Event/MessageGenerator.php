@@ -35,7 +35,7 @@ class MessageGenerator {
         $msg = '<strong>Upcoming Events</strong><br/><br />';
         foreach ($events as $event)
         {
-            $msg .= $event->id . ") - " . '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">' . $event->title . '</a> (' . $event->botDate() . ') - ';
+            $msg .= $event->id . ") - " . '<a href="' . \URL::action('CalendarController@getEvent', [$event->id]) . '">' . $event->title . '</a> [' . $event->botDate() . '] - ';
             $msg .= $event->count() . "/" . $event->max_players . ($event->isFull() ? ' [full]' : ' slots') . '<br />';
         }
 
