@@ -40,7 +40,7 @@
             </td>
             <td class="assists-table">{{ $player['assists'] }}</td>
             @if ($revives)
-                <td class="revives-table">{{ $player->revives_given }}</td>
+                <td class="revives-table">{{ $player['revives_given'] or 0}}</td>
             @endif
             <td class="kdr-table">{{ $player['kdr'] }}</td>
             <td class="kadr-table">{{ $player['kadr'] }}</td>

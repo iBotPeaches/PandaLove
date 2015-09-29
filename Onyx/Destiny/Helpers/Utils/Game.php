@@ -93,8 +93,8 @@ class Game {
                         'maxLevel' => 0,
                         'class' => $player->class,
                         'charId' => $player->characterId,
-                        'revives_given' => 0,
-                        'revives_taken' => 0
+                        'revives_given' => $player->revives_given,
+                        'revives_taken' => $player->revives_taken
                     ];
 
                     if (isset($player->account->gamertag))
