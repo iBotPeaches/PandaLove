@@ -32,6 +32,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $hidden = ['password', 'remember_token'];
 
 	//---------------------------------------------------------------------------------
+	// Mutators
+	//---------------------------------------------------------------------------------
+
+	public function setAvatarAttribute($value)
+	{
+		$this->attributes['avatar'] = str_replace('sz=50', 'sz=450', $value);
+	}
+
+	//---------------------------------------------------------------------------------
 	// Public Methods
 	//---------------------------------------------------------------------------------
 
