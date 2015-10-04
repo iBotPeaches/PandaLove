@@ -44,7 +44,7 @@ class GameEvent extends Model {
 
     public function botDate()
     {
-        return $this->start->format('M n (D) - g:ia');
+        return $this->start->format('M j (D) - g:ia');
     }
 
     public function count()
