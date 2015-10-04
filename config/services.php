@@ -40,4 +40,8 @@ return [
 		'redirect' => env('GOOGLE_REDIRECT', 'http://localhost:8000/auth/callback'),
 	],
 
+	'panda' => [
+		'group_id' => 'UgzK6A5vCzEHGylM7FB4AaABAQ'
+	],
+
 ];

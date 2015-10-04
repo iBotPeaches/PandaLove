@@ -397,6 +397,36 @@ class ApiV1Controller extends Controller {
         }
     }
 
+    public function postSetup()
+    {
+        $all = $this->request->all();
+
+        if (isset($all['chat_id']) && isset($all['google_id']))
+        {
+            try
+            {
+                $user = User::where('google_id', $all['google_id'])
+                    ->firstOrFail();
+
+                $user->chat_id = $all['chat_id'];
+                $user->save();
+
+                return Response::json([
+                    'error' => false,
+                    'msg' => 'Updated ChatId to <strong>' . $all['chat_id'] . '</strong>. I will PM you here for alerts.'
+                ], 200);
+            }
+            catch (ModelNotFoundException $e)
+            {
+                return $this->_error('I do not know who you are. Therefore I cannot set your chat ID.');
+            }
+        }
+        else
+        {
+            return $this->_error('Chat/Google ID not found.');
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Xbox GET
     //---------------------------------------------------------------------------------
