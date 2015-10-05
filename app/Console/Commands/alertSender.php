@@ -75,7 +75,7 @@ class alertSender extends Command
                         foreach ($event->attendees as $attendee)
                         {
                             $user = $attendee->user;
-                            $messenger->sendMessage($user, 'The event: <strong>' . $event->title . '</strong> starts in about 15 minutes (You RSVP`d to this Event, which is why you are being alerted).');
+                            $messenger->sendMessage($user, '<strong>The Event: <i> (' . $event->getHumanType() . ') ' . $event->title . '</i></strong> starts in about 15 minutes.<br /><br /><i>You RSVP`d to this Event, which is why you are being alerted</i>.');
                         }
 
                         $event->alert_15 = true;
@@ -91,7 +91,7 @@ class alertSender extends Command
                         foreach ($event->attendees as $attendee)
                         {
                             $user = $attendee->user;
-                            $messenger->sendMessage($user, 'The event: <strong>' . $event->title . '</strong> starts in about 5 minutes (You RSVP`d to this Event, which is why you are being alerted).');
+                            $messenger->sendMessage($user, '<strong>The Event: <i> (' . $event->getHumanType() . ') ' . $event->title . '</i></strong> starts in about 5 minutes.<br /><br /><i>You RSVP`d to this Event, which is why you are being alerted</i>.');
                         }
 
                         $event->alert_5 = true;

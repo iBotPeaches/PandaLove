@@ -86,6 +86,25 @@ class GameEvent extends Model {
         }
     }
 
+    public function getHumanType()
+    {
+        switch($this->type)
+        {
+            case "ToO":
+                return 'Trials of Osiris';
+
+            case "Raid":
+            case "Flawless":
+                return 'Raid';
+
+            case "PoE":
+                return 'Prison Of Elders';
+
+            case "PVP":
+                return 'PVP';
+        }
+    }
+
     public function getPlayerDefaultSize($type)
     {
         switch ($type)
