@@ -59,7 +59,9 @@ class alertSender extends Command
         {
             foreach($events as $event)
             {
+                $this->info('Checking event: ' . $event->title);
                 $diff = $event->start->diffInSeconds(Carbon::now('America/Chicago'));
+                $this->info('Event happens in ' . $diff . ' seconds.');
 
                 if (! $event->alert_15)
                 {
