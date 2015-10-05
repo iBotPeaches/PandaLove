@@ -59,7 +59,7 @@ class alertSender extends Command
         {
             foreach($events as $event)
             {
-                $diff = $event->start->diffInSeconds(Carbon::now('America\Chicago'));
+                $diff = $event->start->diffInSeconds(Carbon::now('America/Chicago'));
 
                 if (! $event->alert_15)
                 {
