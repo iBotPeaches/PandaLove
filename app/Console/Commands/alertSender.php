@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Hangouts\Helpers\Messages;
 
 class alertSender extends Command
 {
@@ -55,6 +56,8 @@ class alertSender extends Command
             ->orderBy('start', 'ASC')
             ->get();
 
+        $messenger = new Messages();
+
         if (count($events) > 0)
         {
             foreach($events as $event)
@@ -68,6 +71,14 @@ class alertSender extends Command
                     if ($diff <= $this->seconds_in_15minutes)
                     {
                         $this->info('Alerting members of fireteam, that its 15 minutes before event');
+                        foreach ($event->attendees as $attendee)
+                        {
+                            $user = $attendee->user;
+                            $messenger->sendMessage($user, 'The event: <strong>' . $event->title . '</strong> starts in about 15 minutes (You RSVP`d to this Event, which is why you are being alerted).');
+                        }
+
+                        $event->alert_15 = true;
+                        $event->save();
                     }
                 }
 
@@ -76,6 +87,14 @@ class alertSender extends Command
                     if ($diff <= $this->seconds_in_5minutes)
                     {
                         $this->info('Alerting members of fireteam, that its 5 minutes before event.');
+                        foreach ($event->attendees as $attendee)
+                        {
+                            $user = $attendee->user;
+                            $messenger->sendMessage($user, 'The event: <strong>' . $event->title . '</strong> starts in about 5 minutes (You RSVP`d to this Event, which is why you are being alerted).');
+                        }
+
+                        $event->alert_5 = true;
+                        $event->save();
                     }
                 }
             }
