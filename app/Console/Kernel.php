@@ -6,6 +6,7 @@ use Onyx\Destiny\Client;
 use Onyx\Destiny\Objects\Game;
 
 use PandaLove\Console\Commands\updatePandas;
+use PandaLove\Console\Commands\alertSender;
 
 class Kernel extends ConsoleKernel {
 
@@ -15,7 +16,8 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		updatePandas::class
+		updatePandas::class,
+		alertSender::class
 	];
 
 	/**

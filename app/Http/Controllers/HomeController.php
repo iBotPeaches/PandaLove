@@ -1,6 +1,8 @@
 <?php namespace PandaLove\Http\Controllers;
 
 
+use Onyx\Hangouts\Helpers\Messages;
+
 class HomeController extends Controller {
 
 	/**

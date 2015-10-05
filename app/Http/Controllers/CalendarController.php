@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Onyx\Destiny\Objects\Attendee;
 use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Hangouts\Helpers\Messages;
 use PandaLove\Http\Requests\AddRSVP;
 use PandaLove\Http\Requests\deleteEventRequest;
 
@@ -135,6 +136,13 @@ class CalendarController extends Controller {
             $attendee->account_id = $this->user->account->id;
             $attendee->user_id = $this->user->id;
             $attendee->save();
+
+            // hit bot
+            if (app()->environment() == "production")
+            {
+                $messenger = new Messages();
+                $messenger->sendGroupMessage('<strong>' . $this->user->account->gamertag . '</strong> confirmed RSVP to event: <strong>' . $event->title . '</strong>');
+            }
 
             return \Redirect::action('CalendarController@getEvent', [$event->id])
                 ->with('flash_message', [
