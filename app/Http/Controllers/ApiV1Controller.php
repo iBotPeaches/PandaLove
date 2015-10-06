@@ -155,13 +155,20 @@ class ApiV1Controller extends Controller {
 
     public function getRaidTuesdayCountdown()
     {
-        $raidtuesday = new Carbon('next Tuesday 4 AM','America/Chicago');
+        if (Carbon::now('America/Chicago')->isSameDay(new Carbon('Tuesday 4am CST', 'America/Chicago')))
+        {
+            $raidtuesday = new Carbon('Tuesday 4am CST', 'America/Chicago');
+        }
+        else
+        {
+            $raidtuesday = new Carbon('next Tuesday 4 AM','America/Chicago');
+        }
 
         if ($raidtuesday->lt(Carbon::now('America/Chicago')))
         {
             return \Response::json([
                 'error' => false,
-                'msg' => ''
+                'msg' => 'Today is Raid Tuesday! Get your raids in!'
             ]);
         }
         else
