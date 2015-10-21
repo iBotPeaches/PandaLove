@@ -190,8 +190,12 @@ class Client extends Http {
             }
         }
 
-        $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
-        $account->legendary_marks = $json['Response']['data']['inventory']['currencies'][1]['value'];
+        if (isset($json['Response']['data']['inventory']['currencies']))
+        {
+            $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
+            $account->legendary_marks = $json['Response']['data']['inventory']['currencies'][1]['value'];
+        }
+
         $account->grimoire = $json['Response']['data']['grimoireScore'];
 
         $charactersCount = count($account->characters);
