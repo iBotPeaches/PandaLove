@@ -85,6 +85,13 @@ class Game extends Model {
                 $hard = true;
             }
         }
+        else if (str_contains($object->title, 'King'))
+        {
+            if ($object->extraThird == 42)
+            {
+                $hard = true;
+            }
+        }
 
         $this->attributes['isHard'] = boolval($hard);
     }
