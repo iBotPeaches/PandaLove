@@ -9,7 +9,7 @@ use Onyx\XboxLive\Constants as XboxConstants;
 
 class Client extends XboxAPI {
 
-    public $acceptedGameIds = ['972249091', '247546985', '1144039928', '1292135256']; // gta5 destiny mcc titanfall
+    public $acceptedGameIds = ['972249091', '247546985', '1144039928', '1292135256', '219630713']; // gta5 destiny mcc titanfall h5
 
     public function fetchAccountsPresence($accounts)
     {
