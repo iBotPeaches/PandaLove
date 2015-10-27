@@ -231,7 +231,7 @@ class Client extends Http {
         $this->tabulateActivity($account, $chars);
 
         // Check for XUID
-        if ($account->xuid == null)
+        if ($account->xuid == null && $account->isPandaLove())
         {
             $url = sprintf(XboxConstants::$getGamertagXUID, urlencode($account->gamertag));
 
