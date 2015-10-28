@@ -41,7 +41,7 @@ class XboxAPI {
         // Don't let it auto cast
         if ($xuid)
         {
-            return $response->getBody(true);
+            return json_decode($response->getBody(), true)['xuid'];
         }
         else
         {
