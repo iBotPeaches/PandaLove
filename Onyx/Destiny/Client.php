@@ -396,12 +396,8 @@ class Client extends Http {
         if (is_array($time))
         {
             $max = max($time);
+            $game->timeTookInSeconds = array_search($max, $time);
         }
-        else
-        {
-            $max = 0;
-        }
-        $game->timeTookInSeconds = array_search($max, $time);
         $game->save();
     }
 
