@@ -58,6 +58,11 @@ class Hashes extends Http{
 
     public function map($hash, $title = true)
     {
+        if (strlen($hash) < 1)
+        {
+            $hash = '9999999999';
+        }
+
         if (Hashes::$items == null)
         {
             $this->getItems();
@@ -104,6 +109,8 @@ class Hashes extends Http{
      */
     public static function setPremadeHashList($hashes)
     {
+        $hashes[] = '9999999999'; // always load Classified
+
         Hashes::$items = Hash::whereIn('hash', $hashes)->get();
     }
 
