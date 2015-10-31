@@ -230,16 +230,6 @@ class Client extends Http {
         // check for inactivity
         $this->tabulateActivity($account, $chars);
 
-        // Check for XUID
-        if ($account->xuid == null && $account->isPandaLove())
-        {
-            $url = sprintf(XboxConstants::$getGamertagXUID, urlencode($account->gamertag));
-
-            $xbox = new XboxAPI();
-            $xuid = $xbox->getJson($url, true);
-            $account->xuid = $xuid;
-        }
-
         $account->save();
 
         return $account;
