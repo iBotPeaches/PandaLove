@@ -18,6 +18,32 @@ class Text {
     }
 
     /**
+     * Returns value greatest used
+     * @param $set
+     * @return mixed
+     */
+    public static function array_mode($set)
+    {
+        $count = [];
+
+        foreach($set as $item)
+        {
+            if (isset($count[$item]))
+            {
+                $count[$item] += 1;
+            }
+            else
+            {
+                $count[$item] = 1;
+            }
+        }
+
+        arsort($count);
+        $maxes = array_keys($count, max($count));
+        return $maxes[0];
+    }
+
+    /**
      * A function for making time periods readable
      *
      * @author      Aidan Lister <aidan@php.net>

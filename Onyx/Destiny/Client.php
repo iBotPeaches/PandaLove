@@ -389,14 +389,14 @@ class Client extends Http {
         $time = [];
         foreach($entries as $entry)
         {
-            $time = $this->gamePlayerSetup($data, $entry, $game, isset($pvp) ? $pvp : null);
+            $time[] = $this->gamePlayerSetup($data, $entry, $game, isset($pvp) ? $pvp : null);
         }
 
         // get highest $duration (MODE)
         if (is_array($time))
         {
-            $max = max($time);
-            $game->timeTookInSeconds = array_search($max, $time);
+            $time = array_filter($time);
+            $game->timeTookInSeconds = Text::array_mode($time);
         }
         $game->save();
     }
@@ -484,14 +484,6 @@ class Client extends Http {
             $player->save();
 
             $duration = $entry['values']['activityDurationSeconds']['basic']['value'];
-            if (isset($time[$duration]))
-            {
-                $time[$duration] += 1;
-            }
-            else
-            {
-                $time[$duration] = 1;
-            }
 
             if (isset($data['Response']['data']['activityDetails']['mode']) &&
                 Gametype::isPVP($data['Response']['data']['activityDetails']['mode']))
@@ -513,7 +505,7 @@ class Client extends Http {
             }
         }
 
-        return isset($time) ? $time : null;
+        return isset($duration) ? $duration : null;
     }
 
     /**
