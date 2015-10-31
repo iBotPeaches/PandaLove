@@ -393,7 +393,14 @@ class Client extends Http {
         }
 
         // get highest $duration (MODE)
-        $max = max($time);
+        if (is_array($time))
+        {
+            $max = max($time);
+        }
+        else
+        {
+            $max = 0;
+        }
         $game->timeTookInSeconds = array_search($max, $time);
         $game->save();
     }
