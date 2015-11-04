@@ -41,7 +41,7 @@ return [
 	],
 
 	'panda' => [
-		'group_id' => 'Ugy3nbaPpVqKohcGCRF4AaABAQ'
+		'group_id' => 'UgxUq_ISrKy6NCSM-RV4AaABAQ'
 	],
 
 ];
