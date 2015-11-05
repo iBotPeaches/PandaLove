@@ -61,9 +61,7 @@
     @endforeach
     </tbody>
 </table>
-<div class="ui pagination menu">
-    {!! with(new Onyx\Laravel\SemanticPresenter($raids))->render() !!}
-</div>
+{!! with(new Onyx\Laravel\SemanticPresenter($raids))->render() !!}
 
 @section('inline-css')
     <style type="text/css">

@@ -43,6 +43,4 @@
         @endforeach
     </tbody>
 </table>
-<div class="ui pagination menu">
-    {!! with(new Onyx\Laravel\SemanticPresenter($members))->render() !!}
-</div>
+{!! with(new Onyx\Laravel\SemanticPresenter($members))->render() !!}

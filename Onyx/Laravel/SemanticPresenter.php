@@ -60,12 +60,12 @@ class SemanticPresenter extends BootstrapThreePresenter {
     {
         if ($this->hasPages())
         {
-            return sprintf(
+            return '<div class="ui pagination menu">' . sprintf(
                 '%s %s %s',
                 $this->getPreviousButton(),
                 $this->getLinks(),
                 $this->getNextButton()
-            );
+            ) . '</div>';
         }
 
         return '';

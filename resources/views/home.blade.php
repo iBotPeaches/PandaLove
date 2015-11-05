@@ -11,7 +11,7 @@
                     <header>
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
-                    <p>An <strong>Xbox</strong> clan, who frequently runs raids & Trials Of Osiris in <strong>Destiny</strong> and plays Arena in<strong>Halo 5</strong>.</p>
+                    <p>An <strong>Xbox</strong> clan, who frequently runs raids & Trials Of Osiris in <strong>Destiny</strong> and plays Arena in <strong>Halo 5</strong>.</p>
                     <a href="{{ URL::action('RosterController@getIndex') }}" class="button big scrolly">Meet our Group</a>
                 </div>
             </div>
@@ -42,8 +42,8 @@
                     <div class="4u">
                         <section class="box style1">
                             <span class="icon featured fa-thumbs-o-up"></span>
-                            <h3>Destiny: Flawless Raider</h3>
-                            <p>Still chasing that hard to reach achievement? We have earned it numerous times</p>
+                            <h3>Enhanced Stats</h3>
+                            <p>We leverage the APIs that Bungie & 343 provide to build this site.</p>
                         </section>
                     </div>
                 </div>
