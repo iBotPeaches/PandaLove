@@ -1,4 +1,4 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php namespace PandaLove\Http\Controllers\Destiny;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\URL;
@@ -7,6 +7,7 @@ use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;
 use PandaLove\Commands\UpdateAccount;
+use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 
 use Illuminate\Http\Request;
@@ -28,14 +29,14 @@ class ProfileController extends Controller {
     {
         try
         {
-            $account = Account::with('characters')
+            $account = Account::with('destiny.characters')
                 ->where('seo', Text::seoGamertag($gamertag))
                 ->firstOrFail();
 
             $games = GamePlayer::with('game')
                 ->select('game_players.*', 'games.occurredAt')
                 ->leftJoin('games', 'game_players.game_id', '=', 'games.instanceId')
-                ->where('membershipId', $account->membershipId)
+                ->where('membershipId', $account->destiny->membershipId)
                 ->where('deaths', 0)
                 ->orderBy('games.occurredAt', 'DESC')
                 ->get();
@@ -48,10 +49,10 @@ class ProfileController extends Controller {
             // setup hash cache
             Hashes::cacheAccountHashes($account, $games);
 
-            return view('profile', [
+            return view('destiny.profile', [
                 'account' => $account,
                 'games' => $games,
-                'characterId' => ($account->characterExists($characterId) ? $characterId : false),
+                'characterId' => ($account->destiny->characterExists($characterId) ? $characterId : false),
                 'description' => ($account->isPandaLove() ? "PandaLove: " : null) . $account->gamertag . " Destiny Profile",
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null)
             ]);
@@ -68,16 +69,16 @@ class ProfileController extends Controller {
         {
             try
             {
-                $account = Account::with('characters')->where('seo', $seo)->firstOrFail();
+                $account = Account::with('destiny.characters')->where('seo', $seo)->firstOrFail();
 
-                $inactive = $account->inactiveCounter;
+                $inactive = $account->destiny->inactiveCounter;
 
                 $this->dispatch(new UpdateAccount($account));
 
                 // reload account
-                $account = Account::with('characters')->where('seo', $seo)->firstOrFail();
+                $account = Account::with('destiny.characters')->where('seo', $seo)->firstOrFail();
 
-                if ($account->inactiveCounter > $inactive)
+                if ($account->destiny->inactiveCounter > $inactive)
                 {
                     // they manually refreshed a profile with no data changes. ugh
                     return redirect('profile/' . $seo)
@@ -116,7 +117,7 @@ class ProfileController extends Controller {
         {
             try
             {
-                $account = Account::with('characters')
+                $account = Account::with('destiny.characters')
                     ->where('seo', Text::seoGamertag($gamertag))
                     ->firstOrFail();
 
@@ -127,7 +128,7 @@ class ProfileController extends Controller {
                 }
 
                 // check for 10 inactive checks
-                if ($account->inactiveCounter >= $this->inactiveCounter)
+                if ($account->destiny->inactiveCounter >= $this->inactiveCounter)
                 {
                     return response()->json([
                         'updated' => false,
@@ -137,7 +138,7 @@ class ProfileController extends Controller {
                     ]);
                 }
 
-                $char = $account->firstCharacter();
+                $char = $account->destiny->firstCharacter();
 
                 if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
                 {

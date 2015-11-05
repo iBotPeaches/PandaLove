@@ -1,7 +1,7 @@
 <div class="ui statistics">
     <div class="statistic">
         <div class="value">
-            {{ $account->grimoire }}
+            {{ $account->destiny->grimoire }}
         </div>
         <div class="label">
             Grimoire
@@ -9,7 +9,7 @@
     </div>
     <div class="statistic">
         <div class="value">
-            {{ $account->glimmer }}
+            {{ $account->destiny->glimmer }}
         </div>
         <div class="label">
             Glimmer
@@ -17,7 +17,7 @@
     </div>
     <div class="statistic">
         <div class="value">
-            {{ $account->legendary_marks }}
+            {{ $account->destiny->legendary_marks }}
         </div>
         <div class="label">
             Legendary Marks
@@ -26,7 +26,7 @@
     @if ($account->clanName != "")
         <div class="blue statistic">
             <div class="text value">
-                {{ $account->clanName }}
+                {{ $account->destiny->clanName }}
             </div>
             <div class="label">
                 Clan
@@ -35,10 +35,10 @@
     @endif
     <div class="statistic">
         <div class="value">
-            {{ $account->charsAbove(40) }}
+            {{ $account->destiny->charsAbove(40) }}
         </div>
         <div class="label">
-            Characters above 40
+            Characters at 40
         </div>
     </div>
 </div>

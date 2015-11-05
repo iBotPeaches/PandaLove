@@ -226,7 +226,7 @@ class Hashes extends Http{
     {
         $hashes = null;
 
-        foreach($account->characters as $char)
+        foreach($account->destiny->characters as $char)
         {
             foreach($char->getAllHashTitles() as $hash)
             {

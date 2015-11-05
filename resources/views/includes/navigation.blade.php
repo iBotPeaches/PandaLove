@@ -1,7 +1,7 @@
 <nav id="nav">
     <ul class="container">
         <li><a class="{{ HTML::activeClass('/') }}" href="{{ URL::to('/') }}"><i class="home icon"></i></a></li>
-        <li><a class="{{ HTML::activeClass('profile') | HTML::activeClass('destiny/roster') }}" href="{{ URL::action('Destiny\RosterController@getIndex') }}">Roster</a></li>
+        <li><a class="{{ HTML::activeClass('destiny/profile') | HTML::activeClass('destiny/roster') }}" href="{{ URL::action('Destiny\RosterController@getIndex') }}">Roster</a></li>
         <li><a class="{{ HTML::activeClass('games') }}" href="{{ URL::action('GameController@getIndex') }}">Games</a></li>
         @if (isset($user) && $user != null)
             @if ($user->account instanceof \Onyx\Account && $user->account->isPandaLove())

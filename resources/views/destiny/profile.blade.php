@@ -8,7 +8,7 @@
                     <header>
                         <h1>Hi. I am <strong>{{ $account->gamertag }}</strong></h1>
                     </header>
-                    @include('includes.profile.character-tab')
+                    @include('includes.destiny.profile.character-tab')
                 </div>
             </div>
         </article>
@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(function() {
             $.ajax({
-                url: '{{ URL::action('ProfileController@checkForUpdate', array($account->gamertag)) }}',
+                url: '{{ URL::action('Destiny\ProfileController@checkForUpdate', array($account->gamertag)) }}',
                 success: function(result) {
                     $msg = $("#update-message");
                     if (result.updated && result.frozen == false) {
