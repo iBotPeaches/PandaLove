@@ -17,7 +17,7 @@ class Data extends Model {
      *
      * @var array
      */
-    protected $fillable = ['membershipId', 'clanName', 'clanTag', 'glimmer', 'gimoire', 'character_1', 'character_2', 'character_3', 'legendary_marks', 'inactiveCounter'];
+    protected $fillable = ['membershipId', 'clanName', 'clanTag', 'glimmer', 'grimoire', 'character_1', 'character_2', 'character_3', 'legendary_marks', 'inactiveCounter'];
 
     public static function boot()
     {

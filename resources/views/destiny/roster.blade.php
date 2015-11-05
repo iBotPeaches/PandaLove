@@ -8,7 +8,7 @@
                     <header>
                         <h1>Meet <strong>Panda Love</strong></h1>
                     </header>
-                    @include('includes.roster.table')
+                    @include('includes.destiny.roster.table')
                 </div>
             </div>
         </article>
