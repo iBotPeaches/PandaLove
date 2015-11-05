@@ -26,7 +26,7 @@ class ApiV1Controller extends Controller {
     private $request;
     private $redirect;
 
-    const MAX_GRIMOIRE = 4665; #http://destinytracker.com/destiny/leaderboards/xbox/grimoirescore
+    const MAX_GRIMOIRE = 4765; #http://destinytracker.com/destiny/leaderboards/xbox/grimoirescore
 
     protected $layout = "layouts.master";
 
