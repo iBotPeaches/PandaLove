@@ -1,5 +1,6 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php namespace PandaLove\Http\Controllers\Destiny;
 
+use Illuminate\Routing\Controller;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use PandaLove\Http\Requests;

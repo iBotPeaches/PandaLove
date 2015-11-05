@@ -1,7 +1,6 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php namespace PandaLove\Http\Controllers\Destiny;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\Factory as View;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
@@ -13,12 +12,11 @@ use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\Event\MessageGenerator;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\GameEvent;
 use Onyx\User;
-use Onyx\XboxLive\Client as XboxClient;
 use Carbon\Carbon;
 use PandaLove\Commands\UpdateAccount;
+use PandaLove\Http\Controllers\Controller;
 
 class ApiV1Controller extends Controller {
 
@@ -43,11 +41,6 @@ class ApiV1Controller extends Controller {
     // Destiny GET
     //---------------------------------------------------------------------------------
 
-    public function getReallevel($gamertag)
-    {
-        return $this->_error('Taken King removed this variable. Deprecated');
-    }
-
     public function getGrimoire($gamertag)
     {
         try
@@ -61,11 +54,6 @@ class ApiV1Controller extends Controller {
             if ($account->getOriginal('grimoire') == self::MAX_GRIMOIRE)
             {
                 $msg .= "<strong> [MAX]</strong>";
-            }
-
-            if ($account->getOriginal('grimoire') < 3000)
-            {
-                $msg .= "<br /><br /><br />Come on son. Lets get more than 3k";
             }
 
             return Response::json([
@@ -341,121 +329,6 @@ class ApiV1Controller extends Controller {
             {
                 return $this->_error('User account could not be found.');
             }
-        }
-    }
-
-    public function postAddEvent()
-    {
-        $all = $this->request->all();
-
-        if (isset($all['google_id']))
-        {
-            try
-            {
-                $user = User::where('google_id', $all['google_id'])
-                    ->where('admin', true)
-                    ->firstOrFail();
-
-                $gameEvent = new GameEvent();
-                $gameEvent->fill($all);
-                $gameEvent->save();
-
-                // now lets set max_players
-                $gameEvent->max_players = $gameEvent->getPlayerDefaultSize($gameEvent->type);
-                $gameEvent->save();
-
-                $msg = 'This event was created. There are <strong>' . $gameEvent->max_players . '</strong> spots left. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
-                $msg .= ' or you can apply via the bot via <strong>/bot rsvp ' . $gameEvent->id . '</strong>';
-
-                return Response::json([
-                    'error' => false,
-                    'msg' => $msg
-                ], 200);
-            }
-            catch (ModelNotFoundException $e)
-            {
-                return $this->_error('User does not have permission to make events.');
-            }
-        }
-    }
-
-    public function postRsvp()
-    {
-        $all = $this->request->all();
-
-        if (isset($all['google_id']))
-        {
-            try
-            {
-                $user = User::where('google_id', $all['google_id'])
-                    ->firstOrFail();
-
-                $msg = MessageGenerator::buildRSVPResponse($user, $all);
-
-                return Response::json([
-                    'error' => false,
-                    'msg' => $msg
-                ], 200);
-            }
-            catch (ModelNotFoundException $e)
-            {
-                return $this->_error('I do not know who you are. Therefore you cannot RSVP. Sorry.');
-            }
-        }
-    }
-
-    public function postSetup()
-    {
-        $all = $this->request->all();
-
-        if (isset($all['chat_id']) && isset($all['google_id']))
-        {
-            try
-            {
-                $user = User::where('google_id', $all['google_id'])
-                    ->firstOrFail();
-
-                $user->chat_id = $all['chat_id'];
-                $user->save();
-
-                return Response::json([
-                    'error' => false,
-                    'msg' => 'Updated ChatId to <strong>' . $all['chat_id'] . '</strong>. I will PM you here for alerts.'
-                ], 200);
-            }
-            catch (ModelNotFoundException $e)
-            {
-                return $this->_error('I do not know who you are. Therefore I cannot set your chat ID.');
-            }
-        }
-        else
-        {
-            return $this->_error('Chat/Google ID not found.');
-        }
-    }
-
-    //---------------------------------------------------------------------------------
-    // Xbox GET
-    //---------------------------------------------------------------------------------
-
-    public function getWhoIsOn()
-    {
-        $accounts = Account::where('clanName', "Panda Love")->get();
-
-        if (count($accounts) > 0)
-        {
-            $xboxclient = new XboxClient();
-            $presence = $xboxclient->fetchAccountsPresence($accounts);
-
-            $status = $xboxclient->prettifyOnlineStatus($presence, $accounts);
-            return Response::json([
-                'error' => false,
-                'msg' => $status
-            ]);
-        }
-        else
-        {
-            $this->_error('No Panda Love members were found');
         }
     }
 
