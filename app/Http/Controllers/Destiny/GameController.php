@@ -115,7 +115,7 @@ class GameController extends Controller {
 
     public function getTuesday($raidTuesday, $gameId = null)
     {
-        $games = Game::with('players.gameChar', 'players.account')
+        $games = Game::with('players.gameChar', 'players.account.destiny')
             ->OfTuesday($raidTuesday)
             ->get();
 
@@ -127,7 +127,7 @@ class GameController extends Controller {
         Hashes::cacheTuesdayHashes($games);
         $combined = GameHelper::buildCombinedStats($games);
 
-        return view('games.tuesday')
+        return view('destiny.games.tuesday')
             ->with('raidTuesday', intval($raidTuesday))
             ->with('revives', $combined['stats']['revives'])
             ->with('games', $games)
@@ -245,7 +245,7 @@ class GameController extends Controller {
         $game = Game::where('instanceId', $request->get('game_id'))->first();
         $game->delete();
 
-        return \Redirect::to('/games')
+        return \Redirect::action('Destiny\GameController@getIndex')
             ->with('flash_message', [
                 'type' => 'green',
                 'header' => 'Game Delete!',
@@ -271,7 +271,7 @@ class GameController extends Controller {
                 $msg = 'Game is now visible to public';
             }
 
-            return \Redirect::action('GameController@getGame', array($request->get('game_id')))
+            return \Redirect::action('Destiny\GameController@getGame', array($request->get('game_id')))
                 ->with('flash_message', [
                     'type' => 'green',
                     'header' => 'Game Visibility Toggled!',
@@ -282,7 +282,7 @@ class GameController extends Controller {
         }
         catch (ModelNotFoundException $e)
         {
-            return \Redirect::action('GameController@getIndex');
+            return \Redirect::action('Destiny\GameController@getIndex');
         }
     }
 }

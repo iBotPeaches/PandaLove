@@ -25,7 +25,7 @@
                     @if ($player['player']['isPandaLove'])
                         <i class="user icon panda-team"></i>
                     @endif
-                    <a href="{{ URL::action('ProfileController@index', [$player['player']['seo']]) }}">
+                    <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['seo']]) }}">
                         {{ $player['player']['gamertag'] or 'Unknown' }}
                     </a>
                 @else

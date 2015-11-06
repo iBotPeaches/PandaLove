@@ -53,7 +53,7 @@
         @if (isset($passage['stats']['unbroken']) && is_array($passage['stats']['unbroken']))
             @foreach($passage['stats']['unbroken'] as $unbroken)
                 <li>
-                    <strong><a href="{{ URL::action('ProfileController@index', [$unbroken['seo']]) }}">{{ $unbroken['gamertag'] }}</a></strong>
+                    <strong><a href="{{ URL::action('Destiny\ProfileController@index', [$unbroken['seo']]) }}">{{ $unbroken['gamertag'] }}</a></strong>
                     went unbroken for <strong>{{ $unbroken['count'] }}</strong> {{ $unbroken['count'] > 1 ? 'games' : 'game' }}.
                 </li>
             @endforeach

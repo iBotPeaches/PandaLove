@@ -15,6 +15,7 @@ class AddIndexes extends Migration
         Schema::table('characters', function(Blueprint $table)
         {
             $table->index('membershipId');
+            $table->index('characterId');
         });
 
         Schema::table('accounts', function(Blueprint $table)
@@ -50,6 +51,7 @@ class AddIndexes extends Migration
         Schema::table('characters', function(Blueprint $table)
         {
             $table->dropIndex('characters_membershipId_index');
+            $table->dropIndex('characters_characterId_index');
         });
 
         Schema::table('accounts', function(Blueprint $table)
