@@ -1,4 +1,4 @@
-{!! Form::open(['action' => 'GameController@deleteGame', 'class' => 'vertical form']) !!}
+{!! Form::open(['action' => 'Destiny\GameController@deleteGame', 'class' => 'vertical form']) !!}
     <div class="row">
         <div class="12u">
             {!! Form::hidden('game_id', $game->instanceId) !!}

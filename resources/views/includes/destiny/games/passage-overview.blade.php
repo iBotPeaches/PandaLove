@@ -1,7 +1,7 @@
 <div class="ui inverted segment">
     {{ $combined['stats']['games'] }} Games. Completed in {{ $combined['stats']['combinedGameTime'] }}
 </div>
-@include('includes.games.passage-quickstats')
+@include('includes.destiny.games.passage-quickstats')
 <table class="ui sortable table">
     <thead class="desktop only">
     <tr>
@@ -25,7 +25,7 @@
                         @if ($player['player']['isPandaLove'] && ! $player['player']['isPandaGuest'])
                             <i class="user icon panda-team"></i>
                         @endif
-                        <a href="{{ URL::action('ProfileController@index', [$player['player']['seo']]) }}">
+                        <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['seo']]) }}">
                             {{ $player['player']['gamertag'] or 'Unknown' }}
                         </a>
                     @else
@@ -33,7 +33,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ URL::action('ProfileController@index', [$player['player']['seo'], $player['charId']]) }}">
+                    <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['seo'], $player['charId']]) }}">
                         {{ $player['maxLevel'] }} {{ $player['class'] }}
                     </a>
                 </td>

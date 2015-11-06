@@ -1,4 +1,4 @@
-{!! Form::open(['action' => ['GameController@postComment', $game->instanceId], 'class' => 'ui reply form', 'id' => 'new-comment-form']) !!}
+{!! Form::open(['action' => ['CommentController@postComment', $game->instanceId], 'class' => 'ui reply form', 'id' => 'new-comment-form']) !!}
     <div class="field">
         <textarea name="message" id="message" class="ui small"></textarea>
     </div>
@@ -7,7 +7,7 @@
     <button class="ui primary submit labeled icon button">
         <i class="icon edit"></i> Add Comment
     </button>
-    Posting as <strong>{{ $game->findAccountViaMembershipId($user->account->membershipId)->gamertag or 'Unknown' }}</strong>
+    Posting as <strong>{{ $game->findAccountViaMembershipId($user->account->destiny->membershipId)->gamertag or 'Unknown' }}</strong>
 {!! Form::close() !!}
 
 @section('inline-js')
@@ -29,7 +29,7 @@
                         onSuccess: function(event) {
                             $.ajax({
                                 type: 'POST',
-                                url: "{{ action('GameController@postComment', $game->instanceId) }}",
+                                url: "{{ action('CommentController@postComment', $game->instanceId) }}",
                                 data: $("#new-comment-form").serialize(),
                                 success: function(result) {
                                     if (typeof result.flag != 'undefined' && result.flag === true) {

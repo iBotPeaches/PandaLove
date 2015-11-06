@@ -12,8 +12,7 @@
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
                     <p>An <strong>Xbox</strong> clan, who frequently runs raids & Trials Of Osiris in <strong>Destiny</strong> and plays Arena in <strong>Halo 5</strong>.</p>
-                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Roster: Destiny</a>
-                    <a href="#" class="button big scrolly disabled">Roster: Halo 5</a>
+                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Meet the Team</a>
                 </div>
             </div>
         </article>
@@ -51,7 +50,7 @@
             </div>
             <footer>
                 <p>Want to see more? Take a look at our game history from these top moments</p>
-                <a href="{{ URL::action('GameController@getIndex') }}" class="button big scrolly">View our Games</a>
+                <a href="{{ URL::action('Destiny\GameController@getIndex') }}" class="button big scrolly">View our Games</a>
             </footer>
         </article>
     </div>

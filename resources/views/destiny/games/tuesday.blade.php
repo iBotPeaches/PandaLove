@@ -16,14 +16,14 @@
                         @endforeach
                     </div>
                     <div class="ui bottom attached tab segment {{ $gameId == false ? 'active' : null }}" data-tab="overview">
-                        @include('includes.games.tuesday-overview')
+                        @include('includes.destiny.games.tuesday-overview')
                     </div>
                     @foreach($games as $game)
                         <div class="ui bottom attached tab segment {{ $gameId == $game->instanceId ? 'active' : null }}" data-tab="game_{{ $game->instanceId }}">
                             <div class="ui inverted segment">
                                 {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
                             </div>
-                            @include('includes.games.game-table', ['game' => $game])
+                            @include('includes.destiny.games.game-table', ['game' => $game])
                             <a target="_blank" href="https://www.bungie.net/en/Legend/PGCR?instanceId={{ $game->instanceId }}">Bungie.net Game</a>
                         </div>
                     @endforeach

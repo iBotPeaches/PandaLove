@@ -1,4 +1,4 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php namespace PandaLove\Http\Controllers\Destiny;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -8,6 +8,7 @@ use Onyx\Destiny\Objects\Comment;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 
+use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AddCommentRequest;
 use PandaLove\Http\Requests\deleteGameRequest;
@@ -25,6 +26,10 @@ class GameController extends Controller {
         $this->request = $request;
     }
 
+    //---------------------------------------------------------------------------------
+    // Destiny GET
+    //---------------------------------------------------------------------------------
+
     public function getIndex()
     {
         $p = $this->isPanda;
@@ -34,11 +39,11 @@ class GameController extends Controller {
         $tuesday = Game::tuesday($p)->limit(4)->get();
         $pvp = Game::with('pvp')->multiplayer($p)->singular()->limit(5)->get();
         $poe = Game::poe($p)->singular()->limit(4)->get();
-        $passages = GameHelper::getMaps(Game::with('pvp', 'players.account')->passage()->limit(4)->get());
+        $passages = GameHelper::getMaps(Game::with('pvp', 'players.account.destiny')->passage()->limit(4)->get());
 
         Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe, $passages);
 
-        return view('games.index')
+        return view('destiny.games.index')
             ->with('raids', $raids)
             ->with('flawless', $flawless)
             ->with('tuesday', $tuesday)
@@ -56,7 +61,7 @@ class GameController extends Controller {
             $game = Game::with(['comments.player' => function($query) use ($instanceId)
                 {
                     $query->where('game_id', $instanceId);
-                }, 'players.gameChar', 'players.account', 'comments.account'
+                }, 'players.gameChar', 'players.account.destiny', 'comments.account'
                 ])
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
@@ -94,63 +99,17 @@ class GameController extends Controller {
                 {
                     return sprintf('%08d.%08d', $player->getOriginal('score'), ($player->kd * 100));
                 }, SORT_REGULAR, true);
-                return view('games.pvp');
+                return view('destiny.games.pvp');
             }
             else
             {
                 $game->players = $game->players->sortByDesc('kd');
-                return view('games.game');
+                return view('destiny.games.game');
             }
         }
         catch (ModelNotFoundException $e)
         {
             \App::abort(404);
-        }
-    }
-
-    public function deleteGame(deleteGameRequest $request)
-    {
-        $game = Game::where('instanceId', $request->get('game_id'))->first();
-        $game->delete();
-
-        return \Redirect::to('/games')
-            ->with('flash_message', [
-                'type' => 'green',
-                'header' => 'Game Delete!',
-                'close' => true,
-                'body' => 'You deleted gameId (' . $request->get('game_id') . ") "
-            ]);
-    }
-
-    public function postToggleGameVisibility(deleteGameRequest $request)
-    {
-        try
-        {
-            $game = Game::where('instanceId', $request->get('game_id'))->firstOrFail();
-            $game->hidden = ! $game->hidden;
-            $game->save();
-
-            if ($game->hidden)
-            {
-                $msg = 'Game was hidden from public.';
-            }
-            else
-            {
-                $msg = 'Game is now visible to public';
-            }
-
-            return \Redirect::action('GameController@getGame', array($request->get('game_id')))
-                ->with('flash_message', [
-                    'type' => 'green',
-                    'header' => 'Game Visibility Toggled!',
-                    'close' => true,
-                    'body' => $msg
-                ]);
-
-        }
-        catch (ModelNotFoundException $e)
-        {
-            return \Redirect::action('GameController@getIndex');
         }
     }
 
@@ -180,7 +139,7 @@ class GameController extends Controller {
 
     public function getPassage($passageId, $gameId = null)
     {
-        $games = Game::with('players.gameChar', 'players.account', 'pvp')
+        $games = Game::with('players.gameChar', 'players.account.destiny', 'pvp')
             ->ofPassage($passageId)
             ->get();
 
@@ -193,7 +152,7 @@ class GameController extends Controller {
         $combined = GameHelper::buildCombinedStats($games);
         $passageCombined = GameHelper::buildQuickPassageStats($games);
 
-        return view('games.passage')
+        return view('destiny.games.passage')
             ->with('passageId', intval($passageId))
             ->with('revives', $combined['stats']['revives'])
             ->with('games', $games)
@@ -270,27 +229,60 @@ class GameController extends Controller {
 
         Hashes::cacheHistoryHashes($raids);
 
-        return view('games.history')
+        return view('destiny.games.history')
             ->with('raids', $raids)
             ->with('t_header', $title)
             ->with('title', 'PandaLove: ' . $description . ' History')
             ->with('description', 'PandaLove complete history of: ' . $description);
     }
 
-    public function postComment(AddCommentRequest $request)
+    //---------------------------------------------------------------------------------
+    // Destiny POST
+    //---------------------------------------------------------------------------------
+
+    public function deleteGame(deleteGameRequest $request)
     {
         $game = Game::where('instanceId', $request->get('game_id'))->first();
-        $membershipId =  $this->user->account->membershipId;
+        $game->delete();
 
-        $comment = new Comment();
-        $comment->comment = $request->get('message');
-        $comment->membershipId = $membershipId;
-        $comment->characterId = $game->findAccountViaMembershipId($membershipId, false)->characterId;
-        $comment->parent_comment_id = 0;
-
-        $game->comments()->save($comment);
-
-        return response()->json(['flag' => true, 'url' => \URL::action('GameController@getGame', $game->instanceId)]);
+        return \Redirect::to('/games')
+            ->with('flash_message', [
+                'type' => 'green',
+                'header' => 'Game Delete!',
+                'close' => true,
+                'body' => 'You deleted gameId (' . $request->get('game_id') . ") "
+            ]);
     }
 
+    public function postToggleGameVisibility(deleteGameRequest $request)
+    {
+        try
+        {
+            $game = Game::where('instanceId', $request->get('game_id'))->firstOrFail();
+            $game->hidden = ! $game->hidden;
+            $game->save();
+
+            if ($game->hidden)
+            {
+                $msg = 'Game was hidden from public.';
+            }
+            else
+            {
+                $msg = 'Game is now visible to public';
+            }
+
+            return \Redirect::action('GameController@getGame', array($request->get('game_id')))
+                ->with('flash_message', [
+                    'type' => 'green',
+                    'header' => 'Game Visibility Toggled!',
+                    'close' => true,
+                    'body' => $msg
+                ]);
+
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return \Redirect::action('GameController@getIndex');
+        }
+    }
 }

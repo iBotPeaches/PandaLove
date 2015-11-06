@@ -28,7 +28,7 @@
                             This game is <strong>hidden</strong> from the public viewing. They can still view via direct url however.
                         </div>
                     @endif
-                    @include('includes.games.game-table')
+                    @include('includes.destiny.games.game-table')
                     <a target="_blank" href="https://www.bungie.net/en/Legend/PGCR?instanceId={{ $game->instanceId }}">Bungie.net Game</a>
                 </div>
             </div>
@@ -38,8 +38,8 @@
     @if (isset($user) && $user->admin)
         <div class="wrapper style3">
             <h2 class="header">Admin Options</h2>
-            @include('includes.games.admin-deletegame')
-            @include('includes.games.admin-hiddengame')
+            @include('includes.destiny.games.admin-deletegame')
+            @include('includes.destiny.games.admin-hiddengame')
         </div>
     @endif
 @endsection

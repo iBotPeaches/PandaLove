@@ -1,5 +1,5 @@
 <div class="ui black segment">
-    <ul class="ui list">
+    <ul class="ui bulleted list">
         <li>
             A <strong>Lighthouse</strong> visit was obtained.
         </li>

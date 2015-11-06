@@ -25,11 +25,11 @@
                     @endif
                 @endif
                 @if ($raid->raidTuesday != 0)
-                        <a href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
+                        <a href="{{ URL::action('Destiny\GameController@getTuesday', [$raid->raidTuesday]) }}">
                             {{ $raid->type()->title }}
                         </a>
                 @elseif ($raid->passageId != 0)
-                        <a href="{{ URL::action('GameController@getPassage', [$raid->passageId]) }}">
+                        <a href="{{ URL::action('Destiny\GameController@getPassage', [$raid->passageId]) }}">
                             @if (\Onyx\Destiny\Helpers\Utils\Game::explodeMap($raid->maps) == false)
                                 {{ $raid->type()->title }}
                             @else
@@ -37,7 +37,7 @@
                             @endif
                         </a>
                 @else
-                    <a href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
+                    <a href="{{ URL::action('Destiny\GameController@getGame', [$raid->instanceId]) }}">
                         @if ($raid->type == "PVP")
                             {{ $raid->pvp->gametype }} <small>({{ $raid->type()->title }})</small>
                         @else

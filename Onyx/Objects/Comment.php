@@ -1,4 +1,4 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php namespace Onyx\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -60,6 +60,11 @@ class Comment extends Model {
 
     public function account()
     {
-        return $this->hasOne('Onyx\Account', 'membershipId', 'membershipId');
+        return $this->hasOne('Onyx\Account', 'id', 'account_id');
+    }
+
+    public function destiny()
+    {
+        return $this->hasOne('Onyx\Destiny\Objects\Data', 'membershipId', 'membershipId');
     }
 }

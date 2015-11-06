@@ -22,7 +22,7 @@
                         @endforeach
                     </div>
                     <div class="ui bottom attached {{ $gameId == false ? 'active' : null }} tab segment" data-tab="overview">
-                        @include('includes.games.passage-overview')
+                        @include('includes.destiny.games.passage-overview')
                     </div>
                     @foreach($games as $game)
                         <div class="ui bottom attached tab segment {{ $gameId == $game->instanceId ? 'active' : null }}" data-tab="game_{{ $game->instanceId }}">
@@ -34,7 +34,7 @@
                             <div class="ui inverted segment">
                                 {{ $game->occurredAt }}. Completed in {{ $game->timeTookInSeconds }}
                             </div>
-                            @include('includes.games.pvp-game-table', ['game' => $game])
+                            @include('includes.destiny.games.pvp-game-table', ['game' => $game])
                             <a target="_blank" href="https://www.bungie.net/en/Legend/PGCR?instanceId={{ $game->instanceId }}">Bungie.net Game</a>
                         </div>
                     @endforeach

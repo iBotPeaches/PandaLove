@@ -11,27 +11,27 @@
                     <h3 class="ui horizontal header divider">
                         Raids
                     </h3>
-                    @include('includes.games.game-list', ['games' => $raids])
+                    @include('includes.destiny.games.game-list', ['games' => $raids])
                     <h3 class="ui horizontal header divider">
                         Prison of Elders
                     </h3>
-                    @include('includes.games.game-list', ['games' => $poe])
+                    @include('includes.destiny.games.game-list', ['games' => $poe])
                     <h3 class="ui horizontal header divider">
                         Trials of Osiris
                     </h3>
-                    @include('includes.games.game-list', ['games' => $passages])
+                    @include('includes.destiny.games.game-list', ['games' => $passages])
                     <h3 class="ui horizontal header divider">
                         Raid Tuesdays
                     </h3>
-                    @include('includes.games.game-list', ['games' => $tuesday])
+                    @include('includes.destiny.games.game-list', ['games' => $tuesday])
                     <h3 class="ui horizontal header divider">
                         Flawless Raids
                     </h3>
-                    @include('includes.games.game-list', ['games' => $flawless])
+                    @include('includes.destiny.games.game-list', ['games' => $flawless])
                     <h3 class="ui horizontal header divider">
                         PVP
                     </h3>
-                    @include('includes.games.game-list', ['games' => $pvp])
+                    @include('includes.destiny.games.game-list', ['games' => $pvp])
                 </div>
                 <div class="3u">
                     <h3 class="ui horizontal header divider">
@@ -39,32 +39,32 @@
                     </h3>
                     <div class="ui orange segment">
                         <div class="ui selection list">
-                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['Raid']) }}">
+                            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getHistory', ['Raid']) }}">
                                 <div class="content">
                                     Raids
                                 </div>
                             </a>
-                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['PoE']) }}">
+                            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getHistory', ['PoE']) }}">
                                 <div class="content">
                                     Prison of Elders
                                 </div>
                             </a>
-                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['ToO']) }}">
+                            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getHistory', ['ToO']) }}">
                                 <div class="content">
                                     Trials of Osiris
                                 </div>
                             </a>
-                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['RaidTuesdays']) }}">
+                            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getHistory', ['RaidTuesdays']) }}">
                                 <div class="content">
                                     Raid Tuesdays
                                 </div>
                             </a>
-                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['Flawless']) }}">
+                            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getHistory', ['Flawless']) }}">
                                 <div class="content">
                                     Flawless Raids
                                 </div>
                             </a>
-                            <a class="item no_underline" href="{{ URL::action('GameController@getHistory', ['PVP']) }}">
+                            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getHistory', ['PVP']) }}">
                                 <div class="content">
                                     PVP
                                 </div>

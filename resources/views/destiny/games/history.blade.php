@@ -9,7 +9,7 @@
                 </header>
                 <div class="12u">
                     @if (! $raids->isEmpty())
-                        @include('includes.games.history-table')
+                        @include('includes.destiny.games.history-table')
                     @else
                         <div class="ui warning message">
                             <strong>Uh oh</strong>

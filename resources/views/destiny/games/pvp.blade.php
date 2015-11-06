@@ -22,7 +22,7 @@
                             This game ended early due to the Shaxx's Mercy Rule. Complete Domination.
                         </div>
                     @endif
-                    @include('includes.games.pvp-game-table')
+                    @include('includes.destiny.games.pvp-game-table')
                 </div>
             </div>
         </article>
@@ -31,8 +31,8 @@
     @if (isset($user) && $user->admin)
         <div class="wrapper style3">
             <h2 class="header">Admin Options</h2>
-            @include('includes.games.admin-deletegame')
-            @include('includes.games.admin-hiddengame')
+            @include('includes.destiny.games.admin-deletegame')
+            @include('includes.destiny.games.admin-hiddengame')
         </div>
     @endif
 @endsection

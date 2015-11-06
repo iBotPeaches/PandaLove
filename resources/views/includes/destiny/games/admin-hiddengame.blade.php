@@ -1,4 +1,4 @@
-{!! Form::open(['action' => 'GameController@postToggleGameVisibility', 'class' => 'vertical form']) !!}
+{!! Form::open(['action' => 'Destiny\GameController@postToggleGameVisibility', 'class' => 'vertical form']) !!}
 <div class="row">
     <div class="12u">
         {!! Form::hidden('game_id', $game->instanceId) !!}

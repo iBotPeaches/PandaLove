@@ -1,7 +1,7 @@
 <div class="ui divided list">
     @foreach($games as $raid)
         @if ($raid->raidTuesday != 0)
-            <a class="item no_underline" href="{{ URL::action('GameController@getTuesday', [$raid->raidTuesday]) }}">
+            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getTuesday', [$raid->raidTuesday]) }}">
                 @if ($raid->isHard)
                     <div class="right floated compact ui red button fb">Hard</div>
                 @else
@@ -18,7 +18,7 @@
                 </div>
             </a>
         @elseif ($raid->passageId != 0)
-            <a class="item no_underline" href="{{ URL::action('GameController@getPassage', [$raid->passageId]) }}">
+            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getPassage', [$raid->passageId]) }}">
                 <!--<div class="right floated compact ui blue button fb">{{ $raid->pvp->gametype }}</div>-->
                 <img class="ui avatar bordered image non-white-bg pvp-emblem" src="{{ $raid->type()->extra }}" />
                 <div class="content">
@@ -34,7 +34,7 @@
                 </div>
             </a>
         @else
-            <a class="item no_underline" href="{{ URL::action('GameController@getGame', [$raid->instanceId]) }}">
+            <a class="item no_underline" href="{{ URL::action('Destiny\GameController@getGame', [$raid->instanceId]) }}">
                 @if ($raid->type != "PVP" && $raid->type != 'PoE')
                     @if ($raid->isHard)
                         <div class="right floated compact ui red button fb">Hard</div>

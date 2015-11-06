@@ -83,15 +83,15 @@ class GamePlayer extends Model {
 
     public function account()
     {
-        return $this->hasOne('Onyx\Account', 'membershipId', 'membershipId');
+        return $this->hasOne('Onyx\Account', 'id', 'account_id');
     }
 
     public function historyAccount()
     {
         // We us this function to only return clanName when counting "PandaLove" members
         // in a game. This prevents a nasty SELECT * FROM accounts, etc
-        return $this->hasOne('Onyx\Account', 'membershipId', 'membershipId')
-            ->select('id', 'membershipId', 'clanName');
+        return $this->hasOne('Onyx\Account', 'id', 'account_id')
+            ->select('id');
     }
 
     public function setTranslatorUrl($url)
