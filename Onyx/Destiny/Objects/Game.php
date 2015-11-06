@@ -160,7 +160,7 @@ class Game extends Model {
 
     public function comments()
     {
-        return $this->morphMany('Onyx\Destiny\Objects\Comment', 'commentable')
+        return $this->morphMany('Onyx\Objects\Comment', 'commentable')
             ->where('parent_comment_id', 0)
             ->orderBy('created_at', 'DESC');
     }
@@ -327,19 +327,19 @@ class Game extends Model {
             case "PoE":
             case "PVP":
             case "Flawless":
-                return \URL::action('GameController@getGame', [$this->instanceId]);
+                return \URL::action('Destiny\GameController@getGame', [$this->instanceId]);
 
             case "ToO":
-                return \URL::action('GameController@getPassage', [$this->passageId, $this->instanceId]);
+                return \URL::action('Destiny\GameController@getPassage', [$this->passageId, $this->instanceId]);
 
             case "Raid":
                 if ($this->raidTuesday != 0)
                 {
-                    return \URL::action('GameController@getTuesday', [$this->raidTuesday, $this->instanceId]);
+                    return \URL::action('Destiny\GameController@getTuesday', [$this->raidTuesday, $this->instanceId]);
                 }
                 else
                 {
-                    return \URL::action('GameController@getGame', [$this->instanceId]);
+                    return \URL::action('Destiny\GameController@getGame', [$this->instanceId]);
                 }
                 break;
 

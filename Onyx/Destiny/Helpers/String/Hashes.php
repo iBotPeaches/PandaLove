@@ -203,7 +203,7 @@ class Hashes extends Http{
 
         foreach($accounts as $account)
         {
-            foreach($account->characters as $char)
+            foreach($account->destiny->characters as $char)
             {
                 $hashes[] = $char->getOriginal('race');
                 $hashes[] = $char->getOriginal('gender');
@@ -226,7 +226,7 @@ class Hashes extends Http{
     {
         $hashes = null;
 
-        foreach($account->characters as $char)
+        foreach($account->destiny->characters as $char)
         {
             foreach($char->getAllHashTitles() as $hash)
             {

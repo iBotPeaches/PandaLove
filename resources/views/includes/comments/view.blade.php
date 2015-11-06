@@ -13,11 +13,11 @@
                 <div class="ui threaded comments">
                     @foreach($game->comments as $comment)
                         <div class="comment">
-                            <a href="{{ action('ProfileController@index', $comment->account->seo) }}" class="avatar">
+                            <a href="{{ action('Destiny\ProfileController@index', $comment->account->seo) }}" class="avatar">
                                 <img class="ui rounded" src="{{ $comment->player->emblem->extra }}" />
                             </a>
                             <div class="content">
-                                <a href="{{ action('ProfileController@index', $comment->account->seo) }}" class="author">{{ $comment->account->gamertag }}</a>
+                                <a href="{{ action('Destiny\ProfileController@index', $comment->account->seo) }}" class="author">{{ $comment->account->gamertag }}</a>
                                 <div class="metadata">
                                     <span class="date">{{ $comment->created_at }}</span>
                                 </div>

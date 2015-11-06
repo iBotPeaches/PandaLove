@@ -17,11 +17,11 @@ class Gametype {
         6 => 'Patrol',
         7 => 'AllPvE',
         8 => 'PvPIntroduction',
-        9 => 'ThreeVSThree', // Skirmish
+        9 => 'Skirmish',
         10 => 'Control',
-        11 => 'Lockdown', // Salvage
-        12 => 'Team', // Clash
-        13 => 'FreeForAll', // Rumble
+        11 => 'Salvage',
+        12 => 'Clash',
+        13 => 'Rumble',
         14 => 'TrialsOfOsiris',
         15 => 'Doubles',
         16 => 'Nightfall',

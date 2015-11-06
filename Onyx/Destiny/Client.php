@@ -170,35 +170,35 @@ class Client extends Http {
     }
 
     /**
-     * @param /Onyx/Account $account
+     * @param /Onyx/Destiny/Objects/Data $account
      * @return array
      * @throws Helpers\Network\BungieOfflineException
      */
     public function fetchAccountData($account)
     {
-        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->membershipId);
+        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->destiny->membershipId);
 
         $json = $this->getJson($url);
 
         if (isset($json['Response']['data']['clanName']))
         {
-            $account->clanName = $json['Response']['data']['clanName'];
+            $account->destiny->clanName = $json['Response']['data']['clanName'];
 
             if (isset($json['Response']['data']['clanTag']))
             {
-                $account->clanTag = $json['Response']['data']['clanTag'];
+                $account->destiny->clanTag = $json['Response']['data']['clanTag'];
             }
         }
 
         if (isset($json['Response']['data']['inventory']['currencies']))
         {
-            $account->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
-            $account->legendary_marks = $json['Response']['data']['inventory']['currencies'][1]['value'];
+            $account->destiny->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
+            $account->destiny->legendary_marks = $json['Response']['data']['inventory']['currencies'][1]['value'];
         }
 
-        $account->grimoire = $json['Response']['data']['grimoireScore'];
+        $account->destiny->grimoire = $json['Response']['data']['grimoireScore'];
 
-        $charactersCount = count($account->characters);
+        $charactersCount = count($account->destiny->characters);
 
         // characters
         $chars = [];
@@ -208,15 +208,15 @@ class Client extends Http {
             {
                 $chars[$i] = $this->updateOrAddCharacter($url, $json['Response']['data']['characters'][$i]);
                 $pair = "character_" . ($i + 1);
-                $account->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
+                $account->destiny->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
             }
         }
 
         if ($charactersCount > 3)
         {
             // we have too many characters due to deletions, delete any that don't have the ID anymore
-            $characters = $account->characters;
-            $allowed = $account->characterIds();
+            $characters = $account->destiny->characters;
+            $allowed = $account->destiny->characterIds();
 
             foreach ($characters as $char)
             {
@@ -647,12 +647,12 @@ class Client extends Http {
 
         if ($reset)
         {
-            $account->inactiveCounter = 0;
+            $account->destiny->inactiveCounter = 0;
             $account->save();
         }
         else
         {
-            $account->inactiveCounter++;
+            $account->destiny->inactiveCounter++;
             $account->save();
         }
     }

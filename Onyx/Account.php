@@ -24,11 +24,6 @@ class Account extends Model {
     public static function boot()
     {
         parent::boot();
-
-        Account::deleting(function($account)
-        {
-            Character::where('membershipId', $account->membershipId)->delete();
-        });
     }
 
     //---------------------------------------------------------------------------------
@@ -41,92 +36,24 @@ class Account extends Model {
         $this->attributes['seo'] = Text::seoGamertag($value);
     }
 
-    public function getGlimmerAttribute($value)
-    {
-        return number_format($value);
-    }
-
-    public function getGrimoireAttribute($value)
-    {
-        return number_format($value);
-    }
-
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function destiny()
+    {
+        return $this->hasOne('Onyx\Destiny\Objects\Data', 'account_id', 'id');
+    }
+
     public function isPandaLove()
     {
-        return $this->attributes['clanName'] == "Panda Love" && $this->attributes['clanTag'] == "WRKD";
-    }
-
-    public function characters()
-    {
-        return $this->hasMany('Onyx\Destiny\Objects\Character', 'membershipId', 'membershipId');
-    }
-
-    public function characterIds()
-    {
-        return [
-            $this->character_1,
-            $this->character_2,
-            $this->character_3
-        ];
+        // actual check validates the Clan information from Destiny
+        // for fallback, lets just call this.
+        return $this->destiny->isPandaLove();
     }
 
     public function user()
     {
         return $this->belongsTo('Onyx\User');
-    }
-
-    public function firstCharacter()
-    {
-        return $this->characters()->first();
-    }
-
-    public function characterAtPosition($index)
-    {
-        $index--;
-        return $this->characters->get($index);
-    }
-
-    public function charsAbove($level = 40)
-    {
-        return $this->characters()->where('level', '>=', $level)->count();
-    }
-
-    public function highestLight()
-    {
-        return $this->characters()->orderBy('highest_light', 'desc')->first();
-    }
-
-    public function highestLevelHighestLight()
-    {
-        return $this->characters()->orderBy('level', 'DESC')->orderBy('highest_light', 'desc')->first();
-    }
-
-    public function charactersInOrder()
-    {
-        return $this->characters()->orderBy('level', 'DESC')->orderBy('highest_light', 'DESC')->get();
-    }
-
-    public function characterExists($charId)
-    {
-        $chars = $this->characters;
-
-        foreach($chars as $char)
-        {
-            if ($char->characterId == $charId)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function charactersCount()
-    {
-        return count($this->characters);
     }
 }

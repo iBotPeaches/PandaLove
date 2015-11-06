@@ -40,7 +40,7 @@
                             <div class="ui green message">
                                 <strong>We know who you are Guardian</strong>
                                 <p>
-                                    Welcome back <strong><a href="{{ URL::action('ProfileController@index', array($user->account->seo)) }}">{{ $user->account->gamertag }}</a></strong>
+                                    Welcome back <strong><a href="{{ URL::action('Destiny\ProfileController@index', array($user->account->seo)) }}">{{ $user->account->gamertag }}</a></strong>
                                 </p>
                             </div>
                         @endif

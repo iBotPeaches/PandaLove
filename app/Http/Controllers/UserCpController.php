@@ -16,12 +16,33 @@ class UserCpController extends Controller {
         $this->middleware('auth', ['except' => 'getLogout']);
     }
 
+    //---------------------------------------------------------------------------------
+    // GET
+    //---------------------------------------------------------------------------------
+
     public function getIndex()
     {
         return view('usercp.index', [
             'title' => 'PandaLove Control Panel'
         ]);
     }
+
+    public function getLogout()
+    {
+        \Auth::logout();
+
+        return \Redirect::to('/')
+            ->with('flash_message', [
+                'type' => 'green',
+                'header' => 'See you soon',
+                'close' => true,
+                'body' => 'Your sign out was successful.'
+            ]);
+    }
+
+    //---------------------------------------------------------------------------------
+    // POST
+    //---------------------------------------------------------------------------------
 
     public function postGamertagOwnership(OwnershipFormRequest $request)
     {
@@ -35,19 +56,6 @@ class UserCpController extends Controller {
                 'header' => 'Gamertag Verified!',
                 'close' => true,
                 'body' => 'You have proved ownership of <strong>' . $account->gamertag . '</strong>.'
-            ]);
-    }
-
-    public function getLogout()
-    {
-        \Auth::logout();
-
-        return \Redirect::to('/')
-            ->with('flash_message', [
-                'type' => 'green',
-                'header' => 'See you soon',
-                'close' => true,
-                'body' => 'Your sign out was successful.'
             ]);
     }
 }
