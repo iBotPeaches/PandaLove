@@ -412,6 +412,7 @@ class Client extends Http {
         $player = new GamePlayer();
         $player->game_id = $game->instanceId;
         $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
+        $player->account_id = Account::getAccountIdViaDestiny($player->membershipId);
 
         // check if we have player
         if ($this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName']) == false && $regular)

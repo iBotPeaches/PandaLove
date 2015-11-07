@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
+use Onyx\Destiny\Objects\Data;
 
 class Account extends Model {
 
@@ -55,5 +56,17 @@ class Account extends Model {
     public function user()
     {
         return $this->belongsTo('Onyx\User');
+    }
+
+    public static function getAccountIdViaDestiny($membershipId)
+    {
+        $data = Data::where('membershipId', $membershipId)->first();
+
+        if ($data instanceof Data)
+        {
+            return $data->account_id;
+        }
+
+        return null;
     }
 }

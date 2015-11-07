@@ -14,7 +14,7 @@
                     <td>
                         <span class="right floated author">
                             <img class="ui avatar image" src="{{ $attendee->character->emblem->extra}}" />
-                            <a href="{{ URL::action('ProfileController@index', [$attendee->account->seo, $attendee->characterId]) }}">
+                            <a href="{{ URL::action('Destiny\ProfileController@index', [$attendee->account->seo, $attendee->characterId]) }}">
                                 {{ $attendee->account->gamertag }}
                             </a>
                         </span>
