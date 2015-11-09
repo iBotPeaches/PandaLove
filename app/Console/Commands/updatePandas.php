@@ -1,6 +1,4 @@
-<?php
-
-namespace PandaLove\Console\Commands;
+<?php namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
