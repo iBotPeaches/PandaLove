@@ -138,7 +138,6 @@ class Client extends Http {
             try
             {
                 return Account::firstOrCreate([
-                    'membershipId' => $json['Response'][0]['membershipId'],
                     'gamertag' => $json['Response'][0]['displayName'],
                     'accountType' => $json['Response'][0]['membershipType']
                 ]);
@@ -146,7 +145,8 @@ class Client extends Http {
             catch (QueryException $e)
             {
                 // Assuming this character already exists, but has had a name change
-                $account = Account::where('membershipId', $json['Response'][0]['membershipId'])->first();
+                $char = Character::where('membershipId', $json['Response'][0]['membershipId'])->first();
+                $account = $char->account;
 
                 if ($account instanceof Account)
                 {
@@ -157,7 +157,6 @@ class Client extends Http {
                 }
 
                 return Account::firstOrCreate([
-                    'membershipId' => $json['Response'][0]['membershipId'],
                     'gamertag' => $json['Response'][0]['displayName'],
                     'accountType' => $json['Response'][0]['membershipType']
                 ]);
