@@ -35,13 +35,13 @@ return [
 	],
 
 	'google' => [
-		'client_id' => '91509261390-e0t993ktrhgql2kbp1sndfrfrso76pvc.apps.googleusercontent.com',
-		'client_secret' => 'ZPOfNqyTJUTmXy1tJmg6G27q',
+		'client_id' => env('GOOGLE_ID'),
+		'client_secret' => env('GOOGLE_SECRET'),
 		'redirect' => env('GOOGLE_REDIRECT', 'http://localhost:8000/auth/callback'),
 	],
 
 	'panda' => [
-		'group_id' => 'UgxUq_ISrKy6NCSM-RV4AaABAQ'
+		'group_id' => env('BOT_HANGOUT')
 	],
 
 ];
