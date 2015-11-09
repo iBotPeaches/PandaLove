@@ -7,6 +7,7 @@ use Onyx\Destiny\Objects\Game;
 
 use PandaLove\Console\Commands\updatePandas;
 use PandaLove\Console\Commands\alertSender;
+use PandaLove\Console\Commands\updateMedals;
 
 class Kernel extends ConsoleKernel {
 
@@ -17,7 +18,8 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		updatePandas::class,
-		alertSender::class
+		alertSender::class,
+		updateMedals::class
 	];
 
 	/**

@@ -1,4 +1,4 @@
-<?php namespace Halo5\Destiny;
+<?php namespace Onyx\Halo5;
 
 class Constants{
 

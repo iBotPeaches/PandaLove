@@ -80,6 +80,16 @@ class AddH5Data extends Migration
             $table->string('description', 255);
             $table->boolean('isRanked');
         });
+
+        Schema::create('halo5_medals', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('contentId')->unique();
+            $table->string('name', 128);
+            $table->string('description', 255);
+            $table->string('classification', 32);
+            $table->integer('difficulty', false, true);
+        });
     }
 
     /**
@@ -92,5 +102,6 @@ class AddH5Data extends Migration
         Schema::drop('halo5_data');
         Schema::drop('halo5_playlists_data');
         Schema::drop('halo5_playlists');
+        Schema::drop('halo5_medals');
     }
 }

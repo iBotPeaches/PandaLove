@@ -7,7 +7,8 @@ var paths = {
     'css': './resources/css/',
     'js': './resources/js/',
     'images': './resources/images/',
-    'fonts': './resources/fonts/'
+    'fonts': './resources/fonts/',
+    'storage': './storage/app/'
 };
 
 /*
@@ -27,12 +28,14 @@ elixir(function(mix) {
      .copy(paths.fontawesome + 'css/font-awesome.min.css', 'public/css/font-awesome.min.css')
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
      .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
+     .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
      .copy(paths.semantic + 'themes', 'public/themes/')
      .copy(paths.css, 'public/css/')
      .copy(paths.js, 'public/js/')
      .styles([
          paths.css + 'main.css',
-         paths.css + 'semantic.css'
+         paths.css + 'semantic.css',
+         paths.storage + 'resources/css/h5-sprites.css'
      ], "public/css/app.css")
      .scripts([
          paths.js + 'main.js',
