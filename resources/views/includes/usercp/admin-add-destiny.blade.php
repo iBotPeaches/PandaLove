@@ -3,13 +3,13 @@
         <div class="row">
             <div class="12u">
                 <header>
-                    <h1>Admin Panel</h1>
+                    <h1>Admin Panel (Destiny)</h1>
                 </header>
             </div>
         </div>
         <div class="row">
             <div class="6u">
-                {!! Form::open(['action' => 'AdminController@postAddGamertag', 'class' => 'form']) !!}
+                {!! Form::open(['action' => 'AdminController@postAddDestinyGamertag', 'class' => 'form']) !!}
                     @foreach ($errors->all() as $error)
                         <p class="ui red message">{{ $error }}</p>
                     @endforeach
@@ -24,7 +24,7 @@
                 {!! Form::close()  !!}
             </div>
             <div class="6u">
-                {!! Form::open(['action' => 'AdminController@postAddGame', 'class' => 'form']) !!}
+                {!! Form::open(['action' => 'AdminController@postAddDestinyGame', 'class' => 'form']) !!}
                 @foreach ($errors->all() as $error)
                     <p class="ui red message">{{ $error }}</p>
                 @endforeach

@@ -1,14 +1,11 @@
 <?php namespace PandaLove\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Support\Facades\Redirect;
-use Onyx\Destiny\Client;
+use Onyx\Destiny\Client as DestinyClient;
+use Onyx\Halo5\Client as Halo5Client;
 use PandaLove\Commands\UpdateAccount;
-use PandaLove\Commands\UpdateGamertag;
 use PandaLove\Http\Requests;
-use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests\AdminAddGamertagRequest;
+use PandaLove\Http\Requests\AdminAddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
 class AdminController extends Controller {
@@ -20,19 +17,24 @@ class AdminController extends Controller {
         $this->middleware('auth.admin');
     }
 
-    public function postAddGamertag(AdminAddGamertagRequest $request)
+    public function postAddDestinyGamertag(AdminAddDestinyGamertagRequest $request)
     {
-        $client = new Client();
+        $client = new DestinyClient();
         $account = $client->fetchAccountByGamertag(1, $request->request->get('gamertag'));
 
         $this->dispatch(new UpdateAccount($account));
 
-        return \Redirect::action('ProfileController@index', [$account->seo]);
+        return \Redirect::action('Destiny\ProfileController@index', [$account->seo]);
     }
 
-    public function postAddGame(AddGameRequest $request)
+    public function postAddHalo5Gamertag(Requests\AdminAddHalo5GamertagRequest $request)
     {
-        $client = new Client();
+        $client = new Halo5Client();
+    }
+
+    public function postAddDestinyGame(AddGameRequest $request)
+    {
+        $client = new DestinyClient();
 
         $client->updateTypeOfGame($request->request->get('instanceId'), $request->request->get('type'), $request->request->get('raidTuesday'));
 

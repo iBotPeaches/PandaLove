@@ -16,8 +16,6 @@ use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
 use Onyx\Destiny\Objects\PVP;
-use Onyx\XboxLive\Constants as XboxConstants;
-use Onyx\XboxLive\Helpers\Network\XboxAPI as XboxApi;
 use PandaLove\Commands\UpdateGamertag;
 
 class Client extends Http {
@@ -137,9 +135,10 @@ class Client extends Http {
         {
             try
             {
-                return Account::firstOrCreate([
+              return Account::firstOrCreate([
                     'gamertag' => $json['Response'][0]['displayName'],
-                    'accountType' => $json['Response'][0]['membershipType']
+                    'accountType' => $json['Response'][0]['membershipType'],
+                    'destiny_membershipId' => $json['Response'][0]['membershipId']
                 ]);
             }
             catch (QueryException $e)
@@ -158,7 +157,8 @@ class Client extends Http {
 
                 return Account::firstOrCreate([
                     'gamertag' => $json['Response'][0]['displayName'],
-                    'accountType' => $json['Response'][0]['membershipType']
+                    'accountType' => $json['Response'][0]['membershipType'],
+                    'destiny_membershipId' => $json['Response'][0]['membershipId']
                 ]);
             }
         }
@@ -175,29 +175,30 @@ class Client extends Http {
      */
     public function fetchAccountData($account)
     {
-        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->destiny->membershipId);
+        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->destiny_membershipId);
 
+        $data = $account->destiny;
         $json = $this->getJson($url);
 
         if (isset($json['Response']['data']['clanName']))
         {
-            $account->destiny->clanName = $json['Response']['data']['clanName'];
+            $data->clanName = $json['Response']['data']['clanName'];
 
             if (isset($json['Response']['data']['clanTag']))
             {
-                $account->destiny->clanTag = $json['Response']['data']['clanTag'];
+                $data->clanTag = $json['Response']['data']['clanTag'];
             }
         }
 
         if (isset($json['Response']['data']['inventory']['currencies']))
         {
-            $account->destiny->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
-            $account->destiny->legendary_marks = $json['Response']['data']['inventory']['currencies'][1]['value'];
+            $data->glimmer = $json['Response']['data']['inventory']['currencies'][0]['value'];
+            $data->legendary_marks = $json['Response']['data']['inventory']['currencies'][1]['value'];
         }
 
-        $account->destiny->grimoire = $json['Response']['data']['grimoireScore'];
+        $data->grimoire = $json['Response']['data']['grimoireScore'];
 
-        $charactersCount = count($account->destiny->characters);
+        $charactersCount = count($data->characters);
 
         // characters
         $chars = [];
@@ -207,15 +208,15 @@ class Client extends Http {
             {
                 $chars[$i] = $this->updateOrAddCharacter($url, $json['Response']['data']['characters'][$i]);
                 $pair = "character_" . ($i + 1);
-                $account->destiny->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
+                $data->$pair = $json['Response']['data']['characters'][$i]['characterBase']['characterId'];
             }
         }
 
         if ($charactersCount > 3)
         {
             // we have too many characters due to deletions, delete any that don't have the ID anymore
-            $characters = $account->destiny->characters;
-            $allowed = $account->destiny->characterIds();
+            $characters = $data->characters;
+            $allowed = $data->characterIds();
 
             foreach ($characters as $char)
             {
@@ -227,9 +228,9 @@ class Client extends Http {
         }
 
         // check for inactivity
-        $this->tabulateActivity($account, $chars);
+        $this->tabulateActivity($data, $chars);
 
-        $account->save();
+        $data->save();
 
         return $account;
     }
@@ -240,7 +241,7 @@ class Client extends Http {
      */
     public function getBungieProfile($account)
     {
-        $url = sprintf(Constants::$getBungieAccount, $account->membershipId, $account->accountType);
+        $url = sprintf(Constants::$getBungieAccount, $account->destiny_membershipId, $account->accountType);
 
         $json = $this->getJson($url);
 
@@ -630,10 +631,10 @@ class Client extends Http {
     }
 
     /**
-     * @param \Onyx\Account $account
+     * @param \Onyx\Destiny\Objects\Data $destiny
      * @param array $chars
      */
-    private function tabulateActivity($account, $chars)
+    private function tabulateActivity($destiny, $chars)
     {
         $reset = false;
 
@@ -647,13 +648,13 @@ class Client extends Http {
 
         if ($reset)
         {
-            $account->destiny->inactiveCounter = 0;
-            $account->save();
+            $destiny->inactiveCounter = 0;
+            $destiny->save();
         }
         else
         {
-            $account->destiny->inactiveCounter++;
-            $account->save();
+            $destiny->inactiveCounter++;
+            $destiny->save();
         }
     }
 

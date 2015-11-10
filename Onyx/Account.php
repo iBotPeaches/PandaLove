@@ -20,11 +20,19 @@ class Account extends Model {
      *
      * @var array
      */
-    protected $fillable = ['gamertag', 'membershipId', 'accountType'];
+    protected $fillable = ['gamertag', 'destiny_membershipId', 'accountType'];
 
     public static function boot()
     {
         parent::boot();
+
+        Account::created(function($account)
+        {
+            $data = new Data();
+            $data->account_id = $account->id;
+            $data->membershipId = $account->destiny_membershipId;
+            $data->save();
+        });
     }
 
     //---------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use PandaLove\Http\Requests\Request;
 
-class AdminAddGamertagRequest extends Request {
+class AdminAddDestinyGamertagRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
