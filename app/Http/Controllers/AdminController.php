@@ -4,8 +4,10 @@ use Illuminate\Contracts\Auth\Guard;
 use Onyx\Destiny\Client as DestinyClient;
 use Onyx\Halo5\Client as Halo5Client;
 use PandaLove\Commands\UpdateAccount;
+use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AdminAddDestinyGamertagRequest;
+use PandaLove\Http\Requests\AdminAddHalo5GamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
 class AdminController extends Controller {
@@ -27,9 +29,14 @@ class AdminController extends Controller {
         return \Redirect::action('Destiny\ProfileController@index', [$account->seo]);
     }
 
-    public function postAddHalo5Gamertag(Requests\AdminAddHalo5GamertagRequest $request)
+    public function postAddHalo5Gamertag(AdminAddHalo5GamertagRequest $request)
     {
         $client = new Halo5Client();
+        $account = $client->getAccountByGamertag($request->request->get('gamertag'));
+
+        $this->dispatch(new UpdateHalo5Account($account));
+
+        return \Redirect::action('HomeController@index');
     }
 
     public function postAddDestinyGame(AddGameRequest $request)

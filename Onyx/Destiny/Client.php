@@ -124,6 +124,7 @@ class Client extends Http {
 
         $account = $this->checkCacheForGamertag($gamertag);
 
+        // @todo check if destiny_membershipId is NULL, if so. Pull JSON and update fields
         if ($account instanceof Account)
         {
             return $account;

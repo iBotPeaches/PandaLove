@@ -21,4 +21,9 @@ class HomeController extends Controller {
 		return view('home')
             ->with('description', 'PandaLove is a Destiny clan focused on PVP, Raids, Prison of Elders and Trials of Osiris.');
 	}
+
+    public function getAbout()
+    {
+        return view('about');
+    }
 }

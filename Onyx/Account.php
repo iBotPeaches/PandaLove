@@ -1,10 +1,9 @@
 <?php namespace Onyx;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Data;
+use Onyx\Halo5\Objects\Data as H5Data;
 
 class Account extends Model {
 
@@ -28,10 +27,16 @@ class Account extends Model {
 
         Account::created(function($account)
         {
+            // destiny stuff
             $data = new Data();
             $data->account_id = $account->id;
             $data->membershipId = $account->destiny_membershipId;
             $data->save();
+
+            // halo 5 stuff
+            $h5_data = new H5Data();
+            $h5_data->account_id = $account->id;
+            $h5_data->save();
         });
     }
 
@@ -52,6 +57,11 @@ class Account extends Model {
     public function destiny()
     {
         return $this->hasOne('Onyx\Destiny\Objects\Data', 'account_id', 'id');
+    }
+
+    public function h5()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Data', 'account_id', 'id');
     }
 
     public function isPandaLove()

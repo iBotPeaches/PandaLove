@@ -47,14 +47,14 @@ class AddH5Data extends Migration
 
             // highest csr
             $table->tinyInteger('highest_CsrTier', false, true);
-            $table->tinyInteger('highest_CsrDesginationId', false, true);
+            $table->tinyInteger('highest_CsrDesignationId', false, true);
             $table->integer('highest_Csr', false, true);
             $table->integer('highest_percentNext', false, true);
             $table->integer('highest_rank', false, true);
 
             // current csr
             $table->tinyInteger('current_CsrTier', false, true);
-            $table->tinyInteger('current_CsrDesginationId', false, true);
+            $table->tinyInteger('current_CsrDesignationId', false, true);
             $table->integer('current_Csr', false, true);
             $table->integer('current_percentNext', false, true);
             $table->integer('current_rank', false, true);
