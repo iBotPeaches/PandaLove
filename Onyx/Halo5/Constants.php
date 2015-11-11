@@ -35,12 +35,12 @@ class Constants{
      *
      * @var string
      */
-    public static $emblem_image = 'https://www.haloapi.com/profile/h5/profiles/%1$s/emblem/%2$s';
+    public static $emblem_image = 'https://www.haloapi.com/profile/h5/profiles/%1$s/emblem?size=%2$d';
 
     /**
      * Halo5 Spartan Image URL
      *
      * @var string
      */
-    public static $spartan_image = 'https://www.haloapi.com/profile/h5/profiles/%1$s/spartan/%2$d';
+    public static $spartan_image = 'https://www.haloapi.com/profile/h5/profiles/%1$s/spartan?size=%2$d';
 }

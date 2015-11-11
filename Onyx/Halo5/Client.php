@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Halo5\Helpers\Network\Http;
@@ -62,23 +63,41 @@ class Client extends Http {
     public function updateH5Account($account)
     {
         // 1) Grab new Service Record
-        $record = $this->updateArenaServiceRecord($account);
+        $this->updateArenaServiceRecord($account);
 
         // 2) Update Spartan Image
-        $spartan = $this->getSpartan($account);
+        $this->updateSpartan($account);
 
         // 3) Update Emblem Image
-        $emblem = $this->getEmblem($account);
+        $this->updateEmblem($account);
     }
 
-    public function getEmblem($account)
+    public function updateEmblem($account, $size = 256)
     {
+        $emblem = $this->_getEmblemImage($account, $size);
+        $base = 'uploads/h5/';
 
+        // Create directory
+        if (! File::isDirectory(public_path($base . $account->seo)))
+        {
+            File::makeDirectory(public_path($base . $account->seo), 0755, true);
+        }
+
+        $emblem->save(public_path($base . $account->seo . "/" . 'emblem.png'));
     }
 
-    public function getSpartan($account)
+    public function updateSpartan($account, $size = 512)
     {
+        $spartan = $this->_getSpartanImage($account, $size);
+        $base = 'uploads/h5/';
 
+        // Create directory
+        if (! File::isDirectory(public_path($base . $account->seo)))
+        {
+            File::makeDirectory(public_path($base . $account->seo), 0755, true);
+        }
+
+        $spartan->save(public_path($base . $account->seo . "/" . 'spartan.png'));
     }
 
     public function updateArenaServiceRecord($account)
@@ -111,6 +130,7 @@ class Client extends Http {
             $h5_data->highest_Csr = $record['ArenaStats']['HighestCsrAttained']['Csr'];
             $h5_data->highest_percentNext = $record['ArenaStats']['HighestCsrAttained']['PercentToNextTier'];
             $h5_data->highest_rank = $record['ArenaStats']['HighestCsrAttained']['Rank'];
+            $h5_data->highest_CsrPlaylistId = $record['ArenaStats']['HighestCsrPlaylistId'];
         }
 
         // clear out old playlist history, dump new playlists
@@ -166,9 +186,35 @@ class Client extends Http {
         return $this->getJson($url);
     }
 
+    public function getPlaylists()
+    {
+        $url = Constants::$metadata_playlist;
+
+        return $this->getJson($url);
+    }
+
+    public function getCsrs()
+    {
+        $url = Constants::$metadata_csr;
+
+        return $this->getJson($url);
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    private function _getEmblemImage($account, $size = 256)
+    {
+        $url = sprintf(Constants::$emblem_image, $account->seo, $size);
+        return $this->getAsset($url);
+    }
+
+    private function _getSpartanImage($account, $size = 512)
+    {
+        $url = sprintf(Constants::$spartan_image, $account->seo, $size);
+        return $this->getAsset($url);
+    }
 
     private function _getArenaServiceRecord($account)
     {

@@ -8,6 +8,8 @@ use Onyx\Destiny\Objects\Game;
 use PandaLove\Console\Commands\updatePandas;
 use PandaLove\Console\Commands\alertSender;
 use PandaLove\Console\Commands\updateMedals;
+use PandaLove\Console\Commands\updateCsrs;
+use PandaLove\Console\Commands\updatePlaylists;
 
 class Kernel extends ConsoleKernel {
 
@@ -19,7 +21,9 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		updatePandas::class,
 		alertSender::class,
-		updateMedals::class
+		updateMedals::class,
+		updateCsrs::class,
+		updatePlaylists::class
 	];
 
 	/**

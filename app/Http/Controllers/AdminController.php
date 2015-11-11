@@ -36,7 +36,7 @@ class AdminController extends Controller {
 
         $this->dispatch(new UpdateHalo5Account($account));
 
-        return \Redirect::action('HomeController@index');
+        return \Redirect::action('Halo5\ProfileController@index', [$account->seo]);
     }
 
     public function postAddDestinyGame(AddGameRequest $request)
