@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Halo5\Helpers\Date\DateHelper;
 
 class PlaylistData extends Model {
 
@@ -42,6 +43,11 @@ class PlaylistData extends Model {
     public function setCurrentRankAttribute($value)
     {
         $this->attributes['current_rank'] = (is_null($value) ? 0 : $value);
+    }
+
+    public function setTotalTimePlayedAttribute($value)
+    {
+        $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
     }
 
     //---------------------------------------------------------------------------------

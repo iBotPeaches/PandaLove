@@ -104,6 +104,15 @@ class Client extends Http {
 
         $h5_data->medals = $record['ArenaStats']['MedalAwards'];
 
+        if ($record['ArenaStats']['HighestCsrAttained'] != null)
+        {
+            $h5_data->highest_CsrTier = $record['ArenaStats']['HighestCsrAttained']['Tier'];
+            $h5_data->highest_CsrDesignationId = $record['ArenaStats']['HighestCsrAttained']['DesignationId'];
+            $h5_data->highest_Csr = $record['ArenaStats']['HighestCsrAttained']['Csr'];
+            $h5_data->highest_percentNext = $record['ArenaStats']['HighestCsrAttained']['PercentToNextTier'];
+            $h5_data->highest_rank = $record['ArenaStats']['HighestCsrAttained']['Rank'];
+        }
+
         // clear out old playlist history, dump new playlists
         PlaylistData::where('account_id', $account->id)->delete();
         foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist)

@@ -1,6 +1,9 @@
 <?php namespace Onyx\Halo5\Objects;
 
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Halo5\Helpers\Date\DateHelper;
+use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
 class Data extends Model {
 
@@ -41,6 +44,12 @@ class Data extends Model {
             $this->attributes['medals'] = json_encode($value);
         }
     }
+
+    public function setTotalTimePlayedAttribute($value)
+    {
+        $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
