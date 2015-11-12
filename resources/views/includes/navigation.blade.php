@@ -7,7 +7,7 @@
             @if ($user->account instanceof \Onyx\Account && $user->account->isPandaLove())
                 <li><a class="{{ HTML::activeClass('calendar') }}" href="{{ URL::action('CalendarController@getIndex') }}">Calendar</a></li>
             @endif
-            <li><a class="{{ HTML::activeClass('usercp') }}" href="{{ URL::action('UserCpController@getIndex') }}">Options</a></li>
+            <li><a class="{{ HTML::activeClass('usercp') }}" href="{{ URL::action('UserCpController@getIndex') }}"><i class="settings icon"></i></a></li>
             <li><a href="{{ URL::action('UserCpController@getLogout') }}"><i class="sign out icon"></i></a></li>
         @else
             <li><a href="{{ URL::action('AuthController@getLogin') }}"><i class="google plus icon"></i></a></li>
