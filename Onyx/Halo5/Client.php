@@ -75,6 +75,10 @@ class Client extends Http {
     public function updateEmblem($account, $size = 256)
     {
         $emblem = $this->_getEmblemImage($account, $size);
+
+        if ($emblem == null)
+            return;
+
         $base = 'uploads/h5/';
 
         // Create directory
@@ -89,6 +93,10 @@ class Client extends Http {
     public function updateSpartan($account, $size = 512)
     {
         $spartan = $this->_getSpartanImage($account, $size);
+
+        if ($spartan == null)
+            return;
+
         $base = 'uploads/h5/';
 
         // Create directory

@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5\Helpers\Network;
 
 use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\Exception\ServerException;
 use Intervention\Image\Facades\Image;
 
 class Http {
@@ -60,9 +61,16 @@ class Http {
             $this->setupGuzzle();
         }
 
-        $response = $this->guzzle->get($url, [
-            'headers' => ['Ocp-Apim-Subscription-Key' => env('HALO5_KEY')]
-        ]);
+        try
+        {
+            $response = $this->guzzle->get($url, [
+                'headers' => ['Ocp-Apim-Subscription-Key' => env('HALO5_KEY')]
+            ]);
+        }
+        catch (ServerException $e)
+        {
+            return null;
+        }
 
         if ($response->getStatusCode() != 200)
         {

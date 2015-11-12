@@ -6,6 +6,7 @@ use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;
+use Onyx\Halo5\Objects\Medal;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
@@ -35,7 +36,9 @@ class ProfileController extends Controller {
 
             return view('halo5.profile', [
                 'account' => $account,
-                'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null)
+                'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
+                'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
+                'mMedals' => $account->h5->medals
             ]);
         }
         catch (ModelNotFoundException $e)

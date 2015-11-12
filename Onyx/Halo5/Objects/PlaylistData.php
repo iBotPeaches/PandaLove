@@ -63,4 +63,9 @@ class PlaylistData extends Model {
     {
         return $this->belongsTo('Onyx\Halo5\Objects\Data', 'account_id', 'account_id');
     }
+
+    public function stock()
+    {
+        return $this->belongsTo('Onyx\Halo5\Objects\Playlist', 'playlistId', 'contentId');
+    }
 }

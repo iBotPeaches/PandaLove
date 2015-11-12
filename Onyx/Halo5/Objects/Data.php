@@ -41,7 +41,13 @@ class Data extends Model {
     {
         if (is_array($value))
         {
-            $this->attributes['medals'] = json_encode($value);
+            $insert = [];
+
+            foreach($value as $medal)
+            {
+                $insert[$medal['MedalId']] = $medal['Count'];
+            }
+            $this->attributes['medals'] = json_encode($insert);
         }
     }
 
@@ -50,18 +56,78 @@ class Data extends Model {
         $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
     }
 
+    public function getMedalsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
 
     public function account()
     {
-        return $this->belongsTo('Onyx\Account', 'id', 'account_id');
+        return $this->belongsTo('Onyx\Account');
     }
 
     public function playlists()
     {
         return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id');
+    }
+
+    public function getSpartan()
+    {
+        return asset('uploads/h5/' . $this->account->seo . '/spartan.png');
+    }
+
+    public function getEmblem()
+    {
+        return asset('uploads/h5/' . $this->account->seo . '/emblem.png');
+    }
+
+    public function kd()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills;
+        }
+
+        return round($this->totalKills / $this->totalDeaths, 3);
+    }
+
+    public function kad()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return ($this->totalKills + $this->totalAssists);
+        }
+
+        return round(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 3);
+    }
+
+    public function winRate()
+    {
+        return round(($this->totalGamesWon / $this->totalGames) * 100);
+    }
+
+    public function winRateColor()
+    {
+        $rate = $this->winRate();
+
+        switch (true)
+        {
+            case $rate > 80:
+                return 'green';
+
+            case $rate <= 80 && $rate > 60:
+                return 'yellow';
+
+            case $rate <= 60 && $rate > 40:
+                return 'orange';
+
+            default:
+                return 'red';
+        }
     }
 
 }
