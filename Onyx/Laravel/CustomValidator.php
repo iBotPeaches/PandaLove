@@ -12,6 +12,8 @@ use Onyx\Destiny\Objects\GameEvent;
 use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\User;
 
+use Onyx\Halo5\Client as Halo5Client;
+
 class CustomValidator extends Validator {
 
     public function validateGameReal($attribute, $value, $parameters)
@@ -51,6 +53,22 @@ class CustomValidator extends Validator {
         try
         {
             $account = $client->fetchAccountByGamertag(1, $value);
+        }
+        catch (PlayerNotFoundException $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateH5GamertagReal($attribute, $value, $parameters)
+    {
+        $client = new Halo5Client();
+
+        try
+        {
+            $account = $client->getAccountByGamertag($value);
         }
         catch (PlayerNotFoundException $e)
         {

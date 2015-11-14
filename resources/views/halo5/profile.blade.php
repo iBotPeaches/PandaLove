@@ -64,6 +64,20 @@
                         hoverable: true
                     })
             ;
+
+            $('.rank-placement')
+                    .progress({
+                        label: 'ratio',
+                        text: {
+                            ratio: '{value} / {total} matches.'
+                        }
+                    })
+            ;
+
+            $('.percent-next')
+                    .progress({
+                    })
+            ;
         });
     </script>
 @append

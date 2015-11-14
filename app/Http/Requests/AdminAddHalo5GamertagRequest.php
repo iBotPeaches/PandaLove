@@ -31,7 +31,7 @@ class AdminAddHalo5GamertagRequest extends Request
     public function rules()
     {
         return [
-            'gamertag' => 'required|min:3|gamertag-real'
+            'gamertag' => 'required|min:3|h5gamertag-real'
         ];
     }
 }

@@ -68,7 +68,7 @@ class Account extends Model {
     {
         // actual check validates the Clan information from Destiny
         // for fallback, lets just call this.
-        return $this->destiny->isPandaLove();
+        return isset($this->destiny) ? $this->destiny->isPandaLove() : false;
     }
 
     public function user()

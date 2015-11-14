@@ -39,18 +39,15 @@ class CSR extends Model {
         $set = [];
         foreach($tiers as $tier)
         {
-            $set[] = array(
-                'icon' => $tier['iconImageUrl'],
-                'id' => $tier['id']
-            );
+            $set[intval($tier['id'])] = $tier['iconImageUrl'];
         }
 
-        $this->attributes['tiers'] = json_encode($set);
+        $this->attributes['tiers'] = json_encode($set, JSON_FORCE_OBJECT);
     }
 
     public function getTiersAttribute($value)
     {
-        return $value;
+        return json_decode($value);
     }
 
     //---------------------------------------------------------------------------------

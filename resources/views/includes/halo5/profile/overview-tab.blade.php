@@ -1,4 +1,3 @@
-<h3 class="ui header">Quick Stats</h3>
 <div class="ui four statistics">
     <div class="{{ $account->h5->kd() > 1.0 ? 'green' : 'red' }} statistic">
         <div class="value">

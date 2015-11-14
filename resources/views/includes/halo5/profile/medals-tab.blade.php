@@ -1,4 +1,3 @@
-<h3 class="ui header">Medals</h3>
 @define $i = 0
 @foreach ($medals as $medal)
     @if (isset($mMedals[$medal->contentId]) && $mMedals[$medal->contentId] > 0)

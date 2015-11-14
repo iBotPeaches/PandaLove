@@ -30,7 +30,7 @@ class ProfileController extends Controller {
     {
         try
         {
-            $account = Account::with('h5')
+            $account = Account::with('h5.playlists.stock')
                 ->where('seo', Text::seoGamertag($gamertag))
                 ->firstOrFail();
 

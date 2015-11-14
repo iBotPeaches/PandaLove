@@ -72,7 +72,7 @@ class Data extends Model {
 
     public function playlists()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id');
+        return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id')->orderBy('highest_CsrDesignationId', 'DESC');
     }
 
     public function getSpartan()

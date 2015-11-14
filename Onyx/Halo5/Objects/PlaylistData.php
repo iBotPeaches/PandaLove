@@ -68,4 +68,78 @@ class PlaylistData extends Model {
     {
         return $this->belongsTo('Onyx\Halo5\Objects\Playlist', 'playlistId', 'contentId');
     }
+
+    public function high_csr()
+    {
+        return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'highest_CsrDesignationId', 'designationId');
+    }
+
+    public function current_csr()
+    {
+        return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'current_CsrDesignationId', 'designationId');
+    }
+
+    public function getGamesDone()
+    {
+        return 10 - $this->measurementMatchesLeft;
+    }
+
+    public function tier($type = 'highest')
+    {
+        if ($type == "highest")
+        {
+            if ($this->measurementMatchesLeft != 0)
+            {
+                return (10 - $this->measurementMatchesLeft);
+            }
+
+            return $this->highest_CsrTier;
+        }
+        else
+        {
+            if ($this->measurementMatchesLeft != 0)
+            {
+                return (10 - $this->measurementMatchesLeft);
+            }
+
+            return $this->current_CsrTier;
+        }
+    }
+
+    public function title($type = 'highest')
+    {
+        $action = $type == 'highest' ? 'high_csr' : 'current_csr';
+        $tier = $type == 'highest' ? 'highest_CsrTier' : 'current_CsrTier';
+
+        switch ($this->designationId)
+        {
+            case 0: // Unranked
+            case 6: // SemiPro
+            case 7: // Pro
+                return $this->$action->name;
+
+            default:
+                return $this->$action->name . " " . $this->$tier;
+        }
+    }
+
+    public function rank($type = 'highest')
+    {
+        $action = $type == 'highest' ? 'highest_rank' : 'current_rank';
+
+        switch ($this->$action)
+        {
+            case 1:
+                return '1st';
+
+            case 2:
+                return '2nd';
+
+            case 3:
+                return '3rd';
+
+            default:
+                return $this->$action . 'th';
+        }
+    }
 }

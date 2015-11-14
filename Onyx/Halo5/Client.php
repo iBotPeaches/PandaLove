@@ -3,8 +3,10 @@
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Helpers\String\Text as DestinyText;
+use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
+use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\PlaylistData;
 
@@ -22,7 +24,7 @@ class Client extends Http {
      */
     public function getAccountByGamertag($gamertag)
     {
-        $url = sprintf(Constants::$servicerecord_arena, $gamertag);
+        $url = sprintf(Constants::$servicerecord_arena, Text::encodeGamertagForApi($gamertag));
 
         $account = $this->checkCacheForGamertag($gamertag);
 
@@ -41,12 +43,12 @@ class Client extends Http {
 
         $json = $this->getJson($url);
 
-        if (isset($json['Response'][0]['membershipId'])) // @todo this check is wrong.
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) // @todo this check is wrong.
         {
             try
             {
                 return Account::firstOrCreate([
-                    'gamertag' => $json['Response'][0]['displayName']
+                    'gamertag' => $json['Results'][0]['Id']
                 ]);
             }
             catch (QueryException $e)
@@ -214,19 +216,19 @@ class Client extends Http {
 
     private function _getEmblemImage($account, $size = 256)
     {
-        $url = sprintf(Constants::$emblem_image, $account->seo, $size);
+        $url = sprintf(Constants::$emblem_image, Halo5Text::encodeGamertagForApi($account->gamertag), $size);
         return $this->getAsset($url);
     }
 
     private function _getSpartanImage($account, $size = 512)
     {
-        $url = sprintf(Constants::$spartan_image, $account->seo, $size);
+        $url = sprintf(Constants::$spartan_image, Halo5Text::encodeGamertagForApi($account->gamertag), $size);
         return $this->getAsset($url);
     }
 
     private function _getArenaServiceRecord($account)
     {
-        $url = sprintf(Constants::$servicerecord_arena, $account->gamertag);
+        $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
         $json = $this->getJson($url);
 
         if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
@@ -241,7 +243,7 @@ class Client extends Http {
      */
     private function checkCacheForGamertag($gamertag)
     {
-        $account = Account::where('seo', Text::seoGamertag($gamertag))->first();
+        $account = Account::where('seo', DestinyText::seoGamertag($gamertag))->first();
 
         if ($account instanceof Account)
         {

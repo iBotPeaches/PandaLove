@@ -54,10 +54,11 @@ class updateCsrs extends Command
                 $this->info('Adding ' . $csr['name']);
 
                 $c = new CSR();
+                $c->designationId = $csr['id'];
                 $c->name = $csr['name'];
                 $c->bannerUrl = $csr['bannerImageUrl'];
+
                 $c->tiers = $csr['tiers'];
-                $c->designationId = $csr['id'];
                 $c->save();
             }
         }
