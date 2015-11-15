@@ -50,6 +50,11 @@ class PlaylistData extends Model {
         $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
     }
 
+    public function getDesignationIdAttribute($value)
+    {
+        return intval($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -86,32 +91,23 @@ class PlaylistData extends Model {
 
     public function tier($type = 'highest')
     {
-        if ($type == "highest")
-        {
-            if ($this->measurementMatchesLeft != 0)
-            {
-                return (10 - $this->measurementMatchesLeft);
-            }
+        $action = $type == 'highest' ? 'highest_CsrTier' : 'current_CsrTier';
 
-            return $this->highest_CsrTier;
-        }
-        else
+        if ($this->measurementMatchesLeft != 0)
         {
-            if ($this->measurementMatchesLeft != 0)
-            {
-                return (10 - $this->measurementMatchesLeft);
-            }
-
-            return $this->current_CsrTier;
+            return $this->getGamesDone();
         }
+
+        return $this->$action;
     }
 
     public function title($type = 'highest')
     {
         $action = $type == 'highest' ? 'high_csr' : 'current_csr';
         $tier = $type == 'highest' ? 'highest_CsrTier' : 'current_CsrTier';
+        $designationId = $type == 'highest' ? 'highest_CsrDesignationId' : 'current_CsrDesignationId';
 
-        switch ($this->designationId)
+        switch ($this->$designationId)
         {
             case 0: // Unranked
             case 6: // SemiPro
