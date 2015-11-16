@@ -94,7 +94,7 @@ class Data extends Model {
             return $this->totalKills;
         }
 
-        return round($this->totalKills / $this->totalDeaths, 3);
+        return number_format($this->totalKills / $this->totalDeaths, 2);
     }
 
     public function kad()
@@ -104,7 +104,7 @@ class Data extends Model {
             return ($this->totalKills + $this->totalAssists);
         }
 
-        return round(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 3);
+        return number_format(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 2);
     }
 
     public function winRate()
