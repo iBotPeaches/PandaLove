@@ -82,6 +82,32 @@
     </script>
 @append
 
+@section('inline-js')
+    <script type="text/javascript">
+        $(function() {
+            $.ajax({
+                url: '{{ URL::action('Halo5\ProfileController@checkForUpdate', array($account->gamertag)) }}',
+                success: function(result) {
+                    $msg = $("#update-message");
+                    if (result.updated && result.frozen == false) {
+                        $msg.removeClass('icon').addClass('green');
+                        $("#update-message .content p").empty().text("Account Updated! Refresh for new data");
+                    } else if (result.updated == false && result.frozen == false) {
+                        $msg.removeClass('icon').addClass('blue');
+                        $("#update-message .content p").empty().text("Account last updated: " + result.last_update);
+                    } else if (result.frozen) {
+                        $msg.removeClass('icon').addClass('yellow');
+                        $("#update-message .content p").empty().html(result.last_update);
+                    }
+
+                    $("#update-message i").remove();
+                    $("#update-message .header").remove();
+                }
+            });
+        })
+    </script>
+@append
+
 @section('inline-css')
     <style type="text/css">
         .stat-fix {

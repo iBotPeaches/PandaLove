@@ -1,5 +1,6 @@
 <?php namespace Onyx\Halo5\Objects;
 
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Helpers\Date\DateHelper;
@@ -26,7 +27,7 @@ class Data extends Model {
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     public static function boot()
     {
@@ -86,6 +87,13 @@ class Data extends Model {
     public function getEmblem()
     {
         return asset('uploads/h5/' . $this->account->seo . '/emblem.png');
+    }
+
+    public function getLastUpdatedRelative()
+    {
+        $date = new Carbon($this->updated_at);
+
+        return $date->diffForHumans();
     }
 
     public function kd()

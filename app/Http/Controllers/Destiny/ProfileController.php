@@ -81,7 +81,7 @@ class ProfileController extends Controller {
                 if ($account->destiny->inactiveCounter > $inactive)
                 {
                     // they manually refreshed a profile with no data changes. ugh
-                    return redirect('profile/' . $seo)
+                    return redirect('destiny/profile/' . $seo)
                         ->with('flash_message', [
                             'close' => 'true',
                             'type' => 'yellow',
@@ -91,7 +91,7 @@ class ProfileController extends Controller {
                 }
                 else
                 {
-                    return redirect('profile/' . $seo);
+                    return redirect('destiny/profile/' . $seo);
                 }
             }
             catch (ModelNotFoundException $e)
@@ -101,7 +101,7 @@ class ProfileController extends Controller {
         }
         else
         {
-            return redirect('profile/' . $seo)
+            return redirect('destiny/profile/' . $seo)
                 ->with('flash_message', [
                     'close' => 'true',
                     'type' => 'yellow',
@@ -134,7 +134,7 @@ class ProfileController extends Controller {
                         'updated' => false,
                         'frozen' => true,
                         'last_update' => 'This account hasn\'t had new data in awhile. - <a href="' .
-                            URL::action('ProfileController@manualUpdate', [$account->seo]) . '" class="ui  horizontal green label no_underline">Update Manually</a>'
+                            URL::action('Destiny\ProfileController@manualUpdate', [$account->seo]) . '" class="ui  horizontal green label no_underline">Update Manually</a>'
                     ]);
                 }
 

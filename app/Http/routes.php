@@ -13,6 +13,7 @@ Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 
 ## Halo 5
 Route::get('/h5/profile/{gamertag}', 'Halo5\ProfileController@index');
+Route::get('/h5/profile/check-for-update/{gamertag}', 'Halo5\ProfileController@checkForUpdate');
 
 ## Other
 Route::controller('/comment', 'CommentController');

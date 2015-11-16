@@ -69,3 +69,14 @@
 <div class="ui info message">
     Playtime: <strong>{{ \Onyx\Destiny\Helpers\String\Text::timeDuration($account->h5->totalTimePlayed) }}</strong>
 </div>
+<div class="ui icon message" id="update-message">
+    <i class="notched circle loading icon"></i>
+    <div class="content">
+        <div class="header">
+            Just one second
+        </div>
+        <p>
+            Checking if this profile needs an update.
+        </p>
+    </div>
+</div>
