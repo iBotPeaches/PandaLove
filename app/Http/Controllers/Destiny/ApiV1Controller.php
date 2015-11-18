@@ -45,13 +45,13 @@ class ApiV1Controller extends Controller {
     {
         try
         {
-            $account = Account::with('characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
+            $account = Account::with('destiny.characters')->where('seo', Text::seoGamertag($gamertag))->firstOrFail();
 
             $msg = '<strong>' . $account->gamertag . "</strong><br/><br />Grimoire: ";
 
-            $msg .= $account->grimoire;
+            $msg .= $account->destiny->grimoire;
 
-            if ($account->getOriginal('grimoire') == self::MAX_GRIMOIRE)
+            if ($account->destiny->getOriginal('grimoire') == self::MAX_GRIMOIRE)
             {
                 $msg .= "<strong> [MAX]</strong>";
             }
@@ -69,10 +69,12 @@ class ApiV1Controller extends Controller {
 
     public function getLightLeaderboard()
     {
-        $pandas = Account::where('clanName', 'Panda Love')
-            ->where('clanTag', 'WRKD')
-            ->where('inactiveCounter', '<', 10)
-            ->get();
+        $pandas = Account::with('destiny.characters')->whereHas('destiny', function($query)
+        {
+            $query->where('clanName', 'Panda Love')
+                ->where('clanTag', 'WRKD')
+                ->where('inactiveCounter', '<', 10);
+        })->get();
 
         $p = [];
 
@@ -80,7 +82,7 @@ class ApiV1Controller extends Controller {
 
         foreach($pandas as $panda)
         {
-            $character = $panda->highestLevelHighestLight();
+            $character = $panda->destiny->highestLevelHighestLight();
             $p[$character->level][] = [
                 'name' => $panda->gamertag . " (" . $character->class->title . ")",
                 'maxLight' => $character->highest_light,
@@ -265,7 +267,7 @@ class ApiV1Controller extends Controller {
                 {
                     $msg = '<strong>' . $user->account->gamertag . ' Light</strong> <br /><br />';
 
-                    foreach($user->account->charactersInOrder() as $char)
+                    foreach($user->account->destiny->charactersInOrder() as $char)
                     {
                         $msg .= "<strong>" . $char->name() . "</strong><br />";
                         $msg .= '<i>Highest Light:</i> <strong>' . $char->highest_light . "</strong><br />";
@@ -273,7 +275,7 @@ class ApiV1Controller extends Controller {
                     }
 
                     $msg .= '<br /><br />';
-                    $msg .= '<i>Account updated: ' . $user->account->updated_at->diffForHumans() . "</i>";
+                    $msg .= '<i>Account updated: ' . $user->account->destiny->updated_at->diffForHumans() . "</i>";
 
                     return Response::json([
                         'error' => false,

@@ -7,7 +7,7 @@
         <p class="ui red message">{{ $error }}</p>
     @endforeach
     <div class="grouped fields">
-        @foreach ($user->account->characters as $character)
+        @foreach ($user->account->destiny->characters as $character)
             <div class="field">
                 <div class="ui radio checkbox">
                     <input type="radio" name="character" value="{{ $character->characterId }}">

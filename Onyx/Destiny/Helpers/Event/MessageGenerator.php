@@ -19,7 +19,7 @@ class MessageGenerator {
         $count = 1;
         foreach ($event->attendees as $attendee)
         {
-            $msg .= $count++ . ') - <a href="' . \URL::action('ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]) .
+            $msg .= $count++ . ') - <a href="' . \URL::action('Destiny\ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]) .
                 '">' . $attendee->account->gamertag . "</a> (" . $attendee->character->name() . ")<br />";
         }
 
@@ -63,7 +63,7 @@ class MessageGenerator {
         {
             $count = 0;
             $msg = 'I need to know which character you want to be <strong>' . $user->account->gamertag . '</strong> for this event. Below are your characters with a number next to them. <br /><br />';
-            foreach ($user->account->characters as $char)
+            foreach ($user->account->destiny->characters as $char)
             {
                 $msg .= ++$count . ". - " . $char->name() . " " . $char->highest_light . "/" . $char->light . "<br />";
             }
@@ -73,7 +73,7 @@ class MessageGenerator {
         else
         {
             // does this char even exist
-            $char = $user->account->characterAtPosition($all['char_id']);
+            $char = $user->account->destiny->characterAtPosition($all['char_id']);
 
             if ($char instanceof Character)
             {
@@ -102,7 +102,7 @@ class MessageGenerator {
                             {
                                 $attendee = new Attendee();
                                 $attendee->game_id = $event->id;
-                                $attendee->membershipId = $user->account->membershipId;
+                                $attendee->membershipId = $user->account->destiny_membershipId;
                                 $attendee->characterId = $char->characterId;
                                 $attendee->account_id = $user->account->id;
                                 $attendee->user_id = $user->id;
@@ -123,7 +123,7 @@ class MessageGenerator {
             {
                 $count = 0;
                 $msg = 'Trying to be funny I see. That character does not exist for you. I guess I have to remind you. <br /><br />';
-                foreach ($user->account->characters as $char)
+                foreach ($user->account->destiny->characters as $char)
                 {
                     $msg .= ++$count . ". - " . $char->name() . " " . $char->highest_light . "/" . $char->light . "<br />";
                 }

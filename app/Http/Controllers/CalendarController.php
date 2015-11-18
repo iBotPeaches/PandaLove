@@ -131,7 +131,7 @@ class CalendarController extends Controller {
 
             $attendee = new Attendee();
             $attendee->game_id = $event->id;
-            $attendee->membershipId = $this->user->account->membershipId;
+            $attendee->membershipId = $this->user->account->destiny_membershipId;
             $attendee->characterId = $request->get('character');
             $attendee->account_id = $this->user->account->id;
             $attendee->user_id = $this->user->id;
