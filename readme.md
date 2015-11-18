@@ -1,4 +1,4 @@
-## PandaLove Raid Website
+## PandaLove Website (Destiny/H5/Xbox/ APIs)
 
 [![build status](https://gitlab.connortumbleson.com/ci/projects/1/status.png?ref=master)](https://gitlab.connortumbleson.com/ci/projects/1?ref=master)
 
@@ -8,7 +8,7 @@ PandaLove is a website devoted to tracking our weekly raid Tuesdays, PVP destruc
 # How to install
 1. Get [Composer](https://getcomposer.org/)
 2. Get [NodeJs](http://nodejs.org/)
-3. `git clone ssh://git@gitlab.techcomworldwide.com:22774/iBotPeaches/PandaLove.git`
+3. `git clone git@github.com:iBotPeaches/PandaLove.git`
 4. `cd PandaLove`
 5. `composer install`
 6. `npm install`
