@@ -168,7 +168,10 @@ class ApiV1Controller extends Controller {
 
     public function getWhoIsOn()
     {
-        $accounts = Account::where('clanName', "Panda Love")->get();
+        $accounts = Account::whereHas('destiny', function($query)
+		{
+			$query->where('clanName', 'Panda Love');
+		})->get();
 
         if (count($accounts) > 0)
         {
