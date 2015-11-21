@@ -78,11 +78,11 @@ class Account extends Model {
 
     public static function getAccountIdViaDestiny($membershipId)
     {
-        $data = Data::where('membershipId', $membershipId)->first();
+        $account = Account::where('destiny_membershipId', $membershipId)->first();
 
-        if ($data instanceof Data)
+        if ($account instanceof Account)
         {
-            return $data->account_id;
+            return $account->id;
         }
 
         return null;

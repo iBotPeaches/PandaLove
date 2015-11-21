@@ -420,6 +420,14 @@ class Client extends Http {
         {
             Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
                 $entry['player']['destinyUserInfo']['membershipType']));
+
+            if ($player->account_id == null)
+            {
+                // we are re-running this, because an Account doesnt exist yet so the previous check is NULL
+                // this is technically a bug-fix for a RACE condition, where we cant create a Player
+                // without an AccountId which doesn't exist till after the Event is dispatched.
+                $player->account_id = Account::getAccountIdViaDestiny($player->membershipId);
+            }
         }
 
         $player->characterId = $entry['characterId'];
