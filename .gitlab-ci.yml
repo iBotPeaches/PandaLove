@@ -3,5 +3,6 @@ job1:
     - "chmod a+x build_script.sh"
     - ./build_script.sh
   cache:
+    paths:
     - node_modules/
     - vendor/
