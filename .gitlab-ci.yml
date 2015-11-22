@@ -2,3 +2,6 @@ job1:
   script:
     - "chmod a+x build_script.sh"
     - ./build_script.sh
+  cache:
+    - node_modules/
+    - vendor/
