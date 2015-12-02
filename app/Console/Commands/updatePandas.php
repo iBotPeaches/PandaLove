@@ -45,9 +45,14 @@ class updatePandas extends Command
      */
     public function handle()
     {
-        $pandas = Account::where('clanName', 'Panda Love')
-            ->where('clanTag', 'WRKD')
-            ->where('inactiveCounter', '<=', 10)
+        $pandas = Account::with('destiny.characters')
+            ->whereHas('destiny', function($query)
+            {
+                $query
+                    ->where('clanName', 'Panda Love')
+                    ->where('inactiveCounter', '<=', 10);
+            })
+            ->orderBy('gamertag', 'ASC')
             ->get();
 
         foreach ($pandas as $panda)
@@ -60,7 +65,7 @@ class updatePandas extends Command
                 $this->info('This account has not had new data in awhile.');
             }
 
-            $char = $panda->firstCharacter();
+            $char = $panda->destiny->firstCharacter();
 
             if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
             {
