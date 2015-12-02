@@ -182,7 +182,7 @@ class Game extends Model {
             }
         }
 
-        return \Onyx\Account::where('membershipId', $membershipId)->first();
+        return \Onyx\Account::where('destiny_membershipId', $membershipId)->first();
     }
 
     public function completed()
