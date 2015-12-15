@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\URL;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Controllers\Controller;
@@ -38,17 +39,13 @@ class ProfileController extends Controller {
                 ->leftJoin('games', 'game_players.game_id', '=', 'games.instanceId')
                 ->where('membershipId', $account->destiny->membershipId)
                 ->where('deaths', 0)
+                ->where('games.instanceId', '!=', 0) // @todo task to remove orphaned GamePlayers & patch Game
                 ->orderBy('games.occurredAt', 'DESC')
                 ->get();
 
             $games->each(function($game_player)
             {
-                // Hacky check for when a Game is deleted without deleting GamePlayers
-                // @todo write task to remove orphaned GamePlayers & patch Game to delete GamePlayers on delete
-                if (isset($game_player->game))
-                {
-                    $game_player->url = $game_player->game->buildUrl();
-                }
+                $game_player->url = $game_player->game->buildUrl();
             });
 
             // setup hash cache
