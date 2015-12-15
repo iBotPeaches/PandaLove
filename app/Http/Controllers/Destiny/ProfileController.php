@@ -43,7 +43,12 @@ class ProfileController extends Controller {
 
             $games->each(function($game_player)
             {
-                $game_player->url = $game_player->game->buildUrl();
+                // Hacky check for when a Game is deleted without deleting GamePlayers
+                // @todo write task to remove orphaned GamePlayers & patch Game to delete GamePlayers on delete
+                if (isset($game_player->game))
+                {
+                    $game_player->url = $game_player->game->buildUrl();
+                }
             });
 
             // setup hash cache
