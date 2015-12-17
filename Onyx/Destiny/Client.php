@@ -587,45 +587,31 @@ class Client extends Http {
         $character->heavy = $charBase['peerView']['equipment'][8]['itemHash'];
         $character->ship = $charBase['peerView']['equipment'][9]['itemHash'];
 
-        // ugly shit checking if items exist before using
-        if (isset($charBase['peerView']['equipment'][10]['itemHash']))
-        {
-            $character->sparrow = $charBase['peerView']['equipment'][10]['itemHash'];
-        }
-
-        if (isset($charBase['peerView']['equipment'][11]['itemHash']))
-        {
-            $character->ghost = $charBase['peerView']['equipment'][11]['itemHash'];
-        }
-
-        if (isset($charBase['peerView']['equipment'][12]['itemHash']))
-        {
-            $character->background = $charBase['peerView']['equipment'][12]['itemHash'];
-        }
-
-        if (isset($charBase['peerView']['equipment'][13]['itemHash']))
-        {
-            $character->shader = $charBase['peerView']['equipment'][13]['itemHash'];
-        }
-
-        if (isset($charBase['peerView']['equipment'][14]['itemHash']))
-        {
-            $character->emote = $charBase['peerView']['equipment'][14]['itemHash'];
-        }
-
-        if (isset($charBase['peerView']['equipment'][15]['itemHash']))
-        {
-            $character->horn = $charBase['peerView']['equipment'][15]['itemHash'];
-        }
-
-        if (isset($charBase['peerView']['equipment'][16]['itemHash']))
-        {
-            $character->artifact = $charBase['peerView']['equipment'][16]['itemHash'];
-        }
+        $this->setEquipmentField($character, $charBase, 'sparrow', 10);
+        $this->setEquipmentField($character, $charBase, 'ghost', 11);
+        $this->setEquipmentField($character, $charBase, 'background', 12);
+        $this->setEquipmentField($character, $charBase, 'shader', 13);
+        $this->setEquipmentField($character, $charBase, 'emote', 14);
+        $this->setEquipmentField($character, $charBase, 'horn', 15);
+        $this->setEquipmentField($character, $charBase, 'artifact', 16);
 
         $character->emblem = $data['emblemHash'];
         $character->save();
         return $activity;
+    }
+
+    /**
+     * @param $character
+     * @param $data
+     * @param $name
+     * @param $id
+     */
+    private function setEquipmentField(&$character, &$data, $name, $id)
+    {
+        if (isset($data['peerView']['equipment'][$id]['itemHash']))
+        {
+            $character->{$name} = $data['peerView']['equipment'][$id]['itemHash'];
+        }
     }
 
     /**
