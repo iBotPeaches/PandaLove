@@ -615,7 +615,12 @@ class Client extends Http {
 
         if (isset($charBase['peerView']['equipment'][15]['itemHash']))
         {
-            $character->artifact = $charBase['peerView']['equipment'][15]['itemHash'];
+            $character->horn = $charBase['peerView']['equipment'][15]['itemHash'];
+        }
+
+        if (isset($charBase['peerView']['equipment'][16]['itemHash']))
+        {
+            $character->artifact = $charBase['peerView']['equipment'][16]['itemHash'];
         }
 
         $character->emblem = $data['emblemHash'];

@@ -88,7 +88,7 @@
             </div>
         </div>
         <h3 class="ui horizontal header divider">
-            Emotes / Artifacts
+            Extras
         </h3>
         <div class="ui black segment tooltips">
             <div class="ui list">

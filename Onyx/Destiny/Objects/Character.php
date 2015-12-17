@@ -133,6 +133,11 @@ class Character extends Model {
         $this->setAttributePullImage('artifact', $value);
     }
 
+    public function setHornAttribute($value)
+    {
+        $this->setAttributePullImage('horn', $value);
+    }
+
     public function getMinutesPlayedAttribute($value)
     {
         $time = Carbon::now()->addMinutes($value);
@@ -275,6 +280,11 @@ class Character extends Model {
         return $this->translator->map($value, false);
     }
 
+    public function getHornAttribute($value)
+    {
+        return $this->translator->map($value, false);
+    }
+
     public function getDefenseAttribute($value)
     {
         return number_format($value);
@@ -362,7 +372,7 @@ class Character extends Model {
 
     public function emoartis()
     {
-        $attrs = ['emote', 'artifact'];
+        $attrs = ['emote', 'artifact', 'horn'];
 
         $data = [];
         foreach ($attrs as $attribute)
@@ -401,7 +411,8 @@ class Character extends Model {
     public function getAllHashTitles()
     {
         return ['race', 'gender', 'class', 'emblem', 'background', 'subclass', 'helmet', 'arms', 'chest', 'boots',
-            'class_item', 'primary', 'secondary', 'heavy', 'ship', 'sparrow', 'ghost', 'shader', 'emote', 'artifact'];
+            'class_item', 'primary', 'secondary', 'heavy', 'ship', 'sparrow', 'ghost', 'shader', 'emote', 'artifact',
+            'horn'];
     }
 
     //---------------------------------------------------------------------------------
