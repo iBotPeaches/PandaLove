@@ -131,6 +131,7 @@ class GameController extends Controller {
             ->with('raidTuesday', intval($raidTuesday))
             ->with('revives', $combined['stats']['revives'])
             ->with('games', $games)
+            ->with('showAll', false)
             ->with('combined', $combined)
             ->with('title', 'PandaLove Raid Tuesday: ' . $raidTuesday)
             ->with('description', 'PandaLove Raid Tuesday: ' . $raidTuesday . ' including ' . count($games) . ' raids.')
