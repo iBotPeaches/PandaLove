@@ -15,7 +15,7 @@
     </thead>
     <tbody>
     @foreach($game->players as $player)
-        @if ($player->completed || $showAll)
+        @if ($player->completed || isset($showAll) & $showAll)
             <tr class="{{ $player->deaths == 0 ? 'positive' : ($player->deaths > $player->kills ? 'negative' : null) }}">
                 <td>
                     <img class="ui avatar image" src="{{ $player->emblem->extra }}" />
