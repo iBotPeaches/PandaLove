@@ -34,8 +34,8 @@ class RosterController extends Controller {
 
         return view('destiny.roster', [
             'members' => $accounts,
-            'description' => 'PandaLove Roster page',
-            'title' => 'PandaLove Roster'
+            'description' => 'PandaLove Destiny Roster page',
+            'title' => 'PandaLove Destiny Roster'
         ]);
     }
 }
