@@ -408,7 +408,7 @@ class Client extends Http {
      * @param $pvp
      * @param $regular
      */
-    private function gamePlayerSetup($data, $entry, $game, $pvp, $regular = true)
+    private function gamePlayerSetup($data, $entry, &$game, $pvp, $regular = true)
     {
         $player = new GamePlayer();
         $player->game_id = $game->instanceId;

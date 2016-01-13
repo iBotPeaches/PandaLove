@@ -1,6 +1,22 @@
 <?php namespace Onyx\Destiny\Enums;
 
+/**
+ * Class MaxStats
+ * @package Onyx\Destiny\Enum
+ * @url https://github.com/DestinyTrialsReport/DestinyTrialsReport/blob/develop/app/components/player/player.factory.js
+ */
 abstract class MaxStats {
+
+    /**
+     * Intellect 1
+     * - Defender
+     * - Nightstalker
+     * - Striker
+     * - Sunsinger
+     *
+     * Intellect 2
+     * - everything else
+     */
 
     /**
      *

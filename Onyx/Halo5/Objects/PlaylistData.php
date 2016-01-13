@@ -138,4 +138,19 @@ class PlaylistData extends Model {
                 return $this->$action . 'th';
         }
     }
+
+    /**
+     * @return string
+     */
+    public function rosterTitle()
+    {
+        $title = $this->stock->name . " (" . $this->title() . ") ";
+
+        if ($this->highest_Csr != 0)
+        {
+            $title .= '' . number_format($this->highest_Csr) . ' CSR';
+        }
+
+        return $title;
+    }
 }

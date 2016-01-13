@@ -2,10 +2,16 @@
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
+/**
+ * Class Data
+ * @package Onyx\Halo5\Objects
+ * @property int $highest_CsrTier
+ */
 class Data extends Model {
 
     /**
@@ -71,12 +77,46 @@ class Data extends Model {
         return $this->belongsTo('Onyx\Account');
     }
 
+    /**
+     * @return Collection|\Onyx\Halo5\Objects\PlaylistData
+     */
     public function playlists()
     {
         return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id')
             ->orderBy('highest_CsrDesignationId', 'DESC')
             ->orderBy('highest_Csr', 'DESC')
             ->orderBy('measurementMatchesLeft', 'ASC');
+    }
+
+    public function record_playlist()
+    {
+        // setup fake PlaylistData with the elements of the best playlist
+        // This is bad because we can't leverage pre-loading of data (eager load)
+        // so we have n+1 queries here.
+        // @todo store highest CSR in a different table to allow eager loading
+
+        $record = new PlaylistData();
+        $record->fill($this->highest_playlist());
+
+        if ($record->stock instanceof Playlist)
+        {
+            return $record;
+        }
+
+        return null;
+    }
+
+    public function highest_playlist()
+    {
+        return array(
+            'highest_CsrTier'           => $this->highest_CsrTier,
+            'highest_CsrDesignationId'  => $this->highest_CsrDesignationId,
+            'highest_Csr'               => $this->highest_Csr,
+            'highest_percentNext'       => $this->highest_percentNext,
+            'highest_rank'              => $this->highest_rank,
+            'highest_CsrPlaylistId'     => $this->highest_CsrPlaylistId,
+            'playlistId'                => $this->highest_CsrPlaylistId
+        );
     }
 
     public function getSpartan()

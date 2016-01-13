@@ -12,7 +12,12 @@
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
                     <p>An <strong>Xbox</strong> clan, who frequently runs raids & Trials Of Osiris in <strong>Destiny</strong> and plays Arena in <strong>Halo 5</strong>.</p>
-                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Meet the Team</a>
+
+                    <header>
+                        <h3>Meet the Team</h3>
+                    </header>
+                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
+                    <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
                 </div>
             </div>
         </article>
