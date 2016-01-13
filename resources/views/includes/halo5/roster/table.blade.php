@@ -18,8 +18,8 @@
                 @define $playlist = $member->h5->record_playlist()
                 {!! $playlist == null ? '<i>No highest CSR found</i>' : $playlist->rosterTitle() !!}
             </td>
-            <td>{{ $member->h5->kad() }}</td>
-            <td>{{ $member->h5->kd() }}</td>
+            <td class="{{ $member->h5->kad() > 1 ? "positive" : "warning" }}">{{ $member->h5->kad() }}</td>
+            <td class="{{ $member->h5->kd() > 1 ? "positive" : "warning" }}">{{ $member->h5->kd() }}</td>
             <td>{{ $member->h5->totalGames }}</td>
         </tr>
     @endforeach
