@@ -9,6 +9,9 @@
                         <h1>Meet <strong>Panda Love</strong></h1>
                     </header>
                     @include('includes.halo5.roster.table')
+                    <p>
+                        Tracking only Arena. No Warzone
+                    </p>
                 </div>
             </div>
         </article>
