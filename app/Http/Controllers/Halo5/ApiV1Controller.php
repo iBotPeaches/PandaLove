@@ -49,7 +49,7 @@ class ApiV1Controller extends Controller {
 
                 if ($user->account_id != 0 && $user->account->h5 instanceof Data)
                 {
-                    $old_h5 = $user->account->h5;
+                    $old_h5 = clone $user->account->h5;
 
                     $this->dispatch(new UpdateHalo5Account($user->account));
 
