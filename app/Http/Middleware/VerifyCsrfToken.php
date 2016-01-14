@@ -12,7 +12,8 @@ class VerifyCsrfToken extends BaseVerifier {
      */
     protected $except = [
         'destiny/api/*',
-        'xbox/api/*'
+        'xbox/api/*',
+        'h5/api/*'
     ];
 
     /**
