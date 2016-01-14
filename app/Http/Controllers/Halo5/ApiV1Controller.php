@@ -36,7 +36,7 @@ class ApiV1Controller extends Controller {
     // Halo5 POST
     //---------------------------------------------------------------------------------
 
-    public function postH5Update()
+    public function postUpdate()
     {
         $all = $this->request->all();
 
