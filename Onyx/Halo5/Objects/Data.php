@@ -9,8 +9,9 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
 /**
  * Class Data
- * @package Onyx\Halo5\Objects
+ * @package \Onyx\Halo5\Objects
  * @property int $highest_CsrTier
+ * @property int $totalGames
  */
 class Data extends Model {
 
