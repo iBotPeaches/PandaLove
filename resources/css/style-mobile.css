@@ -264,3 +264,9 @@
 .score-table:after {
     content: " Points";
 }
+.spartanrank-table:before {
+	content: "Spartan Rank: ";
+}
+.bestplaylist-table:before {
+	content: "Best Playlist: ";
+}
