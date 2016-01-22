@@ -39,4 +39,11 @@ class Constants {
      * @var string
      */
     public static $xurData = 'https://www.bungie.net/Platform/Destiny/Advisors/Xur';
+
+    /**
+     * URL to items on guardian.gg
+     *
+     * @var string
+     */
+    public static $ggItem = 'https://guardian.gg/en/items/%d';
 }

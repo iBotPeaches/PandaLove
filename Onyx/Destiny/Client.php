@@ -285,7 +285,9 @@ class Client extends Http {
                         {
                             if (isset($item['item']['stats']) && count($item['item']['stats']) > 0)
                             {
-                                $items .= "<strong>" . $translator->map($item['item']['itemHash'], true) . '</strong><br />';
+                                $items .= "<strong>" . $translator->map($item['item']['itemHash'], true) . '</strong>' .
+                                    ' <a href="' . $this->getItemUrl($item['item']['itemHash']) . '">[url]' . '</a><br />';
+
                                 foreach ($item['item']['stats'] as $stat)
                                 {
                                     if ($stat['value'] != 0)
@@ -309,6 +311,15 @@ class Client extends Http {
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $id
+     * @return string
+     */
+    private function getItemURL($id)
+    {
+        return sprintf(Constants::$ggItem, $id);
+    }
 
     private function updateGameForNewField($data, $game)
     {
