@@ -1,8 +1,18 @@
 <?php namespace Onyx\Destiny\Helpers\String;
 
 use Illuminate\Support\Str;
+use Onyx\Destiny\Constants;
 
 class Text {
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public static function itemUrl($id)
+    {
+        return sprintf(Constants::$ggItem, $id);
+    }
 
     /**
      * Returns seo friendly Gamertag

@@ -40,7 +40,7 @@
                     <div class="item tool" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
                         <img class="ui avatar image" src="{{ $obj->extra }}" />
                         <div class="content">
-                            <a class="header">{{ $obj->title }}</a>
+                            <a href="{{ \Onyx\Destiny\Helpers\String\Text::itemUrl($obj->hash) }}" target="_blank" class="header">{{ $obj->title }}</a>
                             <div class="description">
                                 {{ \Illuminate\Support\Str::limit($obj->description, 25) }}
                             </div>
@@ -58,7 +58,7 @@
                     <div class="item tool" data-position="bottom center" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
                         <img class="ui avatar image" src="{{ $obj->extra }}" />
                         <div class="content">
-                            <a class="header">{{ $obj->title }}</a>
+                            <a href="{{ \Onyx\Destiny\Helpers\String\Text::itemUrl($obj->hash) }}" target="_blank" class="header">{{ $obj->title }}</a>
                             <div class="description">
                                 {{ \Illuminate\Support\Str::limit($obj->description, 25) }}
                             </div>
@@ -78,7 +78,7 @@
                     <div class="item tool" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
                         <img class="ui avatar image" src="{{ $obj->extra }}" />
                         <div class="content">
-                            <a class="header">{{ $obj->title }}</a>
+                            <a href="{{ \Onyx\Destiny\Helpers\String\Text::itemUrl($obj->hash) }}" target="_blank" class="header">{{ $obj->title }}</a>
                             <div class="description">
                                 {{ \Illuminate\Support\Str::limit($obj->description, 30) }}
                             </div>
@@ -96,7 +96,7 @@
                     <div class="item tool" data-html="<strong>{{ $obj->title }}</strong><br />{{ $obj->description }}">
                         <img class="ui avatar image" src="{{ $obj->extra }}" />
                         <div class="content">
-                            <a class="header">{{ $obj->title }}</a>
+                            <a href="{{ \Onyx\Destiny\Helpers\String\Text::itemUrl($obj->hash) }}" target="_blank" class="header">{{ $obj->title }}</a>
                             <div class="description">
                                 {{ \Illuminate\Support\Str::limit($obj->description, 30) }}
                             </div>
