@@ -554,7 +554,7 @@ class Client extends Http {
 
         $character->setTranslatorUrl($url);
 
-        $character->realLevel = $data['levelProgression']['level']; // deprecated as of TTK
+        $character->realLevel = $charBase['powerLevel']; // deprecated as of TTK
         $character->next_level_exp = $data['levelProgression']['nextLevelAt'];
         $character->progress_exp = $data['levelProgression']['progressToNextLevel'];
 
