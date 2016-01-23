@@ -389,7 +389,6 @@ class Character extends Model {
     public function stats()
     {
         return array(
-            'Defense' => $this->defense,
             'Intellect' => $this->intellect,
             'Discipline' => $this->discipline,
             'Strength' => $this->strength
