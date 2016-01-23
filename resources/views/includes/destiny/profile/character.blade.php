@@ -141,13 +141,6 @@
             <div class="content">
                 You played on {{ $char->last_played }} for {{ $char->minutes_played_last_session }}.
             </div>
-            <div class="title">
-                <i class="dropdown icon"></i>
-                What is my real level?
-            </div>
-            <div class="content">
-                {{ number_format($char->realLevel) }}
-            </div>
         </div>
     </div>
 </div>
