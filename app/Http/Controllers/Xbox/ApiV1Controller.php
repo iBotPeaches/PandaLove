@@ -12,6 +12,7 @@ use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 use Carbon\Carbon;
 use PandaLove\Http\Controllers\Controller;
+use Onyx\XboxLive\Helpers\Bot\MessageGenerator as XboxMessageGenerator;
 
 class ApiV1Controller extends Controller {
 
@@ -188,6 +189,14 @@ class ApiV1Controller extends Controller {
         {
             $this->_error('No Panda Love members were found');
         }
+    }
+
+    public function getTimezones()
+    {
+        return Response::json([
+            'error' => false,
+            'msg' => XboxMessageGenerator::buildTimezonesMessage()
+        ]);
     }
 
     //---------------------------------------------------------------------------------
