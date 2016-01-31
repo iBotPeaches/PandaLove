@@ -159,7 +159,7 @@ class MessageGenerator {
      * @param $msg string
      * @return string
      */
-    private static function _buildSingleEventRow($count, $attendee, $event, $msg)
+    private static function _buildSingleEventRow(&$count, $attendee, $event, $msg)
     {
         if ($event->isDestiny())
         {

@@ -3,7 +3,6 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 use Onyx\Destiny\Objects\Attendee;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Hangouts\Helpers\Messages;
@@ -71,7 +70,7 @@ class CalendarController extends Controller {
             $event = GameEvent::with('attendees')
                 ->where('id', intval($id))->firstOrFail();
 
-            $attendee = Attendee::where('membershipId', $this->user->account->membershipId)
+            $attendee = Attendee::where('account_id', $this->user->account->id)
                 ->where('game_id', $event->id)
                 ->first();
 
