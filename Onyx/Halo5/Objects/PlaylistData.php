@@ -3,6 +3,35 @@
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 
+/**
+ * Class PlaylistData
+ * @package Onyx\Halo5\Objects
+ * @property int $id
+ * @property int $account_id
+ * @property string $playlistId
+ * @property int $totalKills
+ * @property int $totalSpartanKills
+ * @property int $totalHeadshots
+ * @property int $totalDeaths
+ * @property int $totalAssists
+ * @property int $totalGames
+ * @property int $totalGamesWon
+ * @property int $totalGamesLost
+ * @property int $totalGamesTied
+ * @property int $totalTimePlayed
+ * @property int $highest_CsrTier
+ * @property int $highest_CsrDesignationId
+ * @property int $highest_Csr
+ * @property int $highest_percentNext
+ * @property int $highest_rank
+ * @property int $current_CsrTier
+ * @property int $current_CsrDesignationId
+ * @property int $current_Csr
+ * @property int $current_percentNext
+ * @property int $current_rank
+ * @property int measurementMatchesLeft
+ * @property string $seasonId
+ */
 class PlaylistData extends Model {
 
     /**
@@ -84,6 +113,11 @@ class PlaylistData extends Model {
         return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'current_CsrDesignationId', 'designationId');
     }
 
+    public function season()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
+    }
+
     public function getGamesDone()
     {
         return 10 - $this->measurementMatchesLeft;
@@ -152,5 +186,55 @@ class PlaylistData extends Model {
         }
 
         return $title;
+    }
+
+    public function kd()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills;
+        }
+
+        return number_format($this->totalKills / $this->totalDeaths, 2);
+    }
+
+    public function kad()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return ($this->totalKills + $this->totalAssists);
+        }
+
+        return number_format(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 2);
+    }
+
+    public function winRate()
+    {
+        if ($this->totalGames == 0)
+        {
+            return 0;
+        }
+
+        return round(($this->totalGamesWon / $this->totalGames) * 100);
+    }
+
+    public function winRateColor()
+    {
+        $rate = $this->winRate();
+
+        switch (true)
+        {
+            case $rate > 80:
+                return 'green';
+
+            case $rate <= 80 && $rate > 60:
+                return 'yellow';
+
+            case $rate <= 60 && $rate > 40:
+                return 'orange';
+
+            default:
+                return 'red';
+        }
     }
 }

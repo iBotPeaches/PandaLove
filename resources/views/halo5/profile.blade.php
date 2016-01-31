@@ -31,6 +31,9 @@
                         <a class="active item" data-tab="overview">
                             Overview
                         </a>
+                        <a class="item" data-tab="seasons">
+                            Seasons
+                        </a>
                         <a class="item" data-tab="playlists">
                             Playlists
                         </a>
@@ -40,6 +43,9 @@
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.halo5.profile.overview-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="seasons">
+                        @include('includes.halo5.profile.seasons-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="playlists">
                         @include('includes.halo5.profile.playlists-tab')

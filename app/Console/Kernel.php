@@ -10,6 +10,7 @@ use PandaLove\Console\Commands\alertSender;
 use PandaLove\Console\Commands\updateMedals;
 use PandaLove\Console\Commands\updateCsrs;
 use PandaLove\Console\Commands\updatePlaylists;
+use PandaLove\Console\Commands\updateSeasons;
 
 class Kernel extends ConsoleKernel {
 
@@ -23,7 +24,8 @@ class Kernel extends ConsoleKernel {
 		alertSender::class,
 		updateMedals::class,
 		updateCsrs::class,
-		updatePlaylists::class
+		updatePlaylists::class,
+		updateSeasons::class
 	];
 
 	/**

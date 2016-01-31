@@ -24,6 +24,13 @@ class Constants{
     public static $metadata_csr = 'https://www.haloapi.com/metadata/h5/metadata/csr-designations';
 
     /**
+     * Seasons explained
+     *
+     * @var string
+     */
+    public static $metadata_seasons = 'https://www.haloapi.com/metadata/h5/metadata/seasons';
+
+    /**
      * Halo5 Arena stats, all-time.
      *
      * @var string

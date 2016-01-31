@@ -1,5 +1,6 @@
 <?php namespace Onyx\Halo5\Helpers\Network;
 
+use Barryvdh\Debugbar\Facade as DebugBar;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\ServerException;
 use Intervention\Image\Facades\Image;
@@ -37,9 +38,13 @@ class Http {
             $this->setupGuzzle();
         }
 
+        DebugBar::startMeasure(md5($url), $url);
+
         $response = $this->guzzle->get($url, [
             'headers' => ['Ocp-Apim-Subscription-Key' => env('HALO5_KEY')]
         ]);
+
+        DebugBar::stopMeasure(md5($url));
 
         if ($response->getStatusCode() != 200)
         {

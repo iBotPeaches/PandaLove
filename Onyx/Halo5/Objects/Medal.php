@@ -2,6 +2,16 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Medal
+ * @package Onyx\Halo5\Objects
+ * @property int $id
+ * @property string $contentId
+ * @property string $name
+ * @property string $description
+ * @property string classification
+ * @property int $difficulty
+ */
 class Medal extends Model {
 
     /**
