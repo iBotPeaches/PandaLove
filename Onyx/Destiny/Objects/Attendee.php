@@ -37,6 +37,11 @@ class Attendee extends Model {
         return $this->belongsTo('Onyx\Destiny\Objects\Character', 'characterId', 'characterId');
     }
 
+    public function h5()
+    {
+        return $this->belongsTo('Onyx\Halo5\Objects\Data', 'account_id', 'account_id');
+    }
+
     public function user()
     {
         return $this->belongsTo('Onyx\User', 'user_id', 'id');

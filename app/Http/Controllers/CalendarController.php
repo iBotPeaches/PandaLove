@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Onyx\Destiny\Objects\Attendee;
-use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Hangouts\Helpers\Messages;
 use PandaLove\Http\Requests\AddRSVP;
 use PandaLove\Http\Requests\deleteEventRequest;
@@ -131,8 +131,13 @@ class CalendarController extends Controller {
 
             $attendee = new Attendee();
             $attendee->game_id = $event->id;
-            $attendee->membershipId = $this->user->account->destiny_membershipId;
-            $attendee->characterId = $request->get('character');
+
+            if ($event->isDestiny())
+            {
+                $attendee->membershipId = $this->user->account->destiny_membershipId;
+                $attendee->characterId = $request->get('character', 0);
+            }
+
             $attendee->account_id = $this->user->account->id;
             $attendee->user_id = $this->user->id;
             $attendee->save();

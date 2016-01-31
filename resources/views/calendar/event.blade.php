@@ -1,3 +1,6 @@
+<?
+/** @var $event \Onyx\Calendar\Objects\Event */
+?>
 @extends('app')
 
 @section('content')
@@ -6,10 +9,10 @@
             <div class="row">
                 <div class="12u">
                     <header>
-                        <h1><strong>PandaLove</strong>: {{ $event->title }}</h1>
+                        <h1><strong>{{ $event->game_name() }}</strong> - {{ $event->title }}</h1>
                         <h3>at {{ $event->humanDate() }}. So far </h3>
                     </header>
-                    <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
+                    <p><strong>{{ $event->type }}</strong>. Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
                     @if (count($event->attendees) == 0)
                         <div class="ui blue message">
                             <strong>Whoa there buddy</strong>
@@ -25,7 +28,12 @@
                             @endif
                         </div>
                     @else
-                        @include('includes.calendar.attending_table')
+                        @if ($event->isDestiny())
+                            @include('includes.calendar.destiny.attending_table')
+                        @else
+                            @include('includes.calendar.halo5.attending_table')
+                        @endif
+
                         @if (! $event->isFull() && ! $event->isAttending($user))
                             <a href="{{ action('CalendarController@getRsvpEvent', [$event->id]) }}">RSVP To Event</a>
                         @endif

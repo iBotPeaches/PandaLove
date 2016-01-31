@@ -7,7 +7,7 @@ use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\Event\MessageGenerator;
-use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 use Carbon\Carbon;
@@ -19,8 +19,6 @@ class ApiV1Controller extends Controller {
     private $view;
     private $request;
     private $redirect;
-
-    const MAX_GRIMOIRE = 4765; #http://destinytracker.com/destiny/leaderboards/xbox/grimoirescore
 
     protected $layout = "layouts.master";
 
@@ -89,7 +87,14 @@ class ApiV1Controller extends Controller {
                 $gameEvent->fill($all);
                 $gameEvent->save();
 
-                $msg = 'This event was created. There are <strong>' .  $all['players'] . '</strong> spots left. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
+                // re-set max_players if 0
+                if ($gameEvent->max_players == 0)
+                {
+                    $gameEvent->max_players = $gameEvent->getPlayerDefaultSize();
+                    $gameEvent->save();
+                }
+
+                $msg = 'This event was created. There are <strong>' .  $gameEvent->max_players . '</strong> spots left. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
                 $msg .= ' or you can apply via the bot via <strong>/bot rsvp ' . $gameEvent->id . '</strong>';
 
                 return Response::json([

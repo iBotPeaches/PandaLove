@@ -63,6 +63,31 @@ abstract class Types {
 
             case "too":
                 return 'ToO';
+
+            case "campaign":
+                return 'Campaign';
+
+            case "arena":
+                return 'Arena';
+
+            case "slayer":
+                return 'Slayer';
+
+            case "btb":
+                return 'Big Team Battle';
+
+            case "wza":
+            case "warzone":
+                return 'Warzone';
+
+            case "doubles":
+                return 'Doubles';
+
+            case "custom":
+                return 'Custom Game';
+
+            case "Forge":
+                return 'Forge';
         }
     }
 }

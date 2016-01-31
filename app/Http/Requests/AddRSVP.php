@@ -32,7 +32,7 @@ class AddRSVP extends Request
     public function rules()
     {
         return [
-            'character' => 'required|character-real'
+            'character' => 'character-real'
         ];
     }
 }

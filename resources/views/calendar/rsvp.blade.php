@@ -15,7 +15,12 @@
                         </div>
                     @else
                         <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
-                        @include('includes.calendar.attending_table')
+                        @if ($event->isDestiny())
+                            @include('includes.calendar.destiny.attending_table')
+                        @else
+                            @include('includes.calendar.halo5.attending_table')
+                        @endif
+
                         @if ($attendee instanceof \Onyx\Destiny\Objects\Attendee)
                             <div class="ui blue message">
                                 You are already attending this event!
@@ -25,7 +30,11 @@
                                 <h3>RSVP</h3>
                             </header>
                             @if (! $event->isFull())
-                                @include('includes.calendar.select_character')
+                                @if ($event->isDestiny())
+                                    @include('includes.calendar.destiny.select_character')
+                                @else
+                                    @include('includes.calendar.halo5.select_character')
+                                @endif
                             @else
                                 <div class="ui yellow message">
                                     Uh oh. This game is full.

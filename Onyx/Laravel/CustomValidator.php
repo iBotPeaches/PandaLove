@@ -8,7 +8,7 @@ use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
-use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\User;
 

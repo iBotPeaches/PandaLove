@@ -1,10 +1,24 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php namespace Onyx\Calendar\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Enums\Types;
 
-class GameEvent extends Model {
+/**
+ * Class Event
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property string $title
+ * @property string $type
+ * @property Carbon $start
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property int $max_players
+ * @property boolean $alert_5
+ * @property boolean $alert_15
+ * @property string $game destiny|h5
+ */
+class Event extends Model {
 
     protected $table = 'game_events';
 
@@ -31,6 +45,11 @@ class GameEvent extends Model {
     public function setTypeAttribute($value)
     {
         $this->attributes['type'] = Types::getProperFormat($value);
+    }
+
+    public function getGameAttribute($value)
+    {
+        return $value == "" ? "destiny" : $value;
     }
 
     //---------------------------------------------------------------------------------
@@ -69,20 +88,25 @@ class GameEvent extends Model {
 
     public function getBackgroundColor()
     {
-        switch ($this->type)
+        switch ($this->game)
         {
-            case "ToO":
-                return '#000';
-
-            case "Raid":
-            case "Flawless":
+            case "destiny":
                 return '#5BBD72';
 
-            case "PoE":
-                return '#564F8A';
-
-            case "PVP":
+            case "h5":
                 return '#D95C5C';
+        }
+    }
+
+    public function game_name()
+    {
+        switch ($this->game)
+        {
+            case "destiny":
+                return 'Destiny';
+
+            case "h5":
+                return 'Halo 5';
         }
     }
 
@@ -105,18 +129,34 @@ class GameEvent extends Model {
         }
     }
 
-    public function getPlayerDefaultSize($type)
+    public function getPlayerDefaultSize()
     {
-        switch ($type)
+        switch ($this->game)
         {
-            case "ToO":
-            case "PoE":
+            case "destiny":
+                switch ($this->type)
+                {
+                    case "ToO":
+                    case "PoE":
+                        return 3;
+
+                    case "Raid":
+                    case "Flawless":
+                    case "PVP":
+                        return 6;
+                }
                 return 3;
 
-            case "Raid":
-            case "Flawless":
-            case "PVP":
-                return 6;
+            case "h5":
+                switch ($this->type)
+                {
+                    case "Big Team Battle":
+                        return 8;
+
+                    case "Warzone":
+                        return 12;
+                }
+                return 4;
         }
     }
 
@@ -140,5 +180,10 @@ class GameEvent extends Model {
     public function isOver()
     {
         return $this->start->isPast();
+    }
+
+    public function isDestiny()
+    {
+        return $this->game == "destiny";
     }
 }
