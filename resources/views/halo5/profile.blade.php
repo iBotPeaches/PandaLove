@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="9u">
-                    <div class="ui top menu">
+                    <div class="ui stackable container menu">
                         <a class="active item" data-tab="overview">
                             Overview
                         </a>
