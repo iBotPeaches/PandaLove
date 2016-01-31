@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
@@ -9,6 +10,8 @@ use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\PlaylistData;
+use Onyx\Halo5\Objects\Season;
+use Onyx\Halo5\Objects\SeasonData;
 
 class Client extends Http {
 
@@ -64,14 +67,13 @@ class Client extends Http {
 
     public function updateH5Account($account)
     {
-        // 1) Grab new Service Record
+        $this->pullArenaSeasonHistoryRecord($account);
         $this->updateArenaServiceRecord($account);
-
-        // 2) Update Spartan Image
         $this->updateSpartan($account);
-
-        // 3) Update Emblem Image
         $this->updateEmblem($account);
+
+        $account->touch();
+        $account->save();
     }
 
     public function updateEmblem($account, $size = 256)
@@ -110,9 +112,35 @@ class Client extends Http {
         $spartan->save(public_path($base . $account->seo . "/" . 'spartan.png'));
     }
 
-    public function updateArenaServiceRecord($account)
+    public function pullArenaSeasonHistoryRecord($account)
     {
-        $record = $this->_getArenaServiceRecord($account);
+        $seasons = Season::all();
+
+        foreach ($seasons as $season)
+        {
+            // check if season is in past and exists, if so don't reload
+            $count = PlaylistData::where('account_id', $account->id)
+                ->where('seasonId', $season->contentId)
+                ->count();
+
+            if ($count == 0 && ! $season->isFuture())
+            {
+                $this->updateArenaServiceRecord($account, $season->contentId);
+            }
+        }
+    }
+
+    public function updateArenaServiceRecord($account, $seasonId = null)
+    {
+        if ($seasonId != null)
+        {
+            $record = $this->_getArenaServiceRecordSeason($account, $seasonId);
+        }
+        else
+        {
+            $record = $this->_getArenaServiceRecord($account);
+        }
+
         $h5_data = $account->h5;
 
         // dump the stats
@@ -132,6 +160,7 @@ class Client extends Http {
         $h5_data->Xp = $record['Xp'];
 
         $h5_data->medals = $record['ArenaStats']['MedalAwards'];
+        $h5_data->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
 
         if ($record['ArenaStats']['HighestCsrAttained'] != null)
         {
@@ -141,10 +170,15 @@ class Client extends Http {
             $h5_data->highest_percentNext = $record['ArenaStats']['HighestCsrAttained']['PercentToNextTier'];
             $h5_data->highest_rank = $record['ArenaStats']['HighestCsrAttained']['Rank'];
             $h5_data->highest_CsrPlaylistId = $record['ArenaStats']['HighestCsrPlaylistId'];
+            $h5_data->highest_CsrSeasonId = $record['ArenaStats']['HighestCsrSeasonId'];
         }
 
-        // clear out old playlist history, dump new playlists
-        PlaylistData::where('account_id', $account->id)->delete();
+        // clear out old playlist history, dump new playlists in that seasonId or null
+        PlaylistData::where('account_id', $account->id)
+            ->where('seasonId', $record['ArenaStats']['ArenaPlaylistStatsSeasonId'])
+            ->orWhere('seasonId', 'IS', DB::raw('null'))
+            ->delete();
+
         foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist)
         {
             $p = new PlaylistData();
@@ -183,6 +217,8 @@ class Client extends Http {
             $p->totalGamesLost = $playlist['TotalGamesLost'];
             $p->totalGamesTied = $playlist['TotalGamesTied'];
             $p->totalTimePlayed = $playlist['TotalTimePlayed'];
+
+            $p->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
             $p->save();
         }
 
@@ -199,6 +235,13 @@ class Client extends Http {
     public function getPlaylists()
     {
         $url = Constants::$metadata_playlist;
+
+        return $this->getJson($url);
+    }
+
+    public function getSeasons()
+    {
+        $url = Constants::$metadata_seasons;
 
         return $this->getJson($url);
     }
@@ -229,6 +272,19 @@ class Client extends Http {
     private function _getArenaServiceRecord($account)
     {
         $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
+        $json = $this->getJson($url);
+
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
+        {
+            return $json['Results'][0]['Result'];
+        }
+    }
+
+    private function _getArenaServiceRecordSeason($account, $seasonId)
+    {
+        $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
+        $url .= "&seasonId=" . $seasonId;
+
         $json = $this->getJson($url);
 
         if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
