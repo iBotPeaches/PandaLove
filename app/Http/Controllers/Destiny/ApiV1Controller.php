@@ -12,7 +12,7 @@ use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\Event\MessageGenerator;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\User;
 use Carbon\Carbon;
 use PandaLove\Commands\UpdateAccount;

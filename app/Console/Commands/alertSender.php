@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
-use Onyx\Destiny\Objects\GameEvent;
+use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Hangouts\Helpers\Messages;
 
 class alertSender extends Command

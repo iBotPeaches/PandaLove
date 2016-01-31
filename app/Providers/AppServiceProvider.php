@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Onyx\Destiny\Objects\GameEvent;
 use Onyx\Laravel\CustomValidator;
 
 class AppServiceProvider extends ServiceProvider {

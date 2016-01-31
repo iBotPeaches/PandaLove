@@ -19,7 +19,7 @@ class EventTableSeeder extends Seeder
             DB::table('attendees')->truncate();
         }
 
-        \Onyx\Destiny\Objects\GameEvent::create(
+        \Onyx\Calendar\Objects\Event::create(
             [
                 'title' => 'Trials Run',
                 'type' => 'ToO',
@@ -27,7 +27,7 @@ class EventTableSeeder extends Seeder
             ]
         );
 
-        \Onyx\Destiny\Objects\GameEvent::create(
+        \Onyx\Calendar\Objects\Event::create(
             [
                 'title' => 'Crota Normal',
                 'type' => 'Raid',
