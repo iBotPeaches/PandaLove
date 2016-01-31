@@ -8,7 +8,7 @@ class GameEvent extends Model {
 
     protected $table = 'game_events';
 
-    protected $fillable = ['title', 'type', 'start', 'max_players'];
+    protected $fillable = ['title', 'type', 'start', 'max_players', 'game'];
 
     protected $dates = ['start', 'created_at', 'updated_at'];
 
