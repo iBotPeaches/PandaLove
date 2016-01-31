@@ -1,4 +1,4 @@
-<?php namespace Onyx\Destiny\Helpers\Event;
+<?php namespace Onyx\Calendar\Helpers\Event;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Calendar\Objects\Event;

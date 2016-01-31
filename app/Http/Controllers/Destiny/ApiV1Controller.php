@@ -9,7 +9,7 @@ use Onyx\Account;
 use Onyx\Destiny\Client;
 use Onyx\Destiny\Enums\Types;
 use Onyx\Destiny\GameNotFoundException;
-use Onyx\Destiny\Helpers\Event\MessageGenerator;
+use Onyx\Calendar\Helpers\Event\MessageGenerator;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Calendar\Objects\Event as GameEvent;

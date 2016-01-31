@@ -6,7 +6,7 @@ use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\Event\MessageGenerator;
+use Onyx\Calendar\Helpers\Event\MessageGenerator;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
