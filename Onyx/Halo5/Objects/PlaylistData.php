@@ -84,6 +84,11 @@ class PlaylistData extends Model {
         return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'current_CsrDesignationId', 'designationId');
     }
 
+    public function season()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
+    }
+
     public function getGamesDone()
     {
         return 10 - $this->measurementMatchesLeft;
@@ -152,5 +157,55 @@ class PlaylistData extends Model {
         }
 
         return $title;
+    }
+
+    public function kd()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills;
+        }
+
+        return number_format($this->totalKills / $this->totalDeaths, 2);
+    }
+
+    public function kad()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return ($this->totalKills + $this->totalAssists);
+        }
+
+        return number_format(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 2);
+    }
+
+    public function winRate()
+    {
+        if ($this->totalGames == 0)
+        {
+            return 0;
+        }
+
+        return round(($this->totalGamesWon / $this->totalGames) * 100);
+    }
+
+    public function winRateColor()
+    {
+        $rate = $this->winRate();
+
+        switch (true)
+        {
+            case $rate > 80:
+                return 'green';
+
+            case $rate <= 80 && $rate > 60:
+                return 'yellow';
+
+            case $rate <= 60 && $rate > 40:
+                return 'orange';
+
+            default:
+                return 'red';
+        }
     }
 }

@@ -6,6 +6,7 @@ use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;
+use Onyx\Halo5\Collections\SeasonCollection;
 use Onyx\Halo5\Objects\Medal;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Commands\UpdateHalo5Account;
@@ -19,7 +20,7 @@ class ProfileController extends Controller {
     private $request;
 
     private $inactiveCounter = 10;
-    private $refreshRateInMinutes = 60;
+    private $refreshRateInMinutes = 180;
 
     public function __construct(Request $request)
     {
@@ -31,12 +32,19 @@ class ProfileController extends Controller {
     {
         try
         {
-            $account = Account::with('h5.playlists.stock', 'h5.playlists.current_csr', 'h5.playlists.high_csr')
+            /** @var $account Account */
+            $account = Account::with('h5.playlists.stock', 'h5.playlists.current_csr', 'h5.playlists.high_csr', 'h5.playlists.season')
                 ->where('seo', Text::seoGamertag($gamertag))
                 ->firstOrFail();
 
+            //$this->dispatch(new UpdateHalo5Account($account));
+
+            $seasons = new SeasonCollection($account, $account->h5->playlists);
+
             return view('halo5.profile', [
                 'account' => $account,
+                'playlists' => $seasons->current(),
+                'seasons' => $seasons,
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
                 'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
                 'mMedals' => $account->h5->medals
@@ -54,7 +62,7 @@ class ProfileController extends Controller {
         {
             try
             {
-                $account = Account::with('h5.playlists.stock')
+                $account = Account::with('h5')
                     ->where('seo', Text::seoGamertag($gamertag))
                     ->firstOrFail();
 

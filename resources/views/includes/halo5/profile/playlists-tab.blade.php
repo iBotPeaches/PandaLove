@@ -1,4 +1,4 @@
-@foreach($account->h5->playlists as $playlist)
+@foreach($playlists as $playlist)
     <div class="ui segment">
         <div class="row">
             <div class="6u">

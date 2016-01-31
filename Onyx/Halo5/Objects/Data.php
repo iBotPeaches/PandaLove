@@ -39,6 +39,11 @@ class Data extends Model {
     public static function boot()
     {
         parent::boot();
+
+        Data::deleting(function($h5)
+        {
+            $h5->playlists->delete();
+        });
     }
 
     //---------------------------------------------------------------------------------
@@ -87,6 +92,11 @@ class Data extends Model {
             ->orderBy('highest_CsrDesignationId', 'DESC')
             ->orderBy('highest_Csr', 'DESC')
             ->orderBy('measurementMatchesLeft', 'ASC');
+    }
+
+    public function season()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
     }
 
     public function record_playlist()

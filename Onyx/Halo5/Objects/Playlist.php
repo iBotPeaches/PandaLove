@@ -37,4 +37,9 @@ class Playlist extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public function season()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
+    }
 }
