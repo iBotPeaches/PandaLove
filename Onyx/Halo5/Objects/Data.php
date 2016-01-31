@@ -115,6 +115,7 @@ class Data extends Model {
         return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id')
             ->orderBy('highest_CsrDesignationId', 'DESC')
             ->orderBy('highest_Csr', 'DESC')
+            ->orderBy('highest_CsrTier', 'DESC')
             ->orderBy('measurementMatchesLeft', 'ASC');
     }
 

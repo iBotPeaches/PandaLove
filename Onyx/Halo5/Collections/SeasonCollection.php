@@ -11,8 +11,6 @@ use Onyx\Halo5\Objects\PlaylistData;
  */
 class SeasonCollection extends Collection
 {
-    static $current;
-
     public function __construct(Account $account, $items)
     {
         foreach ($items as $playlist)
@@ -20,12 +18,11 @@ class SeasonCollection extends Collection
             /** @var $playlist PlaylistData */
             $this->items[$playlist->seasonId]['playlists'][$playlist->playlistId] = $playlist;
             $this->items[$playlist->seasonId]['season'] = $playlist->season;
-
-            if ($playlist->season->isActive)
-            {
-                self::$current = $playlist->season;
-            }
         }
+
+        usort($this->items, function($a, $b) {
+            return strtotime($b['season']->start_date) - strtotime($a['season']->start_date);
+        });
     }
 
     /**
@@ -33,6 +30,6 @@ class SeasonCollection extends Collection
      */
     public function current()
     {
-        return $this->items[self::$current->contentId]['playlists'];
+        return $this->items[0]['playlists'];
     }
 }
