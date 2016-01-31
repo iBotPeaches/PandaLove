@@ -17,8 +17,8 @@ class AddSeasonMetadata extends Migration
             $table->increments('id');
             $table->string('contentId');
             $table->string('name', 32);
-            $table->dateTime('startDate');
-            $table->dateTime('endDate');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->boolean('isActive')->default(false);
         });
     }
