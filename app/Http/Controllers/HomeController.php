@@ -22,6 +22,12 @@ class HomeController extends Controller {
             ->with('description', 'PandaLove is a Destiny clan focused on PVP, Raids, Prison of Elders and Trials of Osiris.');
 	}
 
+	public function getRoster()
+	{
+		return view('roster-switch')
+			->with('description', 'PandaLove rosters for both Destiny & Halo 5.');
+	}
+
     public function getAbout()
     {
         return view('about');
