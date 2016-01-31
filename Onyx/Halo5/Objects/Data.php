@@ -8,10 +8,34 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
 /**
- * Class Data
  * @package \Onyx\Halo5\Objects
- * @property int $highest_CsrTier
+ * @property int $id
+ * @property int $account_id
+ * @property int $totalKills
+ * @property int $totalSpartanKills
+ * @property int $totalHeadshots
+ * @property int $totalDeaths
+ * @property int $totalAssists
  * @property int $totalGames
+ * @property int $totalGamesWon
+ * @property int $totalGamesLost
+ * @property int $totalGamesTied
+ * @property int $totalTimePlayed
+ * @property int $spartanRank
+ * @property int $Xp
+ * @property array $medals
+ * @property null $emblem
+ * @property null $spartan
+ * @property int $highest_CsrTier
+ * @property int $highest_CsrDesignationId
+ * @property int $highest_Csr
+ * @property int $highest_percentNext
+ * @property int $highest_rank
+ * @property string $highest_CsrPlaylistId
+ * @property string $highest_CsrSeasonId
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property string $seasonId
  */
 class Data extends Model {
 

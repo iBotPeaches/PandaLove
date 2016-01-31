@@ -37,8 +37,6 @@ class ProfileController extends Controller {
                 ->where('seo', Text::seoGamertag($gamertag))
                 ->firstOrFail();
 
-            //$this->dispatch(new UpdateHalo5Account($account));
-
             $seasons = new SeasonCollection($account, $account->h5->playlists);
 
             return view('halo5.profile', [

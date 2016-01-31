@@ -2,6 +2,15 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class CSR
+ * @package Onyx\Halo5\Objects
+ * @property int $id
+ * @property string $name
+ * @property string bannerUrl
+ * @property array $tiers
+ * @property int designationId
+ */
 class CSR extends Model {
 
     /**

@@ -4,6 +4,16 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 
+/**
+ * Class Season
+ * @package Onyx\Halo5\Objects
+ * @property int $id
+ * @property string $contentId
+ * @property string $name
+ * @property Carbon $end_date
+ * @property Carbon $start_date
+ * @property boolean $isActive
+ */
 class Season extends Model {
 
     /**

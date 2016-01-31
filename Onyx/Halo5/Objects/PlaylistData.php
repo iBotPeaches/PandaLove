@@ -3,6 +3,35 @@
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 
+/**
+ * Class PlaylistData
+ * @package Onyx\Halo5\Objects
+ * @property int $id
+ * @property int $account_id
+ * @property string $playlistId
+ * @property int $totalKills
+ * @property int $totalSpartanKills
+ * @property int $totalHeadshots
+ * @property int $totalDeaths
+ * @property int $totalAssists
+ * @property int $totalGames
+ * @property int $totalGamesWon
+ * @property int $totalGamesLost
+ * @property int $totalGamesTied
+ * @property int $totalTimePlayed
+ * @property int $highest_CsrTier
+ * @property int $highest_CsrDesignationId
+ * @property int $highest_Csr
+ * @property int $highest_percentNext
+ * @property int $highest_rank
+ * @property int $current_CsrTier
+ * @property int $current_CsrDesignationId
+ * @property int $current_Csr
+ * @property int $current_percentNext
+ * @property int $current_rank
+ * @property int measurementMatchesLeft
+ * @property string $seasonId
+ */
 class PlaylistData extends Model {
 
     /**

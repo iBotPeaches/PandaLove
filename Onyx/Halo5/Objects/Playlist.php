@@ -2,6 +2,18 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Playlist
+ * @package Onyx\Halo5\Objects
+ * @property int $id
+ * @property string $contentId
+ * @property string $name
+ * @property string $description
+ * @property boolean $isRanked
+ * @property string $imageUrl
+ * @property boolean isActive
+ * @property string $gameMode
+ */
 class Playlist extends Model {
 
     /**

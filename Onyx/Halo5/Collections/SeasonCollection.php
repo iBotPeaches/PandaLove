@@ -4,6 +4,11 @@ use Illuminate\Support\Collection;
 use Onyx\Account;
 use Onyx\Halo5\Objects\PlaylistData;
 
+/**
+ * Class SeasonCollection
+ * @package Onyx\Halo5\Collections
+ * @property array $items
+ */
 class SeasonCollection extends Collection
 {
     static $current;

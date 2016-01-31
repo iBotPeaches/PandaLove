@@ -141,6 +141,7 @@ class Client extends Http {
             $record = $this->_getArenaServiceRecord($account);
         }
 
+        /** @var Data $h5_data */
         $h5_data = $account->h5;
 
         // dump the stats
