@@ -13,7 +13,6 @@ class AddGameToGameEvents extends Migration
     public function up()
     {
         Schema::table('game_events', function (Blueprint $table) {
-            // Add the game column
             $table->string('game');
         });
     }
@@ -26,7 +25,6 @@ class AddGameToGameEvents extends Migration
     public function down()
     {
         Schema::table('game_events', function (Blueprint $table) {
-            // Remove the game column
             $table->dropColumn('game');
         });
     }
