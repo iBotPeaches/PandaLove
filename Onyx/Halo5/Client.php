@@ -141,6 +141,9 @@ class Client extends Http {
         else
         {
             $record = $this->_getArenaServiceRecord($account);
+
+            // check if data changed
+            $this->_checkForStatChange($account->h5, $account->h5->Xp, $record['Xp']);
         }
 
         /** @var Data $h5_data */
@@ -293,6 +296,25 @@ class Client extends Http {
         if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
         {
             return $json['Results'][0]['Result'];
+        }
+    }
+
+    /**
+     * @param $h5 Data
+     * @param $old_xp int
+     * @param $new_xp int
+     */
+    private function _checkForStatChange(&$h5, $old_xp, $new_xp)
+    {
+        if ($old_xp != $new_xp)
+        {
+            $h5->inactiveCounter = 0;
+            $h5->save();
+        }
+        else
+        {
+            $h5->inactiveCounter++;
+            $h5->save();
         }
     }
 

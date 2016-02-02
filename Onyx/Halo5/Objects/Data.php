@@ -36,6 +36,7 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $seasonId
+ * @property int $inactiveCounter
  */
 class Data extends Model {
 

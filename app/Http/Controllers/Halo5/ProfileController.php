@@ -20,7 +20,7 @@ class ProfileController extends Controller {
     private $request;
 
     private $inactiveCounter = 10;
-    private $refreshRateInMinutes = 180;
+    private $refreshRateInMinutes = 0;
 
     public function __construct(Request $request)
     {
