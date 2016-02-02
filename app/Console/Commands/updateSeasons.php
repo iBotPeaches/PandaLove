@@ -57,7 +57,7 @@ class updateSeasons extends Command
                 $s->isActive = boolval($season['isActive']);
                 $s->contentId = $season['id'];
                 $s->startDate = $season['startDate'];
-                $s->endDate = $season['endDate'];
+                $s->endDate = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
                 $s->save();
             }
         }

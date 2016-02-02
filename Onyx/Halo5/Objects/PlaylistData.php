@@ -53,7 +53,7 @@ class PlaylistData extends Model {
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     public static function boot()
     {

@@ -116,14 +116,16 @@ class Client extends Http {
     {
         $seasons = Season::all();
 
+        /** @var $season Season */
         foreach ($seasons as $season)
         {
             // check if season is in past and exists, if so don't reload
-            $count = PlaylistData::where('account_id', $account->id)
+            $playlist = PlaylistData::where('account_id', $account->id)
                 ->where('seasonId', $season->contentId)
-                ->count();
+                ->where('updated_at', '>=', $season->end_date)
+                ->first();
 
-            if ($count == 0 && ! $season->isFuture())
+            if ($playlist == null && ! $season->isFuture())
             {
                 $this->updateArenaServiceRecord($account, $season->contentId);
             }
