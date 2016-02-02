@@ -19,7 +19,7 @@ class Constants {
      * Obtain profile information (motto, clans, groups) about a membershipId / membershipType
      * @var string
      */
-    public static $getBungieAccount = 'https://www.bungie.net/Platform/User/GetBungieAccount/%1$s/%2$d';
+    public static $getBungieAccount = 'https://www.bungie.net/Platform/User/GetBungieNetUserById/%1$s/%2$d';
 
     /**
      * Obtain Post Game Carnage Report for a game (instanceId)
