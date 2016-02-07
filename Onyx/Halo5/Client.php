@@ -144,27 +144,30 @@ class Client extends Http {
 
     public function updateWarzoneServiceRecord($account)
     {
-        $record = $this->_getWarzoneServiceRecord($account);
-
         $h5_warzone = $account->h5->warzone;
 
-        $h5_warzone->totalKills = $record['WarzoneStat']['TotalSpartanKills'];
-        $h5_warzone->totalHeadshots = $record['WarzoneStat']['TotalHeadshots'];
-        $h5_warzone->totalDeaths = $record['WarzoneStat']['TotalDeaths'];
-        $h5_warzone->totalAssists = $record['WarzoneStat']['TotalAssists'];
+        if ($h5_warzone instanceof Warzone)
+        {
+            $record = $this->_getWarzoneServiceRecord($account);
 
-        $h5_warzone->totalGames = $record['WarzoneStat']['TotalGamesCompleted'];
-        $h5_warzone->totalGamesWon = $record['WarzoneStat']['TotalGamesWon'];
-        $h5_warzone->totalGamesLost = $record['WarzoneStat']['TotalGamesLost'];
-        $h5_warzone->totalGamesTied = $record['WarzoneStat']['TotalGamesTied'];
-        $h5_warzone->totalTimePlayed = $record['WarzoneStat']['TotalTimePlayed'];
+            $h5_warzone->totalKills = $record['WarzoneStat']['TotalSpartanKills'];
+            $h5_warzone->totalHeadshots = $record['WarzoneStat']['TotalHeadshots'];
+            $h5_warzone->totalDeaths = $record['WarzoneStat']['TotalDeaths'];
+            $h5_warzone->totalAssists = $record['WarzoneStat']['TotalAssists'];
 
-        $h5_warzone->totalPiesEarned = $record['WarzoneStat']['TotalPiesEarned'];
+            $h5_warzone->totalGames = $record['WarzoneStat']['TotalGamesCompleted'];
+            $h5_warzone->totalGamesWon = $record['WarzoneStat']['TotalGamesWon'];
+            $h5_warzone->totalGamesLost = $record['WarzoneStat']['TotalGamesLost'];
+            $h5_warzone->totalGamesTied = $record['WarzoneStat']['TotalGamesTied'];
+            $h5_warzone->totalTimePlayed = $record['WarzoneStat']['TotalTimePlayed'];
 
-        $h5_warzone->medals = $record['WarzoneStat']['MedalAwards'];
-        $h5_warzone->weapons = $record['WarzoneStat']['WeaponStats'];
+            $h5_warzone->totalPiesEarned = $record['WarzoneStat']['TotalPiesEarned'];
 
-        $h5_warzone->save();
+            $h5_warzone->medals = $record['WarzoneStat']['MedalAwards'];
+            $h5_warzone->weapons = $record['WarzoneStat']['WeaponStats'];
+
+            $h5_warzone->save();
+        }
     }
 
     public function updateArenaServiceRecord($account, $seasonId = null)
