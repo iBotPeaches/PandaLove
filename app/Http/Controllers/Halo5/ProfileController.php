@@ -67,13 +67,6 @@ class ProfileController extends Controller {
                     ->where('seo', Text::seoGamertag($gamertag))
                     ->firstOrFail();
 
-                if (! $account->h5->warzone instanceof Warzone)
-                {
-                    $h5_warzone = new Warzone();
-                    $h5_warzone->account_id = $account->id;
-                    $h5_warzone->save();
-                }
-
                 // We don't care about non-panda members
                 if (! $account->isPandaLove())
                 {
@@ -93,6 +86,13 @@ class ProfileController extends Controller {
 
                 if ($account->h5->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
                 {
+                    if (! $account->h5->warzone instanceof Warzone)
+                    {
+                        $h5_warzone = new Warzone();
+                        $h5_warzone->account_id = $account->id;
+                        $h5_warzone->save();
+                    }
+
                     // update this
                     $this->dispatch(new UpdateHalo5Account($account));
 
