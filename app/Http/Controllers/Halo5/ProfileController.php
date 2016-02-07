@@ -8,6 +8,8 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;
 use Onyx\Halo5\Collections\SeasonCollection;
 use Onyx\Halo5\Objects\Medal;
+use Onyx\Halo5\Objects\Warzone;
+use Onyx\Halo5\Objects\Weapon;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
@@ -33,7 +35,7 @@ class ProfileController extends Controller {
         try
         {
             /** @var $account Account */
-            $account = Account::with('h5.playlists.stock', 'h5.playlists.current_csr', 'h5.playlists.high_csr', 'h5.playlists.season')
+            $account = Account::with('h5.playlists.stock', 'h5.playlists.current_csr', 'h5.playlists.high_csr', 'h5.playlists.season', 'h5.warzone')
                 ->where('seo', Text::seoGamertag($gamertag))
                 ->firstOrFail();
 
@@ -45,6 +47,7 @@ class ProfileController extends Controller {
                 'seasons' => $seasons,
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
                 'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
+                'weapons' => Weapon::getAll(),
                 'mMedals' => $account->h5->medals
             ]);
         }
@@ -60,9 +63,16 @@ class ProfileController extends Controller {
         {
             try
             {
-                $account = Account::with('h5')
+                $account = Account::with('h5', 'h5.warzone')
                     ->where('seo', Text::seoGamertag($gamertag))
                     ->firstOrFail();
+
+                if (! $account->h5->warzone instanceof Warzone)
+                {
+                    $h5_warzone = new Warzone();
+                    $h5_warzone->account_id = $account->id;
+                    $h5_warzone->save();
+                }
 
                 // We don't care about non-panda members
                 if (! $account->isPandaLove())

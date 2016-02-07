@@ -8,7 +8,8 @@ var paths = {
     'js': './resources/js/',
     'images': './resources/images/',
     'fonts': './resources/fonts/',
-    'storage': './storage/app/'
+    'storage': './storage/app/',
+    'weapons': './resources/images/weapons/'
 };
 
 /*
@@ -27,6 +28,7 @@ elixir(function(mix) {
      .copy(paths.jquery + 'cdn/jquery.min.js', 'public/js/jquery.min.js')
      .copy(paths.fontawesome + 'css/font-awesome.min.css', 'public/css/font-awesome.min.css')
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
+     .copy(paths.weapons, 'public/images/weapons/')
      .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
      .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
      .copy(paths.semantic + 'themes', 'public/themes/')

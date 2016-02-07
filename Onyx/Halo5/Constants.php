@@ -31,11 +31,25 @@ class Constants{
     public static $metadata_seasons = 'https://www.haloapi.com/metadata/h5/metadata/seasons';
 
     /**
+     * Weapons explained
+     *
+     * @var string
+     */
+    public static $metadata_weapons = 'https://www.haloapi.com/metadata/h5/metadata/weapons';
+
+    /**
      * Halo5 Arena stats, all-time.
      *
      * @var string
      */
     public static $servicerecord_arena = 'https://www.haloapi.com/stats/h5/servicerecords/arena?players=%s';
+
+    /**
+     * Halo5 Warzone stats, all-time.
+     *
+     * @var string
+     */
+    public static $servicerecord_warzone = 'https://www.haloapi.com/stats/h5/servicerecords/warzone?players=%s';
 
     /**
      * Halo5 Emblem URL

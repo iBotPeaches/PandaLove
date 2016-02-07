@@ -40,6 +40,9 @@
                         <a class="item" data-tab="medals">
                             Medals
                         </a>
+                        <a class="item" data-tab="warzone">
+                            Warzone
+                        </a>
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.halo5.profile.overview-tab')
@@ -52,6 +55,9 @@
                     </div>
                     <div class="ui bottom attached tab" data-tab="medals">
                         @include('includes.halo5.profile.medals-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="warzone">
+                        @include('includes.halo5.profile.warzone-tab')
                     </div>
                 </div>
             </div>
