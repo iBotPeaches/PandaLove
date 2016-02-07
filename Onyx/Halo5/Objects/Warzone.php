@@ -139,6 +139,11 @@ class Warzone extends Model {
 
     public function winRate()
     {
+        if ($this->totalGames == 0)
+        {
+            return 0;
+        }
+
         return round(($this->totalGamesWon / $this->totalGames) * 100);
     }
 
