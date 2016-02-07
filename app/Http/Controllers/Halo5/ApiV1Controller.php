@@ -50,12 +50,13 @@ class ApiV1Controller extends Controller {
                 if ($user->account_id != 0 && $user->account->h5 instanceof Data)
                 {
                     $old_h5 = clone $user->account->h5;
+                    $old_warzone = clone $user->account->h5->warzone;
 
                     $this->dispatch(new UpdateHalo5Account($user->account));
 
                     $new_h5 = Data::where('account_id', $user->account_id)->first();
 
-                    $msg = MessageGenerator::buildH5UpdateMessage($user->account, $old_h5, $new_h5);
+                    $msg = MessageGenerator::buildH5UpdateMessage($user->account, $old_h5, $old_warzone, $new_h5);
 
                     return Response::json([
                         'error' => false,

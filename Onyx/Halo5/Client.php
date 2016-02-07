@@ -12,6 +12,7 @@ use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\PlaylistData;
 use Onyx\Halo5\Objects\Season;
 use Onyx\Halo5\Objects\SeasonData;
+use Onyx\Halo5\Objects\Warzone;
 
 class Client extends Http {
 
@@ -39,6 +40,14 @@ class Client extends Http {
                 $h5_data = new Data();
                 $h5_data->account_id = $account->id;
                 $h5_data->save();
+            }
+
+            // lets check if they have a H5 Warzone
+            if (! $account->warzone instanceof Warzone)
+            {
+                $h5_warzone = new Warzone();
+                $h5_warzone->account_id = $account->id;
+                $h5_warzone->save();
             }
 
             return $account;
@@ -69,6 +78,7 @@ class Client extends Http {
     {
         $this->pullArenaSeasonHistoryRecord($account);
         $this->updateArenaServiceRecord($account);
+        $this->updateWarzoneServiceRecord($account);
         $this->updateSpartan($account);
         $this->updateEmblem($account);
 
@@ -130,6 +140,31 @@ class Client extends Http {
                 $this->updateArenaServiceRecord($account, $season->contentId);
             }
         }
+    }
+
+    public function updateWarzoneServiceRecord($account)
+    {
+        $record = $this->_getWarzoneServiceRecord($account);
+
+        $h5_warzone = $account->h5->warzone;
+
+        $h5_warzone->totalKills = $record['WarzoneStat']['TotalSpartanKills'];
+        $h5_warzone->totalHeadshots = $record['WarzoneStat']['TotalHeadshots'];
+        $h5_warzone->totalDeaths = $record['WarzoneStat']['TotalDeaths'];
+        $h5_warzone->totalAssists = $record['WarzoneStat']['TotalAssists'];
+
+        $h5_warzone->totalGames = $record['WarzoneStat']['TotalGamesCompleted'];
+        $h5_warzone->totalGamesWon = $record['WarzoneStat']['TotalGamesWon'];
+        $h5_warzone->totalGamesLost = $record['WarzoneStat']['TotalGamesLost'];
+        $h5_warzone->totalGamesTied = $record['WarzoneStat']['TotalGamesTied'];
+        $h5_warzone->totalTimePlayed = $record['WarzoneStat']['TotalTimePlayed'];
+
+        $h5_warzone->totalPiesEarned = $record['WarzoneStat']['TotalPiesEarned'];
+
+        $h5_warzone->medals = $record['WarzoneStat']['MedalAwards'];
+        $h5_warzone->weapons = $record['WarzoneStat']['WeaponStats'];
+
+        $h5_warzone->save();
     }
 
     public function updateArenaServiceRecord($account, $seasonId = null)
@@ -280,6 +315,17 @@ class Client extends Http {
     {
         $url = sprintf(Constants::$spartan_image, Halo5Text::encodeGamertagForApi($account->gamertag), $size);
         return $this->getAsset($url);
+    }
+
+    private function _getWarzoneServiceRecord($account)
+    {
+        $url = sprintf(Constants::$servicerecord_warzone, Halo5Text::encodeGamertagForApi($account->gamertag));
+        $json = $this->getJson($url);
+
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
+        {
+            return $json['Results'][0]['Result'];
+        }
     }
 
     private function _getArenaServiceRecord($account)

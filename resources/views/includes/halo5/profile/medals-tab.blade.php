@@ -19,3 +19,6 @@
         @define $i++
     @endif
 @endforeach
+@if ($i != 1)
+    </div>
+@endif

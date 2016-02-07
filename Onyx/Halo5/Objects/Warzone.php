@@ -12,7 +12,6 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property int $id
  * @property int $account_id
  * @property int $totalKills
- * @property int $totalSpartanKills
  * @property int $totalHeadshots
  * @property int $totalDeaths
  * @property int $totalAssists
@@ -21,31 +20,18 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property int $totalGamesLost
  * @property int $totalGamesTied
  * @property int $totalTimePlayed
- * @property int $spartanRank
- * @property int $Xp
+ * @property int $totalPiesEarned
  * @property array $medals
- * @property null $emblem
- * @property null $spartan
- * @property int $highest_CsrTier
- * @property int $highest_CsrDesignationId
- * @property int $highest_Csr
- * @property int $highest_percentNext
- * @property int $highest_rank
- * @property string $highest_CsrPlaylistId
- * @property string $highest_CsrSeasonId
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property string $seasonId
- * @property int $inactiveCounter
+ * @property array $weapons
  */
-class Data extends Model {
+class Warzone extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'halo5_data';
+    protected $table = 'halo5_warzone';
 
     /**
      * The attributes that are not mass assignable.
@@ -59,16 +45,11 @@ class Data extends Model {
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = false;
 
     public static function boot()
     {
         parent::boot();
-
-        Data::deleting(function($h5)
-        {
-            $h5->playlists->delete();
-        });
     }
 
     //---------------------------------------------------------------------------------
@@ -89,12 +70,33 @@ class Data extends Model {
         }
     }
 
+    public function setWeaponsAttribute($value)
+    {
+        if (is_array($value))
+        {
+            $insert = [];
+
+            foreach($value as $weapon)
+            {
+                $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
+            }
+
+            arsort($insert);
+            $this->attributes['weapons'] = json_encode($insert);
+        }
+    }
+
     public function setTotalTimePlayedAttribute($value)
     {
         $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
     }
 
     public function getMedalsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getWeaponsAttribute($value)
     {
         return json_decode($value, true);
     }
@@ -106,69 +108,6 @@ class Data extends Model {
     public function account()
     {
         return $this->belongsTo('Onyx\Account');
-    }
-
-    /**
-     * @return Collection|\Onyx\Halo5\Objects\PlaylistData
-     */
-    public function playlists()
-    {
-        return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id')
-            ->orderBy('highest_CsrDesignationId', 'DESC')
-            ->orderBy('highest_Csr', 'DESC')
-            ->orderBy('highest_CsrTier', 'DESC')
-            ->orderBy('measurementMatchesLeft', 'ASC');
-    }
-
-    public function warzone()
-    {
-        return $this->hasOne('Onyx\Halo5\Objects\Warzone', 'account_id', 'account_id');
-    }
-
-    public function season()
-    {
-        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
-    }
-
-    public function record_playlist()
-    {
-        // setup fake PlaylistData with the elements of the best playlist
-        // This is bad because we can't leverage pre-loading of data (eager load)
-        // so we have n+1 queries here.
-        // @todo store highest CSR in a different table to allow eager loading
-
-        $record = new PlaylistData();
-        $record->fill($this->highest_playlist());
-
-        if ($record->stock instanceof Playlist)
-        {
-            return $record;
-        }
-
-        return null;
-    }
-
-    public function highest_playlist()
-    {
-        return array(
-            'highest_CsrTier'           => $this->highest_CsrTier,
-            'highest_CsrDesignationId'  => $this->highest_CsrDesignationId,
-            'highest_Csr'               => $this->highest_Csr,
-            'highest_percentNext'       => $this->highest_percentNext,
-            'highest_rank'              => $this->highest_rank,
-            'highest_CsrPlaylistId'     => $this->highest_CsrPlaylistId,
-            'playlistId'                => $this->highest_CsrPlaylistId
-        );
-    }
-
-    public function getSpartan()
-    {
-        return asset('uploads/h5/' . $this->account->seo . '/spartan.png');
-    }
-
-    public function getEmblem()
-    {
-        return asset('uploads/h5/' . $this->account->seo . '/emblem.png');
     }
 
     public function getLastUpdatedRelative()
@@ -222,5 +161,4 @@ class Data extends Model {
                 return 'red';
         }
     }
-
 }

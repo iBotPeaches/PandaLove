@@ -48,4 +48,18 @@ class Weapon extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public static function getAll()
+    {
+        $all = Weapon::all();
+
+        $rtr = [];
+
+        foreach ($all as $item)
+        {
+            $rtr[$item->uuid] = $item;
+        }
+
+        return $rtr;
+    }
 }
