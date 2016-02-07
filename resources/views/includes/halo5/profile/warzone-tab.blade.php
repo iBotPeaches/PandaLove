@@ -1,4 +1,4 @@
-@if ($account->h5->warzone != null)
+@if ($account->h5->warzone != null && $account->h5->warzone->totalKills != 0)
     <div class="ui stackable secondary pointing menu">
         <a class="active item" data-tab="warzone-overview">
             Stat Overview

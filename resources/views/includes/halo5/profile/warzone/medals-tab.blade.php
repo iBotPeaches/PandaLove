@@ -20,6 +20,6 @@
     @endif
 @endforeach
 
-@if ($i != 1)
+@if ($i != 0)
     </div>
 @endif

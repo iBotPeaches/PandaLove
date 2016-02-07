@@ -15,7 +15,7 @@
                         </div>
                     </div>
                 </div>
-        @if ($i == 7)
+        @if ($i == 3)
             @define $i = -1
             </div>
         @endif
@@ -23,6 +23,6 @@
     @endif
 @endforeach
 
-@if ($i != 1)
+@if ($i != 0)
     </div>
 @endif
