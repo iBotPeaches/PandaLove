@@ -11,6 +11,7 @@ use PandaLove\Console\Commands\updateMedals;
 use PandaLove\Console\Commands\updateCsrs;
 use PandaLove\Console\Commands\updatePlaylists;
 use PandaLove\Console\Commands\updateSeasons;
+use PandaLove\Console\Commands\updateWeapons;
 
 class Kernel extends ConsoleKernel {
 
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel {
 		updateMedals::class,
 		updateCsrs::class,
 		updatePlaylists::class,
-		updateSeasons::class
+		updateSeasons::class,
+		updateWeapons::class
 	];
 
 	/**

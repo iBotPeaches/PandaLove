@@ -252,6 +252,13 @@ class Client extends Http {
         return $this->getJson($url);
     }
 
+    public function getWeapons()
+    {
+        $url = Constants::$metadata_weapons;
+
+        return $this->getJson($url);
+    }
+
     public function getCsrs()
     {
         $url = Constants::$metadata_csr;
