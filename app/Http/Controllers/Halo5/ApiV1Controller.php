@@ -5,6 +5,7 @@ use Illuminate\View\Factory as View;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Collection;
 use Onyx\Halo5\Helpers\Bot\MessageGenerator;
 use Onyx\Halo5\Objects\Data;
 use Onyx\User;
@@ -31,6 +32,46 @@ class ApiV1Controller extends Controller {
     //---------------------------------------------------------------------------------
     // Halo5 GET
     //---------------------------------------------------------------------------------
+
+    public function getArenaLeaderboard()
+    {
+        // Get all halo accounts
+        $accounts = Account::with('destiny', 'h5.playlists')
+            ->whereHas('destiny', function($query)
+            {
+                $query->where('clanName', 'Panda Love');
+            })
+            ->whereHas('h5', function($query)
+            {
+                $query->where('totalKills', '!=', 0);
+            })
+            ->orderBy('gamertag', 'ASC')
+            ->get();
+            
+        // Make the collection
+        $scores = Collection::make([]);
+        foreach ($accounts as $account)
+        {
+            $score = [
+                'score' => log($account->h5->totalGames) * $account->h5->kd(false),
+                'gamertag' => $account->gamertag
+            ];
+
+            $scores.push($score);
+        }
+        
+        // Sort
+        $scores = $scores.sortByDesc('score');
+        
+        // Get the message
+        $msg = MessageGenerator::buildArenaLeaderboardMessage($scores);
+        
+        return Response::json([
+            'error' => false,
+            'msg' => $msg
+        ], 200);
+    }
+        
 
     //---------------------------------------------------------------------------------
     // Halo5 POST
