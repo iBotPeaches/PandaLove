@@ -178,14 +178,12 @@ class Data extends Model {
         return $date->diffForHumans();
     }
 
-    public function kd()
+    public function kd($formatted = true)
     {
-        if ($this->totalDeaths == 0)
-        {
-            return $this->totalKills;
-        }
-
-        return number_format($this->totalKills / $this->totalDeaths, 2);
+        if ($formatted)
+            return number_format($this->_raw_kd(), 2);
+        else
+            return $this->_raw_kd();
     }
 
     public function kad()
@@ -221,6 +219,16 @@ class Data extends Model {
             default:
                 return 'red';
         }
+    }
+
+    private function _raw_kd()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills;
+        }
+
+        return $this->totalKills / $this->totalDeaths;
     }
 
 }
