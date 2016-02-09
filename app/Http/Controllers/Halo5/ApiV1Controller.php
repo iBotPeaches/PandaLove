@@ -32,6 +32,27 @@ class ApiV1Controller extends Controller {
     // Halo5 GET
     //---------------------------------------------------------------------------------
 
+    public function getArenaLeaderboard()
+    {
+        // Get all halo accounts
+        $accounts = Account::with('destiny', 'h5.playlists')
+            ->whereHas('destiny', function($query)
+            {
+                $query->where('clanName', 'Panda Love');
+            })
+            ->whereHas('h5', function($query)
+            {
+                $query->where('totalKills', '!=', 0);
+            })
+            ->orderBy('gamertag', 'ASC')
+            ->paginate(15);
+        
+        foreach ($accounts as $account)
+        {
+            
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Halo5 POST
     //---------------------------------------------------------------------------------
