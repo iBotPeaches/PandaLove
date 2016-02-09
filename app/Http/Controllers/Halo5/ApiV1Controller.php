@@ -61,7 +61,7 @@ class ApiV1Controller extends Controller {
         }
         
         // Sort
-        $scores = $scores.sortByDesc('score');
+        $scores = $scores->sortByDesc('score');
         
         // Get the message
         $msg = MessageGenerator::buildArenaLeaderboardMessage($scores);
