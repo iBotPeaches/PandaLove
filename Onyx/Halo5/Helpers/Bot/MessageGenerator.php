@@ -52,11 +52,10 @@ class MessageGenerator {
         $msg = '<strong> Arena Leaders </strong><br />';
         
         // Loop through them all
-        $x = 0;
-        foreach ($scores->all() as $score => $gt)
+        $x = 1;
+        foreach ($scores->all() as $item)
         {
-            $msg .= '<strong>' . $x . ". " . $gt . ':</strong> ' . number_format($score, 2) . '<br />';
-            $x += 1;
+            $msg .= '<strong>' . $x++ . '. ' . $item->account->gamertag . ':</strong> ' . number_format($item->score, 2) . '<br />';
         }
         
         return $msg;

@@ -6,6 +6,8 @@ use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
+use Onyx\Account;
+use Onyx\Halo5\Collections\ArenaLeaderboardCollection;
 use Onyx\Halo5\Helpers\Bot\MessageGenerator;
 use Onyx\Halo5\Objects\Data;
 use Onyx\User;
@@ -36,7 +38,7 @@ class ApiV1Controller extends Controller {
     public function getArenaLeaderboard()
     {
         // Get all halo accounts
-        $accounts = Account::with('destiny', 'h5.playlists')
+        $accounts = Account::with('destiny', 'h5')
             ->whereHas('destiny', function($query)
             {
                 $query->where('clanName', 'Panda Love');
@@ -48,22 +50,9 @@ class ApiV1Controller extends Controller {
             ->orderBy('gamertag', 'ASC')
             ->get();
             
-        // Make the collection
-        $scores = Collection::make();
-        foreach ($accounts as $account)
-        {
-            $score = log($account->h5->totalGames) * $account->h5->kd(false);
+        $collection = new ArenaLeaderboardCollection($accounts);
+        $msg = MessageGenerator::buildArenaLeaderboardMessage($collection);
 
-            // Mathemetically improbable any will ever have the same score
-            $scores->put($score, $account->gamertag);
-        }
-        
-        // Sort
-        $scores = $scores->sortByDesc();
-        
-        // Get the message
-        $msg = MessageGenerator::buildArenaLeaderboardMessage($scores);
-        
         return Response::json([
             'error' => false,
             'msg' => $msg
