@@ -49,13 +49,13 @@ class ApiV1Controller extends Controller {
             ->get();
             
         // Make the collection
-        $scores = Collection::make([]);
+        $scores = Collection::make();
         foreach ($accounts as $account)
         {
             $score = log($account->h5->totalGames) * $account->h5->kd(false);
 
             // Mathemetically improbable any will ever have the same score
-            $scores.put($score, $account->gamertag);
+            $scores->put($score, $account->gamertag);
         }
         
         // Sort

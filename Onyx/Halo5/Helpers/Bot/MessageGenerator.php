@@ -52,10 +52,12 @@ class MessageGenerator {
         $msg = '<strong> Arena Leaders </strong><br />';
         
         // Loop through them all
-        x = 0;
-        $scores.each(function ($score, $gt) {
-            $msg .= '<strong>' . $gt . ':</strong> ' . number_format($score, 2) . '<br />';
-        });
+        $x = 0;
+        foreach ($scores->all() as $score => $gt)
+        {
+            $msg .= '<strong>' . $x . ". " . $gt . ':</strong> ' . number_format($score, 2) . '<br />';
+            $x += 1;
+        }
         
         return $msg;
     }
