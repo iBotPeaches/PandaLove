@@ -42,4 +42,22 @@ class MessageGenerator {
 
         return $msg;
     }
+    
+    /**
+     * @param \Illuminate\Support\Collection $scores
+     * @return string
+     */
+    public static function buildArenaLeaderboardMessage($scores)
+    {
+        $msg = '<strong> Arena Leaders </strong><br />';
+        
+        // Loop through them all
+        $x = 1;
+        foreach ($scores->all() as $item)
+        {
+            $msg .= '<strong>' . $x++ . '. ' . $item->account->gamertag . ':</strong> ' . number_format($item->score, 2) . '<br />';
+        }
+        
+        return $msg;
+    }
 }

@@ -5,6 +5,9 @@ use Illuminate\View\Factory as View;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Collection;
+use Onyx\Account;
+use Onyx\Halo5\Collections\ArenaLeaderboardCollection;
 use Onyx\Halo5\Helpers\Bot\MessageGenerator;
 use Onyx\Halo5\Objects\Data;
 use Onyx\User;
@@ -31,6 +34,31 @@ class ApiV1Controller extends Controller {
     //---------------------------------------------------------------------------------
     // Halo5 GET
     //---------------------------------------------------------------------------------
+
+    public function getArenaLeaderboard()
+    {
+        // Get all halo accounts
+        $accounts = Account::with('destiny', 'h5')
+            ->whereHas('destiny', function($query)
+            {
+                $query->where('clanName', 'Panda Love');
+            })
+            ->whereHas('h5', function($query)
+            {
+                $query->where('totalKills', '!=', 0);
+            })
+            ->orderBy('gamertag', 'ASC')
+            ->get();
+            
+        $collection = new ArenaLeaderboardCollection($accounts);
+        $msg = MessageGenerator::buildArenaLeaderboardMessage($collection);
+
+        return Response::json([
+            'error' => false,
+            'msg' => $msg
+        ], 200);
+    }
+        
 
     //---------------------------------------------------------------------------------
     // Halo5 POST
