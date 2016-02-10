@@ -13,6 +13,7 @@ use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Helpers\Utils\Gametype;
 use Onyx\Destiny\Objects\Character;
+use Onyx\Destiny\Objects\Data;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
 use Onyx\Destiny\Objects\PVP;
@@ -124,8 +125,7 @@ class Client extends Http {
 
         $account = $this->checkCacheForGamertag($gamertag);
 
-        // @todo check if destiny_membershipId is NULL, if so. Pull JSON and update fields
-        if ($account instanceof Account)
+        if ($account instanceof Account && $account->destiny_membershipId != "")
         {
             return $account;
         }
@@ -144,6 +144,20 @@ class Client extends Http {
             }
             catch (QueryException $e)
             {
+                if ($account instanceof Account)
+                {
+                    $account->destiny_membershipId = $json['Response'][0]['membershipId'];
+                    $account->accountType = intval(1);
+                    $account->save();
+
+                    $data = new Data();
+                    $data->account_id = $account->id;
+                    $data->membershipId = $account->destiny_membershipId;
+                    $data->save();
+
+                    return $account;
+                }
+
                 // Assuming this character already exists, but has had a name change
                 $char = Character::where('membershipId', $json['Response'][0]['membershipId'])->first();
                 $account = $char->account;
