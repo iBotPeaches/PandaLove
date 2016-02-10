@@ -4,6 +4,18 @@ use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Utils\Gametype;
 use Onyx\Destiny\Helpers\Utils\Team;
 
+/**
+ * Class PVP
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property int $instanceId
+ * @property string $gametype
+ * @property int $winnerPts
+ * @property int $loserPts
+ * @property int $winnerId
+ * @property int $loserId
+ * @property int $pandaIa
+ */
 class PVP extends Model {
 
     /**

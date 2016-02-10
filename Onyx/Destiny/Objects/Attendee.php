@@ -2,6 +2,16 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Attendee
+ * @package Onyx\Destiny\Objects
+ * @property int $game_id
+ * @property int $membershipId
+ * @property int $characterId
+ * @property int $account_id
+ * @property int $user_id
+ * @property boolean $attended
+ */
 class Attendee extends Model {
 
     protected $table = 'attendees';

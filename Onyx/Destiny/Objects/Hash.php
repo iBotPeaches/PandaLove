@@ -2,6 +2,16 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Hash
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property string $hash
+ * @property string $description
+ * @property string $extra
+ * @property string $extraSecondary
+ * @property string $extraThird
+ */
 class Hash extends Model {
 
     /**

@@ -9,6 +9,49 @@ use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 
+/**
+ * Class Character
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property int $membershipId
+ * @property int $characterId
+ * @property Carbon $last_played
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property int $minutes_played
+ * @property int $minutes_played_last_session
+ * @property int $level
+ * @property string $race
+ * @property string $gender
+ * @property string $class
+ * @property int $defense
+ * @property int $intellect
+ * @property int $discipline
+ * @property int $strength
+ * @property int $light
+ * @property Hash $emblem
+ * @property Hash $background
+ * @property Hash $subclass
+ * @property Hash $helmet
+ * @property Hash $arms
+ * @property Hash $chest
+ * @property Hash $boots
+ * @property Hash $class_item
+ * @property Hash $primary
+ * @property Hash $secondary
+ * @property Hash $heavy
+ * @property Hash $ship
+ * @property Hash $sparrow
+ * @property Hash $ghost
+ * @property Hash $shader
+ * @property int $realLevel
+ * @property Hash $emote
+ * @property Hash $artifact
+ * @property int $next_level_exp
+ * @property int $progress_exp
+ * @property int $highest_light
+ * @property Hash $horn
+ */
 class Character extends Model {
 
     /**

@@ -1,8 +1,27 @@
 <?php namespace Onyx\Destiny\Objects;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
 
+/**
+ * Class Data
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property int $account_id
+ * @property int $membershipId
+ * @property string $clanName
+ * @property string $clanTag
+ * @property int $glimmer
+ * @property int $grimoire
+ * @property int $legendary_marks
+ * @property int $character_1
+ * @property int $character_2
+ * @property int $character_3
+ * @property int $inactiveCounter
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class Data extends Model {
 
     /**

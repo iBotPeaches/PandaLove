@@ -6,6 +6,29 @@ use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 
+/**
+ * Class GamePlayer
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property int $game_id
+ * @property int $membershipId
+ * @property int $characterId
+ * @property int $level
+ * @property Hash $class
+ * @property Hash $emblem
+ * @property int $assists
+ * @property int $deaths
+ * @property int $kills
+ * @property boolean $completed
+ * @property int $secondsPlayed
+ * @property float $averageLifespan
+ * @property int $score
+ * @property int $team
+ * @property int $standing
+ * @property int $revives_given
+ * @property int $revives_taken
+ * @property int $account_id
+ */
 class GamePlayer extends Model {
 
     /**

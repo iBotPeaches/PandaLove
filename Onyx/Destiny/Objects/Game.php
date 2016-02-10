@@ -7,6 +7,22 @@ use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 
+/**
+ * Class Game
+ * @package Onyx\Destiny\Objects
+ * @property int $id
+ * @property int $instancId
+ * @property int $referenceId
+ * @property boolean $isHard
+ * @property string $type Raid|Flawless|PVP|PoE|ToO
+ * @property Carbon $occurredAt
+ * @property int $raidTuesday
+ * @property int $timeTookInSeconds
+ * @property int $passageId
+ * @property boolean $hidden
+ * @property int $version
+ * @property boolean $mercy
+ */
 class Game extends Model {
 
     /**
