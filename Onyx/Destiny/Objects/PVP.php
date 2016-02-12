@@ -23,7 +23,7 @@ class PVP extends Model {
      *
      * @var string
      */
-    protected $table = 'pvp_games';
+    protected $table = 'destiny_pvp_games';
 
     /**
      * The attributes that are mass assignable.

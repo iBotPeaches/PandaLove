@@ -1,9 +1,8 @@
 <?php namespace PandaLove\Http\Controllers;
 
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Onyx\Destiny\Objects\Attendee;
+use Onyx\Calendar\Objects\Attendee;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Hangouts\Helpers\Messages;
 use PandaLove\Http\Requests\AddRSVP;

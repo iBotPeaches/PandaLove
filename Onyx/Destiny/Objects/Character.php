@@ -59,7 +59,7 @@ class Character extends Model {
      *
      * @var string
      */
-    protected $table = 'characters';
+    protected $table = 'destiny_characters';
 
     /**
      * The attributes that are mass assignable.

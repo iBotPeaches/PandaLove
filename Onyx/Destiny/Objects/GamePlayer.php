@@ -36,7 +36,7 @@ class GamePlayer extends Model {
      *
      * @var string
      */
-    protected $table = 'game_players';
+    protected $table = 'destiny_game_players';
 
     /**
      * The attributes that are mass assignable.

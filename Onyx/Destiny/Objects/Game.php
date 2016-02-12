@@ -30,7 +30,7 @@ class Game extends Model {
      *
      * @var string
      */
-    protected $table = 'games';
+    protected $table = 'destiny_games';
 
     /**
      * The attributes that are mass assignable.

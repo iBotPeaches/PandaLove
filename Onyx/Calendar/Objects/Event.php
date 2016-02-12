@@ -20,7 +20,7 @@ use Onyx\Destiny\Enums\Types;
  */
 class Event extends Model {
 
-    protected $table = 'game_events';
+    protected $table = 'calendar_game_events';
 
     protected $fillable = ['title', 'type', 'start', 'max_players', 'game'];
 
@@ -73,7 +73,7 @@ class Event extends Model {
 
     public function attendees()
     {
-        return $this->hasMany('Onyx\Destiny\Objects\Attendee', 'game_id', 'id');
+        return $this->hasMany('Onyx\Calendar\Objects\Attendee', 'game_id', 'id');
     }
 
     public function spotsRemaining()

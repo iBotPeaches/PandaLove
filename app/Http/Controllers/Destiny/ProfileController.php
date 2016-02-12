@@ -35,12 +35,12 @@ class ProfileController extends Controller {
                 ->firstOrFail();
 
             $games = GamePlayer::with('game')
-                ->select('game_players.*', 'games.occurredAt')
-                ->leftJoin('games', 'game_players.game_id', '=', 'games.instanceId')
+                ->select('destiny_game_players.*', 'destiny_games.occurredAt')
+                ->leftJoin('destiny_games', 'destiny_game_players.game_id', '=', 'destiny_games.instanceId')
                 ->where('membershipId', $account->destiny->membershipId)
                 ->where('deaths', 0)
-                ->where('games.instanceId', '!=', 0) // @todo task to remove orphaned GamePlayers & patch Game
-                ->orderBy('games.occurredAt', 'DESC')
+                ->where('destiny_games.instanceId', '!=', 0) // @todo task to remove orphaned GamePlayers & patch Game
+                ->orderBy('destiny_games.occurredAt', 'DESC')
                 ->get();
 
             $games->each(function($game_player)

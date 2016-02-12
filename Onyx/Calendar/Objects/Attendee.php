@@ -1,4 +1,4 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php namespace Onyx\Calendar\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Attendee extends Model {
 
-    protected $table = 'attendees';
+    protected $table = 'calendar_attendees';
 
     protected $fillable = ['game_id', 'membershipId', 'characterId', 'account_id', 'user_id', 'attended'];
 
@@ -59,6 +59,6 @@ class Attendee extends Model {
 
     public function event()
     {
-        return $this->belongsTo('Onyx\Destiny\Objects\GameEvent', 'game_id', 'id');
+        return $this->belongsTo('Onyx\Calendar\Objects\Event', 'game_id', 'id');
     }
 }

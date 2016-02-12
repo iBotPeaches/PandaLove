@@ -19,7 +19,7 @@ class Hash extends Model {
      *
      * @var string
      */
-    protected $table = 'hashes';
+    protected $table = 'destiny_metadata';
 
     /**
      * The attributes that are mass assignable.
