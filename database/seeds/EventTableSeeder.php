@@ -15,8 +15,8 @@ class EventTableSeeder extends Seeder
 
         if (\App::environment() != 'production')
         {
-            DB::table('game_events')->truncate();
-            DB::table('attendees')->truncate();
+            DB::table('calendar_game_events')->truncate();
+            DB::table('calendar_attendees')->truncate();
         }
 
         \Onyx\Calendar\Objects\Event::create(
