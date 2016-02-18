@@ -9,7 +9,7 @@
                         <img src="/images/weapons/{{ $key }}.png" />
                     </div>
                     <div class="content">
-                        <div class="header">{{ $weapons[$key]->name }}</div>
+                        <div class="header">{{ $weapons[$key]->name or 'Unknown Weapon' }}</div>
                         <div class="meta">
                             {{ $count }} Kills
                         </div>
