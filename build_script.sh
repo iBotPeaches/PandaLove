@@ -6,4 +6,4 @@ mysql --user=connor_testing --password=gmsZbtvEhEM9 -BNe "show tables" connor_te
 ./artisan migrate --env=testing;
 ./artisan db:seed --env=testing;
 gulp
-phpunit;
+./vendor/bin/phpunit;
