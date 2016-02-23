@@ -77,6 +77,11 @@ class Account extends Model {
         return $this->hasOne('Onyx\Halo5\Objects\Data', 'account_id', 'id');
     }
 
+    public function h5_stats()
+    {
+        return $this->hasMany('Onyx\Halo5\HistoricalStat', 'account_id', 'id');
+    }
+
     public function isPandaLove()
     {
         // actual check validates the Clan information from Destiny

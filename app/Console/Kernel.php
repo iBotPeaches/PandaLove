@@ -12,6 +12,7 @@ use PandaLove\Console\Commands\updateCsrs;
 use PandaLove\Console\Commands\updatePlaylists;
 use PandaLove\Console\Commands\updateSeasons;
 use PandaLove\Console\Commands\updateWeapons;
+use PandaLove\Console\Commands\updateHistoricStats;
 
 class Kernel extends ConsoleKernel {
 
@@ -27,7 +28,8 @@ class Kernel extends ConsoleKernel {
 		updateCsrs::class,
 		updatePlaylists::class,
 		updateSeasons::class,
-		updateWeapons::class
+		updateWeapons::class,
+		updateHistoricStats::class
 	];
 
 	/**
