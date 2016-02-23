@@ -30,6 +30,7 @@ elixir(function(mix) {
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
      .copy(paths.weapons, 'public/images/weapons/')
      .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
+     .copy(paths.images + 'unknown-weapon.png', 'public/images/')
      .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
      .copy(paths.themes, 'public/themes/')
      .copy(paths.css, 'public/css/')
