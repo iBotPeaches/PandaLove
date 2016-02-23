@@ -3,11 +3,11 @@ var elixir = require('laravel-elixir');
 var paths = {
     'jquery': './node_modules/jquery/dist/',
     'fontawesome': './node_modules/font-awesome/',
-    'semantic': './node_modules/semantic-ui/dist/',
     'css': './resources/css/',
     'js': './resources/js/',
     'images': './resources/images/',
     'fonts': './resources/fonts/',
+    'themes': './resources/themes/',
     'storage': './storage/app/',
     'weapons': './resources/images/weapons/'
 };
@@ -31,7 +31,7 @@ elixir(function(mix) {
      .copy(paths.weapons, 'public/images/weapons/')
      .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
      .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
-     .copy(paths.semantic + 'themes', 'public/themes/')
+     .copy(paths.themes, 'public/themes/')
      .copy(paths.css, 'public/css/')
      .copy(paths.js, 'public/js/')
      .styles([
