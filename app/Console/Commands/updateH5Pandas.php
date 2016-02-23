@@ -3,10 +3,10 @@
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\String\HashNotLocatedException;
-use PandaLove\Commands\UpdateAccount;
+use Onyx\Halo5\Objects\Data;
+use PandaLove\Commands\UpdateHalo5Account;
 
-class updatePandas extends Command
+class updateH5Pandas extends Command
 {
     use DispatchesCommands;
 
@@ -15,18 +15,19 @@ class updatePandas extends Command
      *
      * @var string
      */
-    protected $signature = 'pandas:update';
+    protected $signature = 'pandas:halo5-update';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update all Pandas present';
+    protected $description = 'Update all Pandas (Halo 5) present';
 
+    /**
+     * @var int
+     */
     public $inactiveCounter = 10;
-
-    public $refreshRateInMinutes = 10;
 
     /**
      * Create a new command instance.
@@ -45,7 +46,7 @@ class updatePandas extends Command
      */
     public function handle()
     {
-        $pandas = Account::with('destiny.characters')
+        $pandas = Account::with('destiny.characters', 'h5.warzone')
             ->whereHas('destiny', function($query)
             {
                 $query
@@ -55,32 +56,24 @@ class updatePandas extends Command
             ->orderBy('gamertag', 'ASC')
             ->get();
 
+        /** @var $pandas Account[] */
         foreach ($pandas as $panda)
         {
             $this->info('Processing ' . $panda->gamertag);
 
             // check for 10 inactive checks
-            if ($panda->inactiveCounter >= $this->inactiveCounter)
+            if ($panda->h5->inactiveCounter >= $this->inactiveCounter)
             {
                 $this->info('This account has not had new data in awhile.');
-                break;
             }
-
-            $char = $panda->destiny->firstCharacter();
-
-            if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
+            else
             {
-                // update this
-                try
-                {
-                    $this->dispatch(new UpdateAccount($panda));
-                    $this->info('Stats Updated!');
-                }
-                catch (HashNotLocatedException $e)
-                {
-                    $this->error('Could not find hash value: ' . $e->getMessage());
-                    $this->info('Stat update has been skipped.');
-                }
+                $oldXp = $panda->h5->Xp;
+
+                new UpdateHalo5Account($panda);
+                $h5 = Data::where('account_id', $panda->id)->first();
+
+                $this->info('Stats Updated from ' . $oldXp . ' to ' . $h5->Xp);
             }
         }
     }
