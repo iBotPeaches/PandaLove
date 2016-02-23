@@ -6,7 +6,11 @@
         @endif
                 <div class="card">
                     <div class="image">
-                        <img src="/images/weapons/{{ $key }}.png" />
+                        @if (isset($weapons[$key]->name))
+                            <img src="/images/weapons/{{ $weapons[$key]->uuid }}.png" />
+                        @else
+                            <img src="/images/unknown-weapon.png" />
+                        @endif
                     </div>
                     <div class="content">
                         <div class="header">{{ $weapons[$key]->name or 'Unknown Weapon' }}</div>
