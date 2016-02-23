@@ -1,10 +1,23 @@
 <?php namespace Onyx;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Data;
 use Onyx\Halo5\Objects\Data as H5Data;
 
+/**
+ * Class Account
+ * @package Onyx
+ * @property int $id
+ * @property string $gamertag
+ * @property int $accountType
+ * @property string $seo
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property string $xuid
+ * @property string $destiny_membershipId
+ */
 class Account extends Model {
 
     /**
