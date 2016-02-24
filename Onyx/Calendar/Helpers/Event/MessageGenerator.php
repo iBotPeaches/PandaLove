@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Calendar\Objects\Event;
-use Onyx\Destiny\Objects\Attendee;
+use Onyx\Calendar\Objects\Attendee;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\User;
