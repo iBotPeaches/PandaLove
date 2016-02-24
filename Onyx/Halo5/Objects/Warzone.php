@@ -117,24 +117,20 @@ class Warzone extends Model {
         return $date->diffForHumans();
     }
 
-    public function kd()
+    public function kd($formatted = true)
     {
-        if ($this->totalDeaths == 0)
-        {
-            return $this->totalKills;
-        }
-
-        return number_format($this->totalKills / $this->totalDeaths, 2);
+        if ($formatted)
+            return number_format($this->_raw_kd(), 2);
+        else
+            return $this->_raw_kd();
     }
 
-    public function kad()
+    public function kad($formatted = true)
     {
-        if ($this->totalDeaths == 0)
-        {
-            return ($this->totalKills + $this->totalAssists);
-        }
-
-        return number_format(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 2);
+        if ($formatted)
+            return number_format($this->_raw_kad(), 2);
+        else
+            return $this->_raw_kad();
     }
 
     public function winRate()
@@ -165,5 +161,25 @@ class Warzone extends Model {
             default:
                 return 'red';
         }
+    }
+
+    private function _raw_kd()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills;
+        }
+
+        return $this->totalKills / $this->totalDeaths;
+    }
+
+    private function _raw_kad()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills + $this->totalAssists;
+        }
+
+        return ($this->totalKills + $this->totalAssists) / $this->totalDeaths;
     }
 }

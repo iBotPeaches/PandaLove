@@ -186,14 +186,12 @@ class Data extends Model {
             return $this->_raw_kd();
     }
 
-    public function kad()
+    public function kad($formatted = true)
     {
-        if ($this->totalDeaths == 0)
-        {
-            return ($this->totalKills + $this->totalAssists);
-        }
-
-        return number_format(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 2);
+        if ($formatted)
+            return number_format($this->_raw_kad(), 2);
+        else
+            return $this->_raw_kad();
     }
 
     public function winRate()
@@ -231,4 +229,13 @@ class Data extends Model {
         return $this->totalKills / $this->totalDeaths;
     }
 
+    private function _raw_kad()
+    {
+        if ($this->totalDeaths == 0)
+        {
+            return $this->totalKills + $this->totalAssists;
+        }
+
+        return ($this->totalKills + $this->totalAssists) / $this->totalDeaths;
+    }
 }
