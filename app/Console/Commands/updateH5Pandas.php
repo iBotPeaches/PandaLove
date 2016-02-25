@@ -77,6 +77,8 @@ class updateH5Pandas extends Command
                 $oldXp = $panda->h5->Xp;
 
                 $this->dispatch(new UpdateHalo5Account($panda));
+                sleep(9);
+
                 $h5 = Data::where('account_id', $panda->id)->first();
 
                 $this->info('Stats Updated from ' . $oldXp . ' to ' . $h5->Xp);
