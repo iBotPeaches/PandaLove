@@ -83,9 +83,13 @@ class ApiV1Controller extends Controller {
                     ->where('admin', true)
                     ->firstOrFail();
 
-                $gameEvent = new GameEvent();
-                $gameEvent->fill($all);
-                $gameEvent->save();
+                try {
+                    $gameEvent = new GameEvent();
+                    $gameEvent->fill($all);
+                    $gameEvent->save();
+                } catch (\Exception $e) {
+                    return $this->_error($e->getMessage());
+                }
 
                 // re-set max_players if 0
                 if ($gameEvent->max_players == 0)
