@@ -55,7 +55,9 @@ class updateH5Pandas extends Command
             ->whereHas('h5', function($query)
             {
                 $query
-                    ->where('inactiveCounter', '<=', $this->inactiveCounter);
+                    ->where('inactiveCounter', '<=', $this->inactiveCounter)
+                    ->where('totalKills', '!=', 0);
+
             })
             ->orderBy('gamertag', 'ASC')
             ->get();

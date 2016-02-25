@@ -46,6 +46,10 @@ class updateHistoricStats extends Command
                 $query
                     ->where('clanName', 'Panda Love');
             })
+            ->whereHas('h5', function($query)
+            {
+                $query->where('totalKills', '!=', 0);
+            })
             ->orderBy('gamertag', 'ASC')
             ->get();
 
