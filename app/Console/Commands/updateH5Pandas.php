@@ -50,8 +50,12 @@ class updateH5Pandas extends Command
             ->whereHas('destiny', function($query)
             {
                 $query
-                    ->where('clanName', 'Panda Love')
-                    ->where('inactiveCounter', '<=', 10);
+                    ->where('clanName', 'Panda Love');
+            })
+            ->whereHas('h5', function($query)
+            {
+                $query
+                    ->where('inactiveCounter', '<=', $this->inactiveCounter);
             })
             ->orderBy('gamertag', 'ASC')
             ->get();
