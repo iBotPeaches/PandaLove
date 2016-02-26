@@ -8,33 +8,70 @@
                     <header>
                         <h1>Welcome to our <strong>Graph</strong></h1>
                     </header>
-                    <?= dd($stats); ?>
-                    <div id="arena_chart_container"></div>
+                    <h4>Arena Stats</h4>
+                    <div id="arena_chart" class="graph"></div>
+                    <br />
+                    <h4>Warzone Stats</h4>
+                    <div id="warzone_chart" class="graph"></div>
                 </div>
             </div>
         </article>
     </div>
 @endsection
 
+@section('inline-css')
+    <link rel="stylesheet" href="{{ asset('css/c3.min.css') }}" />
+    <style type="text/css">
+        .graph {
+            width: 100%;
+            height: 350px;
+        }
+    </style>
+@append
+
 @section('inline-js')
-    <script src="//code.highcharts.com/highcharts.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="{{ asset("js/c3.min.js") }}"></script>
     <script type="text/javascript">
-        $(function() {
-            // series: [{
-            // name: Gamertag
-            // data: [
-            // [kd, kda, totalGames]
-            // ]},
-
-            $("#arena_chart_container").highcharts({
-                title: {
-                    text: 'Arena Historical Stats',
-                    x: -20
+        d3.json("{{ action('Halo5\StatsController@getArenaStats') }}", function(error, data) {
+            var chart = c3.generate({
+                bindto: '#arena_chart',
+                data: {
+                    x: 'x',
+                    xFormat: '%Y-%m-%d %H:%M:%S',
+                    json: data
                 },
-                xAxis: {
-
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        tick: {
+                            format: '%b %e'
+                        }
+                    }
                 }
             });
-        })
+        });
+
+        d3.json("{{ action('Halo5\StatsController@getWarzoneStats') }}", function(error, data) {
+            var chart = c3.generate({
+                bindto: '#warzone_chart',
+                data: {
+                    x: 'x',
+                    xFormat: '%Y-%m-%d %H:%M:%S',
+                    json: data
+                },
+                groups: [
+                        ['1_kd', '1_kda']
+                ],
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        tick: {
+                            format: '%b %e'
+                        }
+                    }
+                }
+            });
+        });
     </script>
 @append
