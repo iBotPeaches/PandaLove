@@ -3,9 +3,8 @@
         <footer>
             <ul id="copyright">
                 <li><a href="{{ action('HomeController@getAbout') }}">About</a></li>
-                <li><a href="https://github.com/iBotPeaches/PandaLove">Source</a></li>
-                <li>Logo by Brewster851</li>
-                <li>Programming by <a href="http://twitter.com/iBotPeaches" target="_blank">@iBotPeaches</a></li>
+                <li><a target="_blank" href="https://github.com/iBotPeaches/PandaLove">Source</a></li>
+                <li><a target="_blank" href="https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/issues">Bug Reports</a></li>
                 <li>Design by <a href="http://html5up.net">HTML5UP</a></li>
             </ul>
         </footer>

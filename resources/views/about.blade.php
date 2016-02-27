@@ -13,6 +13,12 @@
                     All rights reserved. Microsoft, Halo, and the Halo Logo are trademarks of the Microsoft group of companies.
                 </p>
             </header>
+            <h4 class="ui header">The Team</h4>
+            <ul class="ui list">
+                <li>Brewster851 - Logo Design</li>
+                <li><a target="_blank" href="http://twitter.com/iBotPeaches" target="_blank">@iBotPeaches</a> - Programming</li>
+                <li><a target="_blank" href="https://github.com/brandon-lile">@brandon-lile</a> - Programming</li>
+            </ul>
         </article>
     </div>
 @endsection
