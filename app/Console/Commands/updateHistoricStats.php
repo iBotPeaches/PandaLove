@@ -54,6 +54,7 @@ class updateHistoricStats extends Command
             ->get();
 
         /** @var $pandas \Onyx\Account[] */
+        $insertedDate = new Carbon();
         foreach ($pandas as $panda)
         {
             $this->info('Writing out Panda ' . $panda->gamertag);
@@ -65,7 +66,7 @@ class updateHistoricStats extends Command
             $historic->warzone_kd = $panda->h5->warzone->kd(false);
             $historic->warzone_kda = $panda->h5->warzone->kad(false);
             $historic->warzone_total_games = $panda->h5->warzone->totalGames;
-            $historic->date = new Carbon();
+            $historic->date = $insertedDate;
             $historic->save();
         }
     }
