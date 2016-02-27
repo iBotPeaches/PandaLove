@@ -24,7 +24,7 @@
     <style type="text/css">
         .graph {
             width: 100%;
-            height: 350px;
+            height: 650px;
         }
     </style>
 @append
@@ -39,13 +39,35 @@
                 data: {
                     x: 'x',
                     xFormat: '%Y-%m-%d %H:%M:%S',
-                    json: data
+                    json: data.c3
                 },
                 axis: {
                     x: {
                         type: 'timeseries',
                         tick: {
                             format: '%b %e'
+                        }
+                    },
+                    y: {
+                        tick: {
+                            format: d3.format('.2f')
+                        },
+                        label: {
+                            text: 'KD Ratio',
+                            position: 'outer-middle'
+                        }
+                    }
+                },
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    format: {
+                        value: function(value, ratio, id, index) {
+                            return '(' + value + ') - ' + data['totalGames'][id][index] + ' Games Played';
+                        },
+                        title: function(x) {
+                            return 'Date: ' + x;
                         }
                     }
                 }

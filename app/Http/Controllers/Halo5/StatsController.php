@@ -40,26 +40,21 @@ class StatsController extends Controller {
             ->table('halo5_stats_history as H')
             ->join('accounts as A', 'A.id', '=', 'H.account_id')
             ->select('H.account_id', 'H.arena_kd', 'H.arena_kda', 'H.arena_total_games', 'H.date', 'A.gamertag')
-            ->orderBy('date', 'DESC')
+            ->orderBy('date', 'ASC')
             ->get();
 
-        $data = [
-            'x' => [$stats[0]->date]
-        ];
+        $data = ['c3' => ['x' => [$stats[0]->date]]];
 
         foreach ($stats as $stat)
         {
-            if (! in_array($stat->date, $data['x']))
+            if (! in_array($stat->date, $data['c3']['x']))
             {
-                $data['x'][] = $stat->date;
+                $data['c3']['x'][] = $stat->date;
             }
-
-            //$data[$stat->account_id . '_kd'][] = $stat->arena_kd;
-            $data[$stat->gamertag][] = $stat->arena_kda;
+            $data['c3'][$stat->gamertag][] = $stat->arena_kda;
+            $data['totalGames'][$stat->gamertag][] = $stat->arena_total_games;
         }
-
-        // sort by best KD
-        arsort($data);
+        arsort($data['c3']);
 
         return json_encode($data, true, JSON_NUMERIC_CHECK);
     }
