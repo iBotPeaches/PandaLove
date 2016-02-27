@@ -132,33 +132,15 @@ class Data extends Model {
 
     public function record_playlist()
     {
-        // setup fake PlaylistData with the elements of the best playlist
-        // This is bad because we can't leverage pre-loading of data (eager load)
-        // so we have n+1 queries here.
-        // @todo store highest CSR in a different table to allow eager loading
+        // @todo still a glaring n+1 problem here. Can't find top playlists per person at once.
+        $playlist = $this->playlists()->first();
 
-        $record = new PlaylistData();
-        $record->fill($this->highest_playlist());
-
-        if ($record->stock instanceof Playlist)
+        if ($playlist->stock instanceof Playlist)
         {
-            return $record;
+            return $playlist;
         }
 
         return null;
-    }
-
-    public function highest_playlist()
-    {
-        return array(
-            'highest_CsrTier'           => $this->highest_CsrTier,
-            'highest_CsrDesignationId'  => $this->highest_CsrDesignationId,
-            'highest_Csr'               => $this->highest_Csr,
-            'highest_percentNext'       => $this->highest_percentNext,
-            'highest_rank'              => $this->highest_rank,
-            'highest_CsrPlaylistId'     => $this->highest_CsrPlaylistId,
-            'playlistId'                => $this->highest_CsrPlaylistId
-        );
     }
 
     public function getSpartan()

@@ -20,7 +20,7 @@ class RosterController extends Controller {
 
     public function getIndex()
     {
-        $accounts = Account::with('destiny', 'h5.playlists')
+        $accounts = Account::with('destiny', 'h5.playlists.stock', 'h5.playlists', 'h5.warzone')
             ->whereHas('destiny', function($query)
             {
                 $query->where('clanName', 'Panda Love');

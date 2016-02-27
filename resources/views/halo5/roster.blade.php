@@ -10,7 +10,7 @@
                     </header>
                     @include('includes.halo5.roster.table')
                     <p>
-                        Tracking only Arena. No Warzone
+                        <a href="{{ action('Halo5\StatsController@getIndex') }}">View our rolling KD/KDA Graphs.</a>
                     </p>
                 </div>
             </div>
