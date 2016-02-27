@@ -27,9 +27,21 @@ class StatsController extends Controller {
 
     public function getIndex()
     {
+        $graphs = [
+            '#arena_chart' => [
+                'url' =>  action('Halo5\StatsController@getArenaStats'),
+                'type' => 'KD Ratio'
+            ],
+            '#warzone_chart' => [
+                'url' => action('Halo5\StatsController@getWarzoneStats'),
+                'type' => 'KD Ratio'
+            ]
+        ];
+
         return view('halo5.historic_stats', [
             'description' => 'PandaLove Halo 5 Historic Stats page',
-            'title' => 'PandaLove Halo 5 Historic Stats'
+            'title' => 'PandaLove Halo 5 Historic Stats',
+            'graphs' => $graphs
         ]);
     }
 
@@ -51,7 +63,8 @@ class StatsController extends Controller {
             {
                 $data['c3']['x'][] = $stat->date;
             }
-            $data['c3'][$stat->gamertag][] = $stat->arena_kda;
+            $data['c3'][$stat->gamertag . ' KD'][] = $stat->arena_kd;
+            $data['c3'][$stat->gamertag . ' KDA'][] = $stat->arena_kda;
             $data['totalGames'][$stat->gamertag][] = $stat->arena_total_games;
         }
         arsort($data['c3']);
@@ -69,22 +82,23 @@ class StatsController extends Controller {
             ->orderBy('date', 'DESC')
             ->get();
 
-        $data = [
+        $data = ['c3' => [
             'x' => [$stats[0]->date]
-        ];
+        ]];
 
         foreach ($stats as $stat)
         {
-            if (! in_array($stat->date, $data['x']))
+            if (! in_array($stat->date, $data['c3']['x']))
             {
-                $data['x'][] = $stat->date;
+                $data['c3']['x'][] = $stat->date;
             }
 
-            //$data[$stat->gamertag . '_kd'][] = $stat->warzone_kd;
-            $data[$stat->gamertag][] = $stat->warzone_kda;
+            $data['c3'][$stat->gamertag . ' KD'][] = $stat->warzone_kd;
+            $data['c3'][$stat->gamertag . ' KDA'][] = $stat->warzone_kda;
+            $data['totalGames'][$stat->gamertag][] = $stat->warzone_total_games;
         }
 
-        arsort($data);
+        arsort($data['c3']);
 
         return json_encode($data, true, JSON_NUMERIC_CHECK);
     }
