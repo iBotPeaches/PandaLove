@@ -55,7 +55,11 @@ class StatsController extends Controller {
             ]
         ];
 
-        $timeLeft = new Carbon('22:55 UTC');
+        $timeLeft = new Carbon('22:55 UTC', 'UTC');
+
+        if ($timeLeft->isPast()) {
+            $timeLeft = new Carbon('tomorrow 22:55 UTC');
+        }
         $timeLeft = Text::timeDuration($timeLeft->diffInSeconds());
 
         return view('halo5.historic_stats', [
@@ -117,7 +121,10 @@ class StatsController extends Controller {
         }
         else
         {
-            $timeLeft = new Carbon('22:55 UTC');
+            $timeLeft = new Carbon('22:55 UTC', 'UTC');
+            if ($timeLeft->isPast()) {
+                $timeLeft = new Carbon('tomorrow 22:55 UTC');
+            }
             $timeLeft = Text::timeDuration($timeLeft->diffInSeconds());
 
             return $this->view->make('includes.halo5.stats._overview', [
