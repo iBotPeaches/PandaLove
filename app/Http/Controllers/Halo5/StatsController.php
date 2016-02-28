@@ -174,7 +174,7 @@ class StatsController extends Controller {
             ->table('halo5_stats_history as H')
             ->join('accounts as A', 'A.id', '=', 'H.account_id')
             ->select('H.account_id', 'H.warzone_kd', 'H.warzone_total_games', 'H.date', 'A.gamertag')
-            ->orderBy('date', 'DESC')
+            ->orderBy('date', 'ASC')
             ->get();
 
         $data = ['c3' => ['x' => [$stats[0]->date]]];
@@ -201,7 +201,7 @@ class StatsController extends Controller {
             ->table('halo5_stats_history as H')
             ->join('accounts as A', 'A.id', '=', 'H.account_id')
             ->select('H.account_id', 'H.warzone_kda', 'H.warzone_total_games', 'H.date', 'A.gamertag')
-            ->orderBy('date', 'DESC')
+            ->orderBy('date', 'ASC')
             ->get();
 
         $data = ['c3' => ['x' => [$stats[0]->date]]];
