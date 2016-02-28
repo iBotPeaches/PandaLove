@@ -1,7 +1,9 @@
 <?php namespace PandaLove\Http\Controllers\Halo5;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
+use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Halo5\Objects\HistoricalStat;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
@@ -53,10 +55,14 @@ class StatsController extends Controller {
             ]
         ];
 
+        $timeLeft = new Carbon('22:55 UTC');
+        $timeLeft = Text::timeDuration($timeLeft->diffInSeconds());
+
         return view('halo5.historic_stats', [
             'description' => 'PandaLove Halo 5 Historic Stats page',
             'title' => 'PandaLove Halo 5 Historic Stats',
-            'graphs' => $graphs
+            'graphs' => $graphs,
+            'timeLeft' => $timeLeft
         ]);
     }
 
@@ -111,7 +117,12 @@ class StatsController extends Controller {
         }
         else
         {
-            return $this->view->make('includes.halo5.stats._overview');
+            $timeLeft = new Carbon('22:55 UTC');
+            $timeLeft = Text::timeDuration($timeLeft->diffInSeconds());
+
+            return $this->view->make('includes.halo5.stats._overview', [
+                'timeLeft' => $timeLeft
+            ]);
         }
     }
 
