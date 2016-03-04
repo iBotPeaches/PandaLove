@@ -3,6 +3,7 @@
 namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Playlist;
@@ -46,22 +47,29 @@ class updatePlaylists extends Command
 
         if (is_array($playlists))
         {
-            $this->info('We found CSR data. Adding to table after purge.');
-
-            DB::table('halo5_playlists')->truncate();
+            $this->info('We found Playlist data. Adding to table after purge.');
             foreach($playlists as $playlist)
             {
-                $this->info('Adding ' . $playlist['name']);
+                try {
+                    $_playlist = Playlist::where('contentId', $playlist['id'])->firstOrFail();
+                    $this->info('Playlist: ' . $playlist['name'] . ' already exists. Updating now.');
 
-                $p = new Playlist();
-                $p->name = $playlist['name'];
-                $p->description = $playlist['description'];
-                $p->isRanked = $playlist['isRanked'];
-                $p->isActive = $playlist['isActive'];
-                $p->gameMode = $playlist['gameMode'];
-                $p->contentId = $playlist['id'];
-                $p->imageUrl = $playlist['imageUrl'];
-                $p->save();
+                    $_playlist->description = $playlist['description'];
+                    $_playlist->isRanked = $playlist['isRanked'];
+                    $_playlist->isActive = $playlist['isActive'];
+                    $_playlist->save();
+                } catch (ModelNotFoundException $ex) {
+                    $this->info('Adding ' . $playlist['name']);
+                    $p = new Playlist();
+                    $p->name = $playlist['name'];
+                    $p->description = $playlist['description'];
+                    $p->isRanked = $playlist['isRanked'];
+                    $p->isActive = $playlist['isActive'];
+                    $p->gameMode = $playlist['gameMode'];
+                    $p->contentId = $playlist['id'];
+                    $p->imageUrl = $playlist['imageUrl'];
+                    $p->save();
+                }
             }
         }
     }

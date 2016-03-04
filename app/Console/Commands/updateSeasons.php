@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Season;
@@ -47,18 +48,25 @@ class updateSeasons extends Command
         {
             $this->info('We found Season data. Adding to table after purge.');
 
-            DB::table('halo5_seasons')->truncate();
             foreach($seasons as $season)
             {
-                $this->info('Adding ' . $season['name']);
-
-                $s = new Season();
-                $s->name = $season['name'];
-                $s->isActive = boolval($season['isActive']);
-                $s->contentId = $season['id'];
-                $s->startDate = $season['startDate'];
-                $s->endDate = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
-                $s->save();
+                try {
+                    $this->info('Season:  ' . $season['name'] . ' already exists. Updating `end_date` and `is_active`.');
+                    /** @var $_season Season */
+                    $_season = Season::where('contentId', $season['id'])->firstOrFail();
+                    $_season->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
+                    $_season->isActive = boolval($season['isActive']);
+                    $_season->save();
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding ' . $season['name']);
+                    $s = new Season();
+                    $s->name = $season['name'];
+                    $s->isActive = boolval($season['isActive']);
+                    $s->contentId = $season['id'];
+                    $s->start_date = $season['startDate'];
+                    $s->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
+                    $s->save();
+                }
             }
         }
     }
