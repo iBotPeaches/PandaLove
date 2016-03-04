@@ -172,6 +172,9 @@ class Client extends Http {
 
     public function updateArenaServiceRecord($account, $seasonId = null)
     {
+        /** @var Data $h5_data */
+        $h5_data = $account->h5;
+
         if ($seasonId != null)
         {
             $record = $this->_getArenaServiceRecordSeason($account, $seasonId);
@@ -181,11 +184,8 @@ class Client extends Http {
             $record = $this->_getArenaServiceRecord($account);
 
             // check if data changed
-            $this->_checkForStatChange($account->h5, $account->h5->Xp, $record['Xp']);
+            $this->_checkForStatChange($h5_data, $h5_data->Xp, $record['Xp']);
         }
-
-        /** @var Data $h5_data */
-        $h5_data = $account->h5;
 
         // dump the stats
         $h5_data->totalKills = $record['ArenaStats']['TotalKills'];
