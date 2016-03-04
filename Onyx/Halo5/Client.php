@@ -16,6 +16,8 @@ use Onyx\Halo5\Objects\Warzone;
 
 class Client extends Http {
 
+    public static $updateRan = false;
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -178,12 +180,11 @@ class Client extends Http {
         if ($seasonId != null)
         {
             $record = $this->_getArenaServiceRecordSeason($account, $seasonId);
+            $this->_checkForStatChange($h5_data, $h5_data->Xp, $record['Xp']);
         }
         else
         {
             $record = $this->_getArenaServiceRecord($account);
-
-            // check if data changed
             $this->_checkForStatChange($h5_data, $h5_data->Xp, $record['Xp']);
         }
 
@@ -359,19 +360,15 @@ class Client extends Http {
      * @param $h5 Data
      * @param $old_xp int
      * @param $new_xp int
+     * @return bool
      */
     private function _checkForStatChange(&$h5, $old_xp, $new_xp)
     {
-        if ($old_xp != $new_xp)
-        {
-            $h5->inactiveCounter = 0;
-            $h5->save();
-        }
-        else
-        {
-            $h5->inactiveCounter++;
-            $h5->save();
-        }
+        if (self::$updateRan) return true;
+
+        $h5->inactiveCounter = ($old_xp != $new_xp) ? 0 : $h5->inactiveCounter++;
+        self::$updateRan = true;
+        return $h5->save();
     }
 
     /**
