@@ -1,22 +1,28 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Destiny\Client as DestinyClient;
 use Onyx\Halo5\Client as Halo5Client;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Commands\UpdateHalo5Account;
+use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AdminAddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AdminAddHalo5GamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
-class AdminController extends Controller {
+class IndexController extends Controller {
 
     public function __construct(Guard $auth)
     {
         parent::__construct();
         $this->middleware('auth');
         $this->middleware('auth.admin');
+    }
+
+    public function getIndex()
+    {
+        return view('backstage.index');
     }
 
     public function postAddDestinyGamertag(AdminAddDestinyGamertagRequest $request)
