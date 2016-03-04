@@ -9,7 +9,7 @@
                     <i class="medal medal-{{ $medal->contentId }}" data-title="{{ $medal->name }}" data-content="{{ $medal->description }}"></i>
                 </div>
                 <div class="label">
-                    {{ $mMedals[$medal->contentId] }}
+                    {{ number_format($mMedals[$medal->contentId]) }}
                 </div>
             </div>
         @if ($i == 7)

@@ -15,7 +15,7 @@
                     <div class="content">
                         <div class="header">{{ $weapons[$key]->name or 'Unknown Weapon' }}</div>
                         <div class="meta">
-                            {{ $count }} Kills
+                            {{ number_format($count) }} Kills
                         </div>
                     </div>
                 </div>
