@@ -3,6 +3,7 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
+use Onyx\User;
 
 class PandaAuthenticate {
 
@@ -32,9 +33,10 @@ class PandaAuthenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
+		/** @var $user User */
 		$user = $this->auth->user();
 
-		if ($user != null && $user->account instanceof Account && $user->account->isPandaLove())
+		if ($user != null && $user->isPanda)
 		{
 			return $next($request);
 		}

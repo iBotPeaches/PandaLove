@@ -66,7 +66,7 @@ class Data extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
-    public function isPandaLove()
+    public function isInPandaLoveClan()
     {
         return $this->attributes['clanName'] == "Panda Love" && $this->attributes['clanTag'] == "WRKD";
     }

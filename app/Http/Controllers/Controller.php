@@ -19,10 +19,7 @@ abstract class Controller extends BaseController {
 
         if ($this->user instanceof User)
         {
-            if (isset($this->user->account->gamertag) && $this->user->account->isPandaLove())
-            {
-                $this->isPanda = true;
-            }
+            $this->isPanda = $this->user->isPanda;
         }
 
         \View::share('isPanda', $this->isPanda);

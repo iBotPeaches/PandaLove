@@ -16,7 +16,7 @@ class AddRSVP extends Request
     {
         $user = \Auth::user();
 
-        if ($user != null && $user->account instanceof Account && $user->account->isPandaLove())
+        if ($user != null && $user->isPanda)
         {
             return true;
         }
