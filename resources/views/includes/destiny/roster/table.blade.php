@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         @foreach($members as $member)
-            @if ($member->destiny->charactersCount() >= 3)
+            @if ($member->destiny->charactersCount() >= 3 && $member->destiny->characterAtPosition(1)->level == \Onyx\Destiny\Enums\LightLevels::$MAX_LEVEL)
                 <tr>
                     <td><a href="{{ URL::action('Destiny\ProfileController@index', array($member->seo)) }}">{{ $member->gamertag }}</a></td>
                     <td class="grimoire-table">{{ $member->destiny->grimoire }}</td>
