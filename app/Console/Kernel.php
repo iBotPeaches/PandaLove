@@ -12,6 +12,7 @@ use PandaLove\Console\Commands\updateSeasons;
 use PandaLove\Console\Commands\updateWeapons;
 use PandaLove\Console\Commands\updateHistoricStats;
 use PandaLove\Console\Commands\updateH5Pandas;
+use PandaLove\Console\Commands\addHistoricAccount;
 
 class Kernel extends ConsoleKernel {
 
@@ -29,7 +30,8 @@ class Kernel extends ConsoleKernel {
 		updateSeasons::class,
 		updateWeapons::class,
 		updateHistoricStats::class,
-		updateH5Pandas::class
+		updateH5Pandas::class,
+		addHistoricAccount::class
 	];
 
 	/**
