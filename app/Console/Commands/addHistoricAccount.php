@@ -79,7 +79,7 @@ class addHistoricAccount extends Command
                             $historic->warzone_kd = $panda->h5->warzone->kd(false);
                             $historic->warzone_kda = $panda->h5->warzone->kad(false);
                             $historic->warzone_total_games = $panda->h5->warzone->totalGames;
-                            $historic->date = $date;
+                            $historic->date = $date->date;
                             $historic->save();
                         }
                     }
