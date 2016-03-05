@@ -46,18 +46,16 @@ class updateH5Pandas extends Command
      */
     public function handle()
     {
-        $pandas = Account::with('destiny.characters', 'h5.warzone')
-            ->whereHas('destiny', function($query)
+        $pandas = Account::with('h5.warzone', 'user')
+            ->whereHas('user', function($query)
             {
-                $query
-                    ->where('clanName', 'Panda Love');
+                $query->where('isPanda', true);
             })
             ->whereHas('h5', function($query)
             {
                 $query
                     ->where('inactiveCounter', '<=', $this->inactiveCounter)
                     ->where('totalKills', '!=', 0);
-
             })
             ->orderBy('gamertag', 'ASC')
             ->get();
@@ -81,7 +79,7 @@ class updateH5Pandas extends Command
 
                 $h5 = Data::where('account_id', $panda->id)->first();
 
-                $this->info('Stats Updated from ' . $oldXp . ' to ' . $h5->Xp);
+                $this->info('Stats Updated from ' . number_format($oldXp) . ' to ' . number_format($h5->Xp));
             }
         }
     }

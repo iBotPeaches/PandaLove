@@ -1,15 +1,8 @@
 <div class="wrapper style2">
     <article class="container">
         <div class="row">
-            <div class="12u">
-                <header>
-                    <h1>Admin Panel (Destiny)</h1>
-                </header>
-            </div>
-        </div>
-        <div class="row">
             <div class="6u">
-                {!! Form::open(['action' => 'AdminController@postAddDestinyGamertag', 'class' => 'form']) !!}
+                {!! Form::open(['action' => 'Backstage\DestinyController@postAddDestinyGamertag', 'class' => 'form']) !!}
                     @foreach ($errors->all() as $error)
                         <p class="ui red message">{{ $error }}</p>
                     @endforeach
@@ -24,7 +17,7 @@
                 {!! Form::close()  !!}
             </div>
             <div class="6u">
-                {!! Form::open(['action' => 'AdminController@postAddDestinyGame', 'class' => 'form']) !!}
+                {!! Form::open(['action' => 'Backstage\DestinyController@postAddDestinyGame', 'class' => 'form']) !!}
                 @foreach ($errors->all() as $error)
                     <p class="ui red message">{{ $error }}</p>
                 @endforeach

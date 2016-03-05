@@ -84,14 +84,13 @@ class Account extends Model {
 
     public function isPandaLove()
     {
-        // actual check validates the Clan information from Destiny
-        // for fallback, lets just call this.
-        return ($this->destiny instanceof Data) ? $this->destiny->isPandaLove() : false;
+        // fallback to the new isPanda on User check
+        return ($this->user instanceof User) ? $this->user->isPanda : false;
     }
 
     public function user()
     {
-        return $this->belongsTo('Onyx\User');
+        return $this->hasOne('Onyx\User', 'account_id', 'id');
     }
 
     public static function getAccountIdViaDestiny($membershipId)

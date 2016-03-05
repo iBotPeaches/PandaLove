@@ -1,22 +1,36 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
+use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
-use Onyx\Halo5\Client as Halo5Client;
 use PandaLove\Commands\UpdateAccount;
-use PandaLove\Commands\UpdateHalo5Account;
+use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AdminAddDestinyGamertagRequest;
-use PandaLove\Http\Requests\AdminAddHalo5GamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
-class AdminController extends Controller {
+class DestinyController extends Controller {
 
     public function __construct(Guard $auth)
     {
         parent::__construct();
         $this->middleware('auth');
         $this->middleware('auth.admin');
+    }
+
+    public function getIndex()
+    {
+        $accounts = Account::with('destiny', 'user')
+            ->whereHas('destiny', function($query)
+            {
+                $query->where('grimoire', '!=', 0);
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(15);
+
+        return view('backstage.destiny.index', [
+            'accounts' => $accounts
+        ]);
     }
 
     public function postAddDestinyGamertag(AdminAddDestinyGamertagRequest $request)
@@ -27,16 +41,6 @@ class AdminController extends Controller {
         $this->dispatch(new UpdateAccount($account));
 
         return \Redirect::action('Destiny\ProfileController@index', [$account->seo]);
-    }
-
-    public function postAddHalo5Gamertag(AdminAddHalo5GamertagRequest $request)
-    {
-        $client = new Halo5Client();
-        $account = $client->getAccountByGamertag($request->request->get('gamertag'));
-
-        $this->dispatch(new UpdateHalo5Account($account));
-
-        return \Redirect::action('Halo5\ProfileController@index', [$account->seo]);
     }
 
     public function postAddDestinyGame(AddGameRequest $request)

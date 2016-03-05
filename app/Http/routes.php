@@ -19,10 +19,14 @@ Route::get('/h5/profile/{gamertag}', 'Halo5\ProfileController@index');
 Route::get('/h5/profile/manual-update/{seo}', 'Halo5\ProfileController@manualUpdate');
 Route::get('/h5/profile/check-for-update/{gamertag}', 'Halo5\ProfileController@checkForUpdate');
 
+## Admin
+Route::controller('/backstage/destiny', 'Backstage\DestinyController');
+Route::controller('/backstage/halo5', 'Backstage\Halo5Controller');
+Route::controller('/backstage', 'Backstage\IndexController');
+
 ## Other
 Route::controller('/comment', 'CommentController');
 Route::controller('/calendar', 'CalendarController');
-Route::controller('/admin', 'AdminController');
 Route::controller('/usercp', 'UserCpController');
 Route::controller('/auth', 'AuthController');
 Route::controller('/', 'HomeController');

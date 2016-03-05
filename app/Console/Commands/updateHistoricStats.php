@@ -41,11 +41,10 @@ class updateHistoricStats extends Command
      */
     public function handle()
     {
-        $pandas = Account::with('destiny.characters', 'h5.warzone')
-            ->whereHas('destiny', function($query)
+        $pandas = Account::with('user', 'h5.warzone')
+            ->whereHas('user', function($query)
             {
-                $query
-                    ->where('clanName', 'Panda Love');
+                $query->where('isPanda', true);
             })
             ->whereHas('h5', function($query)
             {

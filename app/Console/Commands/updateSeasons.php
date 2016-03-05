@@ -50,15 +50,20 @@ class updateSeasons extends Command
 
             foreach($seasons as $season)
             {
-                try {
+                try
+                {
                     $this->info('Season:  ' . $season['name'] . ' already exists. Updating `end_date` and `is_active`.');
+
                     /** @var $_season Season */
                     $_season = Season::where('contentId', $season['id'])->firstOrFail();
                     $_season->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
                     $_season->isActive = boolval($season['isActive']);
                     $_season->save();
-                } catch (ModelNotFoundException $e) {
+                }
+                catch (ModelNotFoundException $e)
+                {
                     $this->info('Adding ' . $season['name']);
+
                     $s = new Season();
                     $s->name = $season['name'];
                     $s->isActive = boolval($season['isActive']);
