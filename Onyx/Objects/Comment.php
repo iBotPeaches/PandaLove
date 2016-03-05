@@ -4,6 +4,20 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
 
+/**
+ * Class Comment
+ * @package Onyx\Objects
+ * @property integer $id
+ * @property string $comment
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property string $membershipId
+ * @property string $characterId
+ * @property integer $commentable_id
+ * @property string $commentable_type
+ * @property integer $parent_comment_id
+ * @property integer $account_id
+ */
 class Comment extends Model {
 
     /**

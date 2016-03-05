@@ -7,6 +7,7 @@
             Grimoire
         </div>
     </div>
+    <!--
     <div class="statistic">
         <div class="value">
             {{ $account->destiny->glimmer }}
@@ -22,7 +23,7 @@
         <div class="label">
             Legendary Marks
         </div>
-    </div>
+    </div>-->
     @if ($account->clanName != "")
         <div class="blue statistic">
             <div class="text value">
