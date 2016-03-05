@@ -50,7 +50,8 @@ class updatePlaylists extends Command
             $this->info('We found Playlist data. Adding to table after purge.');
             foreach($playlists as $playlist)
             {
-                try {
+                try
+                {
                     $_playlist = Playlist::where('contentId', $playlist['id'])->firstOrFail();
                     $this->info('Playlist: ' . $playlist['name'] . ' already exists. Updating now.');
 
@@ -58,7 +59,9 @@ class updatePlaylists extends Command
                     $_playlist->isRanked = $playlist['isRanked'];
                     $_playlist->isActive = $playlist['isActive'];
                     $_playlist->save();
-                } catch (ModelNotFoundException $ex) {
+                }
+                catch (ModelNotFoundException $ex)
+                {
                     $this->info('Adding ' . $playlist['name']);
                     $p = new Playlist();
                     $p->name = $playlist['name'];

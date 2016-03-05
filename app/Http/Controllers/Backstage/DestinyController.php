@@ -1,6 +1,7 @@
 <?php namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
+use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Http\Controllers\Controller;
@@ -19,7 +20,17 @@ class DestinyController extends Controller {
 
     public function getIndex()
     {
-        return view('backstage.index');
+        $accounts = Account::with('destiny', 'user')
+            ->whereHas('destiny', function($query)
+            {
+                $query->where('grimoire', '!=', 0);
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(15);
+
+        return view('backstage.destiny.index', [
+            'accounts' => $accounts
+        ]);
     }
 
     public function postAddDestinyGamertag(AdminAddDestinyGamertagRequest $request)

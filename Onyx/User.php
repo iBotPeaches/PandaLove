@@ -22,6 +22,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @property string $google_url
  * @property boolean $admin
  * @property string $chat_id
+ * @property boolean $isPanda
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -60,6 +61,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	//---------------------------------------------------------------------------------
 	// Public Methods
 	//---------------------------------------------------------------------------------
+
+	public function isPandaText()
+	{
+		return $this->isPanda ? 'Yes' : 'No';
+	}
 
 	public function account()
 	{

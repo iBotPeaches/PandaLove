@@ -1,6 +1,7 @@
 <?php namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
+use Onyx\Account;
 use Onyx\Halo5\Client as Halo5Client;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
@@ -18,7 +19,17 @@ class Halo5Controller extends Controller {
 
     public function getIndex()
     {
-        return view('backstage.index');
+        $accounts = Account::with('h5', 'user')
+            ->whereHas('h5', function($query)
+            {
+                $query->where('Xp', '!=', 0);
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(15);
+
+        return view('backstage.halo5.index', [
+            'accounts' => $accounts
+        ]);
     }
 
     public function postAddHalo5Gamertag(AdminAddHalo5GamertagRequest $request)

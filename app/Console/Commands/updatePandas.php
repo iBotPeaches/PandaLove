@@ -45,11 +45,15 @@ class updatePandas extends Command
      */
     public function handle()
     {
-        $pandas = Account::with('destiny.characters')
+        $pandas = Account::with('user', 'destiny.characters')
+            ->whereHas('user', function($query)
+            {
+                $query->where('isPanda', true);
+            })
             ->whereHas('destiny', function($query)
             {
                 $query
-                    ->where('clanName', 'Panda Love')
+                    ->where('grimoire', '!=', 0)
                     ->where('inactiveCounter', '<=', 10);
             })
             ->orderBy('gamertag', 'ASC')

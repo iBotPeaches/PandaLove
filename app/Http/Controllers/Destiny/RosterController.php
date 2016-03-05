@@ -21,10 +21,14 @@ class RosterController extends Controller {
 
 	public function getIndex()
     {
-        $accounts = Account::with('destiny.characters')
+        $accounts = Account::with('user', 'destiny.characters')
+            ->whereHas('user', function($query)
+            {
+                $query->where('isPanda', true);
+            })
             ->whereHas('destiny', function($query)
             {
-                $query->where('clanName', 'Panda Love');
+                $query->where('grimoire', '!=', 0);
             })
             ->orderBy('gamertag', 'ASC')
             ->paginate(15);

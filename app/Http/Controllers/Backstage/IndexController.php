@@ -1,8 +1,11 @@
 <?php namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
 use Onyx\Halo5\Client as Halo5Client;
+use Onyx\User;
 use PandaLove\Commands\UpdateAccount;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
@@ -22,39 +25,54 @@ class IndexController extends Controller {
 
     public function getIndex()
     {
-        return view('backstage.index');
+        return redirect('/backstage/pandas');
     }
 
-    public function postAddDestinyGamertag(AdminAddDestinyGamertagRequest $request)
+    public function getPandas()
     {
-        $client = new DestinyClient();
-        $account = $client->fetchAccountByGamertag(1, $request->request->get('gamertag'));
-
-        $this->dispatch(new UpdateAccount($account));
-
-        return \Redirect::action('Destiny\ProfileController@index', [$account->seo]);
+        return view('backstage.pandas', [
+            'users' => User::with('account.h5', 'account.destiny')->where('isPanda', true)->orderBy('name')->paginate(15)
+        ]);
     }
 
-    public function postAddHalo5Gamertag(AdminAddHalo5GamertagRequest $request)
+    public function getSetPanda($account_id = 0)
     {
-        $client = new Halo5Client();
-        $account = $client->getAccountByGamertag($request->request->get('gamertag'));
+        try
+        {
+            $account = Account::with('user')->where('id', intval($account_id))->firstOrFail();
 
-        $this->dispatch(new UpdateHalo5Account($account));
+            if ($account->user instanceof User)
+            {
+                $account->user->isPanda = true;
+                $account->user->save();
 
-        return \Redirect::action('Halo5\ProfileController@index', [$account->seo]);
-    }
-
-    public function postAddDestinyGame(AddGameRequest $request)
-    {
-        $client = new DestinyClient();
-
-        $client->updateTypeOfGame($request->request->get('instanceId'), $request->request->get('type'), $request->request->get('raidTuesday'));
-
-        return \Redirect::action('UserCpController@getIndex')
-            ->with('flash_message', [
-                'type' => 'success',
-                'header' => 'Game Added!'
-            ]);
+                return \Redirect::action('Backstage\IndexController@getPandas')
+                    ->with('flash_message', [
+                        'type' => 'green',
+                        'header' => $account->gamertag . ' is now a Panda.',
+                        'close' => false
+                    ]);
+            }
+            else
+            {
+                return \Redirect::action('Backstage\IndexController@getPandas')
+                    ->with('flash_message', [
+                        'type' => 'danger',
+                        'header' => 'This account has not binded a Google Account to themselves.',
+                        'close' => false,
+                        'body' => 'So this is not possible.'
+                    ]);
+            }
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return \Redirect::action('Backstage\IndexController@getPandas')
+                ->with('flash_message', [
+                    'type' => 'danger',
+                    'header' => 'This person was not found.',
+                    'close' => false,
+                    'body' => 'You tried to set a Panda that does not exist.'
+                ]);
+        }
     }
 }
