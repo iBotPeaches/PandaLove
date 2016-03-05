@@ -11,13 +11,13 @@
                     <header>
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
-                    <p>An <strong>Xbox</strong> clan, who frequently runs raids & Trials Of Osiris in <strong>Destiny</strong> and plays Arena in <strong>Halo 5</strong>.</p>
+                    <p>An <strong>Xbox</strong> clan who plays <strong>Halo 5</strong> and <strong>Destiny</strong>.</p>
 
                     <header>
                         <h3>Meet the Team</h3>
                     </header>
-                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
                     <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
+                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
                 </div>
             </div>
         </article>
@@ -25,23 +25,23 @@
     <div class="wrapper style2">
         <article id="work">
             <header>
-                <h2>Here's all we do</h2>
-                <p>Ranging from raids, multiplayer and much more</p>
+                <h2>Who are we?</h2>
+                <p>A group of friends and friends of friends.</p>
             </header>
             <div class="container">
                 <div class="row">
                     <div class="4u">
                         <section class="box style1">
                             <span class="icon featured fa-comments-o"></span>
-                            <h3>Destiny: Raids</h3>
-                            <p>Every Tuesday during reset, we take down the hardest challenge available</p>
+                            <h3>Communication</h3>
+                            <p>We plan events through this site, which includes a calendar.</p>
                         </section>
                     </div>
                     <div class="4u">
                         <section class="box style1">
                             <span class="icon featured fa-crosshairs"></span>
                             <h3>Multiplayer</h3>
-                            <p>Whether its 3v3 (Destiny) or 4v4 (Halo), an unstoppable force is met.</p>
+                            <p>We aren't pro level by any means, but we don't suck either.</p>
                         </section>
                     </div>
                     <div class="4u">
@@ -54,8 +54,8 @@
                 </div>
             </div>
             <footer>
-                <p>Want to see more? Take a look at our game history from these top moments</p>
-                <a href="{{ URL::action('Destiny\GameController@getIndex') }}" class="button big scrolly">View our Games</a>
+                <p>Enjoy looking at our layout of stats? Add your gamertag here.</p>
+                <a href="{{ URL::action('Destiny\GameController@getIndex') }}" class="button big scrolly">View My Stats</a>
             </footer>
         </article>
     </div>

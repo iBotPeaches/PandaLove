@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\User;
 
 /**
  * Class Game
@@ -208,7 +209,7 @@ class Game extends Model {
         {
             if ($player->completed && $player->historyAccount != null)
             {
-                if ($player->historyAccount->clanName == "Panda Love")
+                if ($player->historyAccount->user instanceof User && $player->historyAccount->user->isPanda)
                 {
                     $count++;
                 }
@@ -225,7 +226,10 @@ class Game extends Model {
 
     public function scopeSingular($query)
     {
-        return $query->where('raidTuesday', 0)->orderBy('occurredAt', 'DESC');
+        return $query
+            ->with('players.account.user')
+            ->where('raidTuesday', 0)
+            ->orderBy('occurredAt', 'DESC');
     }
 
     public function scopeOfTuesday($query, $value)

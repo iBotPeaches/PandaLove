@@ -39,7 +39,7 @@ class GameController extends Controller {
         $tuesday = Game::tuesday($p)->limit(4)->get();
         $pvp = Game::with('pvp')->multiplayer($p)->singular()->limit(5)->get();
         $poe = Game::poe($p)->singular()->limit(4)->get();
-        $passages = GameHelper::getMaps(Game::with('pvp', 'players.account.destiny')->passage()->limit(4)->get());
+        $passages = GameHelper::getMaps(Game::with('pvp', 'players.account.destiny', 'players.account.user')->passage()->limit(4)->get());
 
         Hashes::cacheGameHashes($raids, $flawless, $tuesday, $pvp, $poe, $passages);
 
@@ -61,7 +61,7 @@ class GameController extends Controller {
             $game = Game::with(['comments.player' => function($query) use ($instanceId)
                 {
                     $query->where('game_id', $instanceId);
-                }, 'players.gameChar', 'players.account.destiny', 'comments.account'
+                }, 'players.gameChar', 'players.account.destiny', 'comments.account', 'players.account.user'
                 ])
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
@@ -140,7 +140,7 @@ class GameController extends Controller {
 
     public function getPassage($passageId, $gameId = null)
     {
-        $games = Game::with('players.gameChar', 'players.account.destiny', 'pvp')
+        $games = Game::with('players.account.user', 'players.gameChar', 'players.account.destiny', 'pvp')
             ->ofPassage($passageId)
             ->get();
 
@@ -179,7 +179,7 @@ class GameController extends Controller {
                 $description = 'Raids';
                 $raids = Game::raid($p)
                     ->singular()
-                    ->with('players.historyAccount')
+                    ->with('players.historyAccount.user')
                     ->paginate(10);
                 break;
 
@@ -187,14 +187,14 @@ class GameController extends Controller {
                 $description = 'Flawless Raids';
                 $raids = Game::flawless($p)
                     ->singular()
-                    ->with('players.historyAccount')
+                    ->with('players.historyAccount.user')
                     ->paginate(10);
                 break;
 
             case "RaidTuesdays";
                 $description = 'Raid Tuesdays';
                 $raids = Game::tuesday($p)
-                    ->with('players.historyAccount')
+                    ->with('players.historyAccount.user')
                     ->paginate(10);
                 break;
 
@@ -203,7 +203,7 @@ class GameController extends Controller {
                 $title = 'Gametype';
                 $raids = Game::multiplayer($p)
                     ->singular()
-                    ->with('players.historyAccount', 'pvp')
+                    ->with('players.historyAccount.user', 'pvp')
                     ->paginate(10);
                 break;
 
@@ -211,7 +211,7 @@ class GameController extends Controller {
                 $description = 'Prison Of Elders';
                 $raids = Game::poe($p)
                     ->singular()
-                    ->with('players.historyAccount')
+                    ->with('players.historyAccount.user')
                     ->paginate(10);
                 break;
 
@@ -219,7 +219,7 @@ class GameController extends Controller {
                 $description = 'Trials Of Osiris';
                 $title = 'Gametype';
                 $raids = Game::passage()
-                    ->with('players.historyAccount')
+                    ->with('players.historyAccount.user')
                     ->paginate(10);
                 break;
 

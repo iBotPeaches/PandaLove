@@ -2,7 +2,6 @@
     <ul class="container">
         <li><a class="{{ HTML::activeClass('/') }}" href="{{ URL::to('/') }}"><i class="home icon"></i></a></li>
         <li><a class="{{ HTML::activeClass('roster') }}" href="{{ URL::action('HomeController@getRoster') }}">Roster</a></li>
-        <li><a class="{{ HTML::activeClass('destiny/games') }}" href="{{ URL::action('Destiny\GameController@getIndex') }}">Games</a></li>
         @if (isset($user) && $user != null)
             @if ($user->isPanda)
                 <li><a class="{{ HTML::activeClass('calendar') }}" href="{{ URL::action('CalendarController@getIndex') }}">Calendar</a></li>

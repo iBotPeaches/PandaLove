@@ -606,6 +606,7 @@
 		{
 			background-image: none;
 			background-color: #fff;
+			min-height: 820px;
 		}
 		
 		.wrapper.style2

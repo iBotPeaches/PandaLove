@@ -4,7 +4,7 @@
     @include('includes.usercp.gamertag-verify')
 
     @if ($user->admin)
-        <div class="wrapper style1">
+        <div class="wrapper style2">
             <article class="container" id="top">
                 <div class="row">
                     <div class="12u">

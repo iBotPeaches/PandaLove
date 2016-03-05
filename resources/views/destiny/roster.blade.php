@@ -9,6 +9,9 @@
                         <h1>Meet <strong>Panda Love</strong></h1>
                     </header>
                     @include('includes.destiny.roster.table')
+                    <p>
+                        <a href="{{ action('Destiny\GameController@getIndex') }}">View some of our stored games.</a>
+                    </p>
                 </div>
             </div>
         </article>
