@@ -13,15 +13,16 @@
                     <div class="8u">
                         @if ($user->account_id == 0)
                             <div class="ui warning message">
-                                <strong>Prove who you are Guardian</strong>
+                                <strong>Prove ownership of a Gamertag</strong>
                                 <p>
                                 <div class="ui ordered list">
-                                    <span class="item">Sign into your <a target="_blank" href="https://bungie.net">Bungie.net</a> account</span>
-                                    <span class="item">Go to the <a href="https://www.bungie.net/en/Profile#context=settings" target="_blank">Settings</a></span>
+                                    <span class="item">Sign into your <a target="_blank" href="http://www.xbox.com/en-US/">xbox.com</a> account.</span>
+                                    <span class="item">Go to the <a href="https://account.xbox.com/en-US/CustomizeProfile" target="_blank">Settings</a> page.</span>
                                     <span class="item">Copy this code: <strong>{{ $user->google_id }}</strong></span>
-                                    <span class="item">Append it / Replace it into your "Motto" section.</span>
-                                    <span class="item">Hit Save on the left hand side.</span>
-                                    <span class="item">Once done. Enter Gamertag below and submit.</span>
+                                    <span class="item">Append it / Replace it into your "Bio" section.</span>
+                                    <span class="item">Save that field. Don't worry you can change it right back after this validation.</span>
+                                    <span class="item">Once done. Enter your Gamertag below and submit.</span>
+                                    <span class="item">If we find that text above in your profile. You "claim" ownership of that gamertag.</span>
                                 </div>
                                 </p>
                             </div>
@@ -36,11 +37,19 @@
                             <ul class="actions">
                                 <li><input type="submit" value="Prove Ownership of Gamertag" /></li>
                             </ul>
+                            <div class="ui info message">
+                                <strong>Why should I do this?</strong>
+                                <div class="ui ordered list">
+                                    <span class="item">Easy access to your profile.</span>
+                                    <span class="item">Comment on profiles/games as that gamertag</span>
+                                    <span class="item">The Google+ Sign In is just for ease. We won't send you anything or post as you.</span>
+                                </div>
+                            </div>
                         @else
                             <div class="ui green message">
-                                <strong>We know who you are Guardian</strong>
+                                <strong>We know who you are Gamer</strong>
                                 <p>
-                                    Welcome back <strong><a href="{{ URL::action('Destiny\ProfileController@index', array($user->account->seo)) }}">{{ $user->account->gamertag }}</a></strong>
+                                    Welcome back <strong><a href="#">{{ $user->account->gamertag }}</a></strong>
                                 </p>
                             </div>
                         @endif

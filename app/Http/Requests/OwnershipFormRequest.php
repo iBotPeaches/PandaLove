@@ -27,7 +27,7 @@ class OwnershipFormRequest extends Request {
 	public function rules()
 	{
 		return [
-			'gamertag' => 'required|min:3|gamertag-exists|motto-contains'
+			'gamertag' => 'required|min:1|motto-contains'
 		];
 	}
 

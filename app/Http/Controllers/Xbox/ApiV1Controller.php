@@ -174,20 +174,21 @@ class ApiV1Controller extends Controller {
 
     public function getWhoIsOn()
     {
-        $accounts = Account::whereHas('destiny', function($query)
-        {
-            $query->where('clanName', 'Panda Love');
-        })->get();
+        /** @var $accounts Account[] */
+        $accounts = Account::with('user')
+            ->whereHas('user', function($query)
+            {
+                $query->where('isPanda', true);
+            })->get();
 
         if (count($accounts) > 0)
         {
             $xboxclient = new XboxClient();
             $presence = $xboxclient->fetchAccountsPresence($accounts);
 
-            $status = $xboxclient->prettifyOnlineStatus($presence, $accounts);
             return Response::json([
                 'error' => false,
-                'msg' => $status
+                'msg' => $xboxclient->prettifyOnlineStatus($presence, $accounts)
             ]);
         }
         else

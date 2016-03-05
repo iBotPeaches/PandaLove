@@ -125,10 +125,10 @@ class CustomValidator extends Validator {
 
         if ($account instanceof Account && $user instanceof User)
         {
-            $client = new Client();
-            $json = $client->getBungieProfile($account);
+            $client = new \Onyx\XboxLive\Client();
+            $bio = $client->fetchAccountBio($account);
 
-            if ($json != null && str_contains($json['about'], $user->google_id))
+            if (str_contains($bio, $user->google_id))
             {
                 return true;
             }

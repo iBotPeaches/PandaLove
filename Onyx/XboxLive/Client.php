@@ -3,14 +3,29 @@
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Promise as GuzzlePromise;
+use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
 use Onyx\XboxLive\Helpers\Network\XboxAPI;
 use Onyx\XboxLive\Constants as XboxConstants;
+use Onyx\XboxLive\Helpers\Network\XboxAPIErrorException;
 
 class Client extends XboxAPI {
 
-    public $acceptedGameIds = ['972249091', '247546985', '1144039928', '1292135256', '219630713']; // gta5 destiny mcc titanfall h5
+    /**
+     * @var array
+     */
+    public $acceptedGameIds = [
+        '972249091',            // GTA5
+        '247546985',            // Destiny
+        '1144039928',           // MCC
+        '1292135256',           // Titanfall
+        '219630713'             // Halo 5
+    ];
 
+    /**
+     * @param $accounts Account[]
+     * @return mixed
+     */
     public function fetchAccountsPresence($accounts)
     {
         $client = new GuzzleClient([
@@ -23,8 +38,10 @@ class Client extends XboxAPI {
         {
             if ($account->xuid == null)
             {
-                $destiny = new DestinyClient();
-                $account = $destiny->fetchAccountData($account);
+                if ($this->getXuid($account) == null)
+                {
+                    continue;
+                }
             }
 
             $url = sprintf(XboxConstants::$getPresenceUrl, $account->xuid);
@@ -38,6 +55,32 @@ class Client extends XboxAPI {
         return $results;
     }
 
+    /**
+     * @param $account Account
+     * @return mixed
+     * @throws XboxAPIErrorException
+     */
+    public function fetchAccountBio($account)
+    {
+        $url = sprintf(Constants::$getGamercard, $account->gamertag);
+
+        $data = $this->getJson($url);
+
+        if (isset($data['gamertag']))
+        {
+            return $data['bio'];
+        }
+        else
+        {
+            throw new XboxAPIErrorException('Gamertag was not found.');
+        }
+    }
+
+    /**
+     * @param $presence
+     * @param $accounts Account[]
+     * @return string
+     */
     public function prettifyOnlineStatus($presence, $accounts)
     {
         $key = 'online_status';
@@ -87,5 +130,32 @@ class Client extends XboxAPI {
             Cache::put($key, $user_string, 5);
             return $user_string;
         }
+    }
+
+    //-----------------------------------------------------------------
+    // Private Functions
+    //-----------------------------------------------------------------
+
+    /**
+     * @param $account Account
+     * @return mixed|null
+     */
+    private function getXuid(&$account)
+    {
+        if ($account->xuid == null)
+        {
+            $url = sprintf(Constants::$getGamertagXUID, $account->gamertag);
+            $xuid = $this->getJson($url, true);
+
+            if ($xuid != null)
+            {
+                $account->xuid = $xuid;
+                $account->save();
+
+                return $xuid;
+            }
+        }
+
+        return null;
     }
 }

@@ -19,4 +19,10 @@ class Constants {
      * @var string
      */
     public static $getPresenceUrl = 'https://xboxapi.com/v2/%s/presence';
+
+    /**
+     * URL to get account gamercard, including BIO for verification
+     * @var string
+     */
+    public static $getGamercard = 'https://xboxapi.com/v2/%s/gamercard';
 }
