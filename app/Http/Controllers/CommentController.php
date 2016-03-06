@@ -36,9 +36,10 @@ class CommentController extends Controller {
 
         $comment = new Comment();
         $comment->comment = $request->get('message');
-        $comment->membershipId = $membershipId;
-        $comment->characterId = $game->findAccountViaMembershipId($membershipId, false)->characterId;
+        $comment->destiny_membershipId = $membershipId;
+        $comment->destiny_characterId = $game->findAccountViaMembershipId($membershipId, false);
         $comment->parent_comment_id = 0;
+        $comment->account_id = $this->user->id;
 
         $game->comments()->save($comment);
 

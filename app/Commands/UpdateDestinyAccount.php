@@ -2,11 +2,10 @@
 
 use Onyx\Account;
 use Onyx\Destiny\Client;
-use PandaLove\Commands\Command;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 
-class UpdateAccount extends Command implements SelfHandling {
+class UpdateDestinyAccount extends Command implements SelfHandling {
 
 	private $account;
 

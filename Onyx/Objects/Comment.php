@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
+use Onyx\Destiny\Objects\Game;
+use Onyx\Halo5\Objects\Data;
 
 /**
  * Class Comment
@@ -11,8 +13,8 @@ use Onyx\Account;
  * @property string $comment
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property string $membershipId
- * @property string $characterId
+ * @property string $destiny_membershipId
+ * @property string $destiny_characterId
  * @property integer $commentable_id
  * @property string $commentable_type
  * @property integer $parent_comment_id
@@ -58,6 +60,21 @@ class Comment extends Model {
         }
     }
 
+    /**
+     * @param $value Account|null
+     */
+    public function setDestinyCharacterIdAttribute($value)
+    {
+        if ($value instanceof Account)
+        {
+            $this->attributes['destiny_characterId'] = $value->characterId;
+        }
+        else
+        {
+            $this->attributes['destiny_characterId'] = null;
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -69,7 +86,7 @@ class Comment extends Model {
 
     public function player()
     {
-        return $this->hasOne('Onyx\Destiny\Objects\GamePlayer', 'characterId', 'characterId');
+        return $this->hasOne('Onyx\Destiny\Objects\GamePlayer', 'characterId', 'destiny_characterId');
     }
 
     public function account()
@@ -79,6 +96,25 @@ class Comment extends Model {
 
     public function destiny()
     {
-        return $this->hasOne('Onyx\Destiny\Objects\Data', 'membershipId', 'membershipId');
+        return $this->hasOne('Onyx\Destiny\Objects\Data', 'membershipId', 'destiny_membershipId');
+    }
+
+    public function emblem()
+    {
+        if ($this->commentable instanceof Game)
+        {
+            if ($this->destiny_characterId != null) // In Game
+            {
+                return $this->player->emblem->extra;
+            }
+            else
+            {
+                return $this->destiny->characterAtPosition(1)->emblem->extra;
+            }
+        }
+        elseif ($this->commentable instanceof Data)
+        {
+            return false;
+        }
     }
 }

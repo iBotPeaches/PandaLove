@@ -55,7 +55,7 @@
             </div>
             <footer>
                 <p>Enjoy looking at our layout of stats? Add your gamertag here.</p>
-                <a href="{{ URL::action('Destiny\GameController@getIndex') }}" class="button big scrolly">View My Stats</a>
+                <a href="{{ URL::action('AccountController@getIndex') }}" class="button big scrolly">View My Stats</a>
             </footer>
         </article>
     </div>

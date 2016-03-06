@@ -5,9 +5,8 @@ use Illuminate\Support\Facades\URL;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
-use PandaLove\Commands\UpdateAccount;
+use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 
@@ -145,7 +144,7 @@ class ProfileController extends Controller {
                 if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
                 {
                     // update this
-                    $this->dispatch(new UpdateAccount($account));
+                    $this->dispatch(new UpdateDestinyAccount($account));
 
                     return response()->json([
                         'updated' => true,

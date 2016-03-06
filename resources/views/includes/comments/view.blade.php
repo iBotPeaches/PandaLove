@@ -14,7 +14,7 @@
                     @foreach($game->comments as $comment)
                         <div class="comment">
                             <a href="{{ action('Destiny\ProfileController@index', $comment->account->seo) }}" class="avatar">
-                                <img class="ui rounded" src="{{ $comment->player->emblem->extra }}" />
+                                <img class="ui rounded" src="{{ $comment->emblem() }}" />
                             </a>
                             <div class="content">
                                 <a href="{{ action('Destiny\ProfileController@index', $comment->account->seo) }}" class="author">{{ $comment->account->gamertag }}</a>

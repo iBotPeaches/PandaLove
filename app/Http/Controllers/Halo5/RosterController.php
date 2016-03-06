@@ -30,7 +30,7 @@ class RosterController extends Controller {
                 $query->where('totalKills', '!=', 0);
             })
             ->orderBy('gamertag', 'ASC')
-            ->paginate(15);
+            ->paginate(10);
 
         return view('halo5.roster', [
             'members' => $accounts,

@@ -2,10 +2,10 @@
 
 namespace PandaLove\Http\Requests;
 
-use PandaLove\Http\Requests\Request;
-
-class AdminAddHalo5GamertagRequest extends Request
+class AddHalo5GamertagRequest extends Request
 {
+    protected $errorBag = 'halo5';
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,14 +13,7 @@ class AdminAddHalo5GamertagRequest extends Request
      */
     public function authorize()
     {
-        $user = \Auth::user();
-
-        if ($user != null && $user->admin)
-        {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**

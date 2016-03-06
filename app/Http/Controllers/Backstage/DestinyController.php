@@ -3,10 +3,10 @@
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
-use PandaLove\Commands\UpdateAccount;
+use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
-use PandaLove\Http\Requests\AdminAddDestinyGamertagRequest;
+use PandaLove\Http\Requests\AddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
 class DestinyController extends Controller {
@@ -33,12 +33,12 @@ class DestinyController extends Controller {
         ]);
     }
 
-    public function postAddDestinyGamertag(AdminAddDestinyGamertagRequest $request)
+    public function postAddDestinyGamertag(AddDestinyGamertagRequest $request)
     {
         $client = new DestinyClient();
         $account = $client->fetchAccountByGamertag(1, $request->request->get('gamertag'));
 
-        $this->dispatch(new UpdateAccount($account));
+        $this->dispatch(new UpdateDestinyAccount($account));
 
         return \Redirect::action('Destiny\ProfileController@index', [$account->seo]);
     }

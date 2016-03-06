@@ -132,7 +132,7 @@ class CalendarController extends Controller {
 
             if ($event->isDestiny())
             {
-                $attendee->membershipId = $this->user->account->destiny_membershipId;
+                $attendee->membershipId = $this->user->account->destiny->membershipId;
                 $attendee->characterId = $request->get('character', 0);
             }
 

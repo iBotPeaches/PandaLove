@@ -199,7 +199,16 @@ class Game extends Model {
             }
         }
 
-        return \Onyx\Account::where('destiny_membershipId', $membershipId)->first();
+        $destiny = Data::where('membershipId', $membershipId)->first();
+        if ($destiny instanceof Data)
+        {
+            if ($returnAccount)
+            {
+                return $destiny->account;
+            }
+        }
+
+        return null;
     }
 
     public function completed()

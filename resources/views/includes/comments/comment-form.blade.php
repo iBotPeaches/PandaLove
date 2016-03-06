@@ -4,10 +4,10 @@
     </div>
     {!! Form::hidden('game_id', $game->instanceId) !!}
     <div class="ui error message"></div>
-    <button class="ui primary submit labeled icon button">
+    <button class="ui primary labeled icon button">
         <i class="icon edit"></i> Add Comment
     </button>
-    Posting as <strong>{{ $game->findAccountViaMembershipId($user->account->destiny_membershipId)->gamertag or 'Unknown' }}</strong>
+    Posting as <strong>{{ $game->findAccountViaMembershipId($user->account->destiny->membershipId)->gamertag or 'Unknown' }}</strong>
 {!! Form::close() !!}
 
 @section('inline-js')

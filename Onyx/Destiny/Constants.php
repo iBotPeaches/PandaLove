@@ -6,7 +6,7 @@ class Constants {
      * Location to obtain MembershipID
      * @var string
      */
-    public static $searchDestinyPlayer = 'https://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/%1$d/%2$s';
+    public static $searchDestinyPlayer = 'https://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/%1$s/%2$s';
 
     /**
      * Obtain basic information (weekly, characters, etc) about a membershipId

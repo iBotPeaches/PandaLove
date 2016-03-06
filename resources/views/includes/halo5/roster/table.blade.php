@@ -32,7 +32,7 @@
             <td class="center aligned {{ $member->h5->kd() > 1 ? "positive" : "warning" }} kdr-table">{{ $member->h5->kd() }}</td>
             <td class="center aligned {{ $member->h5->warzone->kad() > 1 ? "positive" : "warning" }} kadr-table">{{ $member->h5->warzone->kad() }}</td>
             <td class="center aligned {{ $member->h5->warzone->kd() > 1 ? "positive" : "warning" }} kdr-table">{{ $member->h5->warzone->kd() }}</td>
-            <td class="gamesplayed-table ui center aligned">{{ $member->h5->totalGames }}</td>
+            <td class="gamesplayed-table ui center aligned">{{ number_format($member->h5->totalGames) }}</td>
         </tr>
     @endforeach
     </tbody>

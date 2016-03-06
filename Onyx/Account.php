@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\Data;
+use Onyx\Destiny\Objects\Data as DestinyData;
 use Onyx\Halo5\Objects\Data as H5Data;
 
 /**
@@ -41,9 +41,8 @@ class Account extends Model {
         Account::created(function($account)
         {
             // destiny stuff
-            $data = new Data();
+            $data = new DestinyData();
             $data->account_id = $account->id;
-            $data->membershipId = $account->destiny_membershipId;
             $data->save();
 
             // halo 5 stuff

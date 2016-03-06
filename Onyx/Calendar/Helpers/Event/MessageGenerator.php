@@ -139,7 +139,7 @@ class MessageGenerator {
 
         if ($event->isDestiny())
         {
-            $attendee->membershipId = $user->account->destiny_membershipId;
+            $attendee->membershipId = $user->account->destiny->membershipId;
             $attendee->characterId = $char->characterId;
         }
 

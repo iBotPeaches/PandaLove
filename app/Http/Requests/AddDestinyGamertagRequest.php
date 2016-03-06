@@ -1,9 +1,8 @@
 <?php namespace PandaLove\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
-use PandaLove\Http\Requests\Request;
+class AddDestinyGamertagRequest extends Request {
 
-class AdminAddDestinyGamertagRequest extends Request {
+	protected $errorBag = 'destiny';
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -12,14 +11,7 @@ class AdminAddDestinyGamertagRequest extends Request {
 	 */
 	public function authorize()
 	{
-		$user = \Auth::user();
-
-		if ($user != null && $user->admin)
-		{
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**

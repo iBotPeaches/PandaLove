@@ -111,6 +111,14 @@ class Client extends Http {
         }
     }
 
+    public function searchAccountByName($username)
+    {
+        $platform = "all";
+        $url = sprintf(Constants::$searchDestinyPlayer, $platform, $username);
+
+
+    }
+
     /**
      * @param $platform
      * @param $gamertag
@@ -125,7 +133,7 @@ class Client extends Http {
 
         $account = $this->checkCacheForGamertag($gamertag);
 
-        if ($account instanceof Account && $account->destiny_membershipId != "")
+        if ($account instanceof Account)
         {
             return $account;
         }
@@ -146,13 +154,12 @@ class Client extends Http {
             {
                 if ($account instanceof Account)
                 {
-                    $account->destiny_membershipId = $json['Response'][0]['membershipId'];
-                    $account->accountType = intval(1);
+                    //$account->destiny_membershipId = $json['Response'][0]['membershipId'];
                     $account->save();
 
                     $data = new Data();
                     $data->account_id = $account->id;
-                    $data->membershipId = $account->destiny_membershipId;
+                    $data->membershipId = $json['Response'][0]['membershipId'];
                     $data->save();
 
                     return $account;
@@ -190,7 +197,7 @@ class Client extends Http {
      */
     public function fetchAccountData($account)
     {
-        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->destiny_membershipId);
+        $url = sprintf(Constants::$platformDestiny, $account->accountType, $account->destiny->membershipId);
 
         $data = $account->destiny;
         $json = $this->getJson($url);
@@ -256,7 +263,7 @@ class Client extends Http {
      */
     public function getBungieProfile($account)
     {
-        $url = sprintf(Constants::$getBungieAccount, $account->destiny_membershipId, $account->accountType);
+        $url = sprintf(Constants::$getBungieAccount, $account->destiny->membershipId, $account->accountType);
 
         $json = $this->getJson($url);
 

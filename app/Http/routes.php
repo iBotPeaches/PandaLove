@@ -25,6 +25,7 @@ Route::controller('/backstage/halo5', 'Backstage\Halo5Controller');
 Route::controller('/backstage', 'Backstage\IndexController');
 
 ## Other
+Route::controller('/account', 'AccountController');
 Route::controller('/comment', 'CommentController');
 Route::controller('/calendar', 'CalendarController');
 Route::controller('/usercp', 'UserCpController');
