@@ -153,7 +153,7 @@ return [
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
-		'GrahamCampbell\Exceptions\ExceptionsServiceProvider',
+		'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -216,6 +216,7 @@ return [
 		'Socialite' => 'Laravel\Socialite\Facades\Socialite',
 		'Agent'     => 'Jenssegers\Agent\Facades\Agent',
 		'Debugbar'  => 'Barryvdh\Debugbar\Facade',
+		'Bugsnag' 	=> 'Bugsnag\BugsnagLaravel\BugsnagFacade'
 
 	],
 

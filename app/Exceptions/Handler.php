@@ -1,7 +1,7 @@
 <?php namespace PandaLove\Exceptions;
 
 use Exception;
-use GrahamCampbell\Exceptions\ExceptionHandler as ExceptionHandler;
+use Bugsnag\BugsnagLaravel\BugsnagExceptionHandler as ExceptionHandler;
 
 class Handler extends ExceptionHandler {
 
