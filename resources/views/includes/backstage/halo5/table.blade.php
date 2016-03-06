@@ -14,7 +14,7 @@
     <tbody>
     @foreach($accounts as $account)
         <tr>
-            <td>{{ $account->gamertag }}</td>
+            <td><a target="_blank" href="{{ action('Halo5\ProfileController@index', [$account->seo]) }}">{{ $account->gamertag }}</a></td>
             <td>{{ $account->h5->spartanRank }}</td>
             <td>{{ isset($account->user) ? $account->user->isPandaText() : 'No' }}</td>
             <td>{{ $account->created_at }}</td>
