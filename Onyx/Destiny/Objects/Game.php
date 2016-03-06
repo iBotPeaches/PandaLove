@@ -233,6 +233,11 @@ class Game extends Model {
         $this->translator->setUrl($url);
     }
 
+    public function getTranslatorUrl()
+    {
+        return $this->translator->getUrl();
+    }
+
     public function scopeSingular($query)
     {
         return $query

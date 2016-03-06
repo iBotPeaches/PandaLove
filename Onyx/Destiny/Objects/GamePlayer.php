@@ -74,6 +74,10 @@ class GamePlayer extends Model {
         {
             $this->setAttributePullImage('emblem', $hash->hash);
         }
+        else
+        {
+            $this->attributes['emblem'] = '9999999999';
+        }
     }
 
     public function getEmblemAttribute($value)

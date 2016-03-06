@@ -4,13 +4,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use Onyx\Destiny\Helpers\String\Hashes;
-use Onyx\Destiny\Objects\Comment;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
-use PandaLove\Http\Requests\AddCommentRequest;
 use PandaLove\Http\Requests\deleteGameRequest;
 
 class GameController extends Controller {

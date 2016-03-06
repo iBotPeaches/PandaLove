@@ -3,7 +3,6 @@
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Validator;
 use Onyx\Account;
-use Onyx\Destiny\Client;
 use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
@@ -13,12 +12,14 @@ use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\User;
 
 use Onyx\Halo5\Client as Halo5Client;
+use Onyx\Destiny\Client as DestinyClient;
+use Onyx\XboxLive\Client as XboxClient;
 
 class CustomValidator extends Validator {
 
     public function validateGameReal($attribute, $value, $parameters)
     {
-        $client = new Client();
+        $client = new DestinyClient();
 
         try
         {
@@ -48,13 +49,29 @@ class CustomValidator extends Validator {
 
     public function validateGamertagReal($attribute, $value, $parameters)
     {
-        $client = new Client();
+        $client = new DestinyClient();
 
         try
         {
             $account = $client->fetchAccountByGamertag(1, $value);
         }
         catch (PlayerNotFoundException $e)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateDestinyTagExists($attribute, $value, $parameters)
+    {
+        $client = new DestinyClient();
+
+        try
+        {
+            $account = $client->searchAccountByName($value);
+        }
+        catch (PlayerNotFoundException $ex)
         {
             return false;
         }
@@ -125,7 +142,7 @@ class CustomValidator extends Validator {
 
         if ($account instanceof Account && $user instanceof User)
         {
-            $client = new \Onyx\XboxLive\Client();
+            $client = new XboxClient();
             $bio = $client->fetchAccountBio($account);
 
             if (str_contains($bio, $user->google_id))

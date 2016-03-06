@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Onyx\Account;
+use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
@@ -111,12 +112,46 @@ class Client extends Http {
         }
     }
 
+    /**
+     * @param $username string
+     * @return bool|array
+     * @throws Helpers\Network\BungieOfflineException
+     * @throws PlayerNotFoundException
+     */
     public function searchAccountByName($username)
     {
         $platform = "all";
         $url = sprintf(Constants::$searchDestinyPlayer, $platform, $username);
 
+        $json = $this->getJson($url, 60 * 24);
 
+        $accounts = [];
+        if (isset($json['Response']) && count($json['Response']) >= 1)
+        {
+            foreach($json['Response'] as $item)
+            {
+                $cache = $this->checkCacheForGamertagByConsole($item['membershipType'], $item['displayName']);
+
+                if ($cache == false)
+                {
+                    $cache = Account::firstOrCreate([
+                        'gamertag' => $item['displayName'],
+                        'accountType' => $item['membershipType'],
+                    ]);
+
+                    $data = new Data();
+                    $data->account_id = $cache->id;
+                    $data->membershipId = $item['membershipId'];
+                    $data->save();
+                }
+
+                $accounts[] = $cache;
+            }
+
+            return $accounts;
+        }
+
+        throw new PlayerNotFoundException();
     }
 
     /**
@@ -131,7 +166,7 @@ class Client extends Http {
         $platform = intval($platform);
         $url = sprintf(Constants::$searchDestinyPlayer, $platform, $gamertag);
 
-        $account = $this->checkCacheForGamertag($gamertag);
+        $account = $this->checkCacheForGamertagByConsole($platform, $gamertag);
 
         if ($account instanceof Account)
         {
@@ -142,47 +177,17 @@ class Client extends Http {
 
         if (isset($json['Response'][0]['membershipId']))
         {
-            try
-            {
-              return Account::firstOrCreate([
-                    'gamertag' => $json['Response'][0]['displayName'],
-                    'accountType' => $json['Response'][0]['membershipType'],
-                    'destiny_membershipId' => $json['Response'][0]['membershipId']
-                ]);
-            }
-            catch (QueryException $e)
-            {
-                if ($account instanceof Account)
-                {
-                    //$account->destiny_membershipId = $json['Response'][0]['membershipId'];
-                    $account->save();
+            $account = Account::firstOrCreate([
+                'gamertag' => $json['Response'][0]['displayName'],
+                'accountType' => $json['Response'][0]['membershipType'],
+            ]);
 
-                    $data = new Data();
-                    $data->account_id = $account->id;
-                    $data->membershipId = $json['Response'][0]['membershipId'];
-                    $data->save();
+            $data = new Data();
+            $data->account_id = $account->id;
+            $data->membershipId = $json['Response'][0]['membershipId'];
+            $data->save();
 
-                    return $account;
-                }
-
-                // Assuming this character already exists, but has had a name change
-                $char = Character::where('membershipId', $json['Response'][0]['membershipId'])->first();
-                $account = $char->account;
-
-                if ($account instanceof Account)
-                {
-                    $account->gamertag = $json['Response'][0]['displayName'];
-                    $account->save();
-
-                    return $account;
-                }
-
-                return Account::firstOrCreate([
-                    'gamertag' => $json['Response'][0]['displayName'],
-                    'accountType' => $json['Response'][0]['membershipType'],
-                    'destiny_membershipId' => $json['Response'][0]['membershipId']
-                ]);
-            }
+            return $account;
         }
         else
         {
@@ -435,32 +440,26 @@ class Client extends Http {
     }
 
     /**
+     * @param $data
      * @param $entry
      * @param $game
      * @param $pvp
-     * @param $regular
+     * @param bool $regular
+     * @return null
      */
     private function gamePlayerSetup($data, $entry, &$game, $pvp, $regular = true)
     {
         $player = new GamePlayer();
         $player->game_id = $game->instanceId;
         $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
-        $player->account_id = Account::getAccountIdViaDestiny($player->membershipId);
 
         // check if we have player
-        if ($this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName']) == false && $regular)
+        if (($account = $this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName'])) == false && $regular)
         {
-            Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
+            $account = Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
                 $entry['player']['destinyUserInfo']['membershipType']));
-
-            if ($player->account_id == null)
-            {
-                // we are re-running this, because an Account doesnt exist yet so the previous check is NULL
-                // this is technically a bug-fix for a RACE condition, where we cant create a Player
-                // without an AccountId which doesn't exist till after the Event is dispatched.
-                $player->account_id = Account::getAccountIdViaDestiny($player->membershipId);
-            }
         }
+        $player->account_id = $account->id;
 
         $player->characterId = $entry['characterId'];
         $player->level = $entry['player']['characterLevel'];
@@ -600,6 +599,10 @@ class Client extends Http {
             {
                 $character->highest_light = max($character->light, $character->highest_light);
             }
+            else
+            {
+                $character->highest_light = $character->light;
+            }
         }
         else
         {
@@ -653,6 +656,26 @@ class Client extends Http {
     private function checkCacheForGamertag($gamertag)
     {
         $account = Account::where('seo', Text::seoGamertag($gamertag))->first();
+
+        if ($account instanceof Account)
+        {
+            return $account;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $console
+     * @param $gamertag
+     * @return bool
+     */
+    private function checkCacheForGamertagByConsole($console, $gamertag)
+    {
+        $account = Account::with('destiny')
+            ->where('seo', Text::seoGamertag($gamertag))
+            ->where('accountType', $console)
+            ->first();
 
         if ($account instanceof Account)
         {

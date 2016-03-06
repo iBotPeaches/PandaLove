@@ -3,13 +3,13 @@
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
+use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;
 use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
-
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller {
@@ -25,12 +25,23 @@ class ProfileController extends Controller {
         $this->request = $request;
     }
 
-    public function index($gamertag = '', $characterId = '')
+    public function platformSwitch($gamertag)
+    {
+        $accounts = Account::where('seo', Text::seoGamertag($gamertag))->get();
+
+        return view('destiny.platform-switch', [
+            'accounts' => $accounts
+        ]);
+    }
+
+    public function index($console = Console::Xbox, $gamertag = '', $characterId = '')
     {
         try
         {
+            /** @var $account Account */
             $account = Account::with('destiny.characters')
                 ->where('seo', Text::seoGamertag($gamertag))
+                ->where('accountType', $console)
                 ->firstOrFail();
 
             $games = GamePlayer::with('game')
@@ -64,24 +75,30 @@ class ProfileController extends Controller {
         }
     }
 
-    public function manualUpdate($seo)
+    public function manualUpdate($console = Console::Xbox, $seo)
     {
         if (\Auth::check())
         {
             try
             {
-                $account = Account::with('destiny.characters')->where('seo', $seo)->firstOrFail();
+                /** @var $account Account */
+                $account = Account::with('destiny.characters')
+                    ->where('accountType', $console)
+                    ->where('seo', $seo)
+                    ->firstOrFail();
 
                 $inactive = $account->destiny->inactiveCounter;
 
-                $this->dispatch(new UpdateAccount($account));
+                $this->dispatch(new UpdateDestinyAccount($account));
 
                 // reload account
-                $account = Account::with('destiny.characters')->where('seo', $seo)->firstOrFail();
+                $account = Account::with('destiny.characters')
+                    ->where('accountType', $console)
+                    ->where('seo', $seo)
+                    ->firstOrFail();
 
                 if ($account->destiny->inactiveCounter > $inactive)
                 {
-                    // they manually refreshed a profile with no data changes. ugh
                     return redirect('destiny/profile/' . $seo)
                         ->with('flash_message', [
                             'close' => 'true',
@@ -112,14 +129,16 @@ class ProfileController extends Controller {
         }
     }
 
-    public function checkForUpdate($gamertag = '')
+    public function checkForUpdate($console = Console::Xbox, $gamertag = '')
     {
         if ($this->request->ajax() && ! \Agent::isRobot())
         {
             try
             {
+                /** @var $account Account */
                 $account = Account::with('destiny.characters')
                     ->where('seo', Text::seoGamertag($gamertag))
+                    ->where('accountType', $console)
                     ->firstOrFail();
 
                 // We don't care about non-panda members

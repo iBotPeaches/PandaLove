@@ -1,6 +1,6 @@
 <?php namespace PandaLove\Commands;
 
-use Onyx\Destiny\Client;
+use Onyx\Destiny\Client as DestinyClient;
 use PandaLove\Commands\Command;
 
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -23,14 +23,15 @@ class UpdateGamertag extends Command implements SelfHandling {
 	}
 
 	/**
-	 * Execute the command.
-	 *
-	 * @return void
+	 * @return \Onyx\Account
+	 * @throws \Onyx\Destiny\PlayerNotFoundException
 	 */
 	public function handle()
 	{
-		$client = new Client();
+		$client = new DestinyClient();
 		$account = $client->fetchAccountByGamertag($this->type, $this->gamertag);
 		$client->fetchAccountData($account);
+
+		return $account;
 	}
 }

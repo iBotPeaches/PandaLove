@@ -21,7 +21,7 @@
                             @include('includes.calendar.halo5.attending_table')
                         @endif
 
-                        @if ($attendee instanceof \Onyx\Destiny\Objects\Attendee)
+                        @if ($attendee instanceof \Onyx\Calendar\Objects\Attendee)
                             <div class="ui blue message">
                                 You are already attending this event!
                             </div>

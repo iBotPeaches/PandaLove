@@ -23,6 +23,8 @@ class EventTableSeeder extends Seeder
             [
                 'title' => 'Trials Run',
                 'type' => 'ToO',
+                'max_players' => 3,
+                'game' => 'destiny',
                 'start' => \Carbon\Carbon::now()->addDay()
             ]
         );
@@ -31,6 +33,8 @@ class EventTableSeeder extends Seeder
             [
                 'title' => 'Crota Normal',
                 'type' => 'Raid',
+                'max_players' => 6,
+                'game' => 'destiny',
                 'start' => \Carbon\Carbon::now()->addDay(4)
             ]
         );

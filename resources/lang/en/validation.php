@@ -58,7 +58,7 @@ return [
 		"string"  => "The :attribute must be at least :min characters.",
 		"array"   => "The :attribute must have at least :min items.",
 	],
-	"motto_contains"	   => "The Bio text from step 3 was not found in your xbox live profile.",
+	"motto_contains"	   => "The Bio text from step 3 was not found in your xbox live profile or the account is not added to our system yet.",
 	"not_in"               => "The selected :attribute is invalid.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",

@@ -29,5 +29,4 @@ class UpdateDestinyAccount extends Command implements SelfHandling {
 		$client = new Client();
 		$client->fetchAccountData($this->account);
 	}
-
 }

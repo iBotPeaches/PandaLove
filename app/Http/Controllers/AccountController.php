@@ -1,6 +1,7 @@
 <?php namespace PandaLove\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
+use Onyx\Account;
 use Onyx\Halo5\Objects\Data;
 use PandaLove\Http\Requests;
 use Onyx\Halo5\Client as Halo5Client;
@@ -57,15 +58,46 @@ class AccountController extends Controller {
         try
         {
             $client = new DestinyClient();
-            $account = $client->fetchAccountByGamertag(1, $request->request->get('gamertag'));
+
+            $gamertag = $request->request->get('gamertag');
+            $platform = $request->request->get('platform');
+
+            /** @var $accounts Account[] */
+            if ($platform != null)
+            {
+                $account = $client->fetchAccountByGamertag($platform, $gamertag);
+            }
+            else
+            {
+                $accounts = $client->searchAccountByName($gamertag);
+
+                if (count($accounts) > 1)
+                {
+                    return redirect('/destiny/platform-switch/' . $accounts[0]->gamertag);
+                }
+                else
+                {
+                    $account = $accounts[0];
+                }
+            }
+
+            if ($account->destiny->grimoire != 0)
+            {
+                return \Redirect::action('Destiny\ProfileController@index', [$account->accountType, $account->seo]);
+            }
 
             $this->dispatch(new UpdateDestinyAccount($account));
+            return \Redirect::action('Destiny\ProfileController@index', [$account->accountType, $account->seo]);
         }
         catch (\Exception $ex)
         {
-            return redirect('/account');
+            return redirect('/account')
+                ->with('flash_message', [
+                    'close' => 'true',
+                    'type' => 'yellow',
+                    'header' => 'Uh oh',
+                    'body' => 'We could not find this name on either PSN or Xbox.'
+                ]);
         }
-
-        return \Redirect::action('Destiny\ProfileController@index', [$account->seo]);
     }
 }

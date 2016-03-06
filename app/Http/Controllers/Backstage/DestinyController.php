@@ -49,7 +49,7 @@ class DestinyController extends Controller {
 
         $client->updateTypeOfGame($request->request->get('instanceId'), $request->request->get('type'), $request->request->get('raidTuesday'));
 
-        return \Redirect::action('UserCpController@getIndex')
+        return \Redirect::action('Backstage\DestinyController@getIndex')
             ->with('flash_message', [
                 'type' => 'success',
                 'header' => 'Game Added!'

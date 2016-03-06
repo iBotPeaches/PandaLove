@@ -22,7 +22,7 @@ class AddDestinyGamertagRequest extends Request {
 	public function rules()
 	{
 		return [
-			'gamertag' => 'required|min:3|gamertag-real'
+			'gamertag' => 'required|min:3|destiny-tag-exists'
 		];
 	}
 

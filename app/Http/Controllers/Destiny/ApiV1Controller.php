@@ -15,7 +15,7 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\User;
 use Carbon\Carbon;
-use PandaLove\Commands\UpdateAccount;
+use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Http\Controllers\Controller;
 
 class ApiV1Controller extends Controller {
@@ -230,7 +230,7 @@ class ApiV1Controller extends Controller {
 
                 if ($user->account_id != 0)
                 {
-                    $this->dispatch(new UpdateAccount($user->account));
+                    $this->dispatch(new UpdateDestinyAccount($user->account));
 
                     return Response::json([
                         'error' => false,

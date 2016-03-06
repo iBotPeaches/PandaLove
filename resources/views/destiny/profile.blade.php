@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(function() {
             $.ajax({
-                url: '{{ URL::action('Destiny\ProfileController@checkForUpdate', array($account->gamertag)) }}',
+                url: '{{ URL::action('Destiny\ProfileController@checkForUpdate', [$account->accountType, $account->gamertag]) }}',
                 success: function(result) {
                     $msg = $("#update-message");
                     if (result.updated && result.frozen == false) {

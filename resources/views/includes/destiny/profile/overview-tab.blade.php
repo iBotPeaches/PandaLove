@@ -42,6 +42,14 @@
             Characters at 40
         </div>
     </div>
+    <div class="statistic {{ $account->color() }}">
+        <div class="value">
+            {{ $account->sConsole() }}
+        </div>
+        <div class="label">
+            Console
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="12u">

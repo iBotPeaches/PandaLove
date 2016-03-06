@@ -39,6 +39,11 @@ class Hash extends Model {
 
     public function getExtraAttribute($value)
     {
+        if ($value == null)
+        {
+            $value = 'foo.jpg';
+        }
+
         $live_path = 'uploads/thumbs/';
         $location = public_path($live_path);
         $filename = $this->hash . "." . pathinfo($value, PATHINFO_EXTENSION);

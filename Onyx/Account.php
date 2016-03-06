@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Data as DestinyData;
 use Onyx\Halo5\Objects\Data as H5Data;
@@ -89,5 +90,37 @@ class Account extends Model {
         }
 
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function console()
+    {
+        return $this->accountType == Console::Xbox ? 'Xbox' : 'Playstation';
+    }
+
+    /**
+     * @return string
+     */
+    public function sConsole()
+    {
+        return $this->accountType == Console::Xbox ? 'Xbox' : 'PSN';
+    }
+
+    /**
+     * @return string
+     */
+    public function console_image()
+    {
+        return asset('images/' . (($this->accountType == Console::Xbox) ? 'xbl.png' : 'psn.png'));
+    }
+
+    /**
+     * @return string
+     */
+    public function color()
+    {
+        return $this->accountType == Console::Xbox ? 'green' : 'blue';
     }
 }
