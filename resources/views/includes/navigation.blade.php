@@ -2,7 +2,8 @@
     <ul class="container">
         <li><a class="{{ HTML::activeClass('/') }}" href="{{ URL::to('/') }}"><i class="home icon"></i></a></li>
         <li><a class="{{ HTML::activeClass('roster') }}" href="{{ URL::action('HomeController@getRoster') }}">Roster</a></li>
-        @if (isset($user) && $user != null)
+        <li><a class="{{ HTML::activeClass('account') }}" href="{{ URL::action('AccountController@getIndex') }}">Add Me</a></li>
+    @if (isset($user) && $user != null)
             @if ($user->isPanda)
                 <li><a class="{{ HTML::activeClass('calendar') }}" href="{{ URL::action('CalendarController@getIndex') }}">Calendar</a></li>
             @endif

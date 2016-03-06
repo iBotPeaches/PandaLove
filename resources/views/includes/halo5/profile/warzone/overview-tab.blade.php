@@ -67,5 +67,5 @@
     </div>
 </div>
 <div class="ui info message">
-    Playtime: <strong>{{ \Onyx\Destiny\Helpers\String\Text::timeDuration($account->h5->warzone->totalTimePlayed) }}</strong>
+    Warzone Playtime: <strong>{{ \Onyx\Destiny\Helpers\String\Text::timeDuration($account->h5->warzone->totalTimePlayed) }}</strong>
 </div>

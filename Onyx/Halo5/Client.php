@@ -36,26 +36,10 @@ class Client extends Http {
 
         if ($account instanceof Account)
         {
-            // lets check if they have H5 data
-            if (! $account->h5 instanceof Data)
-            {
-                $h5_data = new Data();
-                $h5_data->account_id = $account->id;
-                $h5_data->save();
-            }
-
-            // lets check if they have a H5 Warzone
-            if (! $account->warzone instanceof Warzone)
-            {
-                $h5_warzone = new Warzone();
-                $h5_warzone->account_id = $account->id;
-                $h5_warzone->save();
-            }
-
             return $account;
         }
 
-        $json = $this->getJson($url);
+        $json = $this->getJson($url, 2);
 
         if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) // @todo this check is wrong.
         {
@@ -76,19 +60,38 @@ class Client extends Http {
         }
     }
 
+    /**
+     * @param $account Account
+     */
     public function updateH5Account($account)
     {
-        $this->pullArenaSeasonHistoryRecord($account);
-        $this->updateArenaServiceRecord($account);
-        $this->updateWarzoneServiceRecord($account);
-        $this->updateSpartan($account);
-        $this->updateEmblem($account);
+        \DB::beginTransaction();
 
-        $account->touch();
-        $account->save();
+        try
+        {
+            $this->pullArenaSeasonHistoryRecord($account);
+            $this->updateArenaServiceRecord($account);
+            $this->updateWarzoneServiceRecord($account);
+            $this->updateSpartan($account);
+            $this->updateEmblem($account);
+
+            unset($account->h5);
+            $account->touch();
+            $account->save();
+
+            \DB::commit();
+        }
+        catch (\Exception $ex)
+        {
+            \DB::rollBack();
+        }
     }
 
-    public function updateEmblem($account, $size = 256)
+    /**
+     * @param $account Account
+     * @param int $size
+     */
+    public function updateEmblem(&$account, $size = 256)
     {
         $emblem = $this->_getEmblemImage($account, $size);
 
@@ -106,7 +109,11 @@ class Client extends Http {
         $emblem->save(public_path($base . $account->seo . "/" . 'emblem.png'));
     }
 
-    public function updateSpartan($account, $size = 512)
+    /**
+     * @param $account Account
+     * @param int $size
+     */
+    public function updateSpartan(&$account, $size = 512)
     {
         $spartan = $this->_getSpartanImage($account, $size);
 
@@ -124,7 +131,10 @@ class Client extends Http {
         $spartan->save(public_path($base . $account->seo . "/" . 'spartan.png'));
     }
 
-    public function pullArenaSeasonHistoryRecord($account)
+    /**
+     * @param $account Account
+     */
+    public function pullArenaSeasonHistoryRecord(&$account)
     {
         $seasons = Season::all();
 
@@ -144,38 +154,54 @@ class Client extends Http {
         }
     }
 
-    public function updateWarzoneServiceRecord($account)
+    /**
+     * @param $account Account
+     */
+    public function updateWarzoneServiceRecord(&$account)
     {
         $h5_warzone = $account->h5->warzone;
 
-        if ($h5_warzone instanceof Warzone)
+        if (! $h5_warzone instanceof Warzone)
         {
-            $record = $this->_getWarzoneServiceRecord($account);
-
-            $h5_warzone->totalKills = $record['WarzoneStat']['TotalSpartanKills'];
-            $h5_warzone->totalHeadshots = $record['WarzoneStat']['TotalHeadshots'];
-            $h5_warzone->totalDeaths = $record['WarzoneStat']['TotalDeaths'];
-            $h5_warzone->totalAssists = $record['WarzoneStat']['TotalAssists'];
-
-            $h5_warzone->totalGames = $record['WarzoneStat']['TotalGamesCompleted'];
-            $h5_warzone->totalGamesWon = $record['WarzoneStat']['TotalGamesWon'];
-            $h5_warzone->totalGamesLost = $record['WarzoneStat']['TotalGamesLost'];
-            $h5_warzone->totalGamesTied = $record['WarzoneStat']['TotalGamesTied'];
-            $h5_warzone->totalTimePlayed = $record['WarzoneStat']['TotalTimePlayed'];
-
-            $h5_warzone->totalPiesEarned = $record['WarzoneStat']['TotalPiesEarned'];
-
-            $h5_warzone->medals = $record['WarzoneStat']['MedalAwards'];
-            $h5_warzone->weapons = $record['WarzoneStat']['WeaponStats'];
-
-            $h5_warzone->save();
+            $h5_warzone = new Warzone();
+            $h5_warzone->account_id = $account->id;
         }
+
+        $record = $this->_getWarzoneServiceRecord($account);
+
+        $h5_warzone->totalKills = $record['WarzoneStat']['TotalSpartanKills'];
+        $h5_warzone->totalHeadshots = $record['WarzoneStat']['TotalHeadshots'];
+        $h5_warzone->totalDeaths = $record['WarzoneStat']['TotalDeaths'];
+        $h5_warzone->totalAssists = $record['WarzoneStat']['TotalAssists'];
+
+        $h5_warzone->totalGames = $record['WarzoneStat']['TotalGamesCompleted'];
+        $h5_warzone->totalGamesWon = $record['WarzoneStat']['TotalGamesWon'];
+        $h5_warzone->totalGamesLost = $record['WarzoneStat']['TotalGamesLost'];
+        $h5_warzone->totalGamesTied = $record['WarzoneStat']['TotalGamesTied'];
+        $h5_warzone->totalTimePlayed = $record['WarzoneStat']['TotalTimePlayed'];
+
+        $h5_warzone->totalPiesEarned = $record['WarzoneStat']['TotalPiesEarned'];
+
+        $h5_warzone->medals = $record['WarzoneStat']['MedalAwards'];
+        $h5_warzone->weapons = $record['WarzoneStat']['WeaponStats'];
+
+        $h5_warzone->save();
     }
 
-    public function updateArenaServiceRecord($account, $seasonId = null)
+    /**
+     * @param $account Account
+     * @param null $seasonId
+     */
+    public function updateArenaServiceRecord(&$account, $seasonId = null)
     {
         /** @var Data $h5_data */
         $h5_data = $account->h5;
+
+        if (! $h5_data instanceof Data)
+        {
+            $h5_data = new Data();
+            $h5_data->account_id = $account->id;
+        }
 
         if ($seasonId != null)
         {
@@ -267,6 +293,7 @@ class Client extends Http {
             $p->save();
         }
 
+        $account->h5 = $h5_data;
         $h5_data->save();
     }
 
@@ -335,7 +362,7 @@ class Client extends Http {
     private function _getArenaServiceRecord($account)
     {
         $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
-        $json = $this->getJson($url);
+        $json = $this->getJson($url, 2);
 
         if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
         {
@@ -364,7 +391,7 @@ class Client extends Http {
      */
     private function _checkForStatChange(&$h5, $old_xp, $new_xp)
     {
-        if (self::$updateRan) return true;
+        if (self::$updateRan || $old_xp == null) return true;
 
         $h5->inactiveCounter = ($old_xp != $new_xp) ? 0 : $h5->inactiveCounter++;
         self::$updateRan = true;

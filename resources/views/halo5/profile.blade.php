@@ -29,7 +29,7 @@
                 <div class="9u">
                     <div class="ui stackable container menu">
                         <a class="active item" data-tab="overview">
-                            Overview
+                            Arena
                         </a>
                         <a class="item" data-tab="seasons">
                             Seasons

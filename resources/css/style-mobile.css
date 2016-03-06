@@ -7,7 +7,6 @@
 /*********************************************************************************/
 /* Basic                                                                         */
 /*********************************************************************************/
-
 	body,input,textarea,select
 	{
 		line-height: 1.75em;
@@ -269,4 +268,8 @@
 }
 .bestplaylist-table:before {
 	content: "Best Playlist: ";
+}
+
+.mobile-hidden {
+	display: none;
 }

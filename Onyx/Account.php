@@ -37,19 +37,6 @@ class Account extends Model {
     public static function boot()
     {
         parent::boot();
-
-        Account::created(function($account)
-        {
-            // destiny stuff
-            $data = new DestinyData();
-            $data->account_id = $account->id;
-            $data->save();
-
-            // halo 5 stuff
-            $h5_data = new H5Data();
-            $h5_data->account_id = $account->id;
-            $h5_data->save();
-        });
     }
 
     //---------------------------------------------------------------------------------

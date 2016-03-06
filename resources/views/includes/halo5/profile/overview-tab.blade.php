@@ -67,7 +67,7 @@
     </div>
 </div>
 <div class="ui info message">
-    Playtime: <strong>{{ \Onyx\Destiny\Helpers\String\Text::timeDuration($account->h5->totalTimePlayed) }}</strong>
+    Arena Playtime: <strong>{{ \Onyx\Destiny\Helpers\String\Text::timeDuration($account->h5->totalTimePlayed) }}</strong>
 </div>
 <div class="ui message">
     <strong>Current Season: </strong>{{ $account->h5->season->name }}

@@ -28,27 +28,40 @@ class Http {
     /**
      * Request an URL expecting JSON to be returned
      * @param $url
+     * @param $cache integer
      * @return array
      * @throws ThreeFourThreeOfflineException
      */
-    public function getJson($url)
+    public function getJson($url, $cache = 0)
     {
         if (! $this->guzzle instanceof Guzzle)
         {
             $this->setupGuzzle();
         }
 
-        DebugBar::startMeasure(md5($url), $url);
+        $sum = md5($url);
+
+        if ($cache != 0 && \Cache::has($sum))
+        {
+            return \Cache::get($sum);
+        }
+
+        DebugBar::startMeasure($sum, $url);
 
         $response = $this->guzzle->get($url, [
             'headers' => ['Ocp-Apim-Subscription-Key' => env('HALO5_KEY')]
         ]);
 
-        DebugBar::stopMeasure(md5($url));
+        DebugBar::stopMeasure($sum);
 
         if ($response->getStatusCode() != 200)
         {
             throw new ThreeFourThreeOfflineException();
+        }
+
+        if ($cache != 0)
+        {
+            \Cache::put($sum, json_decode($response->getBody(), true), $cache);
         }
 
         return json_decode($response->getBody(), true);
