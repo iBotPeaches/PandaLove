@@ -1,4 +1,4 @@
-<div class="ui top attached tabular menu">
+<div class="ui top stackable attached tabular menu">
     <a class="{{ $characterId == false ? 'active' : null }} item" data-tab="overview">Overview</a>
     @foreach($account->destiny->characters as $char)
         <a class="{{ $characterId == $char->characterId ? 'active' : null }} item" data-tab="char_{{ $char->characterId }}">{{ $char->level }} {{$char->class->title}}</a>
