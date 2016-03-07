@@ -25,7 +25,7 @@
                         @if ($player['player']['isPandaLove'] && ! $player['player']['isPandaGuest'])
                             <i class="user icon panda-team"></i>
                         @endif
-                        <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['seo']]) }}">
+                        <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['type'], $player['player']['seo']]) }}">
                             {{ $player['player']['gamertag'] or 'Unknown' }}
                         </a>
                     @else
@@ -33,7 +33,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['seo'], $player['charId']]) }}">
+                    <a href="{{ URL::action('Destiny\ProfileController@index', [$player['player']['type'], $player['player']['seo'], $player['charId']]) }}">
                         {{ $player['maxLevel'] }} {{ $player['class'] }}
                     </a>
                 </td>

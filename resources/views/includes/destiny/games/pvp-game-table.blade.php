@@ -26,7 +26,7 @@
                             @if ($player->account->isPandaLove())
                                 <i class="user icon panda-team"></i>
                             @endif
-                            <a href="{{ URL::action('Destiny\ProfileController@index', [$player->account->seo]) }}">
+                            <a href="{{ URL::action('Destiny\ProfileController@index', [$player->account->accountType, $player->account->seo]) }}">
                                 @if ($player->completed != 0)
                                     {{ $player->account->gamertag or 'Unknown' }}
                                 @else
@@ -39,7 +39,7 @@
                     </td>
                     <td>
                         @if ($player->account && isset($player->gameChar->characterId))
-                            <a href="{{ URL::action('Destiny\ProfileController@index', [$player->account->seo, $player->gameChar->characterId]) }}">
+                            <a href="{{ URL::action('Destiny\ProfileController@index', [$player->account->accountType, $player->account->seo, $player->gameChar->characterId]) }}">
                                 {{ $player->level }} {{ $player->class }}
                             </a>
                         @else
