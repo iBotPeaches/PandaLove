@@ -27,6 +27,10 @@ class UpdateDestinyAccount extends Command implements SelfHandling {
 	public function handle()
 	{
 		$client = new Client();
-		$client->fetchAccountData($this->account);
+
+		\DB::transaction(function () use ($client)
+		{
+			$client->fetchAccountData($this->account);
+		});
 	}
 }

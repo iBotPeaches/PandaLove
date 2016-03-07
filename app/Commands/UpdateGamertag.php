@@ -29,9 +29,13 @@ class UpdateGamertag extends Command implements SelfHandling {
 	public function handle()
 	{
 		$client = new DestinyClient();
-		$account = $client->fetchAccountByGamertag($this->type, $this->gamertag);
-		$client->fetchAccountData($account);
 
-		return $account;
+		\DB::transaction(function () use ($client)
+		{
+			$account = $client->fetchAccountByGamertag($this->type, $this->gamertag);
+			$client->fetchAccountData($account);
+
+			return $account;
+		});
 	}
 }

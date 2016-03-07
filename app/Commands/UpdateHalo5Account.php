@@ -29,6 +29,10 @@ class UpdateHalo5Account extends Command implements SelfHandling
     public function handle()
     {
         $client = new Client();
-        $client->updateH5Account($this->account);
+
+        \DB::transaction(function () use ($client)
+        {
+            $client->updateH5Account($this->account);
+        });
     }
 }
