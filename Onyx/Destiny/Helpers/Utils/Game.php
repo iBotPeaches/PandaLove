@@ -102,6 +102,7 @@ class Game {
                         $extra = [
                             'gamertag' => $player->account->gamertag,
                             'seo' => $player->account->seo,
+                            'type' => $player->account->accountType,
                             'isPandaLove' => $player->account->isPandaLove(),
                             'isPandaGuest' => false
                         ];
@@ -237,6 +238,7 @@ class Game {
                             $combined['stats']['unbroken'][$id] = [
                                 'gamertag' => $player->account->gamertag,
                                 'seo' => $player->account->seo,
+                                'type' => $player->account->accountType,
                                 'count' => 1
                             ];
                         }
