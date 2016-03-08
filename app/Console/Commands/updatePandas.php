@@ -4,7 +4,7 @@ use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\HashNotLocatedException;
-use PandaLove\Commands\UpdateAccount;
+use PandaLove\Commands\UpdateDestinyAccount;
 
 class updatePandas extends Command
 {
@@ -77,7 +77,7 @@ class updatePandas extends Command
                 // update this
                 try
                 {
-                    $this->dispatch(new UpdateAccount($panda));
+                    $this->dispatch(new UpdateDestinyAccount($panda));
                     $this->info('Stats Updated!');
                 }
                 catch (HashNotLocatedException $e)
