@@ -19,7 +19,8 @@ class Client extends XboxAPI {
         '247546985',            // Destiny
         '1144039928',           // MCC
         '1292135256',           // Titanfall
-        '219630713'             // Halo 5
+        '219630713',            // Halo 5
+        '74304278'              // Division
     ];
 
     /**
