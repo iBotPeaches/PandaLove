@@ -20,6 +20,8 @@ class ApiV1Controller extends Controller {
     private $request;
     private $redirect;
 
+    public $inactiveCounter = 10;
+
     protected $layout = "layouts.master";
 
     public function __construct(View $view, Redirect $redirect, Request $request)
@@ -38,14 +40,16 @@ class ApiV1Controller extends Controller {
     public function getArenaLeaderboard()
     {
         // Get all halo accounts
-        $accounts = Account::with('destiny', 'h5')
-            ->whereHas('destiny', function($query)
+        $accounts = Account::with('h5.warzone', 'user')
+            ->whereHas('user', function($query)
             {
-                $query->where('clanName', 'Panda Love');
+                $query->where('isPanda', true);
             })
             ->whereHas('h5', function($query)
             {
-                $query->where('totalKills', '!=', 0);
+                $query
+                    ->where('inactiveCounter', '<=', $this->inactiveCounter)
+                    ->where('totalKills', '!=', 0);
             })
             ->orderBy('gamertag', 'ASC')
             ->get();
