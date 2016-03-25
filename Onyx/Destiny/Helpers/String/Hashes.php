@@ -3,6 +3,7 @@
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Onyx\Destiny\Helpers\Network\Http;
+use Onyx\Destiny\Objects\Data;
 use Onyx\Destiny\Objects\Hash;
 
 class Hashes extends Http{
@@ -209,6 +210,30 @@ class Hashes extends Http{
         foreach($accounts as $account)
         {
             foreach($account->destiny->characters as $char)
+            {
+                $hashes[] = $char->getOriginal('race');
+                $hashes[] = $char->getOriginal('gender');
+                $hashes[] = $char->getOriginal('class');
+                $hashes[] = $char->getOriginal('emblem');
+                $hashes[] = $char->getOriginal('background');
+            }
+        }
+
+        $hashes = self::removeEmptyAndDuplicates($hashes);
+        self::setPremadeHashList($hashes);
+    }
+
+    /**
+     * @param $accounts Data[]
+     * @return array
+     */
+    public static function cacheDataHashes($accounts)
+    {
+        $hashes = null;
+
+        foreach($accounts as $account)
+        {
+            foreach($account->characters as $char)
             {
                 $hashes[] = $char->getOriginal('race');
                 $hashes[] = $char->getOriginal('gender');

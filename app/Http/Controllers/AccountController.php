@@ -2,7 +2,9 @@
 
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
-use Onyx\Halo5\Objects\Data;
+use Onyx\Destiny\Helpers\String\Hashes;
+use Onyx\Halo5\Objects\Data as Halo5Data;
+use Onyx\Destiny\Objects\Data as DestinyData;
 use PandaLove\Http\Requests;
 use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Destiny\Client as DestinyClient;
@@ -24,8 +26,16 @@ class AccountController extends Controller {
 
     public function getIndex()
     {
+        $recent_h5 = Halo5Data::with('account', 'warzone')->orderBy('created_at')->limit(5)->get();
+        $recent_destiny = DestinyData::with('account', 'characters')->orderBy('created_at')->limit(5)->get();
+
+        // attempt hash cache
+        Hashes::cacheDataHashes($recent_destiny);
+
         return view('account.index', [
-            'title' => 'PandaLove Account Adder'
+            'title' => 'PandaLove Account Adder',
+            'h5' => $recent_h5,
+            'destiny' => $recent_destiny
         ]);
     }
 
