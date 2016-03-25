@@ -26,8 +26,8 @@ class AccountController extends Controller {
 
     public function getIndex()
     {
-        $recent_h5 = Halo5Data::with('account', 'warzone')->orderBy('created_at')->limit(5)->get();
-        $recent_destiny = DestinyData::with('account', 'characters')->orderBy('created_at')->limit(5)->get();
+        $recent_h5 = Halo5Data::with('account', 'warzone')->orderBy('created_at', 'DESC')->limit(5)->get();
+        $recent_destiny = DestinyData::with('account', 'characters')->orderBy('created_at', 'DESC')->limit(5)->get();
 
         // attempt hash cache
         Hashes::cacheDataHashes($recent_destiny);
