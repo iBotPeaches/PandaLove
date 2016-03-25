@@ -180,9 +180,12 @@ class PlaylistData extends Model {
     {
         $title = $this->stock->name . " (" . $this->title() . ") ";
 
-        if ($this->highest_Csr != 0)
+        if ($this->highest_Csr != 0 && $this->highest_rank == 0)
         {
             $title .= '' . number_format($this->highest_Csr) . ' CSR';
+        }
+        else if ($this->highest_Csr != 0 && $this->highest_rank != 0) {
+            $title .= '' . $this->rank('highest') . ' place.';
         }
 
         return $title;
