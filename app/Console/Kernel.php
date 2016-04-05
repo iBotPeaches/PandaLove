@@ -13,6 +13,7 @@ use PandaLove\Console\Commands\updateWeapons;
 use PandaLove\Console\Commands\updateHistoricStats;
 use PandaLove\Console\Commands\updateH5Pandas;
 use PandaLove\Console\Commands\addHistoricAccount;
+use PandaLove\Console\Commands\addMatchEvent;
 
 class Kernel extends ConsoleKernel {
 
@@ -31,7 +32,8 @@ class Kernel extends ConsoleKernel {
 		updateWeapons::class,
 		updateHistoricStats::class,
 		updateH5Pandas::class,
-		addHistoricAccount::class
+		addHistoricAccount::class,
+		addMatchEvent::class
 	];
 
 	/**

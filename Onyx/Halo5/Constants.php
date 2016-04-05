@@ -52,6 +52,13 @@ class Constants{
     public static $servicerecord_warzone = 'https://www.haloapi.com/stats/h5/servicerecords/warzone?players=%s';
 
     /**
+     * Halo5 Event stats of a match. MatchID required.
+     *
+     * @var string
+     */
+    public static $match_events = 'https://www.haloapi.com/stats/h5/matches/%s/events';
+
+    /**
      * Halo5 Emblem URL
      *
      * @var string

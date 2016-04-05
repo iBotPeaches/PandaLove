@@ -1,5 +1,6 @@
 <?php namespace Onyx\Halo5;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -9,9 +10,11 @@ use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
+use Onyx\Halo5\Objects\Match;
+use Onyx\Halo5\Objects\MatchEvent;
+use Onyx\Halo5\Objects\MatchEventAssist;
 use Onyx\Halo5\Objects\PlaylistData;
 use Onyx\Halo5\Objects\Season;
-use Onyx\Halo5\Objects\SeasonData;
 use Onyx\Halo5\Objects\Warzone;
 
 class Client extends Http {
@@ -297,6 +300,71 @@ class Client extends Http {
         $h5_data->save();
     }
 
+    public function addMatchEvents($matchId)
+    {
+        $json = $this->getEvents($matchId);
+
+        if (isset($json['GameEvents']) && is_array($json['GameEvents']))
+        {
+            if (! $json['IsCompleteSetOfEvents'])
+            {
+                throw new \Exception('This game (As reported by Bungie) does not have a complete set of Match Event data.
+                To prevent ugly looking stats, we will not process this game. Sorry');
+            }
+
+            try
+            {
+                $game = Match::where('uuid', $matchId)->firstOrFail();
+            }
+            catch (ModelNotFoundException $e)
+            {
+                $game = new Match();
+                $game->uuid = $matchId;
+                $game->save();
+            }
+
+            foreach ($json['GameEvents'] as $event)
+            {
+                $matchEvent = new MatchEvent();
+                $matchEvent->game_id = $game->uuid;
+                $matchEvent->death_owner = $event['DeathDisposition'];
+                $matchEvent->death_type = $event;
+
+                $matchEvent->killer = $this->getAccount($event['Killer']['Gamertag']);
+                $matchEvent->killer_type = $event['KillerAgent'];
+                $matchEvent->killer_attachments = $event['KillerAttachmentIds'];
+                $matchEvent->killer_weapon = $event['KillerStockId'];
+                $matchEvent->setPoint('Killer', $event['KillerWorldLocation']);
+
+                $matchEvent->victim = $this->getAccount($event['Victim']['Gamertag']);
+                $matchEvent->victim_type = $event['VictimAgent'];
+                $matchEvent->victim_attachments = $event['VictimAttachmentIds'];
+                $matchEvent->victim_weapon = $event['VictimStockId'];
+                $matchEvent->setPoint('Victim', $event['VictimWorldLocation']);
+
+                $matchEvent->event_name = $event['EventName'];
+                $matchEvent->seconds_since_start = $event['TimeSinceStart'];
+
+                $matchEvent->save();
+
+                if (is_array($event['Assistants']))
+                {
+                    foreach($event['Assistants'] as $assistant)
+                    {
+                        $assist = new MatchEventAssist();
+                        $assist->match_event = $matchEvent->uuid;
+                        $assist->account_id = $this->getAccount($assistant['Gamertag']);
+                        $assist->save();
+                    }
+                }
+            }
+        }
+        else
+        {
+            throw new \Exception('Match Event not found.');
+        }
+    }
+
     public function getMedals()
     {
         $url = Constants::$metadata_medals;
@@ -330,6 +398,37 @@ class Client extends Http {
         $url = Constants::$metadata_csr;
 
         return $this->getJson($url);
+    }
+
+    /**
+     * @param $matchId
+     * @return array
+     * @throws Helpers\Network\ThreeFourThreeOfflineException
+     */
+    public function getEvents($matchId)
+    {
+        $url = sprintf(Constants::$match_events, $matchId);
+
+        return $this->getJson($url);
+    }
+
+    /**
+     * @param $gamertag
+     * @return Account|void
+     */
+    public function getAccount($gamertag)
+    {
+        $account = $this->checkCacheForGamertag($gamertag);
+
+        if (! $account instanceof Account)
+        {
+            return Account::firstOrCreate([
+                'gamertag' => $gamertag,
+                'accountType' => 1
+            ]);
+        }
+
+        return $account;
     }
 
     //---------------------------------------------------------------------------------
