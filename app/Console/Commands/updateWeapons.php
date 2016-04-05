@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -49,29 +50,40 @@ class updateWeapons extends Command
 
         if (is_array($weapons))
         {
-            $this->info('We found Weapon data. Adding to table after purge.');
+            $this->info('We found Weapon data. Adding to table.');
 
-            DB::table('halo5_weapons')->truncate();
             foreach($weapons as $weapon)
             {
-                $this->info('Adding ' . $weapon['name']);
-
-                $w = new Weapon();
-                $w->name = $weapon['name'];
-                $w->description = $weapon['description'];
-                $w->uuid = $weapon['id'];
-                $w->contentId = $weapon['contentId'];
-                $w->save();
-
-                $path = 'resources/images/weapons/';
-
-                if (! file_exists($path . $weapon['id'] . '.png'))
+                try
                 {
-                    $icon = file_get_contents($weapon['smallIconImageUrl']);
+                    $_weapon = Weapon::where('uuid', $weapon['id'])->firstOrFail();
 
-                    /** @var $image \Intervention\Image\Image */
-                    $image = Image::make($icon);
-                    $image->save($path . $weapon['id'] . '.png');
+                    $this->info('Weapon: ' . $_weapon['name'] . ' already exists. Updating `name` and `description`');
+                    $_weapon->name = $_weapon['name'];
+                    $_weapon->description = $_weapon['description'];
+                    $_weapon->save();
+                }
+                catch (ModelNotFoundException $e)
+                {
+                    $this->info('Adding ' . $weapon['name']);
+
+                    $w = new Weapon();
+                    $w->name = $weapon['name'];
+                    $w->description = $weapon['description'];
+                    $w->uuid = $weapon['id'];
+                    $w->contentId = $weapon['contentId'];
+                    $w->save();
+
+                    $path = 'resources/images/weapons/';
+
+                    if (! file_exists($path . $weapon['id'] . '.png'))
+                    {
+                        $icon = file_get_contents($weapon['smallIconImageUrl']);
+
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path . $weapon['id'] . '.png');
+                    }
                 }
             }
         }
