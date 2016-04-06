@@ -183,11 +183,11 @@ class MatchEvent extends Model {
      */
     public function setDistance()
     {
-        $x = abs($this->victim_x - $this->killer_x);
-        $y = abs($this->victim_y - $this->killer_y);
-        $z = abs($this->victim_z - $this->killer_z);
+        $x = $this->victim_x - $this->killer_x;
+        $y = $this->victim_y - $this->killer_y;
+        $z = $this->victim_z - $this->killer_z;
 
-        $this->attributes['distance'] = sqrt(($x ^ 2) + ($y ^ 2) + ($z ^ 2));
+        $this->attributes['distance'] = sqrt(pow($x, 2) + pow($y, 2) + pow($z, 2));
     }
 
     /**
