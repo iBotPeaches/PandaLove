@@ -45,6 +45,13 @@ class Constants{
     public static $metadata_gametypes = 'https://www.haloapi.com/metadata/h5/metadata/game-base-variants';
 
     /**
+     * Halo5 Maps explained
+     *
+     * @var string
+     */
+    public static $metadata_maps = 'https://www.haloapi.com/metadata/h5/metadata/maps';
+
+    /**
      * Halo5 Arena stats, all-time.
      *
      * @var string

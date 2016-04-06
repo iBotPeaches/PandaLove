@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Gametype extends Model {
+class Map extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'halo5_gametypes';
+    protected $table = 'halo5_maps';
 
     /**
      * The attributes that are not mass assignable.
@@ -50,11 +50,11 @@ class Gametype extends Model {
 
     public function getImage()
     {
-        $path = 'public/images/gametypes/';
+        $path = 'public/images/maps/';
 
-        if (! file_exists($path . $this->uuid . '.png'))
+        if (! file_exists($path . $this->uuid . '.jpg'))
         {
-            return asset('images/' . $this->uuid . '.png');
+            return asset('images/' . $this->uuid . '.jpg');
         }
         else
         {

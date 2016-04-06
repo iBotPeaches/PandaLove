@@ -407,6 +407,13 @@ class Client extends Http {
         return $this->getJson($url);
     }
 
+    public function getMaps()
+    {
+        $url = Constants::$metadata_maps;
+
+        return $this->getJson($url);
+    }
+
     public function getCsrs()
     {
         $url = Constants::$metadata_csr;

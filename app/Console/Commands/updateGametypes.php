@@ -1,6 +1,4 @@
-<?php
-
-namespace PandaLove\Console\Commands;
+<?php namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -22,7 +20,7 @@ class updateGametypes extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Updates gametypes metadata.';
 
     /**
      * Create a new command instance.

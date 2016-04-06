@@ -4,6 +4,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use PandaLove\Console\Commands\updateGametypes;
+use PandaLove\Console\Commands\updateMaps;
 use PandaLove\Console\Commands\updatePandas;
 use PandaLove\Console\Commands\alertSender;
 use PandaLove\Console\Commands\updateMedals;
@@ -36,6 +37,7 @@ class Kernel extends ConsoleKernel {
 		addHistoricAccount::class,
 		addMatchEvent::class,
 		updateGametypes::class,
+		updateMaps::class,
 	];
 
 	/**
