@@ -13,7 +13,7 @@ class updateMaps extends Command
      *
      * @var string
      */
-    protected $signature = 'halo5:update-maps';
+    protected $signature = 'halo5:maps-update';
 
     /**
      * The console command description.

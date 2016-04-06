@@ -41,7 +41,7 @@ class Map extends Model {
 
     public function setGameModesAttribute($modes)
     {
-        $this->game_modes = json_encode($modes);
+        $this->attributes['game_modes'] = json_encode($modes);
     }
 
     //---------------------------------------------------------------------------------

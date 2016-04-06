@@ -365,6 +365,13 @@ class Client extends Http {
         }
     }
 
+    /**
+     * @param Account $account
+     * @param string $types - comma delimited list of game types
+     * @param int $start - start
+     * @return array
+     * @throws Helpers\Network\ThreeFourThreeOfflineException
+     */
     public function getPlayerMatches($account, $types = '', $start = 0)
     {
         $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 25);

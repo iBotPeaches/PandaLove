@@ -13,7 +13,7 @@ class updateGametypes extends Command
      *
      * @var string
      */
-    protected $signature = 'halo5:update-gametypes';
+    protected $signature = 'halo5:gametypes-update';
 
     /**
      * The console command description.
