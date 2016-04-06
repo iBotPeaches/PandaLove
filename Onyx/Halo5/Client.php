@@ -332,8 +332,8 @@ class Client extends Http {
 
                 $matchEvent->killer = $this->getAccount($event['Killer']['Gamertag']);
                 $matchEvent->killer_type = $event['KillerAgent'];
-                $matchEvent->killer_attachments = $event['KillerAttachmentIds'];
-                $matchEvent->killer_weapon = $event['KillerStockId'];
+                $matchEvent->killer_attachments = $event['KillerWeaponAttachmentIds'];
+                $matchEvent->killer_weapon = $event['KillerWeaponStockId'];
                 $matchEvent->setPoint('Killer', $event['KillerWorldLocation']);
 
                 $matchEvent->victim = $this->getAccount($event['Victim']['Gamertag']);

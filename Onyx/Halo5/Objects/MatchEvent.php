@@ -114,6 +114,56 @@ class MatchEvent extends Model {
         $this->attributes['seconds_since_start'] = DateHelper::returnSeconds($value);
     }
 
+    public function getKillerAttachmentsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getVictimAttachmentsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getKillerXAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getKillerYAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getKillerZAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getVictimXAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getVictimYAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getVictimZAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getDistanceAttribute($value)
+    {
+        return floatval($value);
+    }
+
+    public function getSecondsSinceStartAttribute($value)
+    {
+        return intval($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
