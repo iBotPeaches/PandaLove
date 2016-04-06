@@ -36,7 +36,7 @@ class GameController extends Controller {
             $match = Match::with('events.assists')
                 ->where('uuid', $matchId)->firstOrFail();
 
-            return $match->toJson();
+            return $match;
         }
         catch (ModelNotFoundException $e)
         {

@@ -45,6 +45,6 @@ class Match extends Model {
 
     public function events()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'uuid');
+        return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'uuid')->orderBy('seconds_since_start');
     }
 }
