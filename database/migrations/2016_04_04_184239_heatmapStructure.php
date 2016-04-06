@@ -42,7 +42,7 @@ class HeatmapStructure extends Migration
             $table->integer('killer', false, true);
             $table->tinyInteger('killer_type', false, true);
             $table->json('killer_attachments'); // attachments for killer weapons
-            $table->string('killer_weapon', 32);
+            $table->string('killer_weapon', 32)->nullable();
             $table->double('killer_x', 12, 8);
             $table->double('killer_y', 12, 8);
             $table->double('killer_z', 12, 8);
@@ -50,7 +50,7 @@ class HeatmapStructure extends Migration
             $table->integer('victim', false, true);
             $table->tinyInteger('victim_type', false, true);
             $table->json('victim_attachments'); // attachments for killer weapons
-            $table->string('victim_weapon', 32);
+            $table->string('victim_weapon', 32)->nullable();
             $table->double('victim_x', 12, 8);
             $table->double('victim_y', 12, 8);
             $table->double('victim_z', 12, 8);
@@ -88,13 +88,13 @@ class HeatmapStructure extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('halo5_match_event_assists');
+        Schema::dropIfExists('halo5_match_events');
+        Schema::dropIfExists('halo5_matches');
+
         Schema::table('halo5_weapons', function(Blueprint $table)
         {
             $table->dropIndex('halo5_weapons_uuid_unique');
         });
-
-        Schema::dropIfExists('halo5_match_event_assists');
-        Schema::dropIfExists('halo5_match_events');
-        Schema::dropIfExists('halo5_matches');
     }
 }

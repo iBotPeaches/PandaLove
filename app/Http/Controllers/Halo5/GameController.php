@@ -33,7 +33,7 @@ class GameController extends Controller {
     {
         try
         {
-            $match = Match::with('events.assists')
+            $match = Match::with('events.assists', 'events.killer_weapon', 'events.victim_weapon', 'events.victim', 'events.killer')
                 ->where('uuid', $matchId)->firstOrFail();
 
             return $match;

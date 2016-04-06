@@ -114,6 +114,16 @@ class MatchEvent extends Model {
         $this->attributes['seconds_since_start'] = DateHelper::returnSeconds($value);
     }
 
+    public function setKillerWeaponAttribute($value)
+    {
+        $this->attributes['killer_weapon'] = ($value > 0) ? $value : null;
+    }
+
+    public function setVictimWeaponAttribute($value)
+    {
+        $this->attributes['victim_weapon'] = ($value > 0) ? $value : null;
+    }
+
     public function getKillerAttachmentsAttribute($value)
     {
         return json_decode($value);
@@ -195,7 +205,7 @@ class MatchEvent extends Model {
 
     public function match()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Match');
+        return $this->belongsTo('Onyx\Halo5\Objects\Match', 'game_id', 'uuid');
     }
 
     public function assists()
@@ -203,13 +213,23 @@ class MatchEvent extends Model {
         return $this->hasMany('Onyx\Halo5\Objects\MatchEventAssist', 'match_event', 'uuid');
     }
 
+    public function killer()
+    {
+        return $this->belongsTo('Onyx\Account', 'killer', 'id')->select('gamertag', 'id', 'seo');
+    }
+
+    public function victim()
+    {
+        return $this->belongsTo('Onyx\Account', 'victim', 'id')->select('gamertag', 'id', 'seo');
+    }
+
     public function killer_weapon()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Weapon', 'uuid', 'killer_weapon');
+        return $this->belongsTo('Onyx\Halo5\Objects\Weapon', 'killer_weapon', 'uuid');
     }
 
     public function victim_weapon()
     {
-        return $this->belongsTo('Onyx\Halo\Objects\Weapon', 'uuid', 'victim_weapon');
+        return $this->belongsTo('Onyx\Halo5\Objects\Weapon', 'victim_weapon', 'uuid');
     }
 }
