@@ -1,5 +1,6 @@
 <?php namespace Onyx\Laravel;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Validator;
 use Onyx\Account;
@@ -9,6 +10,8 @@ use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Destiny\PlayerNotFoundException;
+use Onyx\Halo5\H5PlayerNotFoundException;
+use Onyx\Halo5\Helpers\Network\ThreeFourThreeOfflineException;
 use Onyx\User;
 
 use Onyx\Halo5\Client as Halo5Client;
@@ -87,7 +90,11 @@ class CustomValidator extends Validator {
         {
             $account = $client->getAccountByGamertag($value);
         }
-        catch (PlayerNotFoundException $e)
+        catch (H5PlayerNotFoundException $e)
+        {
+            return false;
+        }
+        catch (ClientException $e)
         {
             return false;
         }

@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
+use Onyx\Halo5\H5PlayerNotFoundException;
 use Onyx\Halo5\Objects\Data as Halo5Data;
 use Onyx\Destiny\Objects\Data as DestinyData;
 use PandaLove\Http\Requests;
@@ -50,16 +51,21 @@ class AccountController extends Controller {
             $client = new Halo5Client();
             $account = $client->getAccountByGamertag($request->request->get('gamertag'));
 
-            if (! $account->h5 instanceof Data)
+            if (! $account->h5 instanceof Halo5Data)
             {
                 $this->dispatch(new UpdateHalo5Account($account));
             }
             return \Redirect::action('Halo5\ProfileController@index', [$account->seo]);
-
         }
-        catch (\Exception $ex)
+        catch (H5PlayerNotFoundException $ex)
         {
-            return redirect('/account');
+            return redirect('/account')
+                ->with('flash_message', [
+                'close' => 'true',
+                'type' => 'yellow',
+                'header' => 'Uh oh',
+                'body' => 'We could not find this gamertag.'
+            ]);
         }
     }
 
