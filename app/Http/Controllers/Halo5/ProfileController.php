@@ -14,6 +14,7 @@ use PandaLove\Commands\UpdateAccount;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
+use Onyx\Halo5\Client as Client;
 
 use Illuminate\Http\Request;
 
@@ -41,6 +42,9 @@ class ProfileController extends Controller {
 
             $seasons = new SeasonCollection($account, $account->h5->playlists);
 
+            $client = new Client();
+            $games = $client->getPlayerMatches($account);
+
             return view('halo5.profile', [
                 'account' => $account,
                 'playlists' => $seasons->current(),
@@ -48,7 +52,8 @@ class ProfileController extends Controller {
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
                 'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
                 'weapons' => Weapon::getAll(),
-                'mMedals' => $account->h5->medals
+                'mMedals' => $account->h5->medals,
+                'games' => $games
             ]);
         }
         catch (ModelNotFoundException $e)

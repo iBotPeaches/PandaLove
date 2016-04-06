@@ -365,6 +365,13 @@ class Client extends Http {
         }
     }
 
+    public function getPlayerMatches($account, $types = '', $start = 0)
+    {
+        $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 25);
+
+        return $this->getJson($url);
+    }
+
     public function getMedals()
     {
         $url = Constants::$metadata_medals;
