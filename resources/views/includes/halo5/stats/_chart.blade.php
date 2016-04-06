@@ -40,6 +40,9 @@
                         return 'Date: ' + x;
                     }
                 }
+            },
+            zoom: {
+                enabled: true
             }
         });
     });
