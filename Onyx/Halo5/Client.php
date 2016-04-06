@@ -400,6 +400,13 @@ class Client extends Http {
         return $this->getJson($url);
     }
 
+    public function getGametypes()
+    {
+        $url = Constants::$metadata_gametypes;
+
+        return $this->getJson($url);
+    }
+
     public function getCsrs()
     {
         $url = Constants::$metadata_csr;
