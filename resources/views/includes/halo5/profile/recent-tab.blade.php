@@ -1,21 +1,36 @@
 @if ($games['ResultCount'] != 0)
-    <div class="ui three cards">
-        @foreach ($games['Results'] as $result)
-            <div class="card">
-                <div class="content">
-                    <img class="ui avatar image" src="{{ $result['GameType']->getImage() }}">
-                    {{ $result['GameType']->name }}
-                </div>
-                <a class="image" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $result['Id']['MatchId']]) }}">
-                    <img class="ui image" src="{{ $result['Map']->getImage() }}">
+    <div class="ui special three cards">
+        @foreach ($games['Results'] as $key => $result)
+            <div class="{{ $result['win'] ? "green" : "red" }} card">
+                <a class="ui right corner {{ $result['win'] ? "green" : "red" }} label">
+                    <i class="{{ $result['win'] ? "smile" : "frown" }} icon"></i>
                 </a>
                 <div class="content">
-                    <a class="header" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $result['Id']['MatchId']]) }}">
-                        {{ $result['Place'] == 1 ? "Victory" : "Loss" }}
+                    <img class="ui avatar image" src="{{ $result['gametype']->getImage() }}">
+                    {{ $result['gametype']->name }}
+                </div>
+                <div class="blurring dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                <div class="ui blue button">Go to Game</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="{{ $result['map']->getImage() }}">
+                </div>
+                <div class="content">
+                    <a class="header" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $key]) }}">
+                        {{ $result['win'] ? "Victory" : "Loss" }}
                     </a>
                     <div class="meta">
-                        Rank: {{ $result['Player']['Rank'] }}
+                        Played on {{ $result['map']->name }} on {{ $result['date']->toFormattedDateString() }}
                     </div>
+                </div>
+                <div class="extra content">
+                    <i class="trophy icon"></i>
+                    KD: {{ $result['player']->kd() }}
+                    KDA: {{ $result['player']->kad() }}
                 </div>
             </div>
         @endforeach
@@ -27,5 +42,11 @@
 @endif
 
 @section('inline-js')
-
+    <script type="text/javascript">
+        $(function() {
+            $('.special.cards .image').dimmer({
+                on: 'hover'
+            });
+        });
+    </script>
 @append
