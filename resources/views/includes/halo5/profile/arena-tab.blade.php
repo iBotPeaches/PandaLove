@@ -12,6 +12,9 @@
         <a class="item" data-tab="arena-medals">
             Medals
         </a>
+        <a class="item" data-tab="arena-weapons">
+            Weapons
+        </a>
     </div>
     <div class="ui bottom attached active tab" data-tab="arena-overview">
         @include('includes.halo5.profile.arena.overview-tab')
@@ -24,6 +27,9 @@
     </div>
     <div class="ui bottom attached tab" data-tab="arena-medals">
         @include('includes.halo5.profile.arena.medals-tab', ['mMedals' => $account->h5->medals])
+    </div>
+    <div class="ui bottom attached tab" data-tab="arena-weapons">
+        @include('includes.halo5.profile.arena.weapons-tab')
     </div>
 @else
     <div class="ui warning message">

@@ -237,6 +237,7 @@ class Client extends Http {
         $h5_data->Xp = $record['Xp'];
 
         $h5_data->medals = $record['ArenaStats']['MedalAwards'];
+        $h5_data->weapons = $record['ArenaStats']['WeaponStats'];
         $h5_data->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
 
         if ($record['ArenaStats']['HighestCsrAttained'] != null)

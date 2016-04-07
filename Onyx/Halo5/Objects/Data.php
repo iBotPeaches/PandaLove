@@ -24,6 +24,7 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property int $spartanRank
  * @property int $Xp
  * @property array $medals
+ * @property array $weapons
  * @property null $emblem
  * @property null $spartan
  * @property int $highest_CsrTier
@@ -89,12 +90,33 @@ class Data extends Model {
         }
     }
 
+    public function setWeaponsAttribute($value)
+    {
+        if (is_array($value))
+        {
+            $insert = [];
+
+            foreach($value as $weapon)
+            {
+                $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
+            }
+
+            arsort($insert);
+            $this->attributes['weapons'] = json_encode($insert);
+        }
+    }
+
     public function setTotalTimePlayedAttribute($value)
     {
         $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
     }
 
     public function getMedalsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getWeaponsAttribute($value)
     {
         return json_decode($value, true);
     }
