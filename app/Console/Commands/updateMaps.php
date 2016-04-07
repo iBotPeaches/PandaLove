@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Map;
@@ -42,6 +43,12 @@ class updateMaps extends Command
         $client = new Client();
         $this->info('Getting maps from 343.');
         $maps = $client->getMaps();
+        $path = 'public/images/maps/';
+
+        if (! File::exists($path))
+        {
+            File::makeDirectory($path, 0775, true);
+        }
 
         if (is_array($maps))
         {
@@ -72,8 +79,6 @@ class updateMaps extends Command
 
                     if ($map['imageUrl'] != null)
                     {
-                        $path = 'public/images/maps/';
-
                         if (! file_exists($path . $map['id'] . '.jpg'))
                         {
                             $icon = file_get_contents($map['imageUrl']);

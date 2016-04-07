@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Gametype;
@@ -42,6 +43,12 @@ class updateGametypes extends Command
         $client = new Client();
         $this->info('Getting base game types from 343');
         $gametypes = $client->getGametypes();
+        $path = 'public/images/gametypes/';
+
+        if (! File::exists($path))
+        {
+            File::makeDirectory($path, 0775, true);
+        }
 
         if (is_array($gametypes))
         {
@@ -71,8 +78,6 @@ class updateGametypes extends Command
 
                     if ($gametype['iconUrl'] != null)
                     {
-                        $path = 'public/images/gametypes/';
-
                         if (! file_exists($path . $gametype['id'] . '.png'))
                         {
                             $icon = file_get_contents($gametype['iconUrl']);
