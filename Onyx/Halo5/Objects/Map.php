@@ -2,6 +2,15 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Map
+ * @package Onyx\Halo5\Objects
+ * @property string $uuid
+ * @property string $contentId
+ * @property string $name
+ * @property string $description
+ * @property array $game_modes
+ */
 class Map extends Model {
 
     /**
@@ -50,9 +59,9 @@ class Map extends Model {
 
     public function getImage()
     {
-        $path = 'public/images/maps/';
+        $path = public_path('images/maps/');
 
-        if (! file_exists($path . $this->uuid . '.jpg'))
+        if (file_exists($path . $this->uuid . '.jpg'))
         {
             return asset('images/maps/' . $this->uuid . '.jpg');
         }

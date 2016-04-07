@@ -2,6 +2,15 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Gametype
+ * @package Onyx\Halo5\Objects
+ * @property string $uuid
+ * @property string $contentId
+ * @property string $name
+ * @property string $internal_name
+ * @property array $game_modes
+ */
 class Gametype extends Model {
 
     /**
@@ -50,9 +59,9 @@ class Gametype extends Model {
 
     public function getImage()
     {
-        $path = 'public/images/gametypes/';
+        $path = public_path('images/gametypes/');
 
-        if (! file_exists($path . $this->uuid . '.png'))
+        if (file_exists($path . $this->uuid . '.png'))
         {
             return asset('images/gametypes/' . $this->uuid . '.png');
         }
