@@ -1,15 +1,21 @@
 @if ($games['ResultCount'] != 0)
-    <div class="ui five cards">
+    <div class="ui three cards">
         @foreach ($games['Results'] as $result)
             <div class="card">
                 <div class="content">
-                    {{ $result['GameVariant']['ResourceId'] }}
+                    <img class="ui avatar image" src="{{ $result['GameType']->getImage() }}">
+                    {{ $result['GameType']->name }}
                 </div>
+                <a class="image" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $result['Id']['MatchId']]) }}">
+                    <img class="ui image" src="{{ $result['Map']->getImage() }}">
+                </a>
                 <div class="content">
-                    {{ $result['MapVariant']['ResourceId'] }}
-                </div>
-                <div class="content">
-                    {{ $result['Id']['MatchId'] }}
+                    <a class="header" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $result['Id']['MatchId']]) }}">
+                        {{ $result['Place'] == 1 ? "Victory" : "Loss" }}
+                    </a>
+                    <div class="meta">
+                        Rank: {{ $result['Player']['Rank'] }}
+                    </div>
                 </div>
             </div>
         @endforeach

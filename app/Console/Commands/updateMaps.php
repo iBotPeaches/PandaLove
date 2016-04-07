@@ -68,6 +68,8 @@ class updateMaps extends Command
                     $m->description = $map['description'];
                     $m->game_modes = $map['supportedGameModes'];
 
+                    $m->save();
+
                     if ($map['imageUrl'] != null)
                     {
                         $path = 'public/images/maps/';

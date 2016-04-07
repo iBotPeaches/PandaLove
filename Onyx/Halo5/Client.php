@@ -10,6 +10,8 @@ use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
+use Onyx\Halo5\Objects\Gametype;
+use Onyx\Halo5\Objects\Map;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchEventAssist;
@@ -374,9 +376,40 @@ class Client extends Http {
      */
     public function getPlayerMatches($account, $types = '', $start = 0)
     {
-        $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 25);
+        $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 9);
 
-        return $this->getJson($url);
+        $matches = $this->getJson($url);
+
+        $games = [
+            'ResultCount' => $matches['ResultCount'],
+            'Results' => []
+        ];
+
+        if ($matches['ResultCount'] > 0)
+        {
+            $maps = Map::all();
+            $gametypes = Gametype::all();
+
+            foreach ($matches['Results'] as $match)
+            {
+                // Fix Gametype and Map
+                $match['GameType'] = $gametypes->where('uuid', $match['GameBaseVariantId'])->first();
+                $match['Map'] = $maps->where('uuid', $match['MapId'])->first();
+
+                // Fix Player
+                $player = $match['Players'][0];
+                if (strtolower($player['Player']['Gamertag']) == $account->gamertag)
+                {
+                    $match['Player'] = $player;
+                    $match['Place'] = $match['Teams'][$player['TeamId']]['Rank'];
+
+                }
+
+                $games['Results'][] = $match;
+            }
+        }
+
+        return $games;
     }
 
     public function getMedals()

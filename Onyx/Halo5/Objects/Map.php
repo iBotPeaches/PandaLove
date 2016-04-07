@@ -54,7 +54,7 @@ class Map extends Model {
 
         if (! file_exists($path . $this->uuid . '.jpg'))
         {
-            return asset('images/' . $this->uuid . '.jpg');
+            return asset('images/maps/' . $this->uuid . '.jpg');
         }
         else
         {

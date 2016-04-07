@@ -16,7 +16,7 @@ class CreateHalo5MapsTable extends Migration
             $table->uuid('uuid');
             $table->uuid('contentId');
             $table->string('name', 64);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->json('game_modes');
 
             $table->primary('uuid');

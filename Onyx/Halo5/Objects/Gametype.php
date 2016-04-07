@@ -54,7 +54,7 @@ class Gametype extends Model {
 
         if (! file_exists($path . $this->uuid . '.png'))
         {
-            return asset('images/' . $this->uuid . '.png');
+            return asset('images/gametypes/' . $this->uuid . '.png');
         }
         else
         {
