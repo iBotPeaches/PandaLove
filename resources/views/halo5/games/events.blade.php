@@ -12,13 +12,13 @@
                         @foreach($match->events as $event)
                             <div class="event">
                                 <div class="label">
-                                    <img src="{{ $event->getRelation('killer')->h5->getEmblem() }}" />
+                                    <img src="{{ $event->killer->h5->getEmblem() }}" />
                                 </div>
                                 <div class="content">
                                     <div class="summary">
-                                        <a class="user">{{ $event->getRelation('killer')->gamertag }}</a>
-                                        killed <a class="user">{{ $event->getRelation('victim')->gamertag }}</a>
-                                        with a <a class="user">{{ $event->getRelation('killer_weapon')->name }}</a>
+                                        <a class="user">{{ $event->killer->gamertag }}</a>
+                                        killed <a class="user">{{ $event->victim->gamertag }}</a>
+                                        with a <a class="user">{{ $event->killer_weapon->name }}</a>
                                         <div class="date">
                                             {{ $event->seconds_since_start }}
                                         </div>

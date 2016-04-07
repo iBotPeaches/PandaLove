@@ -326,6 +326,8 @@ class Client extends Http {
                 $game->save();
             }
 
+            MatchEvent::where('game_id', $game->uuid)->delete();
+
             foreach ($json['GameEvents'] as $event)
             {
                 $matchEvent = new MatchEvent();
@@ -333,16 +335,16 @@ class Client extends Http {
                 $matchEvent->death_owner = $event['DeathDisposition'];
                 $matchEvent->death_type = $event;
 
-                $matchEvent->killer = $this->getAccount($event['Killer']['Gamertag']);
+                $matchEvent->killer_id = $this->getAccount($event['Killer']['Gamertag']);
                 $matchEvent->killer_type = $event['KillerAgent'];
                 $matchEvent->killer_attachments = $event['KillerWeaponAttachmentIds'];
-                $matchEvent->killer_weapon = $event['KillerWeaponStockId'];
+                $matchEvent->killer_weapon_id = $event['KillerWeaponStockId'];
                 $matchEvent->setPoint('Killer', $event['KillerWorldLocation']);
 
-                $matchEvent->victim = $this->getAccount($event['Victim']['Gamertag']);
+                $matchEvent->victim_id = $this->getAccount($event['Victim']['Gamertag']);
                 $matchEvent->victim_type = $event['VictimAgent'];
                 $matchEvent->victim_attachments = $event['VictimAttachmentIds'];
-                $matchEvent->victim_weapon = $event['VictimStockId'];
+                $matchEvent->victim_weapon_id = $event['VictimStockId'];
                 $matchEvent->setPoint('Victim', $event['VictimWorldLocation']);
 
                 $matchEvent->event_name = $event['EventName'];
