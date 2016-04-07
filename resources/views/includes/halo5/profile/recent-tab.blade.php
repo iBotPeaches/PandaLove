@@ -1,5 +1,5 @@
 @if ($games['ResultCount'] != 0)
-    <div class="ui special three cards">
+    <div class="ui special stackable three cards">
         @foreach ($games['Results'] as $key => $result)
             <div class="{{ $result['win'] ? "green" : "red" }} card">
                 <a class="ui right corner {{ $result['win'] ? "green" : "red" }} label">
@@ -13,7 +13,7 @@
                     <div class="ui dimmer">
                         <div class="content">
                             <div class="center">
-                                <div class="ui blue button">Go to Game</div>
+                                <a href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $key]) }}" class="ui blue button">Go to Game</a>
                             </div>
                         </div>
                     </div>
