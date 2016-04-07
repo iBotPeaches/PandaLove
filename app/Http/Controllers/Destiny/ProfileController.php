@@ -99,7 +99,7 @@ class ProfileController extends Controller {
 
                 if ($account->destiny->inactiveCounter > $inactive)
                 {
-                    return redirect('destiny/profile/' . $seo)
+                    return redirect('destiny/profile/' . $account->accountType . "/" . $account->seo)
                         ->with('flash_message', [
                             'close' => 'true',
                             'type' => 'yellow',
@@ -109,7 +109,7 @@ class ProfileController extends Controller {
                 }
                 else
                 {
-                    return redirect('destiny/profile/' . $seo);
+                    return redirect('destiny/profile/' . $account->accountType . "/" . $account->seo);
                 }
             }
             catch (ModelNotFoundException $e)
@@ -119,7 +119,7 @@ class ProfileController extends Controller {
         }
         else
         {
-            return redirect('destiny/profile/' . $seo)
+            return redirect('destiny/profile/' . $console . "/" . $seo)
                 ->with('flash_message', [
                     'close' => 'true',
                     'type' => 'yellow',
