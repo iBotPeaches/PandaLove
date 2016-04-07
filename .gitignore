@@ -10,6 +10,7 @@
 /public/fonts/*
 /public/themes/*
 /public/default
+/public/images/*
 
 # IntelliJ
 .idea/

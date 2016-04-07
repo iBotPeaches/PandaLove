@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
+use Onyx\Halo5\Collections\GameHistoryCollection;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
+use Onyx\Halo5\Objects\Gametype;
+use Onyx\Halo5\Objects\Map;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchEventAssist;
@@ -365,6 +368,32 @@ class Client extends Http {
         }
     }
 
+    /**
+     * @param Account $account
+     * @param string $types - comma delimited list of game types
+     * @param int $start - start
+     * @return array
+     * @throws Helpers\Network\ThreeFourThreeOfflineException
+     */
+    public function getPlayerMatches($account, $types = '', $start = 0)
+    {
+        $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 9);
+
+        $matches = $this->getJson($url, 3); // 3 minute cache
+
+        $games = [
+            'ResultCount' => $matches['ResultCount'],
+            'Results' => []
+        ];
+
+        if ($matches['ResultCount'] > 0)
+        {
+            $games['Results'] = new GameHistoryCollection($account, $matches['Results']);
+        }
+
+        return $games;
+    }
+
     public function getMedals()
     {
         $url = Constants::$metadata_medals;
@@ -389,6 +418,20 @@ class Client extends Http {
     public function getWeapons()
     {
         $url = Constants::$metadata_weapons;
+
+        return $this->getJson($url);
+    }
+
+    public function getGametypes()
+    {
+        $url = Constants::$metadata_gametypes;
+
+        return $this->getJson($url);
+    }
+
+    public function getMaps()
+    {
+        $url = Constants::$metadata_maps;
 
         return $this->getJson($url);
     }

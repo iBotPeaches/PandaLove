@@ -38,6 +38,20 @@ class Constants{
     public static $metadata_weapons = 'https://www.haloapi.com/metadata/h5/metadata/weapons';
 
     /**
+     * Game Base Variants explained
+     * 
+     * @var string
+     */
+    public static $metadata_gametypes = 'https://www.haloapi.com/metadata/h5/metadata/game-base-variants';
+
+    /**
+     * Halo5 Maps explained
+     *
+     * @var string
+     */
+    public static $metadata_maps = 'https://www.haloapi.com/metadata/h5/metadata/maps';
+
+    /**
      * Halo5 Arena stats, all-time.
      *
      * @var string
@@ -50,6 +64,17 @@ class Constants{
      * @var string
      */
     public static $servicerecord_warzone = 'https://www.haloapi.com/stats/h5/servicerecords/warzone?players=%s';
+
+    /**
+     * Halo5 Matches for a specified player.
+     * 1: gamertag
+     * 2: modes
+     * 3: start
+     * 4: count
+     * 
+     * @var string
+     */
+    public static $player_matches = 'https://www.haloapi.com/stats/h5/players/%1$s/matches?modes=%2$s&start=%3$u&count=%4$u';
 
     /**
      * Halo5 Event stats of a match. MatchID required.
