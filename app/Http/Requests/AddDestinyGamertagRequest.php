@@ -1,5 +1,7 @@
 <?php namespace PandaLove\Http\Requests;
 
+use Illuminate\Support\Facades\Input;
+
 class AddDestinyGamertagRequest extends Request {
 
 	protected $errorBag = 'destiny';
@@ -21,6 +23,8 @@ class AddDestinyGamertagRequest extends Request {
 	 */
 	public function rules()
 	{
+		Input::merge(array_map('trim', Input::all()));
+
 		return [
 			'gamertag' => 'required|min:3|destiny-tag-exists'
 		];

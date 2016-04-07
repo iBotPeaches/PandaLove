@@ -2,6 +2,8 @@
 
 namespace PandaLove\Http\Requests;
 
+use Illuminate\Support\Facades\Input;
+
 class AddHalo5GamertagRequest extends Request
 {
     protected $errorBag = 'halo5';
@@ -23,6 +25,8 @@ class AddHalo5GamertagRequest extends Request
      */
     public function rules()
     {
+        Input::merge(array_map('trim', Input::all()));
+
         return [
             'gamertag' => 'required|min:3|h5gamertag-real'
         ];
