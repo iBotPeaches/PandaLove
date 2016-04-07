@@ -269,7 +269,15 @@
 .bestplaylist-table:before {
 	content: "Best Playlist: ";
 }
-
+.ui.statistics .statistic > .value {
+	font-size: 2.1rem !important;
+}
+.ui.statistics.four > .statistic {
+	min-width: 50% !important;
+}
+.ui.statistics {
+	margin-bottom: 3px !important;
+}
 .mobile-hidden {
 	display: none;
 }
