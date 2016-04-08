@@ -45,7 +45,12 @@
                         @include('includes.halo5.profile.warzone-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="recent">
-                        @include('includes.halo5.profile.recent-tab')
+                        <div id="recent-tab-content">
+                            <div class="ui info message">
+                                Uh oh. You should not be seeing this. This means the loading for the Recent Games failed.
+                                A refresh should hopefully fix this.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,6 +107,13 @@
 
                     $("#update-message i").remove();
                     $("#update-message .header").remove();
+                }
+            });
+
+            $.ajax({
+                url: '{{ URL::action('Halo5\ProfileController@getRecentGames', array($account->gamertag, 0)) }}',
+                success: function(result) {
+                    $("#recent-tab-content").html(result);
                 }
             });
         })

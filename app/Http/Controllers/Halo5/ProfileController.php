@@ -1,6 +1,7 @@
 <?php namespace PandaLove\Http\Controllers\Halo5;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
@@ -42,9 +43,6 @@ class ProfileController extends Controller {
 
             $seasons = new SeasonCollection($account, $account->h5->playlists);
 
-            $client = new Client();
-            $games = $client->getPlayerMatches($account);
-
             return view('halo5.profile', [
                 'account' => $account,
                 'playlists' => $seasons->current(),
@@ -52,8 +50,7 @@ class ProfileController extends Controller {
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
                 'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
                 'weapons' => Weapon::getAll(),
-                'mMedals' => $account->h5->medals,
-                'games' => $games
+                'mMedals' => $account->h5->medals
             ]);
         }
         catch (ModelNotFoundException $e)
@@ -170,6 +167,28 @@ class ProfileController extends Controller {
                     'header' => 'Uh oh',
                     'body' => 'You must be signed in to manually update accounts'
                 ]);
+        }
+    }
+
+    public function getRecentGames($gamertag, $page = 0)
+    {
+        try
+        {
+            /** @var $account Account */
+            $account = Account::with('h5')
+                ->where('seo', Text::seoGamertag($gamertag))
+                ->firstOrFail();
+
+            $client = new Client();
+            $games = $client->getPlayerMatches($account);
+
+            return view('includes.halo5.profile.recent-tab', [
+                'games' => $games
+            ])->render();
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return \Response::json(['false']);
         }
     }
 }
