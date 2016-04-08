@@ -114,6 +114,10 @@
                 url: '{{ URL::action('Halo5\ProfileController@getRecentGames', array($account->gamertag, 0)) }}',
                 success: function(result) {
                     $("#recent-tab-content").html(result);
+
+                    $('.special.cards .image').dimmer({
+                        on: 'hover'
+                    });
                 }
             });
         })
