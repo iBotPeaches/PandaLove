@@ -378,7 +378,7 @@ class Client extends Http {
      * @return array
      * @throws Helpers\Network\ThreeFourThreeOfflineException
      */
-    public function getPlayerMatches($account, $types = '', $start = 0)
+    public function getPlayerMatches($account, $types = 'arena,warzone', $start = 0)
     {
         $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 9);
 

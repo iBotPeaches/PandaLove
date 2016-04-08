@@ -53,7 +53,7 @@
                     <div class="ui bottom attached tab" data-tab="recent">
                         <div id="recent-tab-content">
                             <div class="ui info message">
-                                Uh oh. You should not be seeing this. This means the loading for the Recent Games failed.
+                                Uh oh. You should not be seeing this. Wait like 10 more seconds. This means the loading for the Recent Games failed.
                                 A refresh should hopefully fix this.
                             </div>
                         </div>
