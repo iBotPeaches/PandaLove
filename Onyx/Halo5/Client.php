@@ -446,6 +446,13 @@ class Client extends Http {
         return $this->getJson($url);
     }
 
+    public function getRanks()
+    {
+        $url = Constants::$metadata_ranks;
+
+        return $this->getJson($url);
+    }
+
     /**
      * @param $matchId
      * @return array

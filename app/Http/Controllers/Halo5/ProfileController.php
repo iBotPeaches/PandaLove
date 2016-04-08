@@ -9,6 +9,7 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;
 use Onyx\Halo5\Collections\SeasonCollection;
 use Onyx\Halo5\Objects\Medal;
+use Onyx\Halo5\Objects\Rank;
 use Onyx\Halo5\Objects\Warzone;
 use Onyx\Halo5\Objects\Weapon;
 use PandaLove\Commands\UpdateAccount;
@@ -50,7 +51,8 @@ class ProfileController extends Controller {
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
                 'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
                 'weapons' => Weapon::getAll(),
-                'mMedals' => $account->h5->medals
+                'mMedals' => $account->h5->medals,
+                'nextLevel' => Rank::where('previousLevel', $account->h5->spartanRank)->first()
             ]);
         }
         catch (ModelNotFoundException $e)

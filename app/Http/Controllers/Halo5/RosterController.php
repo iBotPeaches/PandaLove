@@ -21,9 +21,6 @@ class RosterController extends Controller {
 
     public function getIndex()
     {
-        $client = new Client();
-        $client->addMatchEvents('f5384351-0240-4e5c-8f6a-3834c095a466');
-
         $accounts = Account::with('user', 'h5.playlists.stock', 'h5.playlists', 'h5.warzone')
             ->whereHas('user', function($query)
             {

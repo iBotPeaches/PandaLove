@@ -72,14 +72,3 @@
 <div class="ui message">
     <strong>Current Season: </strong>{{ $account->h5->season->name }}
 </div>
-<div class="ui icon message" id="update-message">
-    <i class="notched circle loading icon"></i>
-    <div class="content">
-        <div class="header">
-            Just one second
-        </div>
-        <p>
-            Checking if this profile needs an update.
-        </p>
-    </div>
-</div>

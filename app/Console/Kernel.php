@@ -16,6 +16,7 @@ use PandaLove\Console\Commands\updateHistoricStats;
 use PandaLove\Console\Commands\updateH5Pandas;
 use PandaLove\Console\Commands\addHistoricAccount;
 use PandaLove\Console\Commands\addMatchEvent;
+use PandaLove\Console\Commands\updateRanks;
 
 class Kernel extends ConsoleKernel {
 
@@ -38,6 +39,7 @@ class Kernel extends ConsoleKernel {
 		addMatchEvent::class,
 		updateGametypes::class,
 		updateMaps::class,
+		updateRanks::class
 	];
 
 	/**

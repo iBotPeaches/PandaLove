@@ -28,7 +28,10 @@
                 </div>
                 <div class="9u">
                     <div class="ui stackable container menu">
-                        <a class="active item" data-tab="arena">
+                        <a class="active item" data-tab="overview">
+                            Overview
+                        </a>
+                        <a class="item" data-tab="arena">
                             Arena
                         </a>
                         <a class="item" data-tab="warzone">
@@ -38,7 +41,10 @@
                             Recent Games
                         </a>
                     </div>
-                    <div class="ui bottom attached active tab" data-tab="arena">
+                    <div class="ui bottom attached active tab" data-tab="overview">
+                        @include('includes.halo5.profile.overview-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="arena">
                         @include('includes.halo5.profile.arena-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="warzone">
