@@ -281,3 +281,7 @@
 .mobile-hidden {
 	display: none;
 }
+.stat-fix {
+	zoom:0.45;
+	-moz-transform:scale(0.45);
+}
