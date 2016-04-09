@@ -27,6 +27,7 @@
                     </div>
                     <div class="label">Matches till Rank Placement in {{ $playlist->stock->name }}</div>
                 </div>
+                <div class="ui divider"></div>
             @else
                 @if ($playlist->highest_Csr != 0)
                     <div class="ui black segment">
@@ -37,35 +38,36 @@
                             </div>
                         @endif
                     </div>
+                    <div class="ui divider"></div>
                 @endif
             @endif
+            @if ($nextLevel == null)
+                <div class="ui progress success" data-value="100" data-total="100" id="spartan-rank-progress">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label">Max Level (152) Achieved!</div>
+                </div>
+            @else
+                <div class="ui blue progress" data-value="{{ $account->h5->Xp }}" data-total="{{ $nextLevel->startXp }}" id="spartan-rank-progress">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label">Progress to Level {{ $nextLevel->level }}</div>
+                </div>
+            @endif
+            <div class="ui icon message" id="update-message">
+                <i class="notched circle loading icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Just one second
+                    </div>
+                    <p>
+                        Checking if this profile needs an update.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-@if ($nextLevel == null)
-    <div class="ui progress success" data-value="100" data-total="100" id="spartan-rank-progress">
-        <div class="bar">
-            <div class="progress"></div>
-        </div>
-        <div class="label">Max Level (152) Achieved!</div>
-    </div>
-@else
-    <div class="ui blue progress" data-value="{{ $account->h5->Xp }}" data-total="{{ $nextLevel->startXp }}" id="spartan-rank-progress">
-        <div class="bar">
-            <div class="progress"></div>
-        </div>
-        <div class="label">Progress to Level {{ $nextLevel->level }}</div>
-    </div>
-@endif
-<div class="ui icon message" id="update-message">
-    <i class="notched circle loading icon"></i>
-    <div class="content">
-        <div class="header">
-            Just one second
-        </div>
-        <p>
-            Checking if this profile needs an update.
-        </p>
     </div>
 </div>
 
