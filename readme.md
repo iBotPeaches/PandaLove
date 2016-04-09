@@ -42,11 +42,7 @@ PandaLove was a website devoted to tracking our weekly raid Tuesdays, PVP destru
 15. `php artisan migrate`
 16. `php artisan db:seed`
 17. Now we need to utilize those APIs to get some data. If you don't have API keys for the above 3 systems. This will fail.
-    18. `php artisan halo5:medal-update`
-    19. `php artisan halo5:csr-update`
-    20. `php artisan halo5:playlist-update` - Rerun anytime new playlist comes out
-    21. `php artisan halo5:season-update` - Rerun anytime a new season comes out
-    22. `php artisan halo5:weapons-update`
+    18. `php artisan halo5:batch-metadata`
 23. Go here https://console.developers.google.com - "Create a Project"
     24. After creating project on Google Developer go to "Enable APIs and get credentials like keys"
     25. Find "Google+ API" and enable it. Then click on it. Click "Credentials" on sidebar.
@@ -59,7 +55,7 @@ PandaLove was a website devoted to tracking our weekly raid Tuesdays, PVP destru
 32. `php artisan serve`
 33. Click the GooglePlus sign in button on top navigation.
 34. (The first user to sign in automatically becomes admin)
-35. Sign in with GoogleAccount, this should prompt the sign in you made on step 23-30.
+35. Sign in with GoogleAccount, this should prompt the sign in you made on previous steps.
 36. Now go to `/usercp` via gear icon in navigation.
 37. Add gamertag (assuming you play Xbox One - Destiny) to Destiny section.
 38. Add gamertag (assuming you play Xbox One - Halo5) to Halo 5 section.
