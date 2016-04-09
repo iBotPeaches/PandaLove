@@ -453,6 +453,13 @@ class Client extends Http {
         return $this->getJson($url);
     }
 
+    public function getTeams()
+    {
+        $url = Constants::$metadata_teams;
+
+        return $this->getJson($url);
+    }
+
     /**
      * @param $matchId
      * @return array
