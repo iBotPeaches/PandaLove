@@ -137,6 +137,7 @@ class Data extends Model {
     {
         return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id')
             ->orderBy('highest_CsrDesignationId', 'DESC')
+            ->orderBy('highest_rank', 'ASC')
             ->orderBy('highest_Csr', 'DESC')
             ->orderBy('highest_CsrTier', 'DESC')
             ->orderBy('measurementMatchesLeft', 'ASC');
@@ -209,13 +210,13 @@ class Data extends Model {
 
         switch (true)
         {
-            case $rate > 80:
+            case $rate > 75:
                 return 'green';
 
-            case $rate <= 80 && $rate > 60:
+            case $rate <= 75 && $rate > 55:
                 return 'yellow';
 
-            case $rate <= 60 && $rate > 40:
+            case $rate <= 55 && $rate > 30:
                 return 'orange';
 
             default:
