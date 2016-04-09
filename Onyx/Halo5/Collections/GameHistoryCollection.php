@@ -32,7 +32,7 @@ class GameHistoryCollection extends Collection
                 'player' => new Data($match['Players'][0]),
                 'date' => new Carbon($match['MatchCompletedDate']['ISO8601Date']),
                 'duration' => DateHelper::returnSeconds($match['MatchDuration']),
-                'win' => $match['Teams'][$match['Players'][0]['TeamId']]['Rank'] == 1
+                'win' => $match['Players'][0]['Result']
             ];
 
             // fix some cases

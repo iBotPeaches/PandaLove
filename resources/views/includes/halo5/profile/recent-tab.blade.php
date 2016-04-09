@@ -1,9 +1,9 @@
 @if ($games['ResultCount'] != 0)
     <div class="ui special stackable three cards">
         @foreach ($games['Results'] as $key => $result)
-            <div class="{{ $result['win'] ? "green" : "red" }} card">
-                <a class="ui right corner {{ $result['win'] ? "green" : "red" }} label">
-                    <i class="{{ $result['win'] ? "smile" : "frown" }} icon"></i>
+            <div class="{{ \Onyx\Halo5\Enums\GameResult::getColor($result['win']) }} card">
+                <a class="ui right corner {{ \Onyx\Halo5\Enums\GameResult::getColor($result['win']) }} label">
+                    <i class="{{ \Onyx\Halo5\Enums\GameResult::getIcon($result['win']) }} icon"></i>
                 </a>
                 <div class="content">
                     <img class="ui avatar image" src="{{ $result['gametype']->getImage() }}">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="content">
                     <a class="header" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $key]) }}">
-                        {{ $result['win'] ? "Victory" : "Loss" }}
+                        {{ \Onyx\Halo5\Enums\GameResult::getTitle($result['win']) }}
                     </a>
                     <div class="meta">
                         Played on {{ $result['map']->name }} on {{ $result['date']->toFormattedDateString() }}
