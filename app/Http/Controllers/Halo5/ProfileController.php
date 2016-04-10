@@ -1,18 +1,14 @@
 <?php namespace PandaLove\Http\Controllers\Halo5;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\GamePlayer;
+use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Collections\SeasonCollection;
 use Onyx\Halo5\Objects\Medal;
-use Onyx\Halo5\Objects\Rank;
 use Onyx\Halo5\Objects\Warzone;
 use Onyx\Halo5\Objects\Weapon;
-use PandaLove\Commands\UpdateAccount;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
@@ -52,7 +48,7 @@ class ProfileController extends Controller {
                 'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
                 'weapons' => Weapon::getAll(),
                 'mMedals' => $account->h5->medals,
-                'nextLevel' => Rank::where('previousLevel', $account->h5->spartanRank)->first()
+                'progressBar' => Halo5Text::buildProgressBar($account),
             ]);
         }
         catch (ModelNotFoundException $e)

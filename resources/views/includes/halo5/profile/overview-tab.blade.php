@@ -41,7 +41,7 @@
                     <div class="ui divider"></div>
                 @endif
             @endif
-            @if ($nextLevel == null)
+            @if ($progressBar['next'] == null)
                 <div class="ui progress success" data-value="100" data-total="100" id="spartan-rank-progress">
                     <div class="bar">
                         <div class="progress"></div>
@@ -49,11 +49,11 @@
                     <div class="label">Max Level (152) Achieved!</div>
                 </div>
             @else
-                <div class="ui blue progress" data-value="{{ $account->h5->Xp }}" data-total="{{ $nextLevel->startXp }}" id="spartan-rank-progress">
+                <div class="ui blue progress" data-value="{{ $progressBar['current'] }}" data-total="{{ $progressBar['max'] }}" id="spartan-rank-progress">
                     <div class="bar">
                         <div class="progress"></div>
                     </div>
-                    <div class="label">Progress to Level {{ $nextLevel->level }}</div>
+                    <div class="label">Progress to Level {{ $progressBar['next']->level }}</div>
                 </div>
             @endif
             <div class="ui icon message" id="update-message">
@@ -77,7 +77,7 @@
                 .progress({
                     label: 'ratio',
                     text: {
-                        ratio: "{{ number_format($account->h5->Xp) . " / " . number_format($nextLevel->startXp) . " Xp" }}"
+                        ratio: "{{ number_format($progressBar['current']) . " / " . number_format($progressBar['max']) . " Xp" }}"
                     }
                 })
         ;
