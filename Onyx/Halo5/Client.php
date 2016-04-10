@@ -25,6 +25,8 @@ use Ramsey\Uuid\Uuid;
 class Client extends Http {
 
     public static $updateRan = false;
+    
+    const PER_PAGE = 9;
 
     //---------------------------------------------------------------------------------
     // Public Methods
@@ -45,7 +47,7 @@ class Client extends Http {
             {
                 return $player->kd * 100;
             }, SORT_REGULAR, true);
-            
+
             return $match;
         }
         else
@@ -503,7 +505,12 @@ class Client extends Http {
      */
     public function getPlayerMatches($account, $types = 'arena,warzone', $start = 0)
     {
-        $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, 9);
+        if ($start != 0)
+        {
+            $start = (self::PER_PAGE * $start);
+        }
+        
+        $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, self::PER_PAGE);
 
         $matches = $this->getJson($url, 3); // 3 minute cache
 

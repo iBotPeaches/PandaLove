@@ -35,6 +35,19 @@
             </div>
         @endforeach
     </div>
+    <br />
+    <div class="ui pagination">
+        @if ($page != 0)
+            <button class="ui left labeled icon button recent-pagination" data-page="{{ $page - 1 }}">
+                <i class="left arrow icon"></i>
+                Previous
+            </button>
+        @endif
+        <button class="ui right labeled icon button recent-pagination" data-page="{{ $page + 1 }}">
+            <i class="right arrow icon"></i>
+            Next
+        </button>
+    </div>
 @else
     <div class="ui warning message">
         No recent games. This will change once the user has played a game in Halo 5.

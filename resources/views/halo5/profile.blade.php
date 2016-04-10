@@ -115,9 +115,19 @@
                     $("#update-message .header").remove();
                 }
             });
+            change_page(0);
 
+            $("body").on('click', '.recent-pagination', function(event) {
+                $(this).addClass("disabled");
+                change_page($(this).data("page"));
+
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            });
+        });
+
+        function change_page(number) {
             $.ajax({
-                url: '{{ URL::action('Halo5\ProfileController@getRecentGames', array($account->gamertag, 0)) }}',
+                url: '{{ URL::action('Halo5\ProfileController@getRecentGames', array($account->gamertag)) }}/' + number,
                 success: function(result) {
                     $("#recent-tab-content").html(result);
 
@@ -126,7 +136,7 @@
                     });
                 }
             });
-        })
+        }
     </script>
 @append
 

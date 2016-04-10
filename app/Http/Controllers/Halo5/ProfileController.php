@@ -182,10 +182,11 @@ class ProfileController extends Controller {
                 ->firstOrFail();
 
             $client = new Client();
-            $games = $client->getPlayerMatches($account);
+            $games = $client->getPlayerMatches($account, 'arena,warzone', $page);
 
             return view('includes.halo5.profile.recent-tab', [
-                'games' => $games
+                'games' => $games,
+                'page' => $page
             ])->render();
         }
         catch (ModelNotFoundException $e)
