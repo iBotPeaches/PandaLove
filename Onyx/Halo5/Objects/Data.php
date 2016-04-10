@@ -165,7 +165,7 @@ class Data extends Model {
         // @todo still a glaring n+1 problem here. Can't find top playlists per person at once.
         $playlist = $this->playlists()->first();
 
-        if ($playlist->stock instanceof Playlist)
+        if ($playlist != null && $playlist->stock instanceof Playlist)
         {
             return $playlist;
         }

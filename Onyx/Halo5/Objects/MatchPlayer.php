@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
+use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Helpers\Date\DateHelper;
@@ -107,7 +108,9 @@ class MatchPlayer extends Model {
 
             foreach ($value as $opponent)
             {
-                $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))->first();
+                $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))
+                    ->where('accountType', Console::Xbox)
+                    ->first();
 
                 if ($account instanceof Account)
                 {
@@ -128,7 +131,9 @@ class MatchPlayer extends Model {
 
                 foreach ($deferred as $opponent)
                 {
-                    $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))->first();
+                    $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))
+                        ->where('accountType', Console::Xbox)
+                        ->first();
 
                     if ($account instanceof Account)
                     {
@@ -151,7 +156,7 @@ class MatchPlayer extends Model {
 
             foreach ($value as $opponent)
             {
-                $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))->first();
+                $account = $this->_getAccount($opponent['GamerTag']);
 
                 if ($account instanceof Account)
                 {
@@ -172,7 +177,7 @@ class MatchPlayer extends Model {
 
                 foreach ($deferred as $opponent)
                 {
-                    $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))->first();
+                    $account = $this->_getAccount($opponent['GamerTag']);
 
                     if ($account instanceof Account)
                     {
@@ -269,6 +274,14 @@ class MatchPlayer extends Model {
         }
     }
 
+    public function setAccountIdAttribute($value)
+    {
+        if ($value instanceof Account)
+        {
+            $this->attributes['account_id'] = $value->id;
+        }
+    }
+    
     public function getKilledAttribute($value)
     {
         return json_decode($value, true);
@@ -311,5 +324,23 @@ class MatchPlayer extends Model {
     public function account()
     {
         return $this->hasOne('Onyx\Account', 'id', 'account_id')->select('id', 'gamertag', 'seo');
+    }
+
+    //---------------------------------------------------------------------------------
+    // Private Methods - Helper
+    //---------------------------------------------------------------------------------
+
+    /**
+     * @param $gamertag
+     * @return mixed
+     */
+    private function _getAccount($gamertag)
+    {
+        return \Cache::remember('gamertag-' . $gamertag, 60, function() use ($gamertag)
+        {
+            return Account::where('seo', DestinyText::seoGamertag($gamertag))
+                ->where('accountType', Console::Xbox)
+                ->first();
+        });
     }
 }

@@ -78,7 +78,7 @@ class ProfileController extends Controller {
                 }
 
                 // check for 10 inactive checks
-                if ($account->h5->inactiveCounter >= $this->inactiveCounter)
+                if ($account->h5->inactiveCounter >= $this->inactiveCounter && $account->h5->inactiveCounter != 128)
                 {
                     return response()->json([
                         'updated' => false,
@@ -88,7 +88,7 @@ class ProfileController extends Controller {
                     ]);
                 }
 
-                if ($account->h5->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
+                if ($account->h5->updated_at->diffInMinutes() >= $this->refreshRateInMinutes || $account->h5->inactiveCounter == 128)
                 {
                     if (! $account->h5->warzone instanceof Warzone)
                     {

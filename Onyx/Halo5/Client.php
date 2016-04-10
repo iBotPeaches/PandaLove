@@ -5,6 +5,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
+use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Collections\GameHistoryCollection;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
@@ -140,7 +141,7 @@ class Client extends Http {
                     $h5_data->account_id = $account->id;
                 }
 
-                $this->_parseServiceRecord($account, $entry['Result'], $h5_data);
+                $this->_parseServiceRecord($account, $entry['Result'], $h5_data, true);
             }
             catch (QueryException $e)
             {
@@ -205,7 +206,7 @@ class Client extends Http {
             $_player->game_id = $gameId;
             $_player->killed = $player['KilledOpponentDetails'];
             $_player->killed_by = $player['KilledByOpponentDetails'];
-            $_player->account_id = $this->getAccountByGamertag($player['Player']['Gamertag'])->id;
+            $_player->account_id = $this->getAccount($player['Player']['Gamertag']);
             $_player->team_id = $gameId . "_" . $player['TeamId'];
             $_player->medals = $player['MedalAwards'];
             $_player->enemies = $player['EnemyKills'];
@@ -665,7 +666,7 @@ class Client extends Http {
      * @param Data $h5_data
      * @return bool
      */
-    private function _parseServiceRecord(&$account, $record, &$h5_data)
+    private function _parseServiceRecord(&$account, $record, &$h5_data, $bulkAdded = false)
     {
         $h5_data->totalKills = $record['ArenaStats']['TotalKills'];
         $h5_data->totalSpartanKills = $record['ArenaStats']['TotalSpartanKills'];
@@ -697,10 +698,12 @@ class Client extends Http {
             $h5_data->highest_CsrSeasonId = $record['ArenaStats']['HighestCsrSeasonId'];
         }
 
-        // clear out old playlist history, dump new playlists in that seasonId or null
         PlaylistData::where('account_id', $account->id)
-            ->where('seasonId', $record['ArenaStats']['ArenaPlaylistStatsSeasonId'])
-            ->orWhere('seasonId', 'IS', DB::raw('null'))
+            ->where(function ($query) use ($record)
+            {
+                $query->where('seasonId', $record['ArenaStats']['ArenaPlaylistStatsSeasonId']);
+                $query->orWhere('seasonId', 'IS', DB::raw('null'));
+            })
             ->delete();
 
         foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist)
@@ -746,6 +749,13 @@ class Client extends Http {
             $p->save();
         }
 
+        // We need a way to determine these additions vs others
+        // so mark as -1 so the updater knows to trigger an update on these
+        if ($bulkAdded)
+        {
+            $h5_data->inactiveCounter = 128;
+        }
+
         $account->h5 = $h5_data;
         return $h5_data->save();
     }
@@ -761,6 +771,11 @@ class Client extends Http {
         if (self::$updateRan || $old_xp == null) return true;
 
         $h5->inactiveCounter = ($old_xp != $new_xp) ? 0 : $h5->inactiveCounter++;
+
+        if ($h5->inactiveCounter >= 128)
+        {
+            $h5->inactiveCounter = 0;
+        }
         self::$updateRan = true;
         return $h5->save();
     }
@@ -771,7 +786,12 @@ class Client extends Http {
      */
     private function checkCacheForGamertag($gamertag)
     {
-        $account = Account::where('seo', DestinyText::seoGamertag($gamertag))->first();
+        $account = \Cache::remember('gamertag-' . $gamertag, 60, function() use ($gamertag)
+        {
+            return Account::where('seo', DestinyText::seoGamertag($gamertag))
+                ->where('accountType', Console::Xbox)
+                ->first();
+        });
 
         if ($account instanceof Account)
         {
