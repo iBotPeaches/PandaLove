@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "48b04f7e4df13cac3614810d76555d46",
-    "content-hash": "f27ea6194b384f02f1c8a68be86fd792",
+    "hash": "fd5d2b749a1da983d5db5632f8e9941b",
+    "content-hash": "8013b6b657e35ff2743be9c9ed4c8f5a",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1409,16 +1409,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.33",
+            "version": "v5.1.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "42157b919decb74acf02c554838136ae05346672"
+                "reference": "0e73cba565b0ef5b158da62f641dc6770b806102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/42157b919decb74acf02c554838136ae05346672",
-                "reference": "42157b919decb74acf02c554838136ae05346672",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0e73cba565b0ef5b158da62f641dc6770b806102",
+                "reference": "0e73cba565b0ef5b158da62f641dc6770b806102",
                 "shasum": ""
             },
             "require": {
@@ -1533,7 +1533,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-04-05 14:05:37"
+            "time": "2016-04-07 14:12:37"
         },
         {
             "name": "laravel/socialite",
