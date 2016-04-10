@@ -47,6 +47,9 @@
                     @endforeach
                 </div>
             </div>
+            @foreach ($match->players as $player)
+                @include('includes.halo5.game.modal.advanced', ['player' => $player])
+            @endforeach
         </article>
     </div>
 @endsection
@@ -59,9 +62,29 @@
             $(".ui.sortable.table").tablesort();
 
             $('.ui .arena-popup').popup();
+
+            $('.adv-modal-icon').popup();
+
+            $("table").on('click', '.adv-modal-icon', function(event) {
+                var key = "." + $(this).data("tag");
+
+                $(key).modal('show');
+
+                $('.medal')
+                        .popup({
+                            inline   : false,
+                            hoverable: true
+                        })
+                ;
+            });
         });
     </script>
 @append
 
 @section('inline-css')
+    <style type="text/css">
+        .adv-modal-icon {
+            cursor: pointer;
+        }
+    </style>
 @append

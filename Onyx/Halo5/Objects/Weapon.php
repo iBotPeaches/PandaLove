@@ -51,15 +51,16 @@ class Weapon extends Model {
 
     public static function getAll()
     {
-        $all = Weapon::all();
-
-        $rtr = [];
-
-        foreach ($all as $item)
+        return \Cache::remember('weapons-metadata', 120, function()
         {
-            $rtr[$item->uuid] = $item;
-        }
+            $items = [];
 
-        return $rtr;
+            foreach (Weapon::all() as $weapon)
+            {
+                $items[$weapon->uuid] = $weapon;
+            }
+
+            return $items;
+        });
     }
 }

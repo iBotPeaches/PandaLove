@@ -203,6 +203,7 @@ class MatchPlayer extends Model {
             {
                 $insert[$medal['MedalId']] = $medal['Count'];
             }
+
             $this->attributes['medals'] = json_encode($insert);
         }
     }
@@ -215,7 +216,10 @@ class MatchPlayer extends Model {
 
             foreach($value as $weapon)
             {
-                $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
+                if ($weapon['TotalKills'] > 0)
+                {
+                    $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
+                }
             }
 
             arsort($insert);
@@ -297,12 +301,45 @@ class MatchPlayer extends Model {
 
     public function getMedalsAttribute($value)
     {
-        return json_decode($value, true);
+        $medals = json_decode($value, true);
+
+        if (is_array($medals))
+        {
+            $stockMedals = Medal::getAll();
+
+            foreach($medals as $key => &$value)
+            {
+                $medal = $stockMedals[$key];
+                $medal['count'] = $value;
+                $value = $medal;
+            }
+        }
+        return $medals;
     }
 
     public function getWeaponsAttribute($value)
     {
-        return json_decode($value, true);
+        $weapons = json_decode($value, true);
+
+        if (is_array($weapons))
+        {
+            $stockWeapons = Weapon::getAll();
+
+            foreach ($weapons as $key => &$value)
+            {
+                if (isset($stockWeapons[$key]))
+                {
+                    $weapon = $stockWeapons[$key];
+                    $weapon['count'] = $value;
+                    $value = $weapon;
+                }
+                else
+                {
+                    unset($value);
+                }
+            }
+        }
+        return $weapons;
     }
 
     public function getEnemiesAttribute($value)
@@ -335,6 +372,24 @@ class MatchPlayer extends Model {
 
             default:
                 return $value . 'th';
+        }
+    }
+
+    public function getRankAttribute($value)
+    {
+        switch ($value)
+        {
+            case 1:
+                return '1<sup>st</sup>';
+
+            case 2:
+                return '2<sup>nd</sup>';
+
+            case 3:
+                return '3<sup>rd</sup>';
+
+            default:
+                return $value . '<sup>th</sup>';
         }
     }
 

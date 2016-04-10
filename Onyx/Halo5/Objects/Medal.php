@@ -53,4 +53,18 @@ class Medal extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public static function getAll()
+    {
+        return \Cache::remember('medals-metadata', 120, function()
+        {
+            $items = [];
+
+            foreach (Medal::all() as $medal)
+            {
+                $items[$medal->contentId] = $medal;
+            }
+
+            return $items;
+        });
+    }
 }
