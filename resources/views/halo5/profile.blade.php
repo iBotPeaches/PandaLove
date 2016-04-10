@@ -25,6 +25,11 @@
                             </div>
                         </div>
                     </div>
+                    @if (isset($user) && $user != null)
+                        <div class="ui raised segment">
+                            <a href="{{ action('Halo5\ProfileController@manualUpdate', [$account->seo]) }}" class="ui fluid green button">Refresh Data</a>
+                        </div>
+                    @endif
                 </div>
                 <div class="9u">
                     <div class="ui stackable container menu">
