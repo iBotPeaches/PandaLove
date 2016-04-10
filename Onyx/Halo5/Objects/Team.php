@@ -45,4 +45,54 @@ class Team extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        $path = public_path('images/teams/');
+
+        if (file_exists($path . $this->id . '.png'))
+        {
+            return asset('images/teams/' . $this->id . '.png');
+        }
+        else
+        {
+            return asset('images/unknown-weapon.png');
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getSemanticColor()
+    {
+        switch ($this->id)
+        {
+            case 0:
+                return 'red';
+            
+            case 1:
+                return 'blue';
+            
+            case 2:
+                return 'yellow';
+            
+            case 3:
+                return 'green';
+            
+            case 4:
+                return 'violet';
+            
+            case 5:
+                return 'pink';
+            
+            case 6:
+                return 'orange';
+            
+            case 7:
+                return 'teal';
+        }
+    }
 }

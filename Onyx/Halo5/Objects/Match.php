@@ -73,6 +73,11 @@ class Match extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function playersOnTeam($key)
+    {
+        return $this->players->where('team_id', $key);
+    }
+    
     public function events()
     {
         return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'uuid')->orderBy('seconds_since_start');
@@ -85,7 +90,7 @@ class Match extends Model {
 
     public function teams()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\MatchTeam', 'game_id', 'uuid');
+        return $this->hasMany('Onyx\Halo5\Objects\MatchTeam', 'game_id', 'uuid')->orderBy('rank');
     }
 
     public function map()

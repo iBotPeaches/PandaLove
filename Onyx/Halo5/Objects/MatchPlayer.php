@@ -5,6 +5,7 @@ use Onyx\Account;
 use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Client;
+use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 
@@ -56,6 +57,8 @@ use Onyx\Halo5\Helpers\String\Text as Halo5Text;
  * @property CSR $csr
  */
 class MatchPlayer extends Model {
+
+    use Stats;
 
     /**
      * The database table used by the model.
@@ -317,6 +320,24 @@ class MatchPlayer extends Model {
         return floatval($value);
     }
 
+    public function getChampionRank($value)
+    {
+        switch ($value)
+        {
+            case 1:
+                return '1st';
+
+            case 2:
+                return '2nd';
+
+            case 3:
+                return '3rd';
+
+            default:
+                return $value . 'th';
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -326,9 +347,54 @@ class MatchPlayer extends Model {
         return $this->hasOne('Onyx\Account', 'id', 'account_id')->select('id', 'gamertag', 'seo');
     }
 
+    public function csr()
+    {
+        return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'CsrDesignationId', 'designationId');
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods - Helper
     //---------------------------------------------------------------------------------
+
+    public function getArenaImage()
+    {
+        $csr = $this->csr;
+
+        if ($csr != null)
+        {
+            return $csr->tiers->{$this->CsrTier};
+        }
+    }
+    
+    public function getArenaTooltip()
+    {
+        $csr = $this->csr;
+        
+        switch ($csr->designationId)
+        {
+            case 0:
+                return 'Unranked ( ' . (10 - $this->CsrTier) . ' games remaining)';
+
+            case 6:
+                return $csr->name . ' CSR: ' . $this->Csr;
+
+            case 7:
+                return $csr->name . ' Rank: ' . $this->ChampionRank;
+
+            default:
+                return $csr->name . ' ' . $this->CsrTier;
+        }
+    }
+
+    public function kd($formatted = true)
+    {
+        return self::stat_kd($this->totalKills, $this->totalDeaths, $formatted);
+    }
+
+    public function kad($formatted = true)
+    {
+        return self::stat_kad($this->totalKills, $this->totalDeaths, $this->totalAssists, $formatted);
+    }
 
     /**
      * @param $gamertag

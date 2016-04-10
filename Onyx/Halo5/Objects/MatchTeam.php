@@ -77,7 +77,21 @@ class MatchTeam extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-    
+
+    public function label()
+    {
+        if ($this->isWinner())
+        {
+            return '<span class="ui green label">Winner</span>';
+        }
+        return '<span class="ui label">Loser</span>';
+    }
+
+    public function isWinner()
+    {
+        return $this->rank == 1;
+    }
+
     public function team()
     {
         return $this->hasOne('Onyx\Halo5\Objects\Team', 'id', 'team_id');

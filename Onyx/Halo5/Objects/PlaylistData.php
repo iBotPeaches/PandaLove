@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 
 /**
@@ -34,6 +35,8 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
  */
 class PlaylistData extends Model {
 
+    use Stats;
+    
     /**
      * The database table used by the model.
      *
@@ -191,53 +194,23 @@ class PlaylistData extends Model {
         return $title;
     }
 
-    public function kd()
+    public function kd($formatted = true)
     {
-        if ($this->totalDeaths == 0)
-        {
-            return $this->totalKills;
-        }
-
-        return number_format($this->totalKills / $this->totalDeaths, 2);
+        return self::stat_kd($this->totalKills, $this->totalDeaths, $formatted);
     }
 
-    public function kad()
+    public function kad($formatted = true)
     {
-        if ($this->totalDeaths == 0)
-        {
-            return ($this->totalKills + $this->totalAssists);
-        }
-
-        return number_format(($this->totalKills + $this->totalAssists) / $this->totalDeaths, 2);
+        return self::stat_kad($this->totalKills, $this->totalDeaths, $this->totalAssists, $formatted);
     }
 
     public function winRate()
     {
-        if ($this->totalGames == 0)
-        {
-            return 0;
-        }
-
-        return round(($this->totalGamesWon / $this->totalGames) * 100);
+        return $this->stat_winRate($this->totalGamesWon, $this->totalGames);
     }
 
     public function winRateColor()
     {
-        $rate = $this->winRate();
-
-        switch (true)
-        {
-            case $rate > 80:
-                return 'green';
-
-            case $rate <= 80 && $rate > 60:
-                return 'yellow';
-
-            case $rate <= 60 && $rate > 40:
-                return 'orange';
-
-            default:
-                return 'red';
-        }
+        return $this->stat_winRateColor($this->totalGamesWon, $this->totalGames);
     }
 }

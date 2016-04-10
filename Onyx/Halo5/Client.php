@@ -36,6 +36,16 @@ class Client extends Http {
 
         if ($match instanceof Match)
         {
+            $match->players->each(function($player)
+            {
+                $player->kd = $player->kd();
+            });
+
+            $match->players = $match->players->sortBy(function($player)
+            {
+                return $player->kd * 100;
+            }, SORT_REGULAR, true);
+            
             return $match;
         }
         else
@@ -62,7 +72,7 @@ class Client extends Http {
                 $match = $this->parseGameData($json, $gameId);
                 \DB::commit();
 
-                return $match;
+                return $this->getGameByGameId($typeId, $gameId);
             }
             catch (\Exception $e)
             {
@@ -226,6 +236,12 @@ class Client extends Http {
                 $_player->Csr = $player['CurrentCsr']['Csr'];
                 $_player->percentNext = $player['CurrentCsr']['PercentToNextTier'];
                 $_player->ChampionRank = $player['CurrentCsr']['Rank'];
+            }
+
+            if (isset($player['MeasurementMatchesLeft']) && $player['MeasurementMatchesLeft'] != 0)
+            {
+                $_player->CsrDesignationId = 0;
+                $_player->CsrTier = 10 - $player['MeasurementMatchesLeft'];
             }
 
             $_player->spartanRank = $player['XpInfo']['SpartanRank'];
@@ -821,7 +837,7 @@ class Client extends Http {
      */
     private function checkCacheForGame($gameId)
     {
-        $match = Match::with('teams.team', 'map', 'players.account', 'gametype', 'season')
+        $match = Match::with('teams.team', 'map', 'players.account', 'players.csr', 'gametype', 'season')
             ->where('uuid', $gameId)
             ->first();
 

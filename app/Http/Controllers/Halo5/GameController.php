@@ -36,7 +36,7 @@ class GameController extends Controller {
         {
             $client = new Client();
             $match = $client->getGameByGameId($type, $matchId);
-            
+
             return view('halo5.games.game', [
                 'match' => $match
             ]);
