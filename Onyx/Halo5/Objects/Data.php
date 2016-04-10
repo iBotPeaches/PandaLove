@@ -108,7 +108,14 @@ class Data extends Model {
 
     public function setTotalTimePlayedAttribute($value)
     {
-        $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
+        if (strlen($value) > 1)
+        {
+            $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
+        }
+        else
+        {
+            $this->attributes['totalTimePlayed'] = 0;
+        }
     }
 
     public function getMedalsAttribute($value)
