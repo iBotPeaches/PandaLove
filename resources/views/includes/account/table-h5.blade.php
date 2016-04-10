@@ -30,8 +30,13 @@
             </td>
             <td class="center aligned {{ $member->kad() > 1 ? "positive" : "warning" }} kadr-table">{{ $member->kad() }}</td>
             <td class="center aligned {{ $member->kd() > 1 ? "positive" : "warning" }} kdr-table">{{ $member->kd() }}</td>
-            <td class="center aligned {{ $member->warzone->kad() > 1 ? "positive" : "warning" }} kadr-table">{{ $member->warzone->kad() }}</td>
-            <td class="center aligned {{ $member->warzone->kd() > 1 ? "positive" : "warning" }} kdr-table">{{ $member->warzone->kd() }}</td>
+            @if (isset($member->warzone) && $member->warzone instanceof \Onyx\Halo5\Objects\Warzone)
+                <td class="center aligned {{ $member->warzone->kad() > 1 ? "positive" : "warning" }} kadr-table">{{ $member->warzone->kad() }}</td>
+                <td class="center aligned {{ $member->warzone->kd() > 1 ? "positive" : "warning" }} kdr-table">{{ $member->warzone->kd() }}</td>
+            @else
+                <td class="center aligned">?</td>
+                <td class="center aligned">?</td>
+            @endif
             <td class="gamesplayed-table ui center aligned">{{ number_format($member->totalGames) }}</td>
         </tr>
     @endforeach
