@@ -38,12 +38,12 @@
     <br />
     <div class="ui pagination">
         @if ($page != 0)
-            <button class="ui left labeled icon button recent-pagination" data-page="{{ $page - 1 }}">
+            <button class="ui left labeled icon blue button recent-pagination" data-page="{{ $page - 1 }}">
                 <i class="left arrow icon"></i>
                 Previous
             </button>
         @endif
-        <button class="ui right labeled icon button recent-pagination" data-page="{{ $page + 1 }}">
+        <button class="ui right labeled icon  blue button recent-pagination" data-page="{{ $page + 1 }}">
             <i class="right arrow icon"></i>
             Next
         </button>
