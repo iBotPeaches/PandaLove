@@ -39,7 +39,11 @@
                     title: function(x) {
                         return 'Date: ' + x;
                     }
-                }
+                },
+                grouped: false
+            },
+            zoom: {
+                enabled: true
             }
         });
     });

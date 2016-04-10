@@ -1,85 +1,85 @@
-<div class="ui four statistics">
-    <div class="{{ $account->h5->kd() > 1.0 ? 'green' : 'red' }} statistic">
-        <div class="value">
-            {{ $account->h5->kd() }}
+@define $playlist = $account->h5->record_playlist()
+<h3 class="ui top attached header">
+    All Time Top CSR
+</h3>
+<div class="ui attached segment">
+    <div class="row">
+        <div class="4u">
+            <div class="ui cards">
+                <div class="ui card">
+                    <div class="image">
+                        <img src="{{ $playlist->high_csr->tiers->{$playlist->tier('highest')} }}" />
+                    </div>
+                    <div class="content">
+                        <a class="header">{{ $playlist->stock->name }}</a>
+                        <div class="meta">
+                            <span class="">{{ $playlist->title('highest') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="label">
-            KD Ratio
+        <div class="8u">
+            @if ($playlist->measurementMatchesLeft > 0)
+                <div class="ui progress rank-placement" data-value="{{ $playlist->getGamesDone() }}" data-total="10">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label">Matches till Rank Placement in {{ $playlist->stock->name }}</div>
+                </div>
+                <div class="ui divider"></div>
+            @else
+                @if ($playlist->highest_Csr != 0)
+                    <div class="ui black segment">
+                        <div class="ui top attached label">Highest CSR Obtained - {{ number_format($playlist->highest_Csr) }}</div>
+                        @if ($playlist->highest_rank != 0)
+                            <div class="ui green message">
+                                I placed <strong>{{ $playlist->rank('highest') }}</strong> in this playlist at one time.
+                            </div>
+                        @endif
+                    </div>
+                    <div class="ui divider"></div>
+                @endif
+            @endif
+            @if ($nextLevel == null)
+                <div class="ui progress success" data-value="100" data-total="100" id="spartan-rank-progress">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label">Max Level (152) Achieved!</div>
+                </div>
+            @else
+                <div class="ui blue progress" data-value="{{ $account->h5->Xp }}" data-total="{{ $nextLevel->startXp }}" id="spartan-rank-progress">
+                    <div class="bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="label">Progress to Level {{ $nextLevel->level }}</div>
+                </div>
+            @endif
+            <div class="ui icon message" id="update-message">
+                <i class="notched circle loading icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Just one second
+                    </div>
+                    <p>
+                        Checking if this profile needs an update.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="{{ $account->h5->kad() > 1.0 ? 'green' : 'red' }} statistic">
-        <div class="value">
-            {{ $account->h5->kad() }}
-        </div>
-        <div class="label">
-            KAD Ratio
-        </div>
-    </div>
-    <div class="{{ $account->h5->winRateColor() }} statistic">
-        <div class="value">
-            {{ $account->h5->winRate() }}%
-        </div>
-        <div class="label">
-            Win Rate
-        </div>
-    </div>
-    <div class="statistic">
-        <div class="value">
-            {{ number_format($account->h5->totalHeadshots) }}
-        </div>
-        <div class="label">
-            Total Headshots
-        </div>
-    </div>
-</div>
-<div class="ui four statistics">
-    <div class="statistic">
-        <div class="value">
-            {{ number_format($account->h5->totalGames) }}
-        </div>
-        <div class="label">
-            Total Games
-        </div>
-    </div>
-    <div class="statistic">
-        <div class="value">
-            {{ number_format($account->h5->totalKills) }}
-        </div>
-        <div class="label">
-            Total Kills
-        </div>
-    </div>
-    <div class="statistic">
-        <div class="value">
-            {{ number_format($account->h5->totalAssists) }}
-        </div>
-        <div class="label">
-            Total Assists
-        </div>
-    </div>
-    <div class="statistic">
-        <div class="value">
-            {{ number_format($account->h5->totalDeaths) }}
-        </div>
-        <div class="label">
-            Total Deaths
-        </div>
-    </div>
-</div>
-<div class="ui info message">
-    Arena Playtime: <strong>{{ \Onyx\Destiny\Helpers\String\Text::timeDuration($account->h5->totalTimePlayed) }}</strong>
-</div>
-<div class="ui message">
-    <strong>Current Season: </strong>{{ $account->h5->season->name }}
-</div>
-<div class="ui icon message" id="update-message">
-    <i class="notched circle loading icon"></i>
-    <div class="content">
-        <div class="header">
-            Just one second
-        </div>
-        <p>
-            Checking if this profile needs an update.
-        </p>
     </div>
 </div>
+
+@section('inline-js')
+    <script type="text/javascript">
+        $('#spartan-rank-progress')
+                .progress({
+                    label: 'ratio',
+                    text: {
+                        ratio: "{{ number_format($account->h5->Xp) . " / " . number_format($nextLevel->startXp) . " Xp" }}"
+                    }
+                })
+        ;
+    </script>
+@append

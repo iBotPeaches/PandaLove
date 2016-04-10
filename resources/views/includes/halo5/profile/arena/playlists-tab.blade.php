@@ -1,3 +1,6 @@
+<div class="ui info message">
+    This data is only from the {{ $seasons->season->name }}.
+</div>
 @foreach($playlists as $playlist)
     <div class="ui segment">
         <div class="row">

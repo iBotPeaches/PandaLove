@@ -121,7 +121,7 @@ class Client extends Http {
     public function searchAccountByName($username)
     {
         $platform = "all";
-        $url = sprintf(Constants::$searchDestinyPlayer, $platform, $username);
+        $url = sprintf(Constants::$searchDestinyPlayer, $platform, trim($username));
 
         $json = $this->getJson($url, 60 * 24);
 
@@ -164,7 +164,7 @@ class Client extends Http {
     public function fetchAccountByGamertag($platform, $gamertag)
     {
         $platform = intval($platform);
-        $url = sprintf(Constants::$searchDestinyPlayer, $platform, $gamertag);
+        $url = sprintf(Constants::$searchDestinyPlayer, $platform, trim($gamertag));
 
         $account = $this->checkCacheForGamertagByConsole($platform, $gamertag);
 

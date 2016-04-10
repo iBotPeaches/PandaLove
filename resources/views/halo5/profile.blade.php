@@ -29,35 +29,34 @@
                 <div class="9u">
                     <div class="ui stackable container menu">
                         <a class="active item" data-tab="overview">
+                            Overview
+                        </a>
+                        <a class="item" data-tab="arena">
                             Arena
-                        </a>
-                        <a class="item" data-tab="seasons">
-                            Seasons
-                        </a>
-                        <a class="item" data-tab="playlists">
-                            Playlists
-                        </a>
-                        <a class="item" data-tab="medals">
-                            Medals
                         </a>
                         <a class="item" data-tab="warzone">
                             Warzone
+                        </a>
+                        <a class="item" data-tab="recent">
+                            Recent Games
                         </a>
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.halo5.profile.overview-tab')
                     </div>
-                    <div class="ui bottom attached tab" data-tab="seasons">
-                        @include('includes.halo5.profile.seasons-tab')
-                    </div>
-                    <div class="ui bottom attached tab" data-tab="playlists">
-                        @include('includes.halo5.profile.playlists-tab')
-                    </div>
-                    <div class="ui bottom attached tab" data-tab="medals">
-                        @include('includes.halo5.profile.medals-tab')
+                    <div class="ui bottom attached tab" data-tab="arena">
+                        @include('includes.halo5.profile.arena-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="warzone">
                         @include('includes.halo5.profile.warzone-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="recent">
+                        <div id="recent-tab-content">
+                            <div class="ui info message">
+                                Uh oh. You should not be seeing this. Wait like 10 more seconds. This means the loading for the Recent Games failed.
+                                A refresh should hopefully fix this.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,6 +113,17 @@
 
                     $("#update-message i").remove();
                     $("#update-message .header").remove();
+                }
+            });
+
+            $.ajax({
+                url: '{{ URL::action('Halo5\ProfileController@getRecentGames', array($account->gamertag, 0)) }}',
+                success: function(result) {
+                    $("#recent-tab-content").html(result);
+
+                    $('.special.cards .image').dimmer({
+                        on: 'hover'
+                    });
                 }
             });
         })

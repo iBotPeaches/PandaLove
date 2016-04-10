@@ -6,7 +6,7 @@
             <header>
                 <h2>About PandaLove</h2>
                 <p>
-                    This application is offered by iBotPeaches, which is solely responsible for its content. It is not sponsored or endorsed by Microsoft.
+                    This application is offered by iBotPeaches, who is solely responsible for its content. It is not sponsored or endorsed by Microsoft.
                     <br />
                     This application uses the Halo® Game Data API. Halo © 2015 Microsoft Corporation.
                     <br />

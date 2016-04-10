@@ -15,7 +15,9 @@ Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 ## Halo 5
 Route::controller('/h5/api/v1', 'Halo5\ApiV1Controller');
 Route::controller('/h5/roster', 'Halo5\RosterController');
+Route::controller('/h5/games', 'Halo5\GameController');
 Route::controller('/h5/stats', 'Halo5\StatsController');
+Route::get('/h5/profile/get-recent-games/{gamertag}/{page}', 'Halo5\ProfileController@getRecentGames');
 Route::get('/h5/profile/{gamertag}', 'Halo5\ProfileController@index');
 Route::get('/h5/profile/manual-update/{seo}', 'Halo5\ProfileController@manualUpdate');
 Route::get('/h5/profile/check-for-update/{gamertag}', 'Halo5\ProfileController@checkForUpdate');

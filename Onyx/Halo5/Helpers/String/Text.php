@@ -14,6 +14,6 @@ class Text {
      */
     public static function encodeGamertagForApi($gamertag)
     {
-        return Str::lower(str_replace(" ", "+", $gamertag));
+        return Str::lower(str_replace(" ", "+", trim($gamertag)));
     }
 }

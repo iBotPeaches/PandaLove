@@ -3,6 +3,8 @@
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use PandaLove\Console\Commands\updateGametypes;
+use PandaLove\Console\Commands\updateMaps;
 use PandaLove\Console\Commands\updatePandas;
 use PandaLove\Console\Commands\alertSender;
 use PandaLove\Console\Commands\updateMedals;
@@ -13,6 +15,10 @@ use PandaLove\Console\Commands\updateWeapons;
 use PandaLove\Console\Commands\updateHistoricStats;
 use PandaLove\Console\Commands\updateH5Pandas;
 use PandaLove\Console\Commands\addHistoricAccount;
+use PandaLove\Console\Commands\addMatchEvent;
+use PandaLove\Console\Commands\updateRanks;
+use PandaLove\Console\Commands\updateTeams;
+use PandaLove\Console\Commands\batchHalo5Metadata;
 
 class Kernel extends ConsoleKernel {
 
@@ -31,7 +37,13 @@ class Kernel extends ConsoleKernel {
 		updateWeapons::class,
 		updateHistoricStats::class,
 		updateH5Pandas::class,
-		addHistoricAccount::class
+		addHistoricAccount::class,
+		addMatchEvent::class,
+		updateGametypes::class,
+		updateMaps::class,
+		updateRanks::class,
+		updateTeams::class,
+		batchHalo5Metadata::class,
 	];
 
 	/**

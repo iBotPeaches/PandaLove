@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Onyx\Account;
+use Onyx\Halo5\Client;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 

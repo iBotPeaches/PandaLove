@@ -24,6 +24,7 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property int $spartanRank
  * @property int $Xp
  * @property array $medals
+ * @property array $weapons
  * @property null $emblem
  * @property null $spartan
  * @property int $highest_CsrTier
@@ -89,12 +90,40 @@ class Data extends Model {
         }
     }
 
+    public function setWeaponsAttribute($value)
+    {
+        if (is_array($value))
+        {
+            $insert = [];
+
+            foreach($value as $weapon)
+            {
+                $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
+            }
+
+            arsort($insert);
+            $this->attributes['weapons'] = json_encode($insert);
+        }
+    }
+
     public function setTotalTimePlayedAttribute($value)
     {
-        $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
+        if (strlen($value) > 1)
+        {
+            $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
+        }
+        else
+        {
+            $this->attributes['totalTimePlayed'] = 0;
+        }
     }
 
     public function getMedalsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getWeaponsAttribute($value)
     {
         return json_decode($value, true);
     }
@@ -115,6 +144,7 @@ class Data extends Model {
     {
         return $this->hasMany('Onyx\Halo5\Objects\PlaylistData', 'account_id', 'account_id')
             ->orderBy('highest_CsrDesignationId', 'DESC')
+            ->orderBy('highest_rank', 'ASC')
             ->orderBy('highest_Csr', 'DESC')
             ->orderBy('highest_CsrTier', 'DESC')
             ->orderBy('measurementMatchesLeft', 'ASC');
@@ -135,7 +165,7 @@ class Data extends Model {
         // @todo still a glaring n+1 problem here. Can't find top playlists per person at once.
         $playlist = $this->playlists()->first();
 
-        if ($playlist->stock instanceof Playlist)
+        if ($playlist != null && $playlist->stock instanceof Playlist)
         {
             return $playlist;
         }
@@ -187,13 +217,13 @@ class Data extends Model {
 
         switch (true)
         {
-            case $rate > 80:
+            case $rate > 75:
                 return 'green';
 
-            case $rate <= 80 && $rate > 60:
+            case $rate <= 75 && $rate > 55:
                 return 'yellow';
 
-            case $rate <= 60 && $rate > 40:
+            case $rate <= 55 && $rate > 30:
                 return 'orange';
 
             default:
