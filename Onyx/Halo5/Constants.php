@@ -59,6 +59,20 @@ class Constants{
     public static $metadata_ranks = 'https://www.haloapi.com/metadata/h5/metadata/spartan-ranks';
 
     /**
+     * Halo5 Enemies
+     *
+     * @var string
+     */
+    public static $metadata_enemies = 'https://www.haloapi.com/metadata/h5/metadata/enemies';
+
+    /**
+     * Halo5 Impulses
+     * 
+     * @var string
+     */
+    public static $metadata_impulses = 'https://www.haloapi.com/metadata/h5/metadata/impulses';
+
+    /**
      * Halo5 Teams (Team Red - Magenta)
      *
      * @var string
