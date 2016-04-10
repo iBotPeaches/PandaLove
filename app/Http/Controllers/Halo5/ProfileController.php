@@ -45,7 +45,7 @@ class ProfileController extends Controller {
                 'playlists' => $seasons->current(),
                 'seasons' => $seasons,
                 'title' => $account->gamertag . ($account->isPandaLove() ? " (Panda Love Member)" : null),
-                'medals' => Medal::orderBy('difficulty', 'ASC')->get(),
+                'medals' => Medal::getAll(),
                 'weapons' => Weapon::getAll(),
                 'mMedals' => $account->h5->medals,
                 'progressBar' => Halo5Text::buildProgressBar($account),

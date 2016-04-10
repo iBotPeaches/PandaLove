@@ -79,6 +79,7 @@ class Client extends Http {
             catch (\Exception $e)
             {
                 \DB::rollBack();
+                \Cache::flush();
                 \Bugsnag::notifyException($e);
                 throw $e;
             }
