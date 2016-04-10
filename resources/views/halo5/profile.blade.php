@@ -120,8 +120,6 @@
             $("body").on('click', '.recent-pagination', function(event) {
                 $(this).addClass("disabled");
                 change_page($(this).data("page"));
-
-                $("html, body").animate({ scrollTop: 0 }, "slow");
             });
         });
 
@@ -134,6 +132,8 @@
                     $('.special.cards .image').dimmer({
                         on: 'hover'
                     });
+
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
                 }
             });
         }

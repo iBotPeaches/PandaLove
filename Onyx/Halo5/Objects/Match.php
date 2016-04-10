@@ -73,6 +73,19 @@ class Match extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function isArena()
+    {
+        if (count($this->teams) <= 2)
+        {
+            if (strpos($this->playlist->name, 'social') !== false)
+            {
+                return in_array('Arena', $this->gametype->game_modes);
+            }
+        }
+
+        return false;
+    }
+
     public function playersOnTeam($key)
     {
         return $this->players->where('team_id', $key);

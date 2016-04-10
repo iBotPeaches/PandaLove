@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="12u">
                     <h1 class="ui header">
-                        {{ $match->gametype->name }} on {{ $match->map->name }}
+                        {{ $match->playlist->name }} on {{ $match->map->name }}
                     </h1>
                 </div>
             </div>
@@ -85,6 +85,9 @@
     <style type="text/css">
         .adv-modal-icon {
             cursor: pointer;
+        }
+        .strikethrough-css {
+            text-decoration: line-through;
         }
     </style>
 @append

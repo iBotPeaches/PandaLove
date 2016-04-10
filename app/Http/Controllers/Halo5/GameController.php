@@ -30,13 +30,16 @@ class GameController extends Controller {
         die('unfinished');
     }
 
-    public function getGame($type, $matchId)
+    public function getGame($type, $matchId, $api = false)
     {
         try
         {
             $client = new Client();
             $match = $client->getGameByGameId($type, $matchId);
 
+            if ($api) {
+                return $match;
+            }
             return view('halo5.games.game', [
                 'match' => $match
             ]);

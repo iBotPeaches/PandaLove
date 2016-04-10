@@ -844,7 +844,7 @@ class Client extends Http {
      */
     private function checkCacheForGame($gameId)
     {
-        $match = Match::with('teams.team', 'map', 'players.account', 'players.csr', 'gametype', 'season')
+        $match = Match::with('teams.team', 'map', 'players.account', 'players.csr', 'gametype', 'season', 'playlist')
             ->where('uuid', $gameId)
             ->first();
 

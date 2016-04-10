@@ -16,8 +16,8 @@
         <tbody>
             @foreach ($players as $player)
                 <tr class="{{ $player->totalDeaths == 0 && $player->dnf == 0 ? 'positive' : ($player->totalDeaths > $player->totalKills ? 'negative' : null) }}">
-                    <td>
-                        @if ($match->gametype->isArena())
+                    <td class="{{ $player->dnf == 1 ? 'strikethrough-css' : null }}">
+                        @if ($match->isArena())
                             <span class="right floated author">
                                 <img class="ui avatar image arena-popup" src="{{ $player->getArenaImage() }}" data-content="{{ $player->getArenaTooltip() }}"/>
                                 <a href="{{ URL::action('Halo5\ProfileController@index', [$player->account->seo]) }}">

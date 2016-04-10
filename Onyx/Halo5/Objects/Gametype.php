@@ -56,11 +56,6 @@ class Gametype extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-
-    public function isArena()
-    {
-        return in_array('Arena', $this->game_modes);
-    }
     
     public function getImage()
     {

@@ -1,5 +1,5 @@
-@if (count($match->teams) == 2)
-    <div class="ui two column stackable grid">
+@if (count($match->teams) > 1)
+    <div class="ui {{ \Onyx\Laravel\Helpers\Text::numberToWord(count($match->teams)) }} column stackable grid">
         @foreach ($match->teams as $team)
             <div class="column">
                 <div class="ui fluid {{ $team->team->getSemanticColor() }} card">
@@ -16,8 +16,6 @@
             </div>
         @endforeach
     </div>
-@elseif (count($match->teams) == 4)
-    four card layout
 @else
 
 @endif
