@@ -37,7 +37,6 @@ class CleanupTables extends Migration
             $item->delete();
         }
         
-        \Onyx\Halo5\Objects\Warzone::where('created_at', '>=', new \Carbon\Carbon('2016-04-08'))->delete();
         \Onyx\Halo5\Objects\PlaylistData::where('created_at', '>=', new \Carbon\Carbon('2016-04-08'))->delete();
         \Onyx\Destiny\Objects\Data::where('created_at', '>=', new \Carbon\Carbon('2016-04-08'))->delete();
         \Onyx\Halo5\Objects\Data::where('created_at', '>=', new \Carbon\Carbon('2016-04-08'))->delete();
