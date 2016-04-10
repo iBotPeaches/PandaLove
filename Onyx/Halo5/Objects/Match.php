@@ -5,7 +5,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Match
  * @package Onyx\Halo5\Objects
- * @property $uuid string
+ * @property string $uuid
+ * @property string $map_variant
+ * @property string $game_variant
+ * @property string $playlist_id
+ * @property string $map_id
+ * @property string $gamebase_id
+ * @property string $season_id
+ * @property boolean $isTeamGame
+ *
+ * @property Map $map
+ * @property Gametype $gametype
+ * @property Season $season
+ * @property Playlist $playlist
+ * @property MatchTeam[] $teams
  */
 class Match extends Model {
 
@@ -24,6 +37,11 @@ class Match extends Model {
     protected $guarded = ['uuid'];
 
     /**
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+
+    /**
      * Disable timestamps
      *
      * @var bool
@@ -39,6 +57,18 @@ class Match extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
+    public function setSeasonIdAttribute($value)
+    {
+        if (strlen($value) > 1)
+        {
+            $this->attributes['season_id'] = $value;
+        }
+        else
+        {
+            $this->attributes['season_id'] = null;
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -46,5 +76,35 @@ class Match extends Model {
     public function events()
     {
         return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'uuid')->orderBy('seconds_since_start');
+    }
+
+    public function players()
+    {
+        return $this->hasMany('Onyx\Halo5\Objects\MatchPlayer', 'game_id', 'uuid');
+    }
+
+    public function teams()
+    {
+        return $this->hasMany('Onyx\Halo5\Objects\MatchTeam', 'game_id', 'uuid');
+    }
+
+    public function map()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Map', 'uuid', 'map_id');
+    }
+
+    public function gametype()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Gametype', 'uuid', 'gamebase_id');
+    }
+
+    public function playlist()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Playlist', 'contentId', 'playlist_id');
+    }
+
+    public function season()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'season_id');
     }
 }

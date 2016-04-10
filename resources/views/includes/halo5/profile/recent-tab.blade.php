@@ -13,14 +13,14 @@
                     <div class="ui dimmer">
                         <div class="content">
                             <div class="center">
-                                <a href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $key]) }}" class="ui blue button">Go to Game</a>
+                                <a href="{{ $result['url'] }}" class="ui blue button">Go to Game</a>
                             </div>
                         </div>
                     </div>
                     <img src="{{ $result['map']->getImage() }}">
                 </div>
                 <div class="content">
-                    <a class="header" href="{{ URL::action('Halo5\GameController@getGame', ['matchId' => $key]) }}">
+                    <a class="header" href="{{ $result['url'] }}">
                         {{ \Onyx\Halo5\Enums\GameResult::getTitle($result['win']) }}
                     </a>
                     <div class="meta">

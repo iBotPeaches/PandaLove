@@ -43,9 +43,9 @@ class Gametype extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
-    public function getGameModesAttribute()
+    public function getGameModesAttribute($value)
     {
-        return json_decode($this->game_modes);
+        return json_decode($value, true);
     }
 
     public function setGameModesAttribute($modes)

@@ -1,24 +1,27 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Account;
-use Ramsey\Uuid\Uuid;
 
 /**
- * Class MatchEventAssist
+ * Class MatchTeam
  * @package Onyx\Halo5\Objects
  * @property string $uuid
- * @property string $match_event
- * @property Account $account_id
+ * @property string $game_id
+ * @property integer $team_id
+ * @property integer $score
+ * @property integer $rank
+ * @property array $round_stats
+ *
+ * @property Team $team
  */
-class MatchEventAssist extends Model {
+class MatchTeam extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'halo5_match_event_assists';
+    protected $table = 'halo5_matches_teams';
 
     /**
      * The attributes that are not mass assignable.
@@ -43,9 +46,10 @@ class MatchEventAssist extends Model {
     {
         parent::boot();
 
-        static::creating(function ($assistant)
+        static::creating(function ($team)
         {
-            $assistant->uuid = Uuid::uuid4();
+            /* @var $team \Onyx\Halo5\Objects\MatchTeam */
+            $team->key = ($team->game_id . "_" . $team->team_id);
         });
     }
 
@@ -53,17 +57,29 @@ class MatchEventAssist extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
-    public function setAccountIdAttribute(Account $account)
+    public function setRoundStatsAttribute($value)
     {
-        $this->attributes['account_id'] = $account->id;
+        if (is_array($value))
+        {
+            $this->attributes['round_stats'] = json_encode($value);
+        }
+        else
+        {
+            $this->attributes['round_stats'] = null;
+        }
+    }
+
+    public function getRoundStatsAttribute($value)
+    {
+        return json_decode($value, true);
     }
 
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-
-    public function event()
+    
+    public function team()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\MatchEvent');
+        return $this->hasOne('Onyx\Halo5\Objects\Team', 'id', 'team_id');
     }
 }

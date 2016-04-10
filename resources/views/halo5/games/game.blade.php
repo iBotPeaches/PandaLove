@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="12u">
                     <h1 class="ui header">
-                        [FUTURE] POST GAME CARNAGE REPORT
+                        {{ $match->gametype->name }} on {{ $match->map->name }}
                     </h1>
                 </div>
             </div>

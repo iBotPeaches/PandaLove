@@ -11,14 +11,15 @@ use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
-use Onyx\Halo5\Objects\Gametype;
-use Onyx\Halo5\Objects\Map;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchEventAssist;
+use Onyx\Halo5\Objects\MatchPlayer;
+use Onyx\Halo5\Objects\MatchTeam;
 use Onyx\Halo5\Objects\PlaylistData;
 use Onyx\Halo5\Objects\Season;
 use Onyx\Halo5\Objects\Warzone;
+use Ramsey\Uuid\Uuid;
 
 class Client extends Http {
 
@@ -27,6 +28,49 @@ class Client extends Http {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public function getGameByGameId($typeId, $gameId)
+    {
+        $match = $this->checkCacheForGame($gameId);
+
+        if ($match instanceof Match)
+        {
+            return $match;
+        }
+        else
+        {
+            switch ($typeId)
+            {
+                case "warzone":
+                    break;
+
+                case "arena":
+                    break;
+
+                default:
+                    throw new \Exception('This is not a valid typeId.');
+            }
+
+            \DB::beginTransaction();
+
+            try
+            {
+                $url = sprintf(Constants::$postgame_carnage, $typeId, $gameId);
+                $json = $this->getJson($url);
+
+                $match = $this->parseGameData($json, $gameId);
+                \DB::commit();
+
+                return $match;
+            }
+            catch (\Exception $e)
+            {
+                \DB::rollBack();
+                \Bugsnag::notifyException($e);
+                throw $e;
+            }
+        }
+    }
 
     /**
      * @param $gamertag
@@ -64,6 +108,148 @@ class Client extends Http {
         {
             throw new H5PlayerNotFoundException();
         }
+    }
+
+    public function getAccountsByGamertags($gamertags)
+    {
+        $data = $this->_getBulkArenaServiceRecord($gamertags);
+
+        foreach ($data as $entry)
+        {
+            if ($entry['ResultCode'] != 0)
+            {
+                \Bugsnag::notifyError("Account Failed", $entry['Id'], $entry);
+                throw new \Exception("This account: " . $entry['Id'] . " Could not be loaded");
+            }
+
+            try
+            {
+                $account = Account::firstOrCreate([
+                    'gamertag' => $entry['Id'],
+                    'accountType' => 1
+                ]);
+
+                $account->save();
+
+                /** @var Data $h5_data */
+                $h5_data = $account->h5;
+
+                if (! $h5_data instanceof Data)
+                {
+                    $h5_data = new Data();
+                    $h5_data->account_id = $account->id;
+                }
+
+                $this->_parseServiceRecord($account, $entry['Result'], $h5_data);
+            }
+            catch (QueryException $e)
+            {
+                \Bugsnag::notifyException($e);
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $gameId
+     * @return Match
+     */
+    public function parseGameData($data, $gameId)
+    {
+        $match = new Match();
+        $match->uuid = $gameId;
+        $match->map_variant = $data['MapVariantId'];
+        $match->game_variant = $data['GameVariantId'];
+        $match->playlist_id = $data['PlaylistId'];
+        $match->map_id = $data['MapId'];
+        $match->gamebase_id = $data['GameBaseVariantId'];
+        $match->season_id = $data['SeasonId'];
+        $match->isTeamGame = boolval($data['IsTeamGame']);
+        $match->save();
+
+        foreach ($data['TeamStats'] as $team)
+        {
+            $_team = new MatchTeam();
+            $_team->uuid = Uuid::uuid4();
+            $_team->game_id = $gameId;
+            $_team->team_id = $team['TeamId'];
+            $_team->score = $team['Score'];
+            $_team->rank = $team['Rank'];
+            $_team->round_stats = $team['RoundStats'];
+            $_team->save();
+        }
+
+        $gts = '';
+        foreach ($data['PlayerStats'] as $player)
+        {
+            $gamertag = $player['Player']['Gamertag'];
+
+            $account = $this->checkCacheForGamertag($gamertag);
+
+            if (! $account instanceof Account)
+            {
+                $gts .= Halo5Text::encodeGamertagForApi($gamertag) . ",";
+            }
+        }
+
+        if ($gts != '')
+        {
+            $this->getAccountsByGamertags(rtrim($gts, ","));
+        }
+
+        foreach ($data['PlayerStats'] as $player)
+        {
+            $_player = new MatchPlayer();
+            $_player->uuid = Uuid::uuid4();
+            $_player->game_id = $gameId;
+            $_player->killed = $player['KilledOpponentDetails'];
+            $_player->killed_by = $player['KilledByOpponentDetails'];
+            $_player->account_id = $this->getAccountByGamertag($player['Player']['Gamertag'])->id;
+            $_player->team_id = $gameId . "_" . $player['TeamId'];
+            $_player->medals = $player['MedalAwards'];
+            $_player->enemies = $player['EnemyKills'];
+            $_player->weapons = $player['WeaponStats'];
+            $_player->impulses = $player['Impulses'];
+
+            if (isset($player['WarzoneLevel']))
+            {
+                $_player->warzone_req = $player['WarzoneLevel'];
+                $_player->total_pies = $player['TotalPiesEarned'];
+            }
+
+            if (isset($player['CurrentCsr']))
+            {
+                $_player->CsrTier = $player['CurrentCsr']['Tier'];
+                $_player->CsrDesignationId = $player['CurrentCsr']['DesignationId'];
+                $_player->Csr = $player['CurrentCsr']['Csr'];
+                $_player->percentNext = $player['CurrentCsr']['PercentToNextTier'];
+                $_player->ChampionRank = $player['CurrentCsr']['Rank'];
+            }
+
+            $_player->spartanRank = $player['XpInfo']['SpartanRank'];
+            $_player->rank = $player['Rank'];
+            $_player->dnf = boolval($player['DNF']);
+            $_player->avg_lifestime = $player['AvgLifeTimeOfPlayer'];
+            $_player->totalKills = $player['TotalKills'];
+            $_player->totalSpartanKills = $player['TotalSpartanKills'];
+            $_player->totalHeadshots = $player['TotalHeadshots'];
+            $_player->totalDeaths = $player['TotalDeaths'];
+            $_player->totalAssists = $player['TotalAssists'];
+            $_player->totalTimePlayed = $player['TotalTimePlayed'];
+            $_player->weapon_dmg = $player['TotalWeaponDamage'];
+            $_player->shots_fired = $player['TotalShotsFired'];
+            $_player->shots_landed = $player['TotalShotsLanded'];
+            $_player->totalMeleeKills = $player['TotalMeleeKills'];
+            $_player->totalAssassinations = $player['TotalAssassinations'];
+            $_player->totalGroundPounds = $player['TotalGroundPoundKills'];
+            $_player->totalGrenadeKills = $player['TotalGrenadeKills'];
+            $_player->totalPowerWeaponKills = $player['TotalPowerWeaponKills'];
+            $_player->totalPowerWeaponTime = $player['TotalPowerWeaponPossessionTime'];
+            $_player->save();
+        }
+
+        return $match;
     }
 
     /**
@@ -197,6 +383,7 @@ class Client extends Http {
     /**
      * @param $account Account
      * @param null $seasonId
+     * @return bool
      */
     public function updateArenaServiceRecord(&$account, $seasonId = null)
     {
@@ -220,88 +407,7 @@ class Client extends Http {
             $this->_checkForStatChange($h5_data, $h5_data->Xp, $record['Xp']);
         }
 
-        // dump the stats
-        $h5_data->totalKills = $record['ArenaStats']['TotalKills'];
-        $h5_data->totalSpartanKills = $record['ArenaStats']['TotalSpartanKills'];
-        $h5_data->totalHeadshots = $record['ArenaStats']['TotalHeadshots'];
-        $h5_data->totalDeaths = $record['ArenaStats']['TotalDeaths'];
-        $h5_data->totalAssists = $record['ArenaStats']['TotalAssists'];
-
-        $h5_data->totalGames = $record['ArenaStats']['TotalGamesCompleted'];
-        $h5_data->totalGamesWon = $record['ArenaStats']['TotalGamesWon'];
-        $h5_data->totalGamesLost = $record['ArenaStats']['TotalGamesLost'];
-        $h5_data->totalGamesTied = $record['ArenaStats']['TotalGamesTied'];
-        $h5_data->totalTimePlayed = $record['ArenaStats']['TotalTimePlayed'];
-
-        $h5_data->spartanRank = $record['SpartanRank'];
-        $h5_data->Xp = $record['Xp'];
-
-        $h5_data->medals = $record['ArenaStats']['MedalAwards'];
-        $h5_data->weapons = $record['ArenaStats']['WeaponStats'];
-        $h5_data->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
-
-        if ($record['ArenaStats']['HighestCsrAttained'] != null)
-        {
-            $h5_data->highest_CsrTier = $record['ArenaStats']['HighestCsrAttained']['Tier'];
-            $h5_data->highest_CsrDesignationId = $record['ArenaStats']['HighestCsrAttained']['DesignationId'];
-            $h5_data->highest_Csr = $record['ArenaStats']['HighestCsrAttained']['Csr'];
-            $h5_data->highest_percentNext = $record['ArenaStats']['HighestCsrAttained']['PercentToNextTier'];
-            $h5_data->highest_rank = $record['ArenaStats']['HighestCsrAttained']['Rank'];
-            $h5_data->highest_CsrPlaylistId = $record['ArenaStats']['HighestCsrPlaylistId'];
-            $h5_data->highest_CsrSeasonId = $record['ArenaStats']['HighestCsrSeasonId'];
-        }
-
-        // clear out old playlist history, dump new playlists in that seasonId or null
-        PlaylistData::where('account_id', $account->id)
-            ->where('seasonId', $record['ArenaStats']['ArenaPlaylistStatsSeasonId'])
-            ->orWhere('seasonId', 'IS', DB::raw('null'))
-            ->delete();
-
-        foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist)
-        {
-            $p = new PlaylistData();
-            $p->account_id = $account->id;
-            $p->playlistId = $playlist['PlaylistId'];
-            $p->measurementMatchesLeft = $playlist['MeasurementMatchesLeft'];
-
-            // highest csr
-            if ($playlist['HighestCsr'] != null)
-            {
-                $p->highest_CsrTier = $playlist['HighestCsr']['Tier'];
-                $p->highest_CsrDesignationId = $playlist['HighestCsr']['DesignationId'];
-                $p->highest_Csr = $playlist['HighestCsr']['Csr'];
-                $p->highest_percentNext = $playlist['HighestCsr']['PercentToNextTier'];
-                $p->highest_rank = $playlist['HighestCsr']['Rank'];
-            }
-
-            // current csr
-            if ($playlist['Csr'] != null)
-            {
-                $p->current_CsrTier = $playlist['Csr']['Tier'];
-                $p->current_CsrDesignationId = $playlist['Csr']['DesignationId'];
-                $p->current_Csr = $playlist['Csr']['Csr'];
-                $p->current_percentNext = $playlist['Csr']['PercentToNextTier'];
-                $p->current_rank = $playlist['Csr']['Rank'];
-            }
-
-            $p->totalKills = $playlist['TotalKills'];
-            $p->totalSpartanKills = $playlist['TotalSpartanKills'];
-            $p->totalHeadshots = $playlist['TotalHeadshots'];
-            $p->totalDeaths = $playlist['TotalDeaths'];
-            $p->totalAssists = $playlist['TotalAssists'];
-
-            $p->totalGames = $playlist['TotalGamesCompleted'];
-            $p->totalGamesWon = $playlist['TotalGamesWon'];
-            $p->totalGamesLost = $playlist['TotalGamesLost'];
-            $p->totalGamesTied = $playlist['TotalGamesTied'];
-            $p->totalTimePlayed = $playlist['TotalTimePlayed'];
-
-            $p->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
-            $p->save();
-        }
-
-        $account->h5 = $h5_data;
-        $h5_data->save();
+        return $this->_parseServiceRecord($account, $record, $h5_data);
     }
 
     public function addMatchEvents($matchId)
@@ -312,7 +418,7 @@ class Client extends Http {
         {
             if (! $json['IsCompleteSetOfEvents'])
             {
-                throw new \Exception('This game (As reported by Bungie) does not have a complete set of Match Event data.
+                throw new \Exception('This game (As reported by 343) does not have a complete set of Match Event data.
                 To prevent ugly looking stats, we will not process this game. Sorry');
             }
 
@@ -518,6 +624,17 @@ class Client extends Http {
         }
     }
 
+    private function _getBulkArenaServiceRecord($gamertags)
+    {
+        $url = sprintf(Constants::$servicerecord_arena, $gamertags);
+        $json = $this->getJson($url);
+
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
+        {
+            return $json['Results'];
+        }
+    }
+
     private function _getArenaServiceRecord($account)
     {
         $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
@@ -540,6 +657,97 @@ class Client extends Http {
         {
             return $json['Results'][0]['Result'];
         }
+    }
+
+    /**
+     * @param Account $account
+     * @param array $record
+     * @param Data $h5_data
+     * @return bool
+     */
+    private function _parseServiceRecord(&$account, $record, &$h5_data)
+    {
+        $h5_data->totalKills = $record['ArenaStats']['TotalKills'];
+        $h5_data->totalSpartanKills = $record['ArenaStats']['TotalSpartanKills'];
+        $h5_data->totalHeadshots = $record['ArenaStats']['TotalHeadshots'];
+        $h5_data->totalDeaths = $record['ArenaStats']['TotalDeaths'];
+        $h5_data->totalAssists = $record['ArenaStats']['TotalAssists'];
+
+        $h5_data->totalGames = $record['ArenaStats']['TotalGamesCompleted'];
+        $h5_data->totalGamesWon = $record['ArenaStats']['TotalGamesWon'];
+        $h5_data->totalGamesLost = $record['ArenaStats']['TotalGamesLost'];
+        $h5_data->totalGamesTied = $record['ArenaStats']['TotalGamesTied'];
+        $h5_data->totalTimePlayed = $record['ArenaStats']['TotalTimePlayed'];
+
+        $h5_data->spartanRank = $record['SpartanRank'];
+        $h5_data->Xp = $record['Xp'];
+
+        $h5_data->medals = $record['ArenaStats']['MedalAwards'];
+        $h5_data->weapons = $record['ArenaStats']['WeaponStats'];
+        $h5_data->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
+
+        if ($record['ArenaStats']['HighestCsrAttained'] != null)
+        {
+            $h5_data->highest_CsrTier = $record['ArenaStats']['HighestCsrAttained']['Tier'];
+            $h5_data->highest_CsrDesignationId = $record['ArenaStats']['HighestCsrAttained']['DesignationId'];
+            $h5_data->highest_Csr = $record['ArenaStats']['HighestCsrAttained']['Csr'];
+            $h5_data->highest_percentNext = $record['ArenaStats']['HighestCsrAttained']['PercentToNextTier'];
+            $h5_data->highest_rank = $record['ArenaStats']['HighestCsrAttained']['Rank'];
+            $h5_data->highest_CsrPlaylistId = $record['ArenaStats']['HighestCsrPlaylistId'];
+            $h5_data->highest_CsrSeasonId = $record['ArenaStats']['HighestCsrSeasonId'];
+        }
+
+        // clear out old playlist history, dump new playlists in that seasonId or null
+        PlaylistData::where('account_id', $account->id)
+            ->where('seasonId', $record['ArenaStats']['ArenaPlaylistStatsSeasonId'])
+            ->orWhere('seasonId', 'IS', DB::raw('null'))
+            ->delete();
+
+        foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist)
+        {
+            $p = new PlaylistData();
+            $p->account_id = $account->id;
+            $p->playlistId = $playlist['PlaylistId'];
+            $p->measurementMatchesLeft = $playlist['MeasurementMatchesLeft'];
+
+            // highest csr
+            if ($playlist['HighestCsr'] != null)
+            {
+                $p->highest_CsrTier = $playlist['HighestCsr']['Tier'];
+                $p->highest_CsrDesignationId = $playlist['HighestCsr']['DesignationId'];
+                $p->highest_Csr = $playlist['HighestCsr']['Csr'];
+                $p->highest_percentNext = $playlist['HighestCsr']['PercentToNextTier'];
+                $p->highest_rank = $playlist['HighestCsr']['Rank'];
+            }
+
+            // current csr
+            if ($playlist['Csr'] != null)
+            {
+                $p->current_CsrTier = $playlist['Csr']['Tier'];
+                $p->current_CsrDesignationId = $playlist['Csr']['DesignationId'];
+                $p->current_Csr = $playlist['Csr']['Csr'];
+                $p->current_percentNext = $playlist['Csr']['PercentToNextTier'];
+                $p->current_rank = $playlist['Csr']['Rank'];
+            }
+
+            $p->totalKills = $playlist['TotalKills'];
+            $p->totalSpartanKills = $playlist['TotalSpartanKills'];
+            $p->totalHeadshots = $playlist['TotalHeadshots'];
+            $p->totalDeaths = $playlist['TotalDeaths'];
+            $p->totalAssists = $playlist['TotalAssists'];
+
+            $p->totalGames = $playlist['TotalGamesCompleted'];
+            $p->totalGamesWon = $playlist['TotalGamesWon'];
+            $p->totalGamesLost = $playlist['TotalGamesLost'];
+            $p->totalGamesTied = $playlist['TotalGamesTied'];
+            $p->totalTimePlayed = $playlist['TotalTimePlayed'];
+
+            $p->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
+            $p->save();
+        }
+
+        $account->h5 = $h5_data;
+        return $h5_data->save();
     }
 
     /**
@@ -568,6 +776,24 @@ class Client extends Http {
         if ($account instanceof Account)
         {
             return $account;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $gameId
+     * @return bool
+     */
+    private function checkCacheForGame($gameId)
+    {
+        $match = Match::with('teams.team', 'map', 'players.account', 'gametype', 'season')
+            ->where('uuid', $gameId)
+            ->first();
+
+        if ($match instanceof Match)
+        {
+            return $match;
         }
 
         return false;

@@ -80,6 +80,15 @@ class Constants{
     public static $servicerecord_warzone = 'https://www.haloapi.com/stats/h5/servicerecords/warzone?players=%s';
 
     /**
+     * Halo5 PostGameCarnage Report
+     *
+     * 1: type (arena/warzone)
+     * 2:
+     * @var string
+     */
+    public static $postgame_carnage = 'https://www.haloapi.com/stats/h5/%1$s/matches/%2$s';
+
+    /**
      * Halo5 Matches for a specified player.
      * 1: gamertag
      * 2: modes

@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
+use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Match;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
@@ -29,14 +30,13 @@ class GameController extends Controller {
         die('unfinished');
     }
 
-    public function getGame($matchId)
+    public function getGame($type, $matchId)
     {
         try
         {
-            $match = Match::with('events.assists', 'events.killer_weapon', 'events.victim_weapon', 'events.victim', 'events.killer')
-                ->where('uuid', $matchId)->firstOrFail();
-
-            return $match;
+            $client = new Client();
+            $match = $client->getGameByGameId($type, $matchId);
+            
             return view('halo5.games.game', [
                 'match' => $match
             ]);

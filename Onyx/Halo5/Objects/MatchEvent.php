@@ -54,6 +54,11 @@ class MatchEvent extends Model {
     protected $guarded = ['uuid'];
 
     /**
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+
+    /**
      * Disable timestamps
      *
      * @var bool

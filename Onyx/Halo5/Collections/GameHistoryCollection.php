@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Onyx\Account;
+use Onyx\Halo5\Enums\GameMode;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\Gametype;
@@ -32,7 +33,8 @@ class GameHistoryCollection extends Collection
                 'player' => new Data($match['Players'][0]),
                 'date' => new Carbon($match['MatchCompletedDate']['ISO8601Date']),
                 'duration' => DateHelper::returnSeconds($match['MatchDuration']),
-                'win' => $match['Players'][0]['Result']
+                'win' => $match['Players'][0]['Result'],
+                'url' => action('Halo5\GameController@getGame', [GameMode::getName($match['Id']['GameMode'], true), $match['Id']['MatchId']]),
             ];
 
             // fix some cases
