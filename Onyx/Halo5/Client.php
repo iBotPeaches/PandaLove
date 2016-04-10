@@ -566,6 +566,20 @@ class Client extends Http {
 
         return $this->getJson($url);
     }
+    
+    public function getEnemies()
+    {
+        $url = Constants::$metadata_enemies;
+        
+        return $this->getJson($url);
+    }
+    
+    public function getImpulses()
+    {
+        $url = Constants::$metadata_impulses;
+        
+        return $this->getJson($url);
+    }
 
     /**
      * @param $matchId

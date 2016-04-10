@@ -18,6 +18,8 @@ use PandaLove\Console\Commands\addHistoricAccount;
 use PandaLove\Console\Commands\addMatchEvent;
 use PandaLove\Console\Commands\updateRanks;
 use PandaLove\Console\Commands\updateTeams;
+use PandaLove\Console\Commands\updateEnemies;
+use PandaLove\Console\Commands\updateImpulses;
 use PandaLove\Console\Commands\batchHalo5Metadata;
 
 class Kernel extends ConsoleKernel {
@@ -43,6 +45,8 @@ class Kernel extends ConsoleKernel {
 		updateMaps::class,
 		updateRanks::class,
 		updateTeams::class,
+		updateEnemies::class,
+		updateImpulses::class,
 		batchHalo5Metadata::class,
 	];
 
