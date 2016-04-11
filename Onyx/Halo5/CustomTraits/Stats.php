@@ -42,6 +42,11 @@ trait Stats {
      */
     public function stat_winRate($won, $total)
     {
+        if ($total == 0)
+        {
+            return 0;
+        }
+        
         return round(($won / $total) * 100);
     }
 
