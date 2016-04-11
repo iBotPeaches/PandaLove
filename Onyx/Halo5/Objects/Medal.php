@@ -59,7 +59,7 @@ class Medal extends Model {
         {
             $items = [];
 
-            foreach (Medal::orderBy('difficulty ASC')->get() as $medal)
+            foreach (Medal::orderBy('difficulty')->get() as $medal)
             {
                 $items[$medal->contentId] = $medal;
             }
