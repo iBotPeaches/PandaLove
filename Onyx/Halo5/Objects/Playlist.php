@@ -54,4 +54,19 @@ class Playlist extends Model {
     {
         return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
     }
+
+    public static function getAll()
+    {
+        return \Cache::remember('playlists-metadata', 120, function()
+        {
+            $items = [];
+
+            foreach (Playlist::all() as $playlist)
+            {
+                $items[$playlist->contentId] = $playlist;
+            }
+
+            return $items;
+        });
+    }
 }

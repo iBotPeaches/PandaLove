@@ -7,7 +7,7 @@
                 </a>
                 <div class="content">
                     <img class="ui avatar image" src="{{ $result['gametype']->getImage() }}">
-                    {{ $result['gametype']->name }}
+                    {{ $result['playlist']->name }}
                 </div>
                 <div class="blurring dimmable image">
                     <div class="ui dimmer">

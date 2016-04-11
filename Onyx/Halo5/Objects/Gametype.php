@@ -73,15 +73,16 @@ class Gametype extends Model {
 
     public static function getAll()
     {
-        $all = Gametype::all();
-
-        $rtr = [];
-
-        foreach ($all as $item)
+        return \Cache::remember('gametypes-metadata', 120, function()
         {
-            $rtr[$item->uuid] = $item;
-        }
+            $items = [];
 
-        return $rtr;
+            foreach (Gametype::all() as $gametype)
+            {
+                $items[$gametype->uuid] = $gametype;
+            }
+
+            return $items;
+        });
     }
 }

@@ -73,15 +73,16 @@ class Map extends Model {
 
     public static function getAll()
     {
-        $all = Gametype::all();
-
-        $rtr = [];
-
-        foreach ($all as $item)
+        return \Cache::remember('maps-metadata', 120, function()
         {
-            $rtr[$item->uuid] = $item;
-        }
+            $items = [];
 
-        return $rtr;
+            foreach (Map::all() as $map)
+            {
+                $items[$map->uuid] = $map;
+            }
+
+            return $items;
+        });
     }
 }

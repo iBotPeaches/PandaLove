@@ -8,6 +8,7 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\Gametype;
 use Onyx\Halo5\Objects\Map;
+use Onyx\Halo5\Objects\Playlist;
 use Onyx\Halo5\Objects\PlaylistData;
 
 /**
@@ -19,17 +20,16 @@ class GameHistoryCollection extends Collection
 {
     public function __construct(Account $account, $matches)
     {
-        $maps = Map::all();
-        $gametypes = Gametype::all();
+        $maps = Map::getAll();
+        $gametypes = Gametype::getAll();
+        $playlists = Playlist::getAll();
 
         foreach ($matches as $match)
         {
-            $match['GameType'] = $gametypes->where('uuid', $match['GameBaseVariantId'])->first();
-            $match['Map'] = $maps->where('uuid', $match['MapId'])->first();
-
             $game = [
-                'gametype' => $match['GameType'],
-                'map' => $match['Map'],
+                'gametype' => $gametypes[$match['GameBaseVariantId']],
+                'map' => $maps[$match['MapId']],
+                'playlist' => $playlists[$match['HopperId']],
                 'player' => new Data($match['Players'][0]),
                 'date' => new Carbon($match['MatchCompletedDate']['ISO8601Date']),
                 'duration' => DateHelper::returnSeconds($match['MatchDuration']),
