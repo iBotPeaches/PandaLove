@@ -148,9 +148,9 @@ class MatchEvent extends Model {
     {
         if ($value > 0)
         {
-            $weapon = Weapon::where('uuid', $value)->first();
+            $weapons = Weapon::getAll();
 
-            if ($weapon != null && $weapon instanceof $weapon)
+            if (isset($weapons[$value]))
             {
                 $this->attributes['killer_weapon_id'] = $value;
                 return;
@@ -168,6 +168,41 @@ class MatchEvent extends Model {
     public function setVictimStockIdAttribute($value)
     {
         $this->attributes['victim_stock_id'] = ($value > 0) ? $value : null;
+    }
+
+    public function setKillerXAttribute($value)
+    {
+        $this->attributes['killer_x'] = round($value, 3);
+    }
+
+    public function setKillerYAttribute($value)
+    {
+        $this->attributes['killer_y'] = round($value, 3);
+    }
+
+    public function setKillerZAttribute($value)
+    {
+        $this->attributes['killer_z'] = round($value, 3);
+    }
+
+    public function setVictimXAttribute($value)
+    {
+        $this->attributes['victim_x'] = round($value, 3);
+    }
+
+    public function setVictimYAttribute($value)
+    {
+        $this->attributes['victim_y'] = round($value, 3);
+    }
+
+    public function setVictimZAttribute($value)
+    {
+        $this->attributes['victim_z'] = round($value, 3);
+    }
+
+    public function setDistanceAttribute($value)
+    {
+        $this->attributes['distance'] = round($value, 3);
     }
 
     public function getKillerAttachmentsAttribute($value)
