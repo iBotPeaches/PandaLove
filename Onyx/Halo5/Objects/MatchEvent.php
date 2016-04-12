@@ -86,9 +86,16 @@ class MatchEvent extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
-    public function setKillerIdAttribute(Account $killer)
+    public function setKillerIdAttribute($value)
     {
-        $this->attributes['killer_id'] = $killer->id;
+        if ($value instanceof Account)
+        {
+            $this->attributes['killer_id'] = $value->id;
+        }
+        else
+        {
+            $this->attributes['killer_id'] = null;
+        }
     }
 
     public function setVictimIdAttribute($value)

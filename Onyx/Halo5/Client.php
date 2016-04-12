@@ -485,12 +485,20 @@ class Client extends Http {
 
             foreach ($json['GameEvents'] as $event)
             {
+                $killer = $event['Killer']['Gamertag'];
+                $victim = $event['Victim']['Gamertag'];
+
+                if ($killer == '' && $victim == '')
+                {
+                    continue;
+                }
+
                 $matchEvent = new MatchEvent();
                 $matchEvent->game_id = $match->uuid;
                 $matchEvent->death_owner = $event['DeathDisposition'];
                 $matchEvent->death_type = $event;
 
-                $matchEvent->killer_id = $this->getAccount($event['Killer']['Gamertag']);
+                $matchEvent->killer_id = ($event['Killer']['Gamertag'] != null) ? $this->getAccount($event['Killer']['Gamertag']) : null;
                 $matchEvent->killer_type = $event['KillerAgent'];
                 $matchEvent->killer_attachments = $event['KillerWeaponAttachmentIds'];
                 $matchEvent->killer_weapon_id = $event['KillerWeaponStockId'];
