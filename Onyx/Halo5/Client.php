@@ -32,12 +32,47 @@ class Client extends Http {
     // Public Methods
     //---------------------------------------------------------------------------------
 
-    public function getGameByGameId($typeId, $gameId)
+    /**
+     * @param $typeId string (warzone/arena)
+     * @param $gameId uuid
+     * @param bool $events
+     * @return bool|mixed|Match
+     * @throws \Exception
+     */
+    public function getGameByGameId($typeId, $gameId, $events = false)
     {
-        $match = $this->checkCacheForGame($gameId);
+        $match = $this->checkCacheForGame($gameId, $events);
 
         if ($match instanceof Match)
         {
+            if ($events)
+            {
+                if (count($match->events) > 0)
+                {
+                    return $match;
+                }
+                else
+                {
+                    \DB::beginTransaction();
+
+                    try
+                    {
+                        $this->addMatchEvents($match);
+                        \DB::commit();
+
+                        return $this->getGameByGameId($typeId, $gameId, $events);
+                    }
+                    catch (\Exception $e)
+                    {
+                        \DB::rollBack();
+                        \Cache::flush();
+                        \Bugsnag::notifyException($e);
+
+                        throw $e;
+                    }
+                }
+            }
+
             $match->players->each(function($player)
             {
                 $player->kd = $player->kd();
@@ -74,7 +109,7 @@ class Client extends Http {
                 $match = $this->parseGameData($json, $gameId);
                 \DB::commit();
 
-                return $this->getGameByGameId($typeId, $gameId);
+                return $this->getGameByGameId($typeId, $match->uuid);
             }
             catch (\Exception $e)
             {
@@ -430,9 +465,13 @@ class Client extends Http {
         return $this->_parseServiceRecord($account, $record, $h5_data);
     }
 
-    public function addMatchEvents($matchId)
+    /**
+     * @param $match Match
+     * @throws \Exception
+     */
+    public function addMatchEvents($match)
     {
-        $json = $this->getEvents($matchId);
+        $json = $this->getEvents($match->uuid);
 
         if (isset($json['GameEvents']) && is_array($json['GameEvents']))
         {
@@ -442,23 +481,12 @@ class Client extends Http {
                 To prevent ugly looking stats, we will not process this game. Sorry');
             }
 
-            try
-            {
-                $game = Match::where('uuid', $matchId)->firstOrFail();
-            }
-            catch (ModelNotFoundException $e)
-            {
-                $game = new Match();
-                $game->uuid = $matchId;
-                $game->save();
-            }
-
-            MatchEvent::where('game_id', $game->uuid)->delete();
+            MatchEvent::where('game_id', $match->uuid)->delete();
 
             foreach ($json['GameEvents'] as $event)
             {
                 $matchEvent = new MatchEvent();
-                $matchEvent->game_id = $game->uuid;
+                $matchEvent->game_id = $match->uuid;
                 $matchEvent->death_owner = $event['DeathDisposition'];
                 $matchEvent->death_type = $event;
 
@@ -614,7 +642,7 @@ class Client extends Http {
     {
         $url = sprintf(Constants::$match_events, $matchId);
 
-        return $this->getJson($url);
+        return $this->getJson($url, 2); // Cache for 2 minutes for people refreshing the error pages
     }
 
     /**
@@ -841,11 +869,22 @@ class Client extends Http {
 
     /**
      * @param $gameId
+     * @param boolean $events
      * @return bool
      */
-    private function checkCacheForGame($gameId)
+    private function checkCacheForGame($gameId, $events = false)
     {
-        $match = Match::with('teams.team', 'map', 'players.account', 'players.csr', 'gametype', 'season', 'playlist')
+        if ($events)
+        {
+            $select = ['events.assists', 'events.killer_weapon', 'events.victim_weapon', 'events.victim.h5', 'events.killer.h5'];
+        }
+        else
+        {
+            $select = ['teams.team', 'map', 'players.account', 'players.csr', 'gametype', 'season', 'playlist'];
+        }
+
+        /* @var Match $match */
+        $match = Match::with($select)
             ->where('uuid', $gameId)
             ->first();
 

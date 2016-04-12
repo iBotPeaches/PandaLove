@@ -41,6 +41,7 @@ class GameController extends Controller {
                 return $match;
             }
             return view('halo5.games.game', [
+                'type' => $type,
                 'match' => $match
             ]);
         }
@@ -50,12 +51,12 @@ class GameController extends Controller {
         }
     }
 
-    public function getMatchEvents($matchId)
+    public function getMatchEvents($type, $matchId)
     {
         try
         {
-            $match = Match::with('events.assists', 'events.killer_weapon', 'events.victim_weapon', 'events.victim.h5', 'events.killer.h5')
-                ->where('uuid', $matchId)->firstOrFail();
+            $client = new Client();
+            $match = $client->getGameByGameId($type, $matchId, true);
 
             return view('halo5.games.events', [
                 'match' => $match

@@ -25,6 +25,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="ui black segment">
+                        <a href="{{ action('Halo5\GameController@getMatchEvents', [$type, $match->uuid]) }}" class="ui black fluid button">Enhanced Game Look</a>
+                    </div>
                 </div>
                 <div class="9u">
                     <div class="ui stackable container menu">
