@@ -19,7 +19,7 @@
                                 @endif
                                 <div class="content">
                                     @if (isset($event->killer) && $event->killer != null)
-                                        <a href="{{ action('Halo5\ProfileController@index', [$event->victim->seo]) }}">{{ $event->victim->gamertag }}</a>
+                                        <a href="{{ action('Halo5\ProfileController@index', [$event->killer->seo]) }}">{{ $event->killer->gamertag }}</a>
                                     @else
                                         <a href="#">AI</a>
                                     @endif
