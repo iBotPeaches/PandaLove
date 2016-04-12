@@ -323,9 +323,16 @@ class MatchPlayer extends Model {
 
             foreach($medals as $key => &$value)
             {
-                $medal = $stockMedals[$key];
-                $medal['count'] = $value;
-                $value = $medal;
+                if (isset($stockMedals[$key]))
+                {
+                    $medal = $stockMedals[$key];
+                    $medal['count'] = $value;
+                    $value = $medal;
+                }
+                else
+                {
+                    unset($value);
+                }
             }
         }
         return $medals;
