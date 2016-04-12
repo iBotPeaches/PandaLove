@@ -24,7 +24,7 @@
                         {{ \Onyx\Halo5\Enums\GameResult::getTitle($result['win']) }}
                     </a>
                     <div class="meta">
-                        Played on {{ $result['map']->name }} on {{ $result['date']->toFormattedDateString() }}
+                        {{ $result['map']->name }} on {{ $result['date']->toFormattedDateString() }}
                     </div>
                 </div>
                 <div class="extra content">
@@ -36,17 +36,19 @@
         @endforeach
     </div>
     <br />
-    <div class="ui pagination">
-        @if ($page != 0)
-            <button class="ui left labeled icon blue button recent-pagination" data-page="{{ $page - 1 }}">
-                <i class="left arrow icon"></i>
+    <div class="ui one column centered grid">
+        <div class="ui pagination">
+            @if ($page != 0)
+                <button class="ui left labeled icon blue button recent-pagination" data-page="{{ $page - 1 }}">
+                    <i class="left arrow icon"></i>
+                    Next
+                </button>
+            @endif
+            <button class="ui right labeled icon  blue button recent-pagination" data-page="{{ $page + 1 }}">
+                <i class="right arrow icon"></i>
                 Previous
             </button>
-        @endif
-        <button class="ui right labeled icon  blue button recent-pagination" data-page="{{ $page + 1 }}">
-            <i class="right arrow icon"></i>
-            Next
-        </button>
+        </div>
     </div>
 @else
     <div class="ui warning message">
