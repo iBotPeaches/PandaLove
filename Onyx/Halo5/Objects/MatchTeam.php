@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class MatchTeam
@@ -36,6 +37,11 @@ class MatchTeam extends Model {
     protected $primaryKey = 'uuid';
 
     /**
+     * @var bool
+     */
+    public $incrementing = false;
+    
+    /**
      * Disable timestamps
      *
      * @var bool
@@ -66,6 +72,14 @@ class MatchTeam extends Model {
         else
         {
             $this->attributes['round_stats'] = null;
+        }
+    }
+
+    public function setUuidAttribute($value)
+    {
+        if ($value instanceof Uuid)
+        {
+            $this->attributes['uuid'] = $value->toString();
         }
     }
 

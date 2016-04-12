@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class MatchEvent
  * @package Onyx\Halo5\Objects
- * @property string $uuid
+ * @property Uuid $uuid
  * @property string $game_id
  * @property integer $death_owner
  * @property integer $death_type
@@ -59,6 +59,11 @@ class MatchEvent extends Model {
     protected $primaryKey = 'uuid';
 
     /**
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * Disable timestamps
      *
      * @var bool
@@ -71,7 +76,7 @@ class MatchEvent extends Model {
 
         static::creating(function ($matchEvent)
         {
-            $matchEvent->uuid = Uuid::uuid4();
+            $matchEvent->uuid = Uuid::uuid4()->toString();
             $matchEvent->setDistance();
         });
     }

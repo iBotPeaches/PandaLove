@@ -33,6 +33,11 @@ class MatchEventAssist extends Model {
     protected $primaryKey = 'uuid';
 
     /**
+     * @var bool
+     */
+    public $incrementing = false;
+    
+    /**
      * Disable timestamps
      *
      * @var bool
@@ -45,7 +50,7 @@ class MatchEventAssist extends Model {
 
         static::creating(function ($assistant)
         {
-            $assistant->uuid = Uuid::uuid4();
+            $assistant->uuid = Uuid::uuid4()->toString();
         });
     }
 

@@ -8,6 +8,7 @@ use Onyx\Halo5\Client;
 use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class MatchPlayer
@@ -85,6 +86,11 @@ class MatchPlayer extends Model {
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
 
     public static function boot()
     {
@@ -286,6 +292,14 @@ class MatchPlayer extends Model {
         if ($value instanceof Account)
         {
             $this->attributes['account_id'] = $value->id;
+        }
+    }
+    
+    public function setUuidAttribute($value)
+    {
+        if ($value instanceof Uuid)
+        {
+            $this->attributes['uuid'] = $value->toString();
         }
     }
     

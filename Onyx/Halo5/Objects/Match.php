@@ -1,11 +1,12 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class Match
  * @package Onyx\Halo5\Objects
- * @property string $uuid
+ * @property Uuid $uuid
  * @property string $map_variant
  * @property string $game_variant
  * @property string $playlist_id
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Season $season
  * @property Playlist $playlist
  * @property MatchTeam[] $teams
+ * @property MatchEvent[] $events
  */
 class Match extends Model {
 
@@ -47,6 +49,11 @@ class Match extends Model {
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
 
     public static function boot()
     {
