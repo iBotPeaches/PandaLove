@@ -71,4 +71,9 @@ class MatchEventAssist extends Model {
     {
         return $this->belongsTo('Onyx\Halo5\Objects\MatchEvent');
     }
+    
+    public function account()
+    {
+        return $this->hasOne('Onyx\Account', 'id', 'account_id')->select('id', 'gamertag', 'seo');
+    }
 }

@@ -63,6 +63,11 @@ class Account extends Model {
     {
         return $this->hasOne('Onyx\Halo5\Objects\Data', 'account_id', 'id');
     }
+    
+    public function h5_emblem()
+    {
+        return $this->h5()->select('id', 'account_id');
+    }
 
     public function h5_stats()
     {

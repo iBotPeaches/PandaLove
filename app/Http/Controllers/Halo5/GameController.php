@@ -51,13 +51,16 @@ class GameController extends Controller {
         }
     }
 
-    public function getMatchEvents($type, $matchId)
+    public function getMatchEvents($type, $matchId, $api = false)
     {
         try
         {
             $client = new Client();
             $match = $client->getGameByGameId($type, $matchId, true);
 
+            if ($api) {
+                return $match;
+            }
             return view('halo5.games.events', [
                 'match' => $match,
                 'type' => $type,

@@ -25,7 +25,7 @@ use Ramsey\Uuid\Uuid;
  * @property integer $victim_id
  * @property integer $victim_type
  * @property array $victim_attachments
- * @property integer $victim_weapon_id
+ * @property integer $victim_stock_id
  * @property double $victim_x
  * @property double $victim_y
  * @property double $victim_z
@@ -36,7 +36,7 @@ use Ramsey\Uuid\Uuid;
  * @property Account $killer
  * @property Account $victim
  * @property Weapon $killer_weapon
- * @property Weapon $victim_weapon
+ * @property Enemy $victim_stock
  */
 class MatchEvent extends Model {
 
@@ -91,9 +91,16 @@ class MatchEvent extends Model {
         $this->attributes['killer_id'] = $killer->id;
     }
 
-    public function setVictimIdAttribute(Account $victim)
+    public function setVictimIdAttribute($value)
     {
-        $this->attributes['victim_id'] = $victim->id;
+        if ($value instanceof Account)
+        {
+            $this->attributes['victim_id'] = $value->id;
+        }
+        else
+        {
+            $this->attributes['victim_id'] = null;
+        }
     }
 
     public function setDeathTypeAttribute(array $event)
@@ -135,9 +142,9 @@ class MatchEvent extends Model {
         $this->attributes['killer_weapon_id'] = ($value > 0) ? $value : null;
     }
 
-    public function setVictimWeaponIdAttribute($value)
+    public function setVictimStockIdAttribute($value)
     {
-        $this->attributes['victim_weapon_id'] = ($value > 0) ? $value : null;
+        $this->attributes['victim_stock_id'] = ($value > 0) ? $value : null;
     }
 
     public function getKillerAttachmentsAttribute($value)
@@ -244,8 +251,8 @@ class MatchEvent extends Model {
         return $this->belongsTo('Onyx\Halo5\Objects\Weapon', 'killer_weapon_id', 'uuid');
     }
 
-    public function victim_weapon()
+    public function victim_enemy()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Weapon', 'victim_weapon_id', 'uuid');
+        return $this->belongsTo('Onyx\Halo5\Objects\Enemy', 'victim_stock_id', 'id');
     }
 }

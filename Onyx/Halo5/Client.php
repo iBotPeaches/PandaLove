@@ -496,10 +496,10 @@ class Client extends Http {
                 $matchEvent->killer_weapon_id = $event['KillerWeaponStockId'];
                 $matchEvent->setPoint('Killer', $event['KillerWorldLocation']);
 
-                $matchEvent->victim_id = $this->getAccount($event['Victim']['Gamertag']);
+                $matchEvent->victim_id = ($event['Victim']['Gamertag'] != null) ? $this->getAccount($event['Victim']['Gamertag']) : null;
                 $matchEvent->victim_type = $event['VictimAgent'];
                 $matchEvent->victim_attachments = $event['VictimAttachmentIds'];
-                $matchEvent->victim_weapon_id = $event['VictimStockId'];
+                $matchEvent->victim_stock_id = $event['VictimStockId'];
                 $matchEvent->setPoint('Victim', $event['VictimWorldLocation']);
 
                 $matchEvent->event_name = $event['EventName'];
@@ -876,7 +876,7 @@ class Client extends Http {
     {
         if ($events)
         {
-            $select = ['events.assists', 'events.killer_weapon', 'events.victim_weapon', 'events.victim.h5', 'events.killer.h5'];
+            $select = ['events.assists.account', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account'];
         }
         else
         {
