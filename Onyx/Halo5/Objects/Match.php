@@ -84,7 +84,7 @@ class Match extends Model {
     {
         if (count($this->teams) <= 2)
         {
-            if (strpos($this->playlist->name, 'social') !== false)
+            if (strpos($this->playlist->name, 'social') === false)
             {
                 return in_array('Arena', $this->gametype->game_modes);
             }
