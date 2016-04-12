@@ -5,6 +5,7 @@ use Onyx\Account;
 use Onyx\Halo5\Enums\DeathType;
 use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Helpers\Date\DateHelper;
+use Onyx\Laravel\Helpers\Text;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -186,7 +187,7 @@ class MatchEvent extends Model {
 
     public function getSecondsSinceStartAttribute($value)
     {
-        return intval($value);
+        return Text::timeDuration($value);
     }
 
     //---------------------------------------------------------------------------------

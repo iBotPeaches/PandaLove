@@ -6,23 +6,19 @@
             <div class="row">
                 <div class="12u">
                     <h1 class="ui header">
-                        [FUTURE] EVENTS DETAILS OF MATCH ____________-
+                        {{ $match->playlist->name }} on {{ $match->map->name }} - <a href="{{ action('Halo5\GameController@getGame', [$type, $match->uuid]) }}" class="ui blue button">Go Back</a>
                     </h1>
-                    <div class="ui feed">
+                    <div class="ui middle aligned divided list">
                         @foreach($match->events as $event)
-                            <div class="event">
-                                <div class="label">
-                                    <img src="{{ $event->killer->h5->getEmblem() }}" />
+                            <div class="item">
+                                <div class="right floated content">
+                                    {{ $event->seconds_since_start }}
                                 </div>
+                                <img class="ui avatar image" src="{{ $event->killer->h5->getEmblem() }}">
                                 <div class="content">
-                                    <div class="summary">
-                                        <a class="user">{{ $event->killer->gamertag }}</a>
-                                        killed <a class="user">{{ $event->victim->gamertag }}</a>
-                                        with a <a class="user">{{ $event->killer_weapon->name }}</a>
-                                        <div class="date">
-                                            {{ $event->seconds_since_start }}
-                                        </div>
-                                    </div>
+                                    <a href="{{ action('Halo5\ProfileController@index', [$event->killer->seo]) }}">{{ $event->killer->gamertag }}</a>
+                                    killed <a href="{{ action('Halo5\ProfileController@index', [$event->victim->seo]) }}">{{ $event->victim->gamertag }}</a>
+                                    with a <b>{{ $event->killer_weapon->name }}</b>
                                 </div>
                             </div>
                         @endforeach

@@ -183,7 +183,11 @@ class Data extends Model {
 
     public function getEmblem()
     {
-        return asset('uploads/h5/' . $this->account->seo . '/emblem.png');
+        if (file_exists('uploads/h5/' . $this->account->seo . '/emblem.png'))
+        {
+            return asset('uploads/h5/' . $this->account->seo . '/emblem.png');
+        }
+        return asset('images/unknown-emblem.png');
     }
 
     public function getLastUpdatedRelative()

@@ -59,7 +59,8 @@ class GameController extends Controller {
             $match = $client->getGameByGameId($type, $matchId, true);
 
             return view('halo5.games.events', [
-                'match' => $match
+                'match' => $match,
+                'type' => $type,
             ]);
         }
         catch (ModelNotFoundException $e)
