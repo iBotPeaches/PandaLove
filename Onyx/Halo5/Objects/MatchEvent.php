@@ -139,7 +139,23 @@ class MatchEvent extends Model {
 
     public function setKillerWeaponIdAttribute($value)
     {
-        $this->attributes['killer_weapon_id'] = ($value > 0) ? $value : null;
+        if ($value > 0)
+        {
+            $weapon = Weapon::where('uuid', $value)->first();
+
+            if ($weapon != null && $weapon instanceof $weapon)
+            {
+                $this->attributes['killer_weapon_id'] = $value;
+                return;
+            }
+        }
+
+        /**
+         * @url https://www.halowaypoint.com/en-us/forums/01b3ca58f06c4bd4ad074d8794d2cf86/topics/unknown-weaponid/ed7157ac-e30b-4c6d-9292-9c0032dc17c7/posts
+         *
+         * TLDR - 2457457776 ID is not in API
+         */
+        $this->attributes['killer_weapon_id'] = '3168248199'; // @todo
     }
 
     public function setVictimStockIdAttribute($value)
