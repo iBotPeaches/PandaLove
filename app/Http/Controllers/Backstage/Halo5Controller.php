@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
 use Onyx\Halo5\Client as Halo5Client;
+use Onyx\Halo5\Objects\Match;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
@@ -27,8 +28,16 @@ class Halo5Controller extends Controller {
             ->orderBy('id', 'DESC')
             ->paginate(15);
 
+        $maps = \DB::table('halo5_matches')
+            ->leftJoin('halo5_maps', 'halo5_matches.map_id', '=', 'halo5_maps.contentId')
+            ->select(\DB::raw('count(*) as total'), 'halo5_maps.name')
+            ->groupBy('map_variant')
+            ->orderBy('total', 'DESC')
+            ->get();
+
         return view('backstage.halo5.index', [
-            'accounts' => $accounts
+            'accounts' => $accounts,
+            'maps' => $maps,
         ]);
     }
 

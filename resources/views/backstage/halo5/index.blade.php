@@ -15,6 +15,13 @@
                             I've detected 0 Halo 5 accounts. This is not right.
                         </div>
                     @endif
+                    <div class="ui divider"></div>
+                    <h3 class="ui header">Current Halo 5 Map Count</h3>
+                    <div class="ui celled ordered list">
+                        @foreach ($maps as $map)
+                            <div class="item">{{ "   " . $map->name . " - " . $map->total . " times played." }}</div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </article>
