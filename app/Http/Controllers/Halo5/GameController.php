@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use Onyx\Halo5\Client;
-use Onyx\Halo5\Objects\Match;
+use Onyx\Halo5\Helpers\Utils\Game;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
 
@@ -42,7 +42,8 @@ class GameController extends Controller {
             }
             return view('halo5.games.game', [
                 'type' => $type,
-                'match' => $match
+                'match' => $match,
+                'combined' => Game::buildQuickGameStats($match)
             ]);
         }
         catch (ModelNotFoundException $e)

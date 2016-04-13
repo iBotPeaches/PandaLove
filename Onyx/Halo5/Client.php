@@ -215,6 +215,7 @@ class Client extends Http {
         $match->gamebase_id = $data['GameBaseVariantId'];
         $match->season_id = $data['SeasonId'];
         $match->isTeamGame = boolval($data['IsTeamGame']);
+        $match->duration = $data['TotalDuration'];
         $match->save();
 
         foreach ($data['TeamStats'] as $team)
@@ -888,7 +889,7 @@ class Client extends Http {
         }
         else
         {
-            $select = ['teams.team', 'map', 'players.account', 'players.csr', 'gametype', 'season', 'playlist'];
+            $select = ['teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist'];
         }
 
         /* @var Match $match */

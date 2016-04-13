@@ -1,6 +1,8 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Halo5\Helpers\Date\DateHelper;
+use Onyx\Laravel\Helpers\Text;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -14,6 +16,7 @@ use Ramsey\Uuid\Uuid;
  * @property string $gamebase_id
  * @property string $season_id
  * @property boolean $isTeamGame
+ * @property integer $duration
  *
  * @property Map $map
  * @property Gametype $gametype
@@ -21,6 +24,7 @@ use Ramsey\Uuid\Uuid;
  * @property Playlist $playlist
  * @property MatchTeam[] $teams
  * @property MatchEvent[] $events
+ * @property MatchPlayer[] $players
  */
 class Match extends Model {
 
@@ -75,6 +79,16 @@ class Match extends Model {
             $this->attributes['season_id'] = null;
         }
     }
+    
+    public function setDurationAttribute($value)
+    {
+        $this->attributes['duration'] = DateHelper::returnSeconds($value);
+    }
+
+    public function getDurationAttribute($value)
+    {
+        return Text::timeDuration($value);
+    }
 
     //---------------------------------------------------------------------------------
     // Public Methods
@@ -93,6 +107,22 @@ class Match extends Model {
         return false;
     }
 
+    /**
+     * @return null|MatchTeam
+     */
+    public function winner()
+    {
+        foreach ($this->teams as $team)
+        {
+            if ($team->isWinner())
+            {
+                return $team;
+            }
+        }
+        
+        return null;
+    }
+
     public function playersOnTeam($key)
     {
         return $this->players->where('team_id', $key);
@@ -103,11 +133,17 @@ class Match extends Model {
         return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'uuid')->orderBy('seconds_since_start');
     }
 
+    /**
+     * @return MatchPlayer[]
+     */
     public function players()
     {
         return $this->hasMany('Onyx\Halo5\Objects\MatchPlayer', 'game_id', 'uuid');
     }
 
+    /**
+     * @return MatchTeam[]
+     */
     public function teams()
     {
         return $this->hasMany('Onyx\Halo5\Objects\MatchTeam', 'game_id', 'uuid')->orderBy('rank');

@@ -12,22 +12,7 @@
             </div>
             <div class="row">
                 <div class="3u">
-                    <div class="ui fluid card">
-                        <div class="image">
-                            <img src="{{ $match->map->getImage() }}" />
-                        </div>
-                        <div class="content">
-                            <div class="left floated author">
-                                <img class="ui avatar image" src="{{ $match->gametype->getImage()}}" />
-                            </div>
-                            <div class="right floated">
-                                <span class="header">{{ $match->gametype->name }} on {{ $match->map->name }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui black segment">
-                        <a href="{{ action('Halo5\GameController@getMatchEvents', [$type, $match->uuid]) }}" class="ui black fluid button">Enhanced Game Look</a>
-                    </div>
+                    @include('includes.halo5.game.sidebar')
                 </div>
                 <div class="9u">
                     <div class="ui stackable container menu">
