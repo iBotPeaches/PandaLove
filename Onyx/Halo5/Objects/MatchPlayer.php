@@ -428,6 +428,11 @@ class MatchPlayer extends Model {
         return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'CsrDesignationId', 'designationId');
     }
 
+    public function team()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\MatchTeam', 'key', 'team_id');
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods - Helper
     //---------------------------------------------------------------------------------
