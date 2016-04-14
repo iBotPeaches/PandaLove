@@ -45,4 +45,18 @@ class Impulse extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public static function getAll()
+    {
+        return \Cache::remember('impulses-metadata', 120, function()
+        {
+            $items = [];
+
+            foreach (Impulse::all() as $impulse)
+            {
+                $items[$impulse->id] = $impulse;
+            }
+
+            return $items;
+        });
+    }
 }

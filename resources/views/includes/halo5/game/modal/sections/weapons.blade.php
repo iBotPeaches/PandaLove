@@ -2,7 +2,7 @@
 @foreach ($player->weapons as $key => $weapon)
     @if ($weapon instanceof \Onyx\Halo5\Objects\Weapon && $weapon->count > 0)
         @if ($i == 0)
-            <div class="ui eight doubling cards">
+            <div class="ui six doubling cards">
         @endif
         <div class="card">
             <div class="image">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        @if ($i == 7)
+        @if ($i == 5)
             @define $i = -1
             </div>
         @endif
