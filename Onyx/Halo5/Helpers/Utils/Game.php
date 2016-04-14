@@ -6,6 +6,36 @@ use Onyx\Halo5\Objects\MatchPlayer;
 class Game {
 
     /**
+     * UUID for No scope award -- Snapshot medal
+     */
+    const MEDAL_NOSCOPE_UUID = '1986137636';
+
+    /**
+     * UUID for Sniper award -- Sniper Kill medal
+     */
+    const MEDAL_SNIPER_UUID = '775545297';
+
+    /*
+     * UUID for Sniper award -- Sniper Headshot medal
+     */
+    const MEDAL_SNIPER_HEAD_UUID = '848240062';
+
+    /*
+     * UUID for Groundpound -- Groundpound medal
+     */
+    const MEDAL_GROUNDPOUND_UUID = '492192256';
+
+    /*
+     * UUID for Assassination -- Assassination medal
+     */
+    const MEDAL_ASSASSIN_UUID = '2966496172';
+
+    /*
+     * UUID for Airsassination -- Airsassination
+     */
+    const MEDAL_AIRSASSIN_UUID = '2006781774';
+
+    /**
      * @param $match Match
      * @return array
      */
@@ -33,6 +63,13 @@ class Game {
                 'spartan' => null,
                 'value' => null,
             ],
+            'loser' => [
+                'key' => 'loser',
+                'title' => 'Most Deaths',
+                'message' => 'Sir. Dies-a-lot',
+                'spartan' => null,
+                'value' => null,
+            ],
             'deaths' => [
                 'key' => 'deaths',
                 'title' => 'Deaths',
@@ -46,6 +83,51 @@ class Game {
                 'message' => 'Most Medals Obtained',
                 'spartan' => null,
                 'value' => null
+            ],
+            'damage' => [
+                'key' => 'damage',
+                'title' => 'Damage',
+                'message' => 'Maximum Damage',
+                'spartan' => null,
+                'value' => null
+            ],
+            'avgtime' => [
+                'key' => 'avgtime',
+                'title' => 'Average Time',
+                'message' => 'Longest Average Lifespan',
+                'spartan' => null,
+                'value' => null
+            ],
+            'groundpound' => [
+                'key' => 'groundpound',
+                'title' => 'Groundpound',
+                'message' => 'Falling Anvil',
+                'spartan' => null,
+                'value' => null
+            ],
+            'noscoper' => [
+                'key' => 'noscoper',
+                'title' => 'NoScoper',
+                'message' => 'NoScoper',
+                'spartan' => null,
+                'value' => null,
+                'zero' => true
+            ],
+            'sniper' => [
+                'key' => 'sniper',
+                'title' => 'Sniper',
+                'message' => 'Sniper',
+                'spartan' => null,
+                'value' => null,
+                'zero' => true
+            ],
+            'assassin' => [
+                'key' => 'assassin',
+                'title' => 'Assassin',
+                'message' => 'Mr. Sneaks',
+                'spartan' => null,
+                'value' => null,
+                'zero' => true
             ]
         ];
 
@@ -56,15 +138,29 @@ class Game {
             self::checkOrSet($combined['kd'], $player, 'kd', true);
             self::checkOrSet($combined['kda'], $player, 'kad', true);
             self::checkOrSet($combined['kills'], $player, 'totalKills', true);
+            self::checkOrSet($combined['loser'], $player, 'totalDeaths', true);
             self::checkOrSet($combined['deaths'], $player, 'totalDeaths', false);
+            self::checkOrSet($combined['damage'], $player, 'weapon_dmg', true);
+            self::checkOrSet($combined['avgtime'], $player, 'avg_lifestime', true);
 
             self::checkOrSet($combined['medals'], $player, function($player) {
-                $count = 0;
+                return collect($player->medals)->sum('count');
+            }, true);
 
-                foreach ($player->medals as $medal) {
-                    $count += $medal['count'];
-                }
-                return $count;
+            self::checkOrSet($combined['noscoper'], $player, function ($player) {
+                return self::getMedalCount($player, self::MEDAL_NOSCOPE_UUID);
+            }, true);
+
+            self::checkOrSet($combined['sniper'], $player, function ($player) {
+                return self::getMedalCount($player, [self::MEDAL_SNIPER_UUID, self::MEDAL_SNIPER_HEAD_UUID]);
+            }, true);
+
+            self::checkOrSet($combined['groundpound'], $player, function ($player) {
+                return self::getMedalCount($player, self::MEDAL_GROUNDPOUND_UUID);
+            }, true);
+
+            self::checkOrSet($combined['assassin'], $player, function ($player) {
+                return self::getMedalCount($player, [self::MEDAL_ASSASSIN_UUID, self::MEDAL_AIRSASSIN_UUID]);
             }, true);
         }
 
@@ -115,14 +211,16 @@ class Game {
     {
         $combined['spartan'] = $player;
         $combined['value'] = self::get($player, $key);
+        $combined['formatted'] = self::get($player, $key, true);
     }
 
     /**
      * @param $player MatchPlayer
      * @param $key string|callable
+     * @param $formatted boolean
      * @return mixed
      */
-    private static function get($player, $key)
+    private static function get($player, $key, $formatted = false)
     {
         if (is_callable($key))
         {
@@ -134,7 +232,18 @@ class Game {
         }
         else
         {
+            if ($formatted)
+            {
+                return $player->$key;
+            }
             return $player->getOriginal($key);
         }
+    }
+
+    private static function getMedalCount($player, $keys)
+    {
+        return collect($player->medals)
+            ->only($keys)
+            ->sum('count');
     }
 }

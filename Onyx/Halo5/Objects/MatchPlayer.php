@@ -8,6 +8,7 @@ use Onyx\Halo5\Client;
 use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
+use Onyx\Laravel\Helpers\Text as LaravelText;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -412,6 +413,12 @@ class MatchPlayer extends Model {
             default:
                 return $value . '<sup>th</sup>';
         }
+    }
+
+
+    public function getAvgLifestimeAttribute($value)
+    {
+        return LaravelText::timeDuration($value);
     }
 
     //---------------------------------------------------------------------------------
