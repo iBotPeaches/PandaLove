@@ -415,8 +415,12 @@ class MatchPlayer extends Model {
         }
     }
 
-
     public function getAvgLifestimeAttribute($value)
+    {
+        return LaravelText::timeDuration($value);
+    }
+
+    public function getTotalPowerWeaponTimeAttribute($value)
     {
         return LaravelText::timeDuration($value);
     }
