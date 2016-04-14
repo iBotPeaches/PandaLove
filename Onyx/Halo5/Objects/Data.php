@@ -178,7 +178,11 @@ class Data extends Model {
 
     public function getSpartan()
     {
-        return asset('uploads/h5/' . $this->account->seo . '/spartan.png');
+        if (file_exists('uploads/h5/' . $this->account->seo . '/spartan.png'))
+        {
+            return asset('uploads/h5/' . $this->account->seo . '/spartan.png');
+        }
+        return asset('images/unknown-spartan.png');
     }
 
     public function getEmblem()
