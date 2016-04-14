@@ -15,25 +15,10 @@ class Game {
      */
     const MEDAL_SNIPER_UUID = '775545297';
 
-    /*
+    /**
      * UUID for Sniper award -- Sniper Headshot medal
      */
     const MEDAL_SNIPER_HEAD_UUID = '848240062';
-
-    /*
-     * UUID for Groundpound -- Groundpound medal
-     */
-    const MEDAL_GROUNDPOUND_UUID = '492192256';
-
-    /*
-     * UUID for Assassination -- Assassination medal
-     */
-    const MEDAL_ASSASSIN_UUID = '2966496172';
-
-    /*
-     * UUID for Airsassination -- Airsassination
-     */
-    const MEDAL_AIRSASSIN_UUID = '2006781774';
 
     /**
      * @param $match Match
@@ -45,88 +30,88 @@ class Game {
             'kd' => [
                 'key' => 'kd',
                 'title' => 'KD',
+                'tooltip' => 'Best KD Ratio (Kills / Deaths)',
                 'message' => 'Highest KD Ratio',
                 'spartan' => null,
-                'value' => null
             ],
             'kda' => [
                 'key' => 'kda',
                 'title' => 'KDA',
+                'tooltip' => 'Best KDA Ratio ( ( Kills + Assists ) / Deaths)',
                 'message' => 'Highest KDA Ratio',
                 'spartan' => null,
-                'value' => null
             ],
             'kills' => [
                 'key' => 'kills',
                 'title' => 'Kills',
+                'tooltip' => 'Most Kills in Match',
                 'message' => 'Most Kills',
                 'spartan' => null,
-                'value' => null,
             ],
             'loser' => [
                 'key' => 'loser',
                 'title' => 'Most Deaths',
+                'tooltip' => 'The unfortunate spartan to die the most in this match.',
                 'message' => 'Sir. Dies-a-lot',
                 'spartan' => null,
-                'value' => null,
             ],
             'deaths' => [
                 'key' => 'deaths',
                 'title' => 'Deaths',
+                'tooltip' => 'The spartan who died the least in this match.',
                 'message' => 'Least Deaths',
                 'spartan' => null,
-                'value' => null,
             ],
             'medals' => [
                 'key' => 'medals',
                 'title' => 'Medals',
-                'message' => 'Most Medals Obtained',
+                'tooltip' => 'The spartan who collected the most medals in this match.',
+                'message' => 'Medal Collector',
                 'spartan' => null,
-                'value' => null
             ],
             'damage' => [
                 'key' => 'damage',
                 'title' => 'Damage',
+                'tooltip' => 'The spartan who dealt the most damage in this match.',
                 'message' => 'Maximum Damage',
                 'spartan' => null,
-                'value' => null
             ],
             'avgtime' => [
                 'key' => 'avgtime',
                 'title' => 'Average Time',
+                'tooltip' => 'The spartan who had the longest average lifespan.',
                 'message' => 'Longest Average Lifespan',
                 'spartan' => null,
-                'value' => null
             ],
             'groundpound' => [
                 'key' => 'groundpound',
                 'title' => 'Groundpound',
+                'tooltip' => 'The spartan who got the most groundpounds',
                 'message' => 'Falling Anvil',
                 'spartan' => null,
-                'value' => null
             ],
             'noscoper' => [
                 'key' => 'noscoper',
                 'title' => 'NoScoper',
+                'tooltip' => 'The spartan who got the most no-scopes in this match',
                 'message' => 'NoScoper',
                 'spartan' => null,
-                'value' => null,
                 'zero' => true
             ],
             'sniper' => [
                 'key' => 'sniper',
                 'title' => 'Sniper',
+                'tooltip' => 'The spartan with the most snipes in this match.',
                 'message' => 'Sniper',
                 'spartan' => null,
-                'value' => null,
                 'zero' => true
             ],
             'assassin' => [
                 'key' => 'assassin',
                 'title' => 'Assassin',
+                'tooltip' => 'The spartan with the most assassinations in this match.',
                 'message' => 'Mr. Sneaks',
                 'spartan' => null,
-                'value' => null,
                 'zero' => true
             ]
         ];
@@ -142,7 +127,9 @@ class Game {
             self::checkOrSet($combined['deaths'], $player, 'totalDeaths', false);
             self::checkOrSet($combined['damage'], $player, 'weapon_dmg', true);
             self::checkOrSet($combined['avgtime'], $player, 'avg_lifestime', true);
-
+            self::checkOrSet($combined['groundpound'], $player, 'totalGroundPounds', true);
+            self::checkOrSet($combined['assassin'], $player, 'totalAssassinations', true);
+            
             self::checkOrSet($combined['medals'], $player, function($player) {
                 return collect($player->medals)->sum('count');
             }, true);
@@ -153,14 +140,6 @@ class Game {
 
             self::checkOrSet($combined['sniper'], $player, function ($player) {
                 return self::getMedalCount($player, [self::MEDAL_SNIPER_UUID, self::MEDAL_SNIPER_HEAD_UUID]);
-            }, true);
-
-            self::checkOrSet($combined['groundpound'], $player, function ($player) {
-                return self::getMedalCount($player, self::MEDAL_GROUNDPOUND_UUID);
-            }, true);
-
-            self::checkOrSet($combined['assassin'], $player, function ($player) {
-                return self::getMedalCount($player, [self::MEDAL_ASSASSIN_UUID, self::MEDAL_AIRSASSIN_UUID]);
             }, true);
         }
 
@@ -240,6 +219,11 @@ class Game {
         }
     }
 
+    /**
+     * @param $player MatchPlayer
+     * @param $keys array
+     * @return mixed
+     */
     private static function getMedalCount($player, $keys)
     {
         return collect($player->medals)
