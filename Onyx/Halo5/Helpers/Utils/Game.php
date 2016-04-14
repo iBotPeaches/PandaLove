@@ -28,84 +28,73 @@ class Game {
     {
         $combined = [
             'vip' => [
-                'key' => 'rank',
                 'title' => 'Match VIP',
                 'tooltip' => 'Who the game thought was the best spartan',
                 'message' => 'Game VIP',
                 'spartan' => null,
             ],
             'kd' => [
-                'key' => 'kd',
                 'title' => 'KD',
                 'tooltip' => 'Best KD Ratio (Kills / Deaths)',
                 'message' => 'Highest KD Ratio',
                 'spartan' => null,
             ],
             'kda' => [
-                'key' => 'kda',
                 'title' => 'KDA',
                 'tooltip' => 'Best KDA Ratio ( ( Kills + Assists ) / Deaths)',
                 'message' => 'Highest KDA Ratio',
                 'spartan' => null,
             ],
             'kills' => [
-                'key' => 'kills',
                 'title' => 'Kills',
                 'tooltip' => 'Most Kills in Match',
                 'message' => 'Most Kills',
                 'spartan' => null,
             ],
             'loser' => [
-                'key' => 'loser',
                 'title' => 'Most Deaths',
                 'tooltip' => 'The unfortunate spartan to die the most in this match.',
                 'message' => 'Sir. Dies-a-lot',
                 'spartan' => null,
             ],
             'deaths' => [
-                'key' => 'deaths',
                 'title' => 'Deaths',
                 'tooltip' => 'The spartan who died the least in this match.',
                 'message' => 'Least Deaths',
                 'spartan' => null,
             ],
             'assists' => [
-                'key' => 'totalAssists',
                 'title' => 'Total Assists',
                 'tooltip' => 'The spartan who got the most assists',
                 'message' => 'Team Helper',
                 'spartan' => null
             ],
             'medals' => [
-                'key' => 'medals',
                 'title' => 'Medals',
                 'tooltip' => 'The spartan who collected the most medals in this match.',
                 'message' => 'Medal Collector',
                 'spartan' => null,
             ],
             'damage' => [
-                'key' => 'damage',
                 'title' => 'Damage',
                 'tooltip' => 'The spartan who dealt the most damage in this match.',
                 'message' => 'Maximum Damage',
                 'spartan' => null,
             ],
             'avgtime' => [
-                'key' => 'avgtime',
                 'title' => 'Average Time',
                 'tooltip' => 'The spartan who had the longest average lifespan.',
                 'message' => 'Longest Average Lifespan',
                 'spartan' => null,
             ],
             'groundpound' => [
-                'key' => 'groundpound',
                 'title' => 'Groundpound',
                 'tooltip' => 'The spartan who got the most groundpounds',
                 'message' => 'Falling Anvil',
                 'spartan' => null,
+                'zero' => true,
             ],
             'noscoper' => [
-                'key' => 'noscoper',
                 'title' => 'NoScoper',
                 'tooltip' => 'The spartan who got the most no-scopes in this match',
                 'message' => 'NoScoper',
@@ -113,7 +102,6 @@ class Game {
                 'zero' => true
             ],
             'sniper' => [
-                'key' => 'sniper',
                 'title' => 'Sniper',
                 'tooltip' => 'The spartan with the most snipes in this match.',
                 'message' => 'Sniper',
@@ -121,7 +109,6 @@ class Game {
                 'zero' => true
             ],
             'assassin' => [
-                'key' => 'assassin',
                 'title' => 'Assassin',
                 'tooltip' => 'The spartan with the most assassinations in this match.',
                 'message' => 'Mr. Sneaks',
@@ -129,7 +116,6 @@ class Game {
                 'zero' => true
             ],
             'aikiller' => [
-                'key' => 'totalAiKills',
                 'title' => 'AI Killer',
                 'tooltip' => 'The spartan who killed the most AI in this match.',
                 'message' => 'AI Killer',
@@ -137,7 +123,6 @@ class Game {
                 'zero' => true,
             ],
             'beater' => [
-                'key' => 'totalMeleeKills',
                 'title' => 'Melee Kills',
                 'tooltip' => 'The spartan who beat down (melee) the most spartans in this match.',
                 'message' => 'Beater',
@@ -145,21 +130,18 @@ class Game {
                 'zero' => null,
             ],
             'powerholder' => [
-                'key' => 'totalPowerWeaponTime',
                 'title' => 'Power Weapon Held Time',
                 'tooltip' => 'The spartan who held power weapons the longest',
                 'message' => 'Power Weapon Hogger',
                 'spartan' => null,
             ],
             'highest_rank' => [
-                'key' => 'spartanRank',
                 'title' => 'Highest Spartan Rank',
                 'tooltip' => 'The spartan with highest Spartan Rank',
                 'message' => 'Highest Spartan Rank',
                 'spartan' => null,
             ],
             'grenade_spammer' => [
-                'key' => 'totalGrenadeKills',
                 'title' => 'Total Grenade Kills',
                 'tooltip' => 'The spartan with the most grenade kills',
                 'message' => 'Nade Spammer',
@@ -167,7 +149,6 @@ class Game {
                 'zero' => true,
             ],
             'accurate_shot' => [
-                'key' => 'shorts_fired',
                 'title' => 'Accurate Shot',
                 'tooltip' => 'The spartan who fired the most shots accurately. (Landed / Fired).',
                 'message' => 'Accurate Shot',
