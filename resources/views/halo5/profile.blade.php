@@ -85,7 +85,7 @@
                     .progress({
                         label: 'ratio',
                         text: {
-                            ratio: '{value} / {total} matches.'
+                            ratio: '{value} of {total}'
                         }
                     })
             ;
