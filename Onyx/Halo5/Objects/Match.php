@@ -96,15 +96,7 @@ class Match extends Model {
 
     public function isArena()
     {
-        if (count($this->teams) <= 2)
-        {
-            if (strpos($this->playlist->name, 'social') === false)
-            {
-                return in_array('Arena', $this->gametype->game_modes);
-            }
-        }
-
-        return false;
+        return $this->playlist->isRanked;
     }
 
     /**
