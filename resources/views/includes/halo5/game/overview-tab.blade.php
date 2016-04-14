@@ -7,12 +7,14 @@
 <div class="ui black segment">
     <ul class="ui bulleted list">
         @foreach ($combined['top'] as $score)
-            <li class="item">{{ $score['message'] }} - <strong>{{ $score['value'] }}</strong> by
-                <a href="{{ action('Halo5\ProfileController@index', [$score['spartan']->account->seo]) }}">{{ $score['spartan']->account->gamertag }}</a>
-                <span class="right floated content">
-                    <span class="ui horizontal label {{ $score['spartan']->team->team->getSemanticColor() }}">{{ $score['spartan']->team->team->name }}</span>
-                </span>
-            </li>
+            @if ((isset($score['zero']) && $score['value'] != 0) || !isset($score['zero']))
+                <li class="item">{{ $score['message'] }} - <strong>{{ $score['formatted'] }}</strong> by
+                    <a href="{{ action('Halo5\ProfileController@index', [$score['spartan']->account->seo]) }}">{{ $score['spartan']->account->gamertag }}</a>
+                    <span class="right floated content">
+                        <span class="ui horizontal label {{ $score['spartan']->team->team->getSemanticColor() }}">{{ $score['spartan']->team->team->name }}</span>
+                    </span>
+                </li>
+            @endif
         @endforeach
     </ul>
 </div>
