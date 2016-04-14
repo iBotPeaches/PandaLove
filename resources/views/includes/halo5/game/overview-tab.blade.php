@@ -8,7 +8,10 @@
     <ul class="ui bulleted list">
         @foreach ($combined['top'] as $score)
             @if ((isset($score['zero']) && $score['value'] != 0) || !isset($score['zero']))
-                <li class="ui arena-popup item" data-position="left center" data-variation="inverted" data-title="{{ $score['title'] }}" data-content="{{ $score['tooltip'] }}">{{ $score['message'] }} - <strong>{{ $score['formatted'] }}</strong> by
+                <li class="ui arena-popup item" data-position="left center"
+                    data-variation="wide inverted"
+                    data-title="{{ $score['title'] . " - " . $score['spartan']->account->gamertag }}"
+                    data-content="{{ $score['tooltip'] }}">{{ $score['message'] }} - <strong>{{ $score['formatted'] }}</strong> by
                     <a href="{{ action('Halo5\ProfileController@index', [$score['spartan']->account->seo]) }}">{{ $score['spartan']->account->gamertag }}</a>
                     <span class="right floated content">
                         <span class="ui desktop tablet only horizontal label {{ $score['spartan']->team->team->getSemanticColor() }}">{{ $score['spartan']->team->team->name }}</span>
