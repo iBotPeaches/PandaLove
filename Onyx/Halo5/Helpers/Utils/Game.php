@@ -27,6 +27,13 @@ class Game {
     public static function buildQuickGameStats($match)
     {
         $combined = [
+            'vip' => [
+                'key' => 'rank',
+                'title' => 'Match VIP',
+                'tooltip' => 'Who the game thought was the best spartan',
+                'message' => 'Game VIP',
+                'spartan' => null,
+            ],
             'kd' => [
                 'key' => 'kd',
                 'title' => 'KD',
@@ -61,6 +68,13 @@ class Game {
                 'tooltip' => 'The spartan who died the least in this match.',
                 'message' => 'Least Deaths',
                 'spartan' => null,
+            ],
+            'assists' => [
+                'key' => 'totalAssists',
+                'title' => 'Total Assists',
+                'tooltip' => 'The spartan who got the most assists',
+                'message' => 'Team Helper',
+                'spartan' => null
             ],
             'medals' => [
                 'key' => 'medals',
@@ -113,18 +127,65 @@ class Game {
                 'message' => 'Mr. Sneaks',
                 'spartan' => null,
                 'zero' => true
-            ]
+            ],
+            'aikiller' => [
+                'key' => 'totalAiKills',
+                'title' => 'AI Killer',
+                'tooltip' => 'The spartan who killed the most AI in this match.',
+                'message' => 'AI Killer',
+                'spartan' => null,
+                'zero' => true,
+            ],
+            'beater' => [
+                'key' => 'totalMeleeKills',
+                'title' => 'Melee Kills',
+                'tooltip' => 'The spartan who beat down (melee) the most spartans in this match.',
+                'message' => 'Beater',
+                'spartan' => null,
+                'zero' => null,
+            ],
+            'powerholder' => [
+                'key' => 'totalPowerWeaponTime',
+                'title' => 'Power Weapon Held Time',
+                'tooltip' => 'The spartan who held power weapons the longest',
+                'message' => 'Power Weapon Hogger',
+                'spartan' => null,
+            ],
+            'highest_rank' => [
+                'key' => 'spartanRank',
+                'title' => 'Highest Spartan Rank',
+                'tooltip' => 'The spartan with highest Spartan Rank',
+                'message' => 'Highest Spartan Rank',
+                'spartan' => null,
+            ],
+            'grenade_spammer' => [
+                'key' => 'totalGrenadeKills',
+                'title' => 'Total Grenade Kills',
+                'tooltip' => 'The spartan with the most grenade kills',
+                'message' => 'Nade Spammer',
+                'spartan' => null,
+                'zero' => true,
+            ],
+            'accurate_shot' => [
+                'key' => 'shorts_fired',
+                'title' => 'Accurate Shot',
+                'tooltip' => 'The spartan who fired the most shots accurately. (Landed / Fired).',
+                'message' => 'Accurate Shot',
+                'spartan' => null
+            ],
         ];
 
         foreach ($match->players as $player)
         {
             if ($player->dnf == 1) continue;
-            
+
+            self::checkOrSet($combined['vip'], $player, 'rank', false);
             self::checkOrSet($combined['kd'], $player, 'kd', true);
             self::checkOrSet($combined['kda'], $player, 'kad', true);
             self::checkOrSet($combined['kills'], $player, 'totalKills', true);
             self::checkOrSet($combined['loser'], $player, 'totalDeaths', true);
             self::checkOrSet($combined['deaths'], $player, 'totalDeaths', false);
+            self::checkOrSet($combined['assists'], $player, 'totalAssists', true);
             self::checkOrSet($combined['damage'], $player, 'weapon_dmg', true);
             self::checkOrSet($combined['avgtime'], $player, 'avg_lifestime', true);
             self::checkOrSet($combined['groundpound'], $player, 'totalGroundPounds', true);
@@ -141,6 +202,20 @@ class Game {
             self::checkOrSet($combined['sniper'], $player, function ($player) {
                 return self::getMedalCount($player, [self::MEDAL_SNIPER_UUID, self::MEDAL_SNIPER_HEAD_UUID]);
             }, true);
+
+            self::checkOrSet($combined['accurate_shot'], $player, function($player) {
+                if ($player->shots_fired == 0)
+                {
+                    return $player->shots_fired;
+                }
+                return round((($player->shots_landed / $player->shots_fired) * 100), 2) ."%";
+            }, true);
+
+            self::checkOrSet($combined['aikiller'], $player, 'totalAiKills', true);
+            self::checkOrSet($combined['beater'], $player, 'totalMeleeKills', true);
+            self::checkOrSet($combined['powerholder'], $player, 'totalPowerWeaponTime', true);
+            self::checkOrSet($combined['highest_rank'], $player, 'spartanRank', true);
+            self::checkOrSet($combined['grenade_spammer'], $player, 'totalGrenadeKills', true);
         }
 
         return [
