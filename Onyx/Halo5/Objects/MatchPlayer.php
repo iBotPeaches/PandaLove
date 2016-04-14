@@ -118,9 +118,7 @@ class MatchPlayer extends Model {
 
             foreach ($value as $opponent)
             {
-                $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))
-                    ->where('accountType', Console::Xbox)
-                    ->first();
+                $account = $this->_getAccount($opponent['GamerTag']);
 
                 if ($account instanceof Account)
                 {
@@ -141,9 +139,7 @@ class MatchPlayer extends Model {
 
                 foreach ($deferred as $opponent)
                 {
-                    $account = Account::where('seo', DestinyText::seoGamertag($opponent['GamerTag']))
-                        ->where('accountType', Console::Xbox)
-                        ->first();
+                    $account = $this->_getAccount($opponent['GamerTag']);
 
                     if ($account instanceof Account)
                     {
@@ -306,12 +302,30 @@ class MatchPlayer extends Model {
     
     public function getKilledAttribute($value)
     {
-        return json_decode($value, true);
+        $killed = json_decode($value, true);
+        arsort($killed);
+        
+        foreach ($killed as $id => &$value)
+        {
+            $account = $this->_getAccountViaId($id);
+            $account['count'] = $value;
+            $value = $account;
+        }
+        return $killed;
     }
 
     public function getKilledByAttribute($value)
     {
-        return json_decode($value, true);
+        $killed = json_decode($value, true);
+        arsort($killed);
+
+        foreach ($killed as $id => &$value)
+        {
+            $account = $this->_getAccountViaId($id);
+            $account['count'] = $value;
+            $value = $account;
+        }
+        return $killed;
     }
 
     public function getMedalsAttribute($value)
@@ -371,7 +385,28 @@ class MatchPlayer extends Model {
 
     public function getImpulsesAttribute($value)
     {
-        return json_decode($value, true);
+        $impulses = json_decode($value, true);
+        
+        if (is_array($impulses))
+        {
+            $stockImpulses = Impulse::getAll();
+            
+            foreach ($impulses as $key => &$value)
+            {
+                if (isset($stockImpulses[$key]))
+                {
+                    $impulse = $stockImpulses[$key];
+                    $impulse['count'] = $value;
+                    $value = $impulse;
+                }
+                else
+                {
+                    unset($value);
+                }
+            }
+        }
+        
+        return $impulses;
     }
 
     public function getWeaponDmgAttribute($value)
@@ -495,6 +530,18 @@ class MatchPlayer extends Model {
             return Account::where('seo', DestinyText::seoGamertag($gamertag))
                 ->where('accountType', Console::Xbox)
                 ->first();
+        });
+    }
+
+    /**
+     * @param $id integer
+     * @return mixed
+     */
+    private function _getAccountViaId($id)
+    {
+        return \Cache::remember('account_id-' . $id, 60, function() use ($id)
+        {
+            return Account::find($id);
         });
     }
 }
