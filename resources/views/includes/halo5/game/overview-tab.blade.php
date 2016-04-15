@@ -1,6 +1,9 @@
 @if ($match->duration != 0)
     <div class="ui inverted black segment">
-        {{ $match->gametype->name }} took {{ $match->duration }} to win by {{ $match->winner()->team->name }}
+        {{ $match->gametype->name }} took {{ $match->duration }}
+        @if ($match->isTeamGame)
+            to win by {{ $match->winner()->team->name }}
+        @endif
     </div>
 @endif
 <h3 class="ui header">Quick Facts</h3>
