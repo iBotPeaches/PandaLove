@@ -641,6 +641,13 @@ class Client extends Http {
         
         return $this->getJson($url);
     }
+    
+    public function getVehicles()
+    {
+        $url = Constants::$metadata_vehicles;
+        
+        return $this->getJson($url);
+    }
 
     /**
      * @param $matchId

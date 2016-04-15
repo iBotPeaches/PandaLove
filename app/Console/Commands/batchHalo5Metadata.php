@@ -53,6 +53,7 @@ class batchHalo5Metadata extends Command
             'halo5:csr-update',
             'halo5:enemies-update',
             'halo5:impulses-update',
+            'halo5:vehicles-update',
         ];
 
         foreach ($commands as $command)

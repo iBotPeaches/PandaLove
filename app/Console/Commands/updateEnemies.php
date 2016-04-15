@@ -2,11 +2,13 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
+use Onyx\Halo5\Enums\MetadataType;
 use Onyx\Halo5\Objects\Enemy;
-use Onyx\Halo5\Objects\Gametype;
+use Onyx\Halo5\Objects\Event\Metadata;
 
 class updateEnemies extends Command
 {
@@ -55,6 +57,21 @@ class updateEnemies extends Command
         {
             foreach ($enemies as $enemy)
             {
+                try
+                {
+                    $m = new Metadata();
+                    $m->uuid = $enemy['id'];
+                    $m->contentId = $enemy['contentId'];
+                    $m->name = $enemy['name'];
+                    $m->description = $enemy['description'];
+                    $m->type = MetadataType::Enemy;
+                    $m->save();
+                }
+                catch (QueryException $e)
+                {
+                    // ignored
+                }
+                
                 try
                 {
                     $_enemy = Enemy::where('id', $enemy['id'])->firstOrFail();
