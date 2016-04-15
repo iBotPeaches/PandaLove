@@ -1,14 +1,12 @@
 <?php namespace PandaLove\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 use Intervention\Image\Facades\Image;
-use Intervention\Image\ImageManager;
 use Onyx\Halo5\Client;
-use Onyx\Halo5\Objects\Season;
+use Onyx\Halo5\Enums\MetadataType;
+use Onyx\Halo5\Objects\Event\Metadata;
 use Onyx\Halo5\Objects\Weapon;
 
 class updateWeapons extends Command
@@ -54,6 +52,21 @@ class updateWeapons extends Command
 
             foreach($weapons as $weapon)
             {
+                try
+                {
+                    $m = new Metadata();
+                    $m->uuid = $weapon['id'];
+                    $m->contentId = $weapon['contentId'];
+                    $m->name = $weapon['name'];
+                    $m->description = $weapon['description'];
+                    $m->type = MetadataType::Weapon;
+                    $m->save();
+                }
+                catch (QueryException $e)
+                {
+                    // ignored
+                }
+                
                 try
                 {
                     $_weapon = Weapon::where('uuid', $weapon['id'])->firstOrFail();

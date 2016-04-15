@@ -80,6 +80,13 @@ class Constants{
     public static $metadata_teams = 'https://www.haloapi.com/metadata/h5/metadata/team-colors';
 
     /**
+     * Halo5 Vehicles
+     * 
+     * @var string
+     */
+    public static $metadata_vehicles = 'https://www.haloapi.com/metadata/h5/metadata/vehicles';
+
+    /**
      * Halo5 Arena stats, all-time.
      *
      * @var string

@@ -5,6 +5,7 @@ use Onyx\Account;
 use Onyx\Halo5\Enums\DeathType;
 use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Helpers\Date\DateHelper;
+use Onyx\Halo5\Objects\Event\Metadata;
 use Onyx\Laravel\Helpers\Text;
 use Ramsey\Uuid\Uuid;
 
@@ -148,9 +149,9 @@ class MatchEvent extends Model {
     {
         if ($value > 0)
         {
-            $weapons = Weapon::getAll();
+            $metadata = Metadata::getAll();
 
-            if (isset($weapons[$value]))
+            if (isset($metadata[$value]))
             {
                 $this->attributes['killer_weapon_id'] = $value;
                 return;
@@ -167,7 +168,23 @@ class MatchEvent extends Model {
 
     public function setVictimStockIdAttribute($value)
     {
-        $this->attributes['victim_stock_id'] = ($value > 0) ? $value : null;
+        if ($value > 0)
+        {
+            $metadata = Metadata::getAll();
+
+            if (isset($metadata[$value]))
+            {
+                $this->attributes['victim_stock_id'] = $value;
+                return;
+            }
+        }
+
+        /**
+         * @url https://www.halowaypoint.com/en-us/forums/01b3ca58f06c4bd4ad074d8794d2cf86/topics/unknown-weaponid/ed7157ac-e30b-4c6d-9292-9c0032dc17c7/posts
+         *
+         * TLDR - 2457457776 ID is not in API
+         */
+        $this->attributes['victim_stock_id'] = '3168248199'; // @todo
     }
 
     public function setKillerXAttribute($value)
@@ -306,11 +323,11 @@ class MatchEvent extends Model {
 
     public function killer_weapon()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Weapon', 'killer_weapon_id', 'uuid');
+        return $this->belongsTo('Onyx\Halo5\Objects\Event\Metadata', 'killer_weapon_id', 'uuid');
     }
 
     public function victim_enemy()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Enemy', 'victim_stock_id', 'id');
+        return $this->belongsTo('Onyx\Halo5\Objects\Event\Metadata', 'victim_stock_id', 'uuid');
     }
 }
