@@ -1,12 +1,10 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
-use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
 /**
  * @package \Onyx\Halo5\Objects
@@ -39,6 +37,7 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property Carbon $updated_at
  * @property string $seasonId
  * @property int $inactiveCounter
+ * @property boolean $disabled
  */
 class Data extends Model {
 

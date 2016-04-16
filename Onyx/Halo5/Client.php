@@ -329,9 +329,31 @@ class Client extends Http {
 
             \DB::commit();
         }
+        catch (H5PlayerNotFoundException $ex)
+        {
+            \DB::rollBack();
+
+            // If we are here then the 343 responses failed. At the same time
+            // we know the account exists, because the API returned a valid response
+            // but invalid value.
+            // We will check another endpoint (Xbox) and if that returns false. We are
+            // marking this H5 account as disabled.
+            $xbox = new \Onyx\XboxLive\Client();
+            try
+            {
+                $check = $xbox->fetchAccountBio($account);
+            }
+            catch (\Exception $e)
+            {
+                $account->h5->disabled = true;
+                $account->h5->save();
+                return false;
+            }
+        }
         catch (\Exception $ex)
         {
             \DB::rollBack();
+            \Cache::flush();
         }
     }
 
@@ -705,6 +727,8 @@ class Client extends Http {
         {
             return $json['Results'][0]['Result'];
         }
+
+        throw new H5PlayerNotFoundException('Game could not be loaded.');
     }
 
     private function _getBulkArenaServiceRecord($gamertags)
@@ -716,6 +740,8 @@ class Client extends Http {
         {
             return $json['Results'];
         }
+
+        throw new H5PlayerNotFoundException('Game could not be loaded.');
     }
 
     private function _getArenaServiceRecord($account)
@@ -727,6 +753,8 @@ class Client extends Http {
         {
             return $json['Results'][0]['Result'];
         }
+
+        throw new H5PlayerNotFoundException('Game could not be loaded.');
     }
 
     private function _getArenaServiceRecordSeason($account, $seasonId)
@@ -740,6 +768,8 @@ class Client extends Http {
         {
             return $json['Results'][0]['Result'];
         }
+
+        throw new H5PlayerNotFoundException('Game could not be loaded.');
     }
 
     /**
