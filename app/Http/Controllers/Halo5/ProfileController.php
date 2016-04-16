@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
+use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Collections\SeasonCollection;
@@ -39,6 +40,14 @@ class ProfileController extends Controller {
                 ->firstOrFail();
 
             $seasons = new SeasonCollection($account, $account->h5->playlists);
+
+            if ($account->h5->disabled)
+            {
+                return view('errors.404', [
+                    'message' => 'This gamertag no longer exists. It existed at one point, but a rename must have happened.
+                    We do not know the new gamertag.'
+                ]);
+            }
 
             return view('halo5.profile', [
                 'account' => $account,
@@ -175,6 +184,7 @@ class ProfileController extends Controller {
             /** @var $account Account */
             $account = Account::with('h5')
                 ->where('seo', Text::seoGamertag($gamertag))
+                ->where('accountType', Console::Xbox)
                 ->firstOrFail();
 
             $client = new Client();
