@@ -20,7 +20,13 @@
         @include('includes.halo5.profile.arena.overview-tab')
     </div>
     <div class="ui bottom attached tab" data-tab="arena-playlists">
-        @include('includes.halo5.profile.arena.playlists-tab')
+        @if (count($account->h5->playlists) > 0)
+            @include('includes.halo5.profile.arena.playlists-tab')
+        @else
+            <div class="ui warning message">
+                Uh oh. No Arena data found. Maybe a refresh will fix this.
+            </div>
+        @endif
     </div>
     <div class="ui bottom attached tab" data-tab="arena-seasons">
         @include('includes.halo5.profile.arena.seasons-tab')

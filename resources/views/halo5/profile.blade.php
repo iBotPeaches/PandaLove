@@ -47,7 +47,15 @@
                         </a>
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
-                        @include('includes.halo5.profile.overview-tab')
+                        @define $playlist = $account->h5->record_playlist()
+
+                        @if ($playlist == null)
+                            <div class="ui warning message">
+                                Uh oh. No data found. Give this a refresh.
+                            </div>
+                        @else
+                            @include('includes.halo5.profile.overview-tab')
+                        @endif
                     </div>
                     <div class="ui bottom attached tab" data-tab="arena">
                         @include('includes.halo5.profile.arena-tab')
