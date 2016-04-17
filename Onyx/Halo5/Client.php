@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
@@ -20,6 +21,7 @@ use Onyx\Halo5\Objects\MatchTeam;
 use Onyx\Halo5\Objects\PlaylistData;
 use Onyx\Halo5\Objects\Season;
 use Onyx\Halo5\Objects\Warzone;
+use PandaLove\Jobs\Halo5EmblemDownloader;
 use Ramsey\Uuid\Uuid;
 
 class Client extends Http {
@@ -190,6 +192,7 @@ class Client extends Http {
                 }
 
                 $this->_parseServiceRecord($account, $entry['Result'], $h5_data, true);
+                app('Illuminate\Bus\Dispatcher')->dispatch(new Halo5EmblemDownloader($account));
             }
             catch (QueryException $e)
             {
@@ -310,6 +313,7 @@ class Client extends Http {
 
     /**
      * @param $account Account
+     * @return bool
      */
     public function updateH5Account($account)
     {
@@ -349,6 +353,31 @@ class Client extends Http {
                 $account->h5->save();
                 return false;
             }
+        }
+        catch (\Exception $ex)
+        {
+            \DB::rollBack();
+            \Cache::flush();
+        }
+    }
+    
+    /**
+     * @param $account Account
+     * @return bool
+     */
+    public function setInitialEmblem(Account $account)
+    {
+        \DB::beginTransaction();
+
+        try
+        {
+            $this->updateEmblem($account);
+
+            unset($account->h5);
+            $account->touch();
+            $account->save();
+
+            \DB::commit();
         }
         catch (\Exception $ex)
         {
