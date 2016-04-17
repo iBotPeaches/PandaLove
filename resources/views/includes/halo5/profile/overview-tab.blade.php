@@ -1,4 +1,3 @@
-@define $playlist = $account->h5->record_playlist()
 <h3 class="ui top attached header">
     All Time Top CSR
 </h3>

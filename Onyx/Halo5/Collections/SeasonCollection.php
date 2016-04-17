@@ -46,6 +46,11 @@ class SeasonCollection extends Collection
      */
     public function current()
     {
+        if (count($this->items) == 0)
+        {
+            return false;
+        }
+        
         return $this->items[0]['playlists'];
     }
 }
