@@ -371,7 +371,6 @@ class Client extends Http {
 
         try
         {
-            $this->pullArenaSeasonHistoryRecord($account);
             $this->updateEmblem($account);
 
             unset($account->h5);
