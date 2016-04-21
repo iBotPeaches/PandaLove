@@ -1,11 +1,14 @@
 <?php namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Onyx\Halo5\Client;
+use Onyx\Halo5\Enums\MetadataType;
+use Onyx\Halo5\Objects\Event\Metadata;
 use Onyx\Halo5\Objects\Medal;
 
 class updateMedals extends Command
@@ -61,6 +64,21 @@ class updateMedals extends Command
 EOF;
             foreach($medals as $medal)
             {
+                try
+                {
+                    $m = new Metadata();
+                    $m->uuid = $medal['id'];
+                    $m->contentId = $medal['contentId'];
+                    $m->name = $medal['name'];
+                    $m->description = $medal['description'];
+                    $m->type = MetadataType::Medal;
+                    $m->save();
+                }
+                catch (QueryException $e)
+                {
+
+                }
+
                 $this->info('Adding: ' . $medal['name']);
                 $m = new Medal();
                 $m->name = $medal['name'];

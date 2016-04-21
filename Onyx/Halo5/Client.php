@@ -10,6 +10,7 @@ use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Collections\GameHistoryCollection;
 use Onyx\Halo5\Collections\LeaderboardCollection;
+use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
@@ -567,37 +568,78 @@ class Client extends Http {
 
             foreach ($json['GameEvents'] as $event)
             {
-                $killer = $event['Killer']['Gamertag'];
-                $victim = $event['Victim']['Gamertag'];
-
-                if ($killer == '' && $victim == '')
-                {
-                    continue;
-                }
-
                 $matchEvent = new MatchEvent();
-                $matchEvent->game_id = $match->uuid;
-                $matchEvent->death_owner = $event['DeathDisposition'];
-                $matchEvent->death_type = $event;
-
-                $matchEvent->killer_id = ($event['Killer']['Gamertag'] != null) ? $this->getAccount($event['Killer']['Gamertag']) : null;
-                $matchEvent->killer_type = $event['KillerAgent'];
-                $matchEvent->killer_attachments = $event['KillerWeaponAttachmentIds'];
-                $matchEvent->killer_weapon_id = $event['KillerWeaponStockId'];
-                $matchEvent->setPoint('Killer', $event['KillerWorldLocation']);
-
-                $matchEvent->victim_id = ($event['Victim']['Gamertag'] != null) ? $this->getAccount($event['Victim']['Gamertag']) : null;
-                $matchEvent->victim_type = $event['VictimAgent'];
-                $matchEvent->victim_attachments = $event['VictimAttachmentIds'];
-                $matchEvent->victim_stock_id = $event['VictimStockId'];
-                $matchEvent->setPoint('Victim', $event['VictimWorldLocation']);
-
                 $matchEvent->event_name = $event['EventName'];
+                $matchEvent->game_id = $match->uuid;
                 $matchEvent->seconds_since_start = $event['TimeSinceStart'];
+
+                switch ($matchEvent->event_name)
+                {
+                    case EventName::Death:
+                        $killer = $event['Killer']['Gamertag'];
+                        $victim = $event['Victim']['Gamertag'];
+
+                        $matchEvent->death_owner = $event['DeathDisposition'];
+                        $matchEvent->death_type = $event;
+
+                        $matchEvent->killer_id = ($killer != null) ? $this->getAccount($killer) : null;
+                        $matchEvent->killer_type = $event['KillerAgent'];
+                        $matchEvent->killer_attachments = $event['KillerWeaponAttachmentIds'];
+                        $matchEvent->killer_weapon_id = $event['KillerWeaponStockId'];
+                        $matchEvent->setPoint('Killer', $event['KillerWorldLocation']);
+
+                        $matchEvent->victim_id = ($victim != null) ? $this->getAccount($victim) : null;
+                        $matchEvent->victim_type = $event['VictimAgent'];
+                        $matchEvent->victim_attachments = $event['VictimAttachmentIds'];
+                        $matchEvent->victim_stock_id = $event['VictimStockId'];
+                        $matchEvent->setPoint('Victim', $event['VictimWorldLocation']);
+                        break;
+                    
+                    case EventName::WeaponPickup:
+                        $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
+                        $matchEvent->killer_weapon_id = $event['WeaponStockId'];
+                        $matchEvent->killer_attachments = $event['WeaponAttachmentIds'];
+                        break;
+                    
+                    case EventName::WeaponDrop:
+                        $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
+                        $matchEvent->killer_weapon_id = $event['WeaponStockId'];
+                        $matchEvent->killer_attachments = $event['WeaponAttachmentIds'];
+                        $matchEvent->seconds_held_as_primary = $event['TimeWeaponActiveAsPrimary'];
+                        $matchEvent->shots_fired = $event['ShotsFired'];
+                        $matchEvent->shots_landed = $event['ShotsLanded'];
+                        break;
+
+                    case EventName::WeaponPickupPad:
+                        $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
+                        $matchEvent->killer_weapon_id = $event['WeaponStockId'];
+                        $matchEvent->killer_attachments = $event['WeaponAttachmentIds'];
+                        break;
+                    
+                    case EventName::RoundStart:
+                    case EventName::RoundEnd:
+                        $matchEvent->round_index = $event['RoundIndex'];
+                        break;
+
+                    case EventName::Medal:
+                        $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
+                        $matchEvent->killer_weapon_id = $event['MedalId'];
+                        break;
+
+                    case EventName::Impulse:
+                        $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
+                        $matchEvent->killer_weapon_id = $event['ImpulseId'];
+                        break;
+                    
+                    case EventName::PlayerSpawn:
+                        $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
+                        break;
+
+                }
 
                 $matchEvent->save();
 
-                if (is_array($event['Assistants']))
+                if (isset($event['Assistants']) && is_array($event['Assistants']))
                 {
                     foreach($event['Assistants'] as $assistant)
                     {
@@ -1001,7 +1043,7 @@ class Client extends Http {
     {
         if ($events)
         {
-            $select = ['events.assists.account', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account'];
+            $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account'];
         }
         else
         {

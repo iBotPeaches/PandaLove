@@ -33,6 +33,10 @@ use Ramsey\Uuid\Uuid;
  * @property double $distance
  * @property integer $event_name
  * @property integer $seconds_since_start
+ * @property integer $seconds_held_as_primary
+ * @property integer $shots_fired
+ * @property integer $shots_landed
+ * @property integer $round_index
  *
  * @property Account $killer
  * @property Account $victim
@@ -78,8 +82,13 @@ class MatchEvent extends Model {
 
         static::creating(function ($matchEvent)
         {
+            /** @var $matchEvent MatchEvent */
             $matchEvent->uuid = Uuid::uuid4()->toString();
-            $matchEvent->setDistance();
+            
+            if ($matchEvent->event_name == EventName::Death) 
+            {
+                $matchEvent->setDistance();
+            }
         });
     }
 
@@ -143,6 +152,11 @@ class MatchEvent extends Model {
     public function setSecondsSinceStartAttribute($value)
     {
         $this->attributes['seconds_since_start'] = DateHelper::returnSeconds($value);
+    }
+    
+    public function setSecondsHeldAsPrimaryAttribute($value)
+    {
+        $this->attributes['seconds_held_as_primary'] = DateHelper::returnSeconds($value);
     }
 
     public function setKillerWeaponIdAttribute($value)

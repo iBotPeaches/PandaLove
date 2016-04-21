@@ -16,4 +16,14 @@ abstract class MetadataType {
      * Enemy - halo5_enemies
      */
     const Enemy = 15;
+
+    /**
+     * Impulses - halo5_impulses
+     */
+    const Impulses = 20;
+
+    /**
+     * Medal - halo5_medals
+     */
+    const Medal = 25;
 }
