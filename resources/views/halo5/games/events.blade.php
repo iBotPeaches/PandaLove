@@ -14,23 +14,7 @@
                                 <div class="right floated content">
                                     {{ $event->seconds_since_start }}
                                 </div>
-                                @if (isset($event->killer) && $event->killer != null)
-                                    <img class="ui avatar image" src="{{ $event->killer->h5_emblem->getEmblem() }}">
-                                @endif
-                                <div class="content">
-                                    @if (isset($event->killer) && $event->killer != null)
-                                        <a href="{{ action('Halo5\ProfileController@index', [$event->killer->seo]) }}">{{ $event->killer->gamertag }}</a>
-                                    @else
-                                        <a href="#">AI</a>
-                                    @endif
-                                    killed
-                                    @if (isset($event->victim) && $event->victim != null)
-                                        <a href="{{ action('Halo5\ProfileController@index', [$event->victim->seo]) }}">{{ $event->victim->gamertag }}</a>
-                                    @else
-                                        <a href="#">{{ $event->victim_enemy->name or "Unknown Enemy" }}</a>
-                                    @endif
-                                    with a <b>{{ $event->killer_weapon->name }}</b>
-                                </div>
+                                @include('includes.halo5.game.events.types.' . \Onyx\Halo5\Enums\EventName::getSeo($event->event_name))
                             </div>
                         @endforeach
                     </div>
@@ -41,4 +25,12 @@
 @endsection
 
 @section('inline-css')
+    <style type="text/css">
+        .medal {
+            zoom:0.45;
+            -moz-transform:scale(0.45);
+            margin-top: -20px;
+            margin-left: -15px;
+        }
+    </style>
 @append

@@ -2,10 +2,13 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
+use Onyx\Halo5\Enums\MetadataType;
 use Onyx\Halo5\Objects\Enemy;
+use Onyx\Halo5\Objects\Event\Metadata;
 use Onyx\Halo5\Objects\Gametype;
 use Onyx\Halo5\Objects\Impulse;
 
@@ -50,6 +53,21 @@ class updateImpulses extends Command
         {
             foreach ($impulses as $impulse)
             {
+                try
+                {
+                    $m = new Metadata();
+                    $m->uuid = $impulse['id'];
+                    $m->contentId = $impulse['contentId'];
+                    $m->name = $impulse['internalName'];
+                    $m->description = null;
+                    $m->type = MetadataType::Impulses;
+                    $m->save();
+                }
+                catch (QueryException $e)
+                {
+
+                }
+
                 try
                 {
                     $_impulse = Impulse::where('id', $impulse['id'])->firstOrFail();
