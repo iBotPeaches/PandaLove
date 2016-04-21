@@ -36,7 +36,7 @@ class LeafApiController extends Controller {
      */
     public function getSeasons()
     {
-        $seasons = Season::with('playlists')->get();
+        $seasons = Season::with('playlists')->orderBy('start_date', 'DESC')->get();
 
         return Response::json([
             'error' => false,
