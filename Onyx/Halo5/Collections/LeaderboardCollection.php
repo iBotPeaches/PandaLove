@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Collection;
 use Onyx\Halo5\Client;
-use Onyx\Halo5\Items\ArenaLeaderboardItem;
 
 /**
  * Class LeaderboardCollection
@@ -30,7 +29,7 @@ class LeaderboardCollection extends Collection
 
         usort($items, function($a, $b)
         {
-            return strcmp($a['rank'], $b['rank']);
+            return $a['rank'] - $b['rank'];
         });
 
         parent::__construct($items);
