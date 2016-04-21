@@ -128,6 +128,12 @@ class Constants{
     public static $match_events = 'https://www.haloapi.com/stats/h5/matches/%s/events';
 
     /**
+     * Halo5 Lederboard of a playlist. SeasonId and PlaylistId required
+     * @var string
+     */
+    public static $leaderboard = 'https://www.haloapi.com/stats/h5/player-leaderboards/csr/%1$s/%2$s?count=250';
+
+    /**
      * Halo5 Emblem URL
      *
      * @var string

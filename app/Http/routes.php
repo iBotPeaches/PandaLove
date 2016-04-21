@@ -14,6 +14,7 @@ Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 
 ## Halo 5
 Route::controller('/h5/api/v1', 'Halo5\ApiV1Controller');
+Route::controller('/h5/api/panda', 'Halo5\LeafApiController');
 Route::controller('/h5/roster', 'Halo5\RosterController');
 Route::controller('/h5/games', 'Halo5\GameController');
 Route::controller('/h5/stats', 'Halo5\StatsController');
