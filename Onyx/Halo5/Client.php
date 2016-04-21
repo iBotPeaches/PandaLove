@@ -9,6 +9,7 @@ use Onyx\Account;
 use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Collections\GameHistoryCollection;
+use Onyx\Halo5\Collections\LeaderboardCollection;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
@@ -18,6 +19,7 @@ use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchEventAssist;
 use Onyx\Halo5\Objects\MatchPlayer;
 use Onyx\Halo5\Objects\MatchTeam;
+use Onyx\Halo5\Objects\Playlist;
 use Onyx\Halo5\Objects\PlaylistData;
 use Onyx\Halo5\Objects\Season;
 use Onyx\Halo5\Objects\Warzone;
@@ -199,6 +201,34 @@ class Client extends Http {
                 \Bugsnag::notifyException($e);
                 throw $e;
             }
+        }
+    }
+
+    /**
+     * @param $seasonId
+     * @param $playlistId
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getLeaderboardViaSeasonAndPlaylist($seasonId, $playlistId)
+    {
+        $season = Season::where('contentId', $seasonId)->first();
+        $playlist = Playlist::where('contentId', $playlistId)->first();
+
+        if ($season == null || $playlist == null)
+        {
+            throw new \Exception('Season or Playlist could not be loaded.');
+        }
+
+        $results = $this->getLeaderboard($seasonId, $playlistId);
+
+        if ($results === false)
+        {
+            throw new \Exception('This Leaderboard could not be loaded.');
+        }
+        else
+        {
+            return new LeaderboardCollection($results);
         }
     }
 
@@ -710,6 +740,26 @@ class Client extends Http {
         $url = sprintf(Constants::$match_events, $matchId);
 
         return $this->getJson($url, 2); // Cache for 2 minutes for people refreshing the error pages
+    }
+
+    /**
+     * @param $seasonId
+     * @param $playlistId
+     * @return array
+     * @throws Helpers\Network\ThreeFourThreeOfflineException
+     */
+    public function getLeaderboard($seasonId, $playlistId)
+    {
+        $url = sprintf(Constants::$leaderboard, $seasonId, $playlistId);
+
+        $data = $this->getJson($url, 2); // 2 minute cache for debugging
+
+        if (isset($data['Results']) && $data['ResultCount'] > 0)
+        {
+            return $data['Results'];
+        }
+
+        return false;
     }
 
     /**

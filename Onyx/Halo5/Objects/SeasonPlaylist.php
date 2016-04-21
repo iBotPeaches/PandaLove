@@ -1,27 +1,24 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 /**
- * Class Playlist
+ * Class SeasonPlaylist
  * @package Onyx\Halo5\Objects
- * @property int $id
- * @property string $contentId
- * @property string $name
- * @property string $description
- * @property boolean $isRanked
- * @property string $imageUrl
- * @property boolean isActive
- * @property string $gameMode
+ * @property integer $id
+ * @property uuid $seasonId
+ * @property uuid $playlistId
+ * @property Playlist[] $playlists
  */
-class Playlist extends Model {
+class SeasonPlaylist extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'halo5_playlists';
+    protected $table = 'halo5_season_playlists';
 
     /**
      * The attributes that are not mass assignable.
@@ -29,11 +26,6 @@ class Playlist extends Model {
      * @var array
      */
     protected $guarded = ['id'];
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'contentId';
 
     /**
      * Disable timestamps
@@ -54,24 +46,4 @@ class Playlist extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-
-    public function season()
-    {
-        return $this->hasOne('Onyx\Halo5\Objects\Season', 'contentId', 'seasonId');
-    }
-
-    public static function getAll()
-    {
-        return \Cache::remember('playlists-metadata', 120, function()
-        {
-            $items = [];
-
-            foreach (Playlist::all() as $playlist)
-            {
-                $items[$playlist->contentId] = $playlist;
-            }
-
-            return $items;
-        });
-    }
 }

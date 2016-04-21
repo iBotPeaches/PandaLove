@@ -31,6 +31,11 @@ class Season extends Model {
     protected $guarded = ['id'];
 
     /**
+     * @var string
+     */
+    protected $primaryKey = 'contentId';
+
+    /**
      * Disable timestamps
      *
      * @var bool
@@ -62,6 +67,11 @@ class Season extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function playlists()
+    {
+        return $this->belongsToMany('Onyx\Halo5\Objects\Playlist', 'halo5_season_playlists', 'seasonId', 'playlistId');
+    }
+    
     public function isFuture()
     {
         $date = $this->start_date;

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Season;
+use Onyx\Halo5\Objects\SeasonPlaylist;
 
 class updateSeasons extends Command
 {
@@ -59,6 +60,26 @@ class updateSeasons extends Command
                     $_season->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
                     $_season->isActive = boolval($season['isActive']);
                     $_season->save();
+
+                    if (isset($season['playlists']) && is_array($season['playlists']))
+                    {
+                        foreach ($season['playlists'] as $playlist)
+                        {
+                            try
+                            {
+                                $_link = new SeasonPlaylist();
+                                $_link->seasonId = $season['id'];
+                                $_link->playlistId = $playlist['contentId'];
+                                $_link->save();
+
+                                $this->info('Linking ' . $season['name'] . ' to playlist: ' . $playlist['name']);
+                            }
+                            catch (\Exception $e)
+                            {
+                                // ignored
+                            }
+                        }
+                    }
                 }
                 catch (ModelNotFoundException $e)
                 {
@@ -71,6 +92,17 @@ class updateSeasons extends Command
                     $s->start_date = $season['startDate'];
                     $s->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
                     $s->save();
+
+                    if (isset($season['playlists']) && is_array($season['playlists']))
+                    {
+                        foreach ($season['playlists'] as $playlist)
+                        {
+                            $_link = new SeasonPlaylist();
+                            $_link->seasonId = $season['id'];
+                            $_link->playlistId = $playlist['contentId'];
+                            $_link->save();
+                        }
+                    }
                 }
             }
         }
