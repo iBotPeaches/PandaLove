@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class MatchEvent
  * @package Onyx\Halo5\Objects
- * @property Uuid $uuid
+ * @property integer $id
  * @property string $game_id
  * @property integer $death_owner
  * @property integer $death_type
@@ -57,17 +57,7 @@ class MatchEvent extends Model {
      *
      * @var array
      */
-    protected $guarded = ['uuid'];
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
-
-    /**
-     * @var bool
-     */
-    public $incrementing = false;
+    protected $guarded = ['id'];
 
     /**
      * Disable timestamps
@@ -83,8 +73,6 @@ class MatchEvent extends Model {
         static::creating(function ($matchEvent)
         {
             /** @var $matchEvent MatchEvent */
-            $matchEvent->uuid = Uuid::uuid4()->toString();
-            
             if ($matchEvent->event_name == EventName::Death) 
             {
                 $matchEvent->setDistance();
@@ -317,12 +305,12 @@ class MatchEvent extends Model {
 
     public function match()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Match', 'game_id', 'uuid');
+        return $this->belongsTo('Onyx\Halo5\Objects\Match', 'game_id', 'id');
     }
 
     public function assists()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\MatchEventAssist', 'match_event', 'uuid');
+        return $this->hasMany('Onyx\Halo5\Objects\MatchEventAssist', 'match_event', 'id');
     }
 
     public function killer()

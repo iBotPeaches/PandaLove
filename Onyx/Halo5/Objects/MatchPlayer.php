@@ -14,8 +14,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class MatchPlayer
  * @package Onyx\Halo5\Objects
- *
- * @property string $uuid
+ * @property integer $id
  * @property integer $account_id
  * @property string $team_id
  * @property string $game_id
@@ -74,12 +73,7 @@ class MatchPlayer extends Model {
      *
      * @var array
      */
-    protected $guarded = ['uuid'];
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
+    protected $guarded = ['id'];
 
     /**
      * Disable timestamps
@@ -87,11 +81,6 @@ class MatchPlayer extends Model {
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * @var bool
-     */
-    public $incrementing = false;
 
     public static function boot()
     {

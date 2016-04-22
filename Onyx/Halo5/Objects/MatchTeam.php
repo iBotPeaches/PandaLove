@@ -6,12 +6,13 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class MatchTeam
  * @package Onyx\Halo5\Objects
- * @property string $uuid
+ * @property integer $id
  * @property string $game_id
  * @property integer $team_id
  * @property integer $score
  * @property integer $rank
  * @property array $round_stats
+ * @property string $key
  *
  * @property Team $team
  */
@@ -29,18 +30,8 @@ class MatchTeam extends Model {
      *
      * @var array
      */
-    protected $guarded = ['uuid'];
+    protected $guarded = ['id'];
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
-
-    /**
-     * @var bool
-     */
-    public $incrementing = false;
-    
     /**
      * Disable timestamps
      *
@@ -52,10 +43,11 @@ class MatchTeam extends Model {
     {
         parent::boot();
 
-        static::creating(function ($team)
+        static::created(function ($team)
         {
             /* @var $team \Onyx\Halo5\Objects\MatchTeam */
             $team->key = ($team->game_id . "_" . $team->team_id);
+            $team->save();
         });
     }
 

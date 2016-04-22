@@ -255,8 +255,7 @@ class Client extends Http {
         foreach ($data['TeamStats'] as $team)
         {
             $_team = new MatchTeam();
-            $_team->uuid = Uuid::uuid4();
-            $_team->game_id = $gameId;
+            $_team->game_id = $match->id;
             $_team->team_id = $team['TeamId'];
             $_team->score = $team['Score'];
             $_team->rank = $team['Rank'];
@@ -285,12 +284,11 @@ class Client extends Http {
         foreach ($data['PlayerStats'] as $player)
         {
             $_player = new MatchPlayer();
-            $_player->uuid = Uuid::uuid4();
-            $_player->game_id = $gameId;
+            $_player->game_id = $match->id;
             $_player->killed = $player['KilledOpponentDetails'];
             $_player->killed_by = $player['KilledByOpponentDetails'];
             $_player->account_id = $this->getAccount($player['Player']['Gamertag']);
-            $_player->team_id = $gameId . "_" . $player['TeamId'];
+            $_player->team_id = $match->id . "_" . $player['TeamId'];
             $_player->medals = $player['MedalAwards'];
             $_player->enemies = $player['EnemyKills'];
             $_player->weapons = $player['WeaponStats'];
@@ -564,13 +562,13 @@ class Client extends Http {
                 To prevent ugly looking stats, we will not process this game. Sorry');
             }
 
-            MatchEvent::where('game_id', $match->uuid)->delete();
+            MatchEvent::where('game_id', $match->id)->delete();
 
             foreach ($json['GameEvents'] as $event)
             {
                 $matchEvent = new MatchEvent();
                 $matchEvent->event_name = $event['EventName'];
-                $matchEvent->game_id = $match->uuid;
+                $matchEvent->game_id = $match->id;
                 $matchEvent->seconds_since_start = $event['TimeSinceStart'];
 
                 switch ($matchEvent->event_name)
@@ -644,7 +642,7 @@ class Client extends Http {
                     foreach($event['Assistants'] as $assistant)
                     {
                         $assist = new MatchEventAssist();
-                        $assist->match_event = $matchEvent->uuid;
+                        $assist->match_event = $matchEvent->id;
                         $assist->account_id = $this->getAccount($assistant['Gamertag']);
                         $assist->save();
                     }

@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Class MatchEventAssist
  * @package Onyx\Halo5\Objects
- * @property string $uuid
+ * @property integer $id
  * @property string $match_event
  * @property Account $account_id
  */
@@ -25,17 +25,7 @@ class MatchEventAssist extends Model {
      *
      * @var array
      */
-    protected $guarded = ['uuid'];
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
-
-    /**
-     * @var bool
-     */
-    public $incrementing = false;
+    protected $guarded = ['id'];
     
     /**
      * Disable timestamps
@@ -47,11 +37,6 @@ class MatchEventAssist extends Model {
     public static function boot()
     {
         parent::boot();
-
-        static::creating(function ($assistant)
-        {
-            $assistant->uuid = Uuid::uuid4()->toString();
-        });
     }
 
     //---------------------------------------------------------------------------------
