@@ -12,7 +12,7 @@ class FixDuplicatePlaylistsInSeason extends Migration
      */
     public function up()
     {
-        \DB::statement('TRUNCATE halo5_season_playlists"');
+        \DB::statement('TRUNCATE halo5_season_playlists');
         
         Schema::table('halo5_season_playlists', function (Blueprint $table)
         {
