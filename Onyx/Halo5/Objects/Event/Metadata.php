@@ -46,6 +46,11 @@ class Metadata extends Model {
      */
     public $timestamps = false;
 
+    /**
+     * @var array
+     */
+    public static $cache = [];
+
     public static function boot()
     {
         parent::boot();
@@ -98,7 +103,12 @@ class Metadata extends Model {
 
     public static function getAll()
     {
-        return \Cache::remember('metadata-metadata', 120, function()
+        if (count(self::$cache) > 0)
+        {
+            return self::$cache;
+        }
+        
+        $items =  \Cache::remember('metadata-metadata', 120, function()
         {
             $items = [];
 
@@ -109,5 +119,8 @@ class Metadata extends Model {
 
             return $items;
         });
+        
+        self::$cache = $items;
+        return $items;
     }
 }

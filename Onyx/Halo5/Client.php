@@ -30,7 +30,17 @@ use Ramsey\Uuid\Uuid;
 class Client extends Http {
 
     public static $updateRan = false;
-    
+
+    /**
+     * @var array
+     */
+    public $account_cached = [];
+
+    /**
+     * @var array
+     */
+    public $account_id_cached = [];
+
     const PER_PAGE = 9;
 
     //---------------------------------------------------------------------------------
@@ -1019,15 +1029,20 @@ class Client extends Http {
      */
     private function checkCacheForGamertag($gamertag)
     {
-        $account = \Cache::remember('gamertag-' . $gamertag, 60, function() use ($gamertag)
+        $seo = DestinyText::seoGamertag($gamertag);
+
+        if (isset($this->account_cached[$seo]))
         {
-            return Account::where('seo', DestinyText::seoGamertag($gamertag))
-                ->where('accountType', Console::Xbox)
-                ->first();
-        });
+            return $this->account_cached[$seo];
+        }
+
+        $account = Account::where('seo', $seo)
+            ->where('accountType', Console::Xbox)
+            ->first();
 
         if ($account instanceof Account)
         {
+            $this->account_cached[$seo] = $account;
             return $account;
         }
 
