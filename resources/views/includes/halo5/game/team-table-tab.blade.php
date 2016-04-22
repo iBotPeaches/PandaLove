@@ -40,7 +40,7 @@
                     <td class="{{ $player->kd() >= 1 ? "positive" : "negative" }} kadr-table">{{ $player->kd() }}</td>
                     <td class="{{ $player->kad() >= 1 ? "positive" : "negative" }} kdr-table">{{ $player->kad() }}</td>
                     <td class="no-sort">
-                        <i class="lab icon adv-modal-icon" data-content="Advanced Stats" data-tag="{{ $player->uuid . "-dropdown" }}"></i>
+                        <i class="lab icon adv-modal-icon" data-content="Advanced Stats" data-tag="{{ $player->id . "-dropdown" }}"></i>
                     </td>
                 </tr>
            @endforeach

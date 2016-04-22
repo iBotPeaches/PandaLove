@@ -1,4 +1,4 @@
-<div class="ui modal {{ $player->uuid . "-dropdown" }}">
+<div class="ui modal {{ $player->id . "-dropdown" }}">
     <i class="close icon"></i>
     <div class="header">
         {{ $player->account->gamertag }}

@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
  * Class Match
  * @package Onyx\Halo5\Objects
  * @property Uuid $uuid
+ * @property integer $id
  * @property string $map_variant
  * @property string $game_variant
  * @property string $playlist_id
@@ -40,12 +41,7 @@ class Match extends Model {
      *
      * @var array
      */
-    protected $guarded = ['uuid'];
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'uuid';
+    protected $guarded = ['id'];
 
     /**
      * Disable timestamps
@@ -53,11 +49,6 @@ class Match extends Model {
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * @var bool
-     */
-    public $incrementing = false;
 
     public static function boot()
     {
@@ -122,7 +113,7 @@ class Match extends Model {
     
     public function events()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'uuid')->orderBy('seconds_since_start');
+        return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'id')->orderBy('seconds_since_start');
     }
 
     /**
@@ -130,7 +121,7 @@ class Match extends Model {
      */
     public function players()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\MatchPlayer', 'game_id', 'uuid');
+        return $this->hasMany('Onyx\Halo5\Objects\MatchPlayer', 'game_id', 'id');
     }
 
     /**
@@ -138,7 +129,7 @@ class Match extends Model {
      */
     public function teams()
     {
-        return $this->hasMany('Onyx\Halo5\Objects\MatchTeam', 'game_id', 'uuid')->orderBy('rank');
+        return $this->hasMany('Onyx\Halo5\Objects\MatchTeam', 'game_id', 'id')->orderBy('rank');
     }
 
     public function map()
