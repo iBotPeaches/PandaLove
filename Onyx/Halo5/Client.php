@@ -150,7 +150,8 @@ class Client extends Http {
             try
             {
                 return Account::firstOrCreate([
-                    'gamertag' => $json['Results'][0]['Id']
+                    'gamertag' => $json['Results'][0]['Id'],
+                    'accountType' => Console::Xbox
                 ]);
             }
             catch (QueryException $e)
