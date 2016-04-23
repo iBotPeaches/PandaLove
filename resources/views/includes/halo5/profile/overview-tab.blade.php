@@ -52,7 +52,9 @@
                     <div class="bar">
                         <div class="progress"></div>
                     </div>
-                    <div class="label">Progress to Level {{ $progressBar['next']->level }}</div>
+                    <div class="label">
+                        Progress to Level {{ $progressBar['next']->level . ": " . number_format($progressBar['current']) . "/" . number_format($progressBar['max']) . "Xp"}}
+                    </div>
                 </div>
             @endif
             <div class="ui icon message" id="update-message">
@@ -76,7 +78,7 @@
                 .progress({
                     label: 'ratio',
                     text: {
-                        ratio: "{{ number_format($progressBar['current']) . " / " . number_format($progressBar['max']) . " Xp" }}"
+                        ratio: "{{ number_format(($progressBar['current'] / $progressBar['max']) * 100) }}%"
                     }
                 })
         ;
