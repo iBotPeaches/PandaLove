@@ -966,6 +966,9 @@ class Client extends Http {
                 $p->current_rank = $playlist['Csr']['Rank'];
             }
 
+            // CsrPrecentile (Not in Preseason)
+            $p->csrPercentile = isset($playlist['CsrPercentile']) ? $playlist['CsrPercentile'] : null;
+
             $p->totalKills = $playlist['TotalKills'];
             $p->totalSpartanKills = $playlist['TotalSpartanKills'];
             $p->totalHeadshots = $playlist['TotalHeadshots'];

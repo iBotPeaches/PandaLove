@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
@@ -25,6 +26,8 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property array $weapons
  */
 class Warzone extends Model {
+
+    use Stats;
 
     /**
      * The database table used by the model.
@@ -126,67 +129,21 @@ class Warzone extends Model {
 
     public function kd($formatted = true)
     {
-        if ($formatted)
-            return number_format($this->_raw_kd(), 2);
-        else
-            return $this->_raw_kd();
+        return self::stat_kd($this->totalKills, $this->totalDeaths, $formatted);
     }
 
     public function kad($formatted = true)
     {
-        if ($formatted)
-            return number_format($this->_raw_kad(), 2);
-        else
-            return $this->_raw_kad();
+        return self::stat_kad($this->totalKills, $this->totalDeaths, $this->totalAssists, $formatted);
     }
 
     public function winRate()
     {
-        if ($this->totalGames == 0)
-        {
-            return 0;
-        }
-
-        return round(($this->totalGamesWon / $this->totalGames) * 100);
+        return $this->stat_winRate($this->totalGamesWon, $this->totalGames);
     }
 
     public function winRateColor()
     {
-        $rate = $this->winRate();
-
-        switch (true)
-        {
-            case $rate > 80:
-                return 'green';
-
-            case $rate <= 80 && $rate > 60:
-                return 'yellow';
-
-            case $rate <= 60 && $rate > 40:
-                return 'orange';
-
-            default:
-                return 'red';
-        }
-    }
-
-    private function _raw_kd()
-    {
-        if ($this->totalDeaths == 0)
-        {
-            return $this->totalKills;
-        }
-
-        return $this->totalKills / $this->totalDeaths;
-    }
-
-    private function _raw_kad()
-    {
-        if ($this->totalDeaths == 0)
-        {
-            return $this->totalKills + $this->totalAssists;
-        }
-
-        return ($this->totalKills + $this->totalAssists) / $this->totalDeaths;
+        return $this->stat_winRateColor($this->totalGamesWon, $this->totalGames);
     }
 }
