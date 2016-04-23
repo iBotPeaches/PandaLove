@@ -53,7 +53,7 @@
                         <div class="progress"></div>
                     </div>
                     <div class="label">
-                        Progress to Level {{ $progressBar['next']->level . ": " . number_format($progressBar['current']) . "/" . number_format($progressBar['max']) . "Xp"}}
+                        Progress to Level {{ $progressBar['next']->level . ": " . number_format($progressBar['current']) . "/" . number_format($progressBar['max']) . " Xp"}}
                     </div>
                 </div>
             @endif
