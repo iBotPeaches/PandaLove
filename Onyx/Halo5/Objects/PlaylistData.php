@@ -85,7 +85,7 @@ class PlaylistData extends Model {
 
     public function setCsrPercentileAttribute($value)
     {
-        return ($value != null) ? (100 - $value) : null;
+        $this->attributes['csrPercentile'] = ($value != null) ? (100 - $value) : null;
     }
 
     public function getDesignationIdAttribute($value)
