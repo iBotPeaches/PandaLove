@@ -1,6 +1,6 @@
 ## PandaLove Website (Destiny/H5/Xbox APIs)
 
-[![build status](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/badges/master/build.svg)](https://gitlab.connortumbleson.com/ci/projects/1?ref=master)[![license](https://img.shields.io/badge/license-dbad-green.svg)](http://www.dbad-license.org/)
+[![build status](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/badges/master/build.svg)](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/commits/master) [![license](https://img.shields.io/badge/license-dbad-green.svg)](http://www.dbad-license.org/)
 
 PandaLove was a website devoted to tracking our weekly raid Tuesdays, PVP destruction and more. It quickly grew to be more than that.
 
