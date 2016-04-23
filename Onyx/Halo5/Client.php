@@ -821,7 +821,7 @@ class Client extends Http {
     {
         $account = $this->checkCacheForGamertag($gamertag);
 
-        if (! $account instanceof Account)
+        if ($account === null)
         {
             return Account::firstOrCreate([
                 'gamertag' => $gamertag,
@@ -1040,13 +1040,13 @@ class Client extends Http {
             ->where('accountType', Console::Xbox)
             ->first();
 
-        if ($account instanceof Account)
+        if ($account !== null)
         {
             $this->account_cached[$seo] = $account;
             return $account;
         }
 
-        return false;
+        return null;
     }
 
     /**
