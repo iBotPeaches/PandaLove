@@ -20,7 +20,8 @@ class Client extends XboxAPI {
         '1144039928',           // MCC
         '1292135256',           // Titanfall
         '219630713',            // Halo 5
-        '74304278'              // Division
+        '74304278',             // Division
+        '934424724',            // Gears of War 4 - BETA
     ];
 
     /**
