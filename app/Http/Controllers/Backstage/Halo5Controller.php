@@ -48,7 +48,9 @@ class Halo5Controller extends Controller
 
     public function getMaps()
     {
-        $maps = Map::where('game_modes', '!=', '["Campaign"]')->get();
+        $maps = Map::where('game_modes', '!=', '["Campaign"]')
+            ->orderBy('name')
+            ->get();
 
         return view('backstage.halo5.maps', [
             'maps' => $maps

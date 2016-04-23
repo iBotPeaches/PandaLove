@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="wrapper style1">
-        <article class="container" id="top">
+        <article class="container no-image" id="top">
             <div class="row">
                 <div class="12u">
                     @include('includes.backstage.menu')
@@ -14,7 +14,7 @@
                         </div>
                         <p id="err_message"></p>
                     </div>
-                    <div class="ui blue raised segment">
+                    <div class="ui blue raised segment" id="map-form">
                         {!! Form::open(['class' => 'ui inline form', 'id' => 'map_form']) !!}
                         <input type="hidden" value="" name="type" id="type">
                         <div class="three fields equal width">
@@ -52,8 +52,9 @@
                         <button type="submit" class="ui green button" id="save_btn">Save Scaling</button>
                         {!! Form::close() !!}
                     </div>
-
-                    <img id="generated_map" src="" />
+                    <div class="ui black segment">
+                        <img class="ui fluid image" id="generated_map" src="" />
+                    </div>
                 </div>
             </div>
         </article>
@@ -87,6 +88,7 @@
                     y_scale: 'number'
                 },
                 onSuccess: function(event) {
+                    $("#map-form").addClass("loading");
                     event.preventDefault();
 
                     $.ajax({
@@ -94,6 +96,7 @@
                         url: '{{ action('Backstage\Halo5Controller@postMaps') }}',
                         data: $('.ui.form').form('get values'),
                         success: function(data) {
+                            $("#map-form").removeClass("loading");
                             if (data[0]['error'] != true) {
                                 $('#gen_error').hide();
                                 $('#generated_map').attr('src', data[0]['image']['encoded']);
