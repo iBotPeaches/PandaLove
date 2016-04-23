@@ -30,6 +30,11 @@ class Weapon extends Model {
     protected $guarded = ['id'];
 
     /**
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+
+    /**
      * Disable timestamps
      *
      * @var bool
