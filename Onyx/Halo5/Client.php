@@ -181,7 +181,7 @@ class Client extends Http {
             {
                 $account = Account::firstOrCreate([
                     'gamertag' => $entry['Id'],
-                    'accountType' => 1
+                    'accountType' => Console::Xbox
                 ]);
 
                 $account->save();
@@ -896,6 +896,7 @@ class Client extends Http {
      * @param Account $account
      * @param array $record
      * @param Data $h5_data
+     * @param boolean $bulkAdded
      * @return bool
      */
     private function _parseServiceRecord(&$account, $record, &$h5_data, $bulkAdded = false)
