@@ -453,11 +453,14 @@ class Client extends Http {
         $player->game_id = $game->instanceId;
         $player->membershipId = $entry['player']['destinyUserInfo']['membershipId'];
 
+        $guardian = $entry['player']['destinyUserInfo']['displayName'];
+        $type = $entry['player']['destinyUserInfo']['membershipType'];
+
         // check if we have player
-        if (($account = $this->checkCacheForGamertag($entry['player']['destinyUserInfo']['displayName'])) == false && $regular)
+        if (($account = $this->checkCacheForGamertag($guardian, $type)) == false && $regular)
         {
-            $account = Bus::dispatch(new UpdateGamertag($entry['player']['destinyUserInfo']['displayName'],
-                $entry['player']['destinyUserInfo']['membershipType']));
+            $account = Bus::dispatch(new UpdateGamertag($guardian, $type));
+            return $this->gamePlayerSetup($data, $entry, $game, $pvp, $regular);
         }
         $player->account_id = $account->id;
 
@@ -651,11 +654,14 @@ class Client extends Http {
 
     /**
      * @param $gamertag
+     * @param $console
      * @return \Onyx\Account|void
      */
-    private function checkCacheForGamertag($gamertag)
+    private function checkCacheForGamertag($gamertag, $console = Console::Xbox)
     {
-        $account = Account::where('seo', Text::seoGamertag($gamertag))->first();
+        $account = Account::where('seo', Text::seoGamertag($gamertag))
+            ->where('accountType', $console)
+            ->first();
 
         if ($account instanceof Account)
         {
