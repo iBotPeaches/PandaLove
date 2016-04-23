@@ -86,7 +86,7 @@ class MatchEvent extends Model {
 
     public function setKillerIdAttribute($value)
     {
-        if ($value instanceof Account)
+        if ($value !== null)
         {
             $this->attributes['killer_id'] = $value->id;
         }
@@ -98,7 +98,7 @@ class MatchEvent extends Model {
 
     public function setVictimIdAttribute($value)
     {
-        if ($value instanceof Account)
+        if ($value !== null)
         {
             $this->attributes['victim_id'] = $value->id;
         }
