@@ -4,6 +4,9 @@
 /** @var $playlist \Onyx\Halo5\Objects\PlaylistData */
 
 ?>
+<div class="ui info message">
+    Champion Rank is from highest obtained Rank during that season.
+</div>
 @foreach ($seasons as $season)
     <h3 class="ui top attached header">
         {{ $season['season']->name }}

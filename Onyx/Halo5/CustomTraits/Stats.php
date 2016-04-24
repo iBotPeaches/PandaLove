@@ -83,17 +83,17 @@ trait Stats {
     {
         switch (true)
         {
-            case $percent > 80:
-                return 'green';
-            
-            case $percent <= 80 && $percent > 60:
-                return 'yellow';
-            
-            case $percent <= 60 && $percent > 40:
-                return 'orange';
-
             case $percent == null || $percent == "?":
                 return '';
+
+            case $percent < 20:
+                return 'green';
+            
+            case $percent <= 40 && $percent > 20:
+                return 'yellow';
+            
+            case $percent <= 40 && $percent > 80:
+                return 'orange';
 
             default:
                 return 'red';
