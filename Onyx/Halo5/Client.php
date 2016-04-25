@@ -476,6 +476,12 @@ class Client extends Http {
     public function pullArenaSeasonHistoryRecord(&$account)
     {
         $seasons = Season::all();
+        $forceDownload = false;
+        
+        if (isset($account->h5))
+        {
+            $forceDownload = config('app.halo_version') != $account->h5->version;
+        }
 
         /** @var $season Season */
         foreach ($seasons as $season)
@@ -486,7 +492,7 @@ class Client extends Http {
                 ->where('updated_at', '>=', $season->end_date)
                 ->first();
 
-            if ($playlist == null && ! $season->isFuture())
+            if (($playlist == null && ! $season->isFuture()) || $forceDownload)
             {
                 $this->updateArenaServiceRecord($account, $season->contentId);
             }
@@ -911,6 +917,7 @@ class Client extends Http {
      */
     private function _parseServiceRecord(&$account, $record, &$h5_data, $bulkAdded = false)
     {
+        $h5_data->version = config('app.halo_version');
         $h5_data->totalKills = $record['ArenaStats']['TotalKills'];
         $h5_data->totalSpartanKills = $record['ArenaStats']['TotalSpartanKills'];
         $h5_data->totalHeadshots = $record['ArenaStats']['TotalHeadshots'];
