@@ -79,7 +79,7 @@ class MapGenerator {
      * @param $meter int
      * @return mixed
      */
-    private function _adjust_point($orig, $scale, $meter)
+    private static function _adjust_point($orig, $scale, $meter)
     {
         return $orig + ($scale * $meter);
     }
