@@ -28,6 +28,13 @@ class Map extends Model {
     protected $guarded = ['uuid'];
 
     /**
+     * The primary key of the table
+     *
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
+
+    /**
      * Disable timestamps
      *
      * @var bool
