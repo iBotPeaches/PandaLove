@@ -222,20 +222,20 @@ class Game {
 
             foreach($game->players as $player)
             {
-                $id = $player->account->membershipId;
+                $slug = $player->account->seo;
 
                 if ($player->account->isPandaLove() || $player->team == $pandaId)
                 {
                     // check for unbroken
                     if ($player->deaths == 0)
                     {
-                        if (isset($combined['stats']['unbroken'][$id]))
+                        if (isset($combined['stats']['unbroken'][$slug]))
                         {
-                            $combined['stats']['unbroken'][$id]['count'] += 1;
+                            $combined['stats']['unbroken'][$slug]['count'] += 1;
                         }
                         else
                         {
-                            $combined['stats']['unbroken'][$id] = [
+                            $combined['stats']['unbroken'][$slug] = [
                                 'gamertag' => $player->account->gamertag,
                                 'seo' => $player->account->seo,
                                 'type' => $player->account->accountType,
