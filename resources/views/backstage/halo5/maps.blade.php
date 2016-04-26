@@ -66,7 +66,26 @@
         $(document).on('ready', function() {
             $('.ui.dropdown').dropdown({
                 onChange : function(value, text, $choice) {
+                    $("#map-form").addClass("loading");
                     $('#map_id').val(value);
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ action('Backstage\Halo5Controller@getMap') }}/' + value,
+                        success: function(data) {
+                            $("#map-form").removeClass("loading");
+                            if (data.error == false) {
+                                $('#gen_error').hide();
+                                $("#x_orig").val(data.map.x_orig);
+                                $("#y_orig").val(data.map.y_orig);
+                                $("#x_scale").val(data.map.x_scale);
+                                $("#y_scale").val(data.map.y_scale);
+                            } else {
+                                $('#gen_error').show();
+                                $('#err_message').text(data.message);
+                            }
+                        }
+                    });
                 }
             });
 

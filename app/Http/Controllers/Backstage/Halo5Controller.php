@@ -4,6 +4,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Account;
 use Onyx\Halo5\Client as Halo5Client;
+use Onyx\Halo5\Helpers\Utils\MapGenerator;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\Map;
 use PandaLove\Commands\UpdateHalo5Account;
@@ -16,6 +17,16 @@ use Intervention\Image\ImageManager;
 class Halo5Controller extends Controller
 {
 
+    /**
+     * @var ImageManager
+     */
+    protected $image;
+
+    /**
+     * Halo5Controller constructor.
+     * @param Guard $auth
+     * @param ImageManager $image
+     */
     public function __construct(Guard $auth, ImageManager $image)
     {
         parent::__construct();
@@ -56,65 +67,45 @@ class Halo5Controller extends Controller
             'maps' => $maps
         ]);
     }
+    
+    public function getMap($id)
+    {
+        try
+        {
+            $map = Map::where('contentId', $id)->firstOrFail();
+            
+            return \Response::json([
+                'error' => false,
+                'map' => $map,
+            ]);
+        }
+        catch (ModelNotFoundException $ex)
+        {
+            return \Response::json([
+                'error' => true,
+                'message' => $ex->getMessage()
+            ]);
+        }
+    }
 
     public function postMaps(Halo5MapGeneratorRequest $request)
     {
         $ret = [];
-        if ($request->request->get('type') == "generate") {
-            // Generate map
-            try {
-                ini_set('max_execution_time', 300);
-                $map = Map::where('uuid', $request->request->get('map_id'))->firstOrFail();
+        $data = $request->request->all();
 
-                $path = public_path('images/wireframes/');
-                if (file_exists($path . $map->uuid . '.jpg')) {
-                    $img = $this->image->make($path . $map->uuid . '.jpg');
-
-                    $matches = Match::where('map_id', $map->uuid)
-                        ->with('events')
-                        ->limit($request->request->get('num_games'))
-                        ->get()
-                        ->toArray();
-
-                    foreach ($matches as $match) {
-                        foreach ($match['events'] as $event) {
-                            $x = $this->get_adj_point($request->request->get('x_orig'), $request->request->get('x_scale'), $event['killer_x']);
-                            $y = $this->get_adj_point($request->request->get('y_orig'), $request->request->get('y_scale'), $event['killer_y']);
-
-                            $img->circle(4, $x, $y, function($draw) {
-                                $draw->background('#000000');
-                                $draw->border(1, '#000000');
-                            });
-
-                            $x = $this->get_adj_point($request->request->get('x_orig'), $request->request->get('x_scale'), $event['victim_x']);
-                            $y = $this->get_adj_point($request->request->get('y_orig'), $request->request->get('y_scale'), $event['victim_y']);
-
-                            $img->circle(4, $x, $y, function($draw) {
-                                $draw->background('#000000');
-                                $draw->border(1, '#000000');
-                            });
-                        }
-                    }
-
-                    $ret['error'] = false;
-                    $ret['image'] = $img->encode('data-url');
-                } else {
-                    $ret['error'] = true;
-                    $ret['message'] = "We do not have a wireframe for this map. Sorry.";
-                }
-            } catch (ModelNotFoundException $e) {
-                $ret['error'] = true;
-                $ret['message'] = "The map could not be found.";
-            }
-        } else {
-            // Save scaling
+        if ($request->request->get('type') == "generate")
+        {
+            $ret = MapGenerator::buildMap($this->image, $data);
+        } 
+        else 
+        {
             try
             {
-                $map = Map::where('uuid', $request->request->get('map_id'))->firstOrFail();
-                $map->x_orig = $request->request->get('x_orig');
-                $map->y_orig = $request->request->get('y_orig');
-                $map->x_scale = $request->request->get('x_scale');
-                $map->y_scale = $request->request->get('y_scale');
+                $map = Map::where('uuid', $data['map_id'])->firstOrFail();
+                $map->x_orig = $data['x_orig'];
+                $map->y_orig = $data['y_orig'];
+                $map->x_scale = $data['x_scale'];
+                $map->y_scale = $data['y_scale'];
                 $map->save();
 
                 $ret['error'] = false;
@@ -140,10 +131,5 @@ class Halo5Controller extends Controller
         $this->dispatch(new UpdateHalo5Account($account));
 
         return \Redirect::action('Halo5\ProfileController@index', [$account->seo]);
-    }
-
-    private function get_adj_point($orig, $scale, $meter)
-    {
-        return $orig + ($scale * $meter);
     }
 }
