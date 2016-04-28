@@ -23,6 +23,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @property boolean $admin
  * @property string $chat_id
  * @property boolean $isPanda
+ * 
+ * @property Account $account
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -62,11 +64,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	// Public Methods
 	//---------------------------------------------------------------------------------
 
+	/**
+	 * @return string
+	 */
 	public function isPandaText()
 	{
 		return $this->isPanda ? 'Yes' : 'No';
 	}
 
+	/**
+	 * @return Account
+	 */
 	public function account()
 	{
 		return $this->hasOne('Onyx\Account', 'id', 'account_id');
