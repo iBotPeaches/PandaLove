@@ -24,7 +24,7 @@ class ApiV1Controller extends Controller {
     private $request;
     private $redirect;
 
-    const MAX_GRIMOIRE = 4870; #http://destinytracker.com/destiny/leaderboards/xbox/grimoirescore
+    const MAX_GRIMOIRE = 4980; #http://destinytracker.com/destiny/leaderboards/xbox/grimoirescore
 
     protected $layout = "layouts.master";
 
@@ -260,6 +260,7 @@ class ApiV1Controller extends Controller {
         {
             try
             {
+                /** @var User $user */
                 $user = User::where('google_id', $all['google_id'])
                     ->firstOrFail();
 
@@ -269,6 +270,8 @@ class ApiV1Controller extends Controller {
 
                     foreach($user->account->destiny->charactersInOrder() as $char)
                     {
+                        if ($char->light == 0) continue;
+                        
                         $msg .= "<strong>" . $char->name() . "</strong><br />";
                         $msg .= '<i>Highest Light:</i> <strong>' . $char->highest_light . "</strong><br />";
                         $msg .= '<i>Current Light:</i> <strong>' . $char->light . "</strong><br /><br />";
