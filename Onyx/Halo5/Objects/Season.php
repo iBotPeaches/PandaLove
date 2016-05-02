@@ -57,7 +57,7 @@ class Season extends Model {
     {
         if (is_null($value))
         {
-            $value = 'Name Unknown - ' . date('M y');
+            $value = 'Name Unknown - ' . date('F Y');
         }
         
         $this->attributes['name'] = $value;
