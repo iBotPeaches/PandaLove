@@ -1,8 +1,12 @@
+
 <?php
 
 /** @var $playlist \Onyx\Halo5\Objects\PlaylistData */
 
 ?>
+<div class="ui info message">
+    Champion Rank is from highest obtained Rank during that season.
+</div>
 @foreach ($seasons as $season)
     <h3 class="ui top attached header">
         {{ $season['season']->name }}
@@ -22,32 +26,20 @@
                         @endif
                     </ul>
                 </div>
-                <div class="ui twelve wide column">
+                <div class="ui twelve wide column mobile tablet only">
                     <div class="ui mini three statistics">
-                        <div class="{{ $playlist->kd() >= 1.0 ? 'green' : 'red' }} statistic">
-                            <div class="value">
-                                {{ $playlist->kd() }}
-                            </div>
-                            <div class="label">
-                                KD Ratio
-                            </div>
-                        </div>
-                        <div class="{{ $playlist->kad() >= 1.0 ? 'green' : 'red' }} statistic">
-                            <div class="value">
-                                {{ $playlist->kad() }}
-                            </div>
-                            <div class="label">
-                                KAD Ratio
-                            </div>
-                        </div>
-                        <div class="{{ $playlist->winRateColor() }} statistic">
-                            <div class="value">
-                                {{ $playlist->winRate() }}%
-                            </div>
-                            <div class="label">
-                                Win Rate
-                            </div>
-                        </div>
+                        @include('includes.halo5.profile.arena.statistics.kd')
+                        @include('includes.halo5.profile.arena.statistics.kda')
+                        @include('includes.halo5.profile.arena.statistics.win_rate')
+                    </div>
+                </div>
+                <div class="ui twelve wide column computer only">
+                    <div class="ui mini five statistics">
+                        @include('includes.halo5.profile.arena.statistics.kd')
+                        @include('includes.halo5.profile.arena.statistics.kda')
+                        @include('includes.halo5.profile.arena.statistics.win_rate')
+                        @include('includes.halo5.profile.arena.statistics.percentile')
+                        @include('includes.halo5.profile.arena.statistics.games')
                     </div>
                 </div>
             </div>

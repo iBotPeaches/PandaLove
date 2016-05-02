@@ -61,7 +61,7 @@ class Http {
 
         if ($cache != 0)
         {
-            \Cache::put($sum, json_decode($response->getBody(), true), $cache);
+            \Cache::put($sum, json_decode($response->getBody(), true, 512, JSON_BIGINT_AS_STRING), $cache);
         }
 
         return json_decode($response->getBody(), true, 512, JSON_BIGINT_AS_STRING);

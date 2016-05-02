@@ -95,13 +95,6 @@ class ProfileController extends Controller {
 
                 if ($account->h5->updated_at->diffInMinutes() >= $this->refreshRateInMinutes || $account->h5->inactiveCounter == 128)
                 {
-                    if (! $account->h5->warzone instanceof Warzone)
-                    {
-                        $h5_warzone = new Warzone();
-                        $h5_warzone->account_id = $account->id;
-                        $h5_warzone->save();
-                    }
-
                     // update this
                     $this->dispatch(new UpdateHalo5Account($account));
 

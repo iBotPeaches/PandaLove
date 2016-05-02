@@ -38,6 +38,7 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
  * @property string $seasonId
  * @property int $inactiveCounter
  * @property boolean $disabled
+ * @property int $version
  */
 class Data extends Model {
 

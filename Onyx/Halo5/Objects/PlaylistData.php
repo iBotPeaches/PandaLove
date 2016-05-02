@@ -30,6 +30,7 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
  * @property int $current_Csr
  * @property int $current_percentNext
  * @property int $current_rank
+ * @property int $csrPercentile
  * @property int measurementMatchesLeft
  * @property string $seasonId
  */
@@ -82,9 +83,19 @@ class PlaylistData extends Model {
         $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
     }
 
+    public function setCsrPercentileAttribute($value)
+    {
+        $this->attributes['csrPercentile'] = ($value != null) ? ($value) : null;
+    }
+
     public function getDesignationIdAttribute($value)
     {
         return intval($value);
+    }
+
+    public function getCsrPercentileAttribute($value)
+    {
+        return ($value != null) ? $value . "%" : '?';
     }
 
     //---------------------------------------------------------------------------------
@@ -212,5 +223,10 @@ class PlaylistData extends Model {
     public function winRateColor()
     {
         return $this->stat_winRateColor($this->totalGamesWon, $this->totalGames);
+    }
+    
+    public function percentileColor()
+    {
+        return $this->stat_percentileColor($this->getOriginal('csrPercentile'));
     }
 }

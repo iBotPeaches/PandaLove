@@ -5,7 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Data as DestinyData;
+use Onyx\Destiny\Objects\Data;
 use Onyx\Halo5\Objects\Data as H5Data;
+use Onyx\Halo5\Objects\HistoricalStat;
 
 /**
  * Class Account
@@ -18,6 +20,9 @@ use Onyx\Halo5\Objects\Data as H5Data;
  * @property Carbon $updated_at
  * @property string $xuid
  * @property string $destiny_membershipId
+ * 
+ * @property Data $destiny
+ * @property \Onyx\Halo5\Objects\Data $h5
  */
 class Account extends Model {
 
@@ -54,37 +59,59 @@ class Account extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    /**
+     * @return Data
+     */
     public function destiny()
     {
         return $this->hasOne('Onyx\Destiny\Objects\Data', 'account_id', 'id');
     }
 
+    /**
+     * @return \Onyx\Halo5\Objects\Data
+     */
     public function h5()
     {
         return $this->hasOne('Onyx\Halo5\Objects\Data', 'account_id', 'id');
     }
-    
+
+    /**
+     * @return \Onyx\Halo5\Objects\Data
+     */
     public function h5_emblem()
     {
         return $this->h5()->select('id', 'account_id');
     }
 
+    /**
+     * @return HistoricalStat
+     */
     public function h5_stats()
     {
         return $this->hasMany('Onyx\Halo5\HistoricalStat', 'account_id', 'id');
     }
 
+    /**
+     * @return bool
+     */
     public function isPandaLove()
     {
         // fallback to the new isPanda on User check
         return ($this->user instanceof User) ? $this->user->isPanda : false;
     }
 
+    /**
+     * @return User
+     */
     public function user()
     {
         return $this->hasOne('Onyx\User', 'account_id', 'id');
     }
 
+    /**
+     * @param $membershipId
+     * @return int|null
+     */
     public static function getAccountIdViaDestiny($membershipId)
     {
         $account = Account::where('destiny_membershipId', $membershipId)->first();

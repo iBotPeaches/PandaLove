@@ -76,6 +76,31 @@ trait Stats {
     }
 
     /**
+     * @param $percent
+     * @return string
+     */
+    public function stat_percentileColor($percent)
+    {
+        switch (true)
+        {
+            case $percent == null || $percent == "?":
+                return '';
+
+            case $percent < 20:
+                return 'green';
+            
+            case $percent <= 40 && $percent > 20:
+                return 'yellow';
+            
+            case $percent <= 40 && $percent > 80:
+                return 'orange';
+
+            default:
+                return 'red';
+        }
+    }
+
+    /**
      * @param $k integer
      * @param $d integer
      * @return float

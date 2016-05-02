@@ -30,7 +30,17 @@ use Ramsey\Uuid\Uuid;
 class Client extends Http {
 
     public static $updateRan = false;
-    
+
+    /**
+     * @var array
+     */
+    public $account_cached = [];
+
+    /**
+     * @var array
+     */
+    public $account_id_cached = [];
+
     const PER_PAGE = 9;
 
     //---------------------------------------------------------------------------------
@@ -150,7 +160,8 @@ class Client extends Http {
             try
             {
                 return Account::firstOrCreate([
-                    'gamertag' => $json['Results'][0]['Id']
+                    'gamertag' => $json['Results'][0]['Id'],
+                    'accountType' => Console::Xbox
                 ]);
             }
             catch (QueryException $e)
@@ -180,7 +191,7 @@ class Client extends Http {
             {
                 $account = Account::firstOrCreate([
                     'gamertag' => $entry['Id'],
-                    'accountType' => 1
+                    'accountType' => Console::Xbox
                 ]);
 
                 $account->save();
@@ -465,6 +476,12 @@ class Client extends Http {
     public function pullArenaSeasonHistoryRecord(&$account)
     {
         $seasons = Season::all();
+        $forceDownload = false;
+        
+        if (isset($account->h5))
+        {
+            $forceDownload = config('app.halo_version') != $account->h5->version;
+        }
 
         /** @var $season Season */
         foreach ($seasons as $season)
@@ -475,7 +492,7 @@ class Client extends Http {
                 ->where('updated_at', '>=', $season->end_date)
                 ->first();
 
-            if ($playlist == null && ! $season->isFuture())
+            if (($playlist == null && ! $season->isFuture()) || $forceDownload)
             {
                 $this->updateArenaServiceRecord($account, $season->contentId);
             }
@@ -810,7 +827,7 @@ class Client extends Http {
     {
         $account = $this->checkCacheForGamertag($gamertag);
 
-        if (! $account instanceof Account)
+        if ($account === null)
         {
             return Account::firstOrCreate([
                 'gamertag' => $gamertag,
@@ -895,10 +912,12 @@ class Client extends Http {
      * @param Account $account
      * @param array $record
      * @param Data $h5_data
+     * @param boolean $bulkAdded
      * @return bool
      */
     private function _parseServiceRecord(&$account, $record, &$h5_data, $bulkAdded = false)
     {
+        $h5_data->version = config('app.halo_version');
         $h5_data->totalKills = $record['ArenaStats']['TotalKills'];
         $h5_data->totalSpartanKills = $record['ArenaStats']['TotalSpartanKills'];
         $h5_data->totalHeadshots = $record['ArenaStats']['TotalHeadshots'];
@@ -964,6 +983,9 @@ class Client extends Http {
                 $p->current_rank = $playlist['Csr']['Rank'];
             }
 
+            // CsrPrecentile (Not in Preseason)
+            $p->csrPercentile = isset($playlist['CsrPercentile']) ? $playlist['CsrPercentile'] : null;
+
             $p->totalKills = $playlist['TotalKills'];
             $p->totalSpartanKills = $playlist['TotalSpartanKills'];
             $p->totalHeadshots = $playlist['TotalHeadshots'];
@@ -1017,19 +1039,24 @@ class Client extends Http {
      */
     private function checkCacheForGamertag($gamertag)
     {
-        $account = \Cache::remember('gamertag-' . $gamertag, 60, function() use ($gamertag)
-        {
-            return Account::where('seo', DestinyText::seoGamertag($gamertag))
-                ->where('accountType', Console::Xbox)
-                ->first();
-        });
+        $seo = DestinyText::seoGamertag($gamertag);
 
-        if ($account instanceof Account)
+        if (isset($this->account_cached[$seo]))
         {
+            return $this->account_cached[$seo];
+        }
+
+        $account = Account::where('seo', $seo)
+            ->where('accountType', Console::Xbox)
+            ->first();
+
+        if ($account !== null)
+        {
+            $this->account_cached[$seo] = $account;
             return $account;
         }
 
-        return false;
+        return null;
     }
 
     /**
