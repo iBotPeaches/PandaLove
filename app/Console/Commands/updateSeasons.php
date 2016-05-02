@@ -57,6 +57,7 @@ class updateSeasons extends Command
 
                     /** @var $_season Season */
                     $_season = Season::where('contentId', $season['id'])->firstOrFail();
+                    $_season->name = $season['name'];
                     $_season->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
                     $_season->isActive = boolval($season['isActive']);
                     $_season->save();

@@ -53,6 +53,16 @@ class Season extends Model {
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
+    public function setNameAttribute($value)
+    {
+        if (is_null($value))
+        {
+            $value = 'Name Unknown - ' . date('M y');
+        }
+        
+        $this->attributes['name'] = $value;
+    }
+    
     public function setStartDateAttribute($value)
     {
         $this->attributes['start_date'] = new Carbon($value);
