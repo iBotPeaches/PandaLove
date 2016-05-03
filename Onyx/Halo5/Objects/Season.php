@@ -57,7 +57,8 @@ class Season extends Model {
     {
         if (is_null($value))
         {
-            $value = 'Name Unknown - ' . date('F Y');
+            // Season name was null, so replicate the same pattern of Month Year Season
+            $value = date('F Y') . ' Season';
         }
         
         $this->attributes['name'] = $value;
