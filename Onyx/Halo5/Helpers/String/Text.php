@@ -30,11 +30,20 @@ class Text {
         $nextLevel = Rank::where('previousLevel', $spartanRank)->first();
         $level = Rank::where('level', $spartanRank)->first();
 
-        $delta = $nextLevel->startXp - $level->startXp;
-        
+        if ($nextLevel instanceof Rank)
+        {
+            $delta = $nextLevel->startXp - $level->startXp;
+            $current = $account->h5->Xp - $level->startXp;
+        }
+        else
+        {
+            $delta = 100;
+            $current = 100;
+        }
+
         return [
             'max' => $delta,
-            'current' => $account->h5->Xp - $level->startXp,
+            'current' => $current,
             'next' => $nextLevel
         ];
     }
