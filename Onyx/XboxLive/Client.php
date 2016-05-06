@@ -22,6 +22,7 @@ class Client extends XboxAPI {
         '219630713',            // Halo 5
         '74304278',             // Division
         '934424724',            // Gears of War 4 - BETA
+        '706211867',            // Overwatch - BETA
     ];
 
     /**
