@@ -8,15 +8,32 @@
                     <h1 class="ui header">
                         {{ $match->playlist->name }} on {{ $match->map->name }} - <a href="{{ action('Halo5\GameController@getGame', [$type, $match->uuid]) }}" class="ui blue button">Go Back</a>
                     </h1>
-                    <div class="ui middle aligned divided list">
-                        @foreach($match->events as $event)
-                            <div class="item">
-                                <div class="right floated content">
-                                    {{ $event->seconds_since_start }}
-                                </div>
-                                @include('includes.halo5.game.events.types.' . \Onyx\Halo5\Enums\EventName::getSeo($event->event_name))
-                            </div>
-                        @endforeach
+                    <div class="ui stackable menu">
+                        <a class="active item" data-tab="overview">
+                            Overview
+                        </a>
+                        <a class="item" data-tab="text-timeline">
+                            Text Timeline
+                        </a>
+                        <a class="item" data-tab="visual-timeline">
+                            Visual Timeline
+                        </a>
+                        <a class="item" data-tab="gameviewer">
+                            GameViewer
+                        </a>
+                        <a class="item" href="{{ action('Halo5\GameController@getGame', [$type, $match->uuid]) }}">Back to Game</a>
+                    </div>
+                    <div class="ui bottom attached active tab" data-tab="overview">
+                        @include('includes.halo5.game.events.overview-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="text-timeline">
+                        @include('includes.halo5.game.events.text-timeline-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="visual-timeline">
+                        @include('includes.halo5.game.events.visual-timeline-tab')
+                    </div>
+                    <div class="ui bottom attached tab" data-tab="gameviewer">
+                        @include('includes.halo5.game.events.viewer-tab')
                     </div>
                 </div>
             </div>
@@ -33,4 +50,12 @@
             margin-left: -15px;
         }
     </style>
+@append
+
+@section('inline-js')
+    <script type="text/javascript">
+        $(function() {
+            $('.menu .item').tab();
+        });
+    </script>
 @append

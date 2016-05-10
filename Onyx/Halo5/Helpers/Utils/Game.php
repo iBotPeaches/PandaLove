@@ -20,6 +20,28 @@ class Game {
      */
     const MEDAL_SNIPER_HEAD_UUID = '848240062';
 
+    public static function buildCombinedMatchEvents(Match $match)
+    {
+        $combined = [];
+
+        // Our goal here is simple. Events occur at the same second can be bulked
+        // IE all spawn events can be grouped
+        // All events for same user at same second
+        // This will make our lives easier for building the timeline
+        foreach ($match->events as $event)
+        {
+            $second = $event->getOriginal('seconds_since_start');
+            $id = $event->killer_id == null ? 0 : $event->killer_id;
+            $combined[$second][$id][] = $event;
+            $combined[$second]['stats'] = [
+                'time' => $event->seconds_since_start,
+                'type' => $event->event_name
+            ];
+        }
+
+        return $combined;
+    }
+
     /**
      * @param $match Match
      * @return array
