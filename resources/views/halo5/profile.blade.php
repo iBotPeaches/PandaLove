@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     @if (isset($user) && $user != null)
-                        <div class="ui raised segment">
+                        <div class="ui raised segment" id="manual-refresh-button" style="display:none;">
                             <a href="{{ action('Halo5\ProfileController@manualUpdate', [$account->seo]) }}" class="ui fluid green button">Refresh Data</a>
                         </div>
                     @endif
@@ -119,6 +119,7 @@
                     } else if (result.updated == false && result.frozen == false) {
                         $msg.removeClass('icon').addClass('blue');
                         $("#update-message .content p").empty().text("Account last updated: " + result.last_update);
+                        $("#manual-refresh-button").show();
                     } else if (result.frozen) {
                         $msg.removeClass('icon').addClass('yellow');
                         $("#update-message .content p").empty().html(result.last_update);
