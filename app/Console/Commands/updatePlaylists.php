@@ -52,9 +52,11 @@ class updatePlaylists extends Command
             {
                 try
                 {
+                    /** @var $_playlist Playlist */
                     $_playlist = Playlist::where('contentId', $playlist['id'])->firstOrFail();
                     $this->info('Playlist: ' . $playlist['name'] . ' already exists. Updating now.');
 
+                    $_playlist->name = $playlist['name'];
                     $_playlist->description = $playlist['description'];
                     $_playlist->isRanked = $playlist['isRanked'];
                     $_playlist->isActive = $playlist['isActive'];
