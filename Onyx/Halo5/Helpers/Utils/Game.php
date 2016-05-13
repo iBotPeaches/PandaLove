@@ -127,7 +127,7 @@ class Game {
                 'tooltip' => 'The spartan who beat down (melee) the most spartans in this match.',
                 'message' => 'Beater',
                 'spartan' => null,
-                'zero' => null,
+                'zero' => true,
             ],
             'powerholder' => [
                 'title' => 'Power Weapon Held Time',
