@@ -268,7 +268,14 @@ class Client extends Http {
         {
             $_team = new MatchTeam();
             $_team->game_id = $match->id;
-            $_team->team_id = ($match->isTeamGame) ? $team['TeamId'] : $i++;
+            if ($match->isTeamGame)
+            {
+                $_team->team_id = $team['TeamId'];
+            }
+            else
+            {
+                $_team->player_id = $i++;
+            }
             $_team->score = $team['Score'];
             $_team->rank = $team['Rank'];
             $_team->round_stats = $team['RoundStats'];
