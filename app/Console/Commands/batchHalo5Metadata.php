@@ -63,8 +63,25 @@ class batchHalo5Metadata extends Command
             $this->info('Ran command (' . $command . ') with output of: ' . $exitCode);
 
             $randomSleep = mt_rand(1, 8);
-            sleep($randomSleep);
             $this->info('Sleeping for ' . $randomSleep . ' seconds before next command.');
+            sleep($randomSleep);
+        }
+        
+        $caches = [
+            'vehicles-metadata',
+            'gametypes-metadata',
+            'weapons-metadata',
+            'maps-metadata',
+            'metadata-metadata',
+            'impulses-metadata',
+            'medals-metadata',
+            'playlists-metadata',
+        ];
+        
+        foreach ($caches as $name)
+        {
+            $this->info('Dumping cache for ' . $name);
+            \Cache::forget($name);
         }
     }
 }
