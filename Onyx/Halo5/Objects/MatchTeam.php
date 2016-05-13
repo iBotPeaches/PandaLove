@@ -43,11 +43,23 @@ class MatchTeam extends Model {
     {
         parent::boot();
 
+        static::creating(function ($team)
+        {
+            if ($team->team_id === null)
+            {
+                $team->key = ($team->game_id . "_" . $team->player_id);
+                unset($team->player_id);
+            }
+        });
+
         static::created(function ($team)
         {
             /* @var $team \Onyx\Halo5\Objects\MatchTeam */
-            $team->key = ($team->game_id . "_" . $team->team_id);
-            $team->save();
+            if ($team->team_id !== null)
+            {
+                $team->key = ($team->game_id . "_" . $team->team_id);
+                $team->save();
+            }
         });
     }
 

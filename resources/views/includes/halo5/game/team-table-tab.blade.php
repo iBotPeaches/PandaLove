@@ -1,4 +1,4 @@
-<div class="ui raised {{ $team->team->getSemanticColor() }} segment">
+<div class="ui raised {{ ($match->isTeamGame) ? $team->team->getSemanticColor() : null }} segment">
     <table class="ui sortable table">
         <thead class="desktop only">
             <tr>

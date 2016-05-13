@@ -11,7 +11,7 @@
         </div>
     </div>
 </div>
-@if (count($match->teams) > 1)
+@if (count($match->teams) > 1 && $match->isTeamGame)
     @foreach ($match->teams as $team)
         <div class="ui inverted {{ $team->team->getSemanticColor() }} segment">
             <img class="ui avatar image" src="{{ $team->team->getImage() }}">

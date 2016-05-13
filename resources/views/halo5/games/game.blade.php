@@ -19,20 +19,32 @@
                         <a class="active item" data-tab="overview">
                             Overview
                         </a>
-                        @foreach ($match->teams as $team)
-                            <a class="item" data-tab="team{{ $team->team_id }}">
-                                {{ $team->team->name }}
+                        @if ($match->isTeamGame)
+                            @foreach ($match->teams as $team)
+                                <a class="item" data-tab="team{{ $team->team_id }}">
+                                    {{ $team->team->name}}
+                                </a>
+                            @endforeach
+                        @else
+                            <a class="item" data-tab="team">
+                                Players
                             </a>
-                        @endforeach
+                        @endif
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.halo5.game.overview-tab')
                     </div>
-                    @foreach ($match->teams as $team)
-                        <div class="ui bottom attached tab" data-tab="team{{ $team->team_id }}">
-                            @include('includes.halo5.game.team-table-tab', ['players' => $match->playersOnTeam($team->key), 'team' => $team])
+                    @if ($match->isTeamGame)
+                        @foreach ($match->teams as $team)
+                            <div class="ui bottom attached tab" data-tab="team{{ $team->team_id }}">
+                                @include('includes.halo5.game.team-table-tab', ['players' => $match->playersOnTeam($team->key), 'team' => $team])
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="ui bottom attached tab" data-tab="team">
+                            @include('includes.halo5.game.team-table-tab', ['players' => $match->players, 'team' => null])
                         </div>
-                    @endforeach
+                    @endif
                 </div>
             </div>
             @foreach ($match->players as $player)

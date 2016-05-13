@@ -17,7 +17,9 @@
                     data-content="{{ $score['tooltip'] }}">{{ $score['message'] }} - <strong>{!! $score['formatted'] !!} </strong> by
                     <a href="{{ action('Halo5\ProfileController@index', [$score['spartan']->account->seo]) }}">{{ $score['spartan']->account->gamertag }}</a>
                     <span class="right floated content">
-                        <span class="ui desktop tablet only horizontal label {{ $score['spartan']->team->team->getSemanticColor() }}">{{ $score['spartan']->team->team->name }}</span>
+                        @if ($match->isTeamGame)
+                            <span class="ui desktop tablet only horizontal label {{ $score['spartan']->team->team->getSemanticColor() }}">{{ $score['spartan']->team->team->name }}</span>
+                        @endif
                     </span>
                 </li>
             @endif

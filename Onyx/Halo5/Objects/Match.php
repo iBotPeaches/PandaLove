@@ -81,6 +81,11 @@ class Match extends Model {
         return Text::timeDuration($value);
     }
 
+    public function getIsTeamGameAttribute($value)
+    {
+        return boolval($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------

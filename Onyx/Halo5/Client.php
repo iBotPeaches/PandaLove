@@ -263,11 +263,12 @@ class Client extends Http {
         $match->duration = $data['TotalDuration'];
         $match->save();
 
+        $i = 0;
         foreach ($data['TeamStats'] as $team)
         {
             $_team = new MatchTeam();
             $_team->game_id = $match->id;
-            $_team->team_id = $team['TeamId'];
+            $_team->team_id = ($match->isTeamGame) ? $team['TeamId'] : $i++;
             $_team->score = $team['Score'];
             $_team->rank = $team['Rank'];
             $_team->round_stats = $team['RoundStats'];
@@ -292,6 +293,7 @@ class Client extends Http {
             $this->getAccountsByGamertags(rtrim($gts, ","));
         }
 
+        $i = 0;
         foreach ($data['PlayerStats'] as $player)
         {
             $_player = new MatchPlayer();
@@ -299,7 +301,7 @@ class Client extends Http {
             $_player->killed = $player['KilledOpponentDetails'];
             $_player->killed_by = $player['KilledByOpponentDetails'];
             $_player->account_id = $this->getAccount($player['Player']['Gamertag']);
-            $_player->team_id = $match->id . "_" . $player['TeamId'];
+            $_player->team_id = $match->id . "_" . (($match->isTeamGame) ? $player['TeamId'] : $i++);
             $_player->medals = $player['MedalAwards'];
             $_player->enemies = $player['EnemyKills'];
             $_player->weapons = $player['WeaponStats'];
