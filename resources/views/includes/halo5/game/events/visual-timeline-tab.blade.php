@@ -1,20 +1,25 @@
-<section id="cd-timeline">
+<ul class="timeline">
     @foreach ($combined as $time)
-        <div class="cd-timeline-block">
-            <div class="cd-timeline-img" style="background: #333;">
-                <img src="{{ asset('images/unknown-weapon.png') }}" />
-            </div>
-            <div class="cd-timeline-content">
-                <h2>Gamertag</h2>
-                <p>Paragraph</p>
-                <span class="cd-date">{{ $time['stats']['time'] }}</span>
-            </div>
-            @foreach ($time as $user_id => $items)
-                @if ($user_id != "stats")
-                    @foreach ($items as $item)
+        <li>
+            <div class="timeline-badge primary"><a><i class="ui icon bullseye" rel="tooltip" title="{{ $time['stats']['time'] }}"></i></a></div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                </div>
+                <div class="ui middle aligned divided list">
+                    @foreach ($time as $user_id => $items)
+                        @if ($user_id != "stats")
+                            @foreach ($items as $item)
+                                <div class="item">
+                                    @include('includes.halo5.game.events.types.' . \Onyx\Halo5\Enums\EventName::getSeo($item->event_name), ['event' => $item])
+                                </div>
+                            @endforeach
+                        @endif
                     @endforeach
-                @endif
-            @endforeach
-        </div>
+                </div>
+                <div class="timeline-footer">
+                </div>
+            </div>
+        </li>
     @endforeach
-</section>
+    <li class="clearfix" style="float: none;"></li>
+</ul>

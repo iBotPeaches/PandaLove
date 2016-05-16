@@ -1,5 +1,7 @@
 <?php namespace Onyx\Halo5\Helpers\Utils;
 
+use Onyx\Calendar\Objects\Event;
+use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchPlayer;
 
@@ -28,10 +30,32 @@ class Game {
         // IE all spawn events can be grouped
         // All events for same user at same second
         // This will make our lives easier for building the timeline
+        $skipNextEvent = false;
+        $secondToSkip = -1;
+
         foreach ($match->events as $event)
         {
+            /** @var $second integer */
             $second = $event->getOriginal('seconds_since_start');
+            if ($second != $secondToSkip && $secondToSkip != -1)
+            {
+                $skipNextEvent = false;
+                $secondToSkip = 0;
+            }
+            
+            if ($skipNextEvent)
+            {
+                $secondToSkip = $second;
+                continue;
+            }
+
             $id = $event->killer_id == null ? 0 : $event->killer_id;
+
+            if ($event->event_name == EventName::RoundStart)
+            {
+                $skipNextEvent = true;
+            }
+
             $combined[$second][$id][] = $event;
             $combined[$second]['stats'] = [
                 'time' => $event->seconds_since_start,

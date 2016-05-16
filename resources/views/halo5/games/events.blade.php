@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="12u">
                     <h1 class="ui header">
-                        {{ $match->playlist->name }} on {{ $match->map->name }} - <a href="{{ action('Halo5\GameController@getGame', [$type, $match->uuid]) }}" class="ui blue button">Go Back</a>
+                        {{ $match->playlist->name }} on {{ $match->map->name }}
                     </h1>
                     <div class="ui stackable menu">
                         <a class="active item" data-tab="overview">
@@ -27,7 +27,6 @@
                         @include('includes.halo5.game.events.overview-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="text-timeline">
-                        @include('includes.halo5.game.events.text-timeline-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="visual-timeline">
                         @include('includes.halo5.game.events.visual-timeline-tab')
@@ -42,6 +41,7 @@
 @endsection
 
 @section('inline-css')
+    <link rel="stylesheet" href="{{ asset('css/vertical-timeline.css') }}" />
     <style type="text/css">
         .medal {
             zoom:0.45;
@@ -56,6 +56,21 @@
     <script type="text/javascript">
         $(function() {
             $('.menu .item').tab();
+
+            var my_posts = $("[rel=tooltip]");
+
+            var size = $(window).width();
+            for (i = 0; i <my_posts.length; i++) {
+                the_post = $(my_posts[i]);
+
+                if (the_post.hasClass('invert') && size >= 767) {
+                    the_post.popup({ placement: 'left'});
+                    the_post.css("cursor", "pointer");
+                } else {
+                    the_post.popup({ placement: 'right'});
+                    the_post.css("cursor", "pointer");
+                }
+            }
         });
     </script>
 @append
