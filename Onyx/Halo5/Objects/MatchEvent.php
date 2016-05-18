@@ -303,6 +303,14 @@ class MatchEvent extends Model {
         $this->attributes[$type . "_z"] = floatval($data['z']);
     }
 
+    /**
+     * @return float
+     */
+    public function getPercentFired()
+    {
+        return round(($this->shots_landed / $this->shots_fired) * 100, 2);
+    }
+
     public function match()
     {
         return $this->belongsTo('Onyx\Halo5\Objects\Match', 'game_id', 'id');

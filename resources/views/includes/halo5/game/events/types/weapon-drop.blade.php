@@ -12,5 +12,7 @@
     @endif
     has dropped <b>{{ $event->killer_weapon->name }}</b>
     <img class="ui avatar image" src="{{ $event->killer_weapon->getImage() }}" />
-    firing <b>{{ $event->shots_fired }}</b> shots and landing <b>{{ $event->shots_landed }}</b> of them.
+    @if ($event->shots_fired != 0)
+        ({{ $event->getPercentFired() . "%" }})
+    @endif
 </div>
