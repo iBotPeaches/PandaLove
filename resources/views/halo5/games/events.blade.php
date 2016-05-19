@@ -12,6 +12,9 @@
                         <a class="active item" data-tab="overview">
                             Overview
                         </a>
+                        <a class="item" data-tab="charts">
+                            Charts
+                        </a>
                         <a class="item" data-tab="timeline">
                             Timeline
                         </a>
@@ -23,8 +26,11 @@
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.halo5.game.events.overview-tab')
                     </div>
+                    <div class="ui bottom attached tab" data-tab="charts">
+                        @include('includes.halo5.game.events.charts-tab')
+                    </div>
                     <div class="ui bottom attached tab" data-tab="timeline">
-                        @include('includes.halo5.game.events.timeline-tab')
+                        <? //@include('includes.halo5.game.events.timeline-tab') ?>
                     </div>
                     <div class="ui bottom attached tab" data-tab="gameviewer">
                         @include('includes.halo5.game.events.viewer-tab')

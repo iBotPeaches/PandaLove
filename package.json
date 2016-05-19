@@ -4,5 +4,8 @@
     "laravel-elixir": "*",
     "jquery": "1.11.1",
     "font-awesome": "4.2.0"
+  },
+  "dependencies": {
+    "chart.js": "^2.1.3"
   }
 }

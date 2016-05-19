@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="timeline-footer">
-                    {{ $time['stats']['time'] }}
+                    {{ $time['stats']['time'] }} into match.
                 </div>
             </div>
         </li>

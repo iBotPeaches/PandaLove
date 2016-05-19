@@ -271,6 +271,10 @@ class MatchEvent extends Model {
 
     public function getSecondsSinceStartAttribute($value)
     {
+        if ($value == 0)
+        {
+            return '0 seconds ';
+        }
         return Text::timeDuration($value);
     }
 
