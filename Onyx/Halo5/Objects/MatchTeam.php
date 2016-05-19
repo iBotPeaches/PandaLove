@@ -100,9 +100,9 @@ class MatchTeam extends Model {
     {
         if ($this->isWinner())
         {
-            return '<span class="ui green label">Winner</span>';
+            return '<span class="ui green label">Win</span>';
         }
-        return '<span class="ui label">Loser</span>';
+        return '<span class="ui label">Lose</span>';
     }
 
     public function isWinner()
