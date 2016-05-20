@@ -324,7 +324,9 @@ class Game {
             self::checkOrSet($combined['loser'], $player, 'totalDeaths', true);
             self::checkOrSet($combined['deaths'], $player, 'totalDeaths', false);
             self::checkOrSet($combined['assists'], $player, 'totalAssists', true);
-            self::checkOrSet($combined['damage'], $player, 'weapon_dmg', true);
+            self::checkOrSet($combined['damage'], $player, function($player) {
+                return round($player->weapon_dmg, 2);
+            }, true);
             self::checkOrSet($combined['avgtime'], $player, 'avg_lifestime', true);
             self::checkOrSet($combined['groundpound'], $player, 'totalGroundPounds', true);
             self::checkOrSet($combined['assassin'], $player, 'totalAssassinations', true);
