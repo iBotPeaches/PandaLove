@@ -26,4 +26,25 @@ abstract class MetadataType {
      * Medal - halo5_medals
      */
     const Medal = 25;
+
+    /**
+     * Impulses that spam the event feed every second are here.
+     * This allows us to find the start/end of an impulse and
+     * create a single event that is from start to end
+     * vs spamming events every second.
+     * @var array
+     */
+    public static $tickingImpulses = [
+        '2483589021', // Ball Held Duration
+        '588422610', // Time Survived Tick
+    ];
+
+    /**
+     * @param $uuid
+     * @return bool
+     */
+    public static function isTickingImpulse($uuid)
+    {
+        return in_array($uuid, self::$tickingImpulses);
+    }
 }

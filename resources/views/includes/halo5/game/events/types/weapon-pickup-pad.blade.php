@@ -10,6 +10,6 @@
     @else
         <a href="#">AI</a>
     @endif
-    has picked up a <b>{{ $event->killer_weapon->name }}</b> from a weapon pad.
+    picked up a <b>{{ $event->killer_weapon->name }}</b> via a weapon pad.
     <img class="ui avatar image" src="{{ $event->killer_weapon->getImage() }}" />
 </div>

@@ -101,6 +101,14 @@ class Metadata extends Model {
         return asset('images/' . $path . '/' . $this->uuid . $size . '.png');
     }
 
+    /**
+     * @return bool
+     */
+    public function isImpulse()
+    {
+        return $this->type == MetadataType::Impulses;
+    }
+
     public static function getAll()
     {
         if (count(self::$cache) > 0)

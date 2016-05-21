@@ -2,6 +2,7 @@
 
 use Onyx\Calendar\Objects\Event;
 use Onyx\Halo5\Enums\EventName;
+use Onyx\Halo5\Enums\MetadataType;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchPlayer;
@@ -53,12 +54,17 @@ class Game {
         }
         else
         {
+            $colors = ['E61919', 'E6A119', 'E5E619', '9CB814', '4D8A0F', '14B84B',
+            '19E6C4', '149CB8', '1F36AD', '4E1FAD', '9D26D9', 'D926D9', 'E6193C',
+            'E8E3E3', '38302E', '33293D', 'F6CCFF'];
+
+            $i = 0;
             foreach ($match->players as $player)
             {
                 $kill_time[0][$player->account_id] = 0;
                 $team_label[$player->account_id] = [
                     'name' => $player->account->gamertag,
-                    'color' => "#" . substr(md5(rand()), 0, 6),
+                    'color' => "#" . $colors[$i++],
                 ];
             }
         }
@@ -199,6 +205,14 @@ class Game {
                     else if ($event->event_name == EventName::Medal)
                     {
 
+                    }
+                    else if ($event->event_name == EventName::Impulse)
+                    {
+                        if (MetadataType::isTickingImpulse($event->killer_weapon_id))
+                        {
+                            // Check if this id already has IN-Progress, if so update `last`.
+                            // Iterate through the already active Impulse counts.
+                        }
                     }
                 }
             }

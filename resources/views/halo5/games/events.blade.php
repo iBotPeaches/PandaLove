@@ -45,8 +45,11 @@
     <link rel="stylesheet" href="{{ asset('css/vertical-timeline.css') }}" />
     <style type="text/css">
         .medal {
-            zoom:0.45;
-            -moz-transform:scale(0.45);
+            -moz-transform: scale(0.5,0.5);
+            -ms-transform: scale(0.5,0.5);
+            -webkit-transform: scale(0.5,0.5);
+            -o-transform: scale(0.5,0.5);
+            transform: scale(0.5,0.5);
             margin-top: -20px;
             margin-left: -15px;
         }

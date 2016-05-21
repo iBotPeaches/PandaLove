@@ -1,4 +1,3 @@
-<h2 class="ui header">Kills over time</h2>
 <canvas id="killsOverTime"></canvas>
 
 @section('inline-js')
@@ -10,10 +9,37 @@
                 type: 'line',
                 data: jQuery.parseJSON('{!! $chart_data !!}'),
                 options: {
+                    title: {
+                        display: true,
+                        text: "Kills over time",
+                        fontSize: 15
+                    },
+                    legend: {
+                        labels: {
+                            boxWidth: 20
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            afterBody: function(tooltipItem, data) {
+                                return "yee";
+                            }
+                        }
+                    },
                     scales: {
                         yAxes: [{
                             ticks: {
                                 beginAtZero:true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Kills"
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Match Time"
                             }
                         }]
                     }
