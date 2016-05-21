@@ -266,8 +266,14 @@
 .spartanrank-table:before {
 	content: "Spartan Rank: ";
 }
+.place-table:before {
+	content: "Game Place: ";
+}
 .bestplaylist-table:before {
 	content: "Best Playlist: ";
+}
+.advanced-table:before {
+	content: "Advanced Stats: ";
 }
 .ui.statistics.four > .statistic > .value {
 	font-size: 2.1rem !important;
@@ -282,9 +288,19 @@
 	margin-bottom: 3px !important;
 }
 .mobile-hidden {
-	display: none;
+	display: none !important;
 }
 .stat-fix {
-	zoom:0.45;
-	-moz-transform:scale(0.45);
+	-moz-transform: scale(0.45,0.45) !important;
+	-ms-transform: scale(0.45,0.45) !important;
+	-webkit-transform: scale(0.45,0.45) !important;
+	-o-transform: scale(0.45,0.45) !important;
+	transform: scale(0.45,0.45) !important;
+}
+.tiny-medal {
+	-moz-transform: scale(0.25,0.25) !important;
+	-ms-transform: scale(0.25,0.25) !important;
+	-webkit-transform: scale(0.25,0.25) !important;
+	-o-transform: scale(0.25,0.25) !important;
+	transform: scale(0.25,0.25) !important;
 }
