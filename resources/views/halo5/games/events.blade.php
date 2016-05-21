@@ -30,7 +30,7 @@
                         @include('includes.halo5.game.events.charts-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="timeline">
-                        <? //@include('includes.halo5.game.events.timeline-tab') ?>
+                        @include('includes.halo5.game.events.timeline-tab')
                     </div>
                     <div class="ui bottom attached tab" data-tab="gameviewer">
                         @include('includes.halo5.game.events.viewer-tab')

@@ -36,17 +36,31 @@ class Game {
 
         foreach ($match->players as $player)
         {
-            $team_map[$player->account_id] = $player->team_id;
+            $team_map[$player->account_id] = ($match->isTeamGame) ? $player->team_id : $player->account_id;
         }
 
-        // Set all teams to 0 kills at 0 seconds
-        foreach ($match->teams as $team)
+        if ($match->isTeamGame)
         {
-            $kill_time[0][$team->key] = 0;
-            $team_label[$team->key] = [
-                'name' => $team->team->name,
-                'color' => $team->team->color,
-            ];
+            // Set all teams to 0 kills at 0 seconds
+            foreach ($match->teams as $team)
+            {
+                $kill_time[0][$team->key] = 0;
+                $team_label[$team->key] = [
+                    'name' => $team->team->name,
+                    'color' => $team->team->color,
+                ];
+            }
+        }
+        else
+        {
+            foreach ($match->players as $player)
+            {
+                $kill_time[0][$player->account_id] = 0;
+                $team_label[$player->account_id] = [
+                    'name' => $player->account->gamertag,
+                    'color' => "#" . substr(md5(rand()), 0, 6),
+                ];
+            }
         }
 
         $previousSecond = 0;
@@ -57,13 +71,28 @@ class Game {
             $team_id = $team_map[$event->killer_id];
 
             $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] + 1;
-            foreach ($match->teams as $team)
+
+            if ($match->isTeamGame)
             {
-                if (! isset($kill_time[$second][$team->key]))
+                foreach ($match->teams as $team)
                 {
-                    $kill_time[$second][$team->key] = $kill_time[$previousSecond][$team->key];
+                    if (! isset($kill_time[$second][$team->key]))
+                    {
+                        $kill_time[$second][$team->key] = $kill_time[$previousSecond][$team->key];
+                    }
                 }
             }
+            else
+            {
+                foreach ($match->players as $player)
+                {
+                    if (! isset($kill_time[$second][$player->account_id]))
+                    {
+                        $kill_time[$second][$player->account_id] = $kill_time[$previousSecond][$player->account_id];
+                    }
+                }
+            }
+
             $previousSecond = $second;
         }
 
@@ -85,6 +114,7 @@ class Game {
             $teams[] = [
                 'label' => $data['name'],
                 'borderColor' => $data['color'],
+                'backgroundColor' => "rgba(" . Color::hex2rgb($data['color']) . ", 0.1)",
                 'data' => $team_data[$key],
             ];
         }
