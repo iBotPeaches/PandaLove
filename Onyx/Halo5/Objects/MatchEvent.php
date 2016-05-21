@@ -271,6 +271,10 @@ class MatchEvent extends Model {
 
     public function getSecondsSinceStartAttribute($value)
     {
+        if ($value == 0)
+        {
+            return '0 seconds ';
+        }
         return Text::timeDuration($value);
     }
 
@@ -301,6 +305,14 @@ class MatchEvent extends Model {
         $this->attributes[$type . "_x"] = floatval($data['x']);
         $this->attributes[$type . "_y"] = floatval($data['y']);
         $this->attributes[$type . "_z"] = floatval($data['z']);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPercentFired()
+    {
+        return round(($this->shots_landed / $this->shots_fired) * 100, 2);
     }
 
     public function match()

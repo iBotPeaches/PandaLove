@@ -1,7 +1,11 @@
 <?php namespace Onyx\Halo5\Helpers\Utils;
 
+use Onyx\Calendar\Objects\Event;
+use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Objects\Match;
+use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchPlayer;
+use Onyx\Laravel\Helpers\Text;
 
 class Game {
 
@@ -19,6 +23,159 @@ class Game {
      * UUID for Sniper award -- Sniper Headshot medal
      */
     const MEDAL_SNIPER_HEAD_UUID = '848240062';
+
+    /**
+     * @param Match $match
+     * @return string
+     */
+    public static function buildKillChartArray(Match $match)
+    {
+        $team_map = [];
+        $kill_time = [];
+        $team_label = [];
+
+        foreach ($match->players as $player)
+        {
+            $team_map[$player->account_id] = $player->team_id;
+        }
+
+        // Set all teams to 0 kills at 0 seconds
+        foreach ($match->teams as $team)
+        {
+            $kill_time[0][$team->key] = 0;
+            $team_label[$team->key] = [
+                'name' => $team->team->name,
+                'color' => $team->team->color,
+            ];
+        }
+
+        $previousSecond = 0;
+        foreach ($match->kill_events as $event)
+        {
+            /** @var integer $second */
+            $second = $event->getOriginal('seconds_since_start');
+            $team_id = $team_map[$event->killer_id];
+
+            $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] + 1;
+            foreach ($match->teams as $team)
+            {
+                if (! isset($kill_time[$second][$team->key]))
+                {
+                    $kill_time[$second][$team->key] = $kill_time[$previousSecond][$team->key];
+                }
+            }
+            $previousSecond = $second;
+        }
+
+        $label = [];
+        $team_data = [];
+        // Now lets build the format that the JSON expects
+        foreach ($kill_time as $seconds => $teams)
+        {
+            $label[] = Text::timeDuration($seconds);
+            foreach ($teams as $key => $kills)
+            {
+                $team_data[$key][] = $kills;
+            }
+        }
+        
+        $teams = [];
+        foreach ($team_label as $key => $data)
+        {
+            $teams[] = [
+                'label' => $data['name'],
+                'borderColor' => $data['color'],
+                'data' => $team_data[$key],
+            ];
+        }
+
+        $json = [
+            'labels' => $label,
+            'datasets' => $teams,
+        ];
+
+        return json_encode($json);
+    }
+
+    /**
+     * @param Match $match
+     * @return array
+     */
+    public static function buildCombinedMatchEvents(Match $match)
+    {
+        $combined = [];
+
+        // Our goal here is simple. Events occur at the same second can be bulked
+        // IE all spawn events can be grouped
+        // All events for same user at same second
+        // This will make our lives easier for building the timeline
+        $skipNextEvent = false;
+        $secondToSkip = -1;
+
+        foreach ($match->events as $event)
+        {
+            /** @var $second integer */
+            $second = $event->getOriginal('seconds_since_start');
+            if ($second != $secondToSkip && $secondToSkip != -1)
+            {
+                $skipNextEvent = false;
+                $secondToSkip = 0;
+            }
+            
+            if ($skipNextEvent)
+            {
+                $secondToSkip = $second;
+                continue;
+            }
+
+            $id = $event->killer_id == null ? 0 : $event->killer_id;
+
+            if ($event->event_name == EventName::RoundStart)
+            {
+                $skipNextEvent = true;
+            }
+
+            $combined[$second][$id][] = $event;
+            $combined[$second]['stats'] = [
+                'time' => $event->seconds_since_start,
+                'type' => $event->event_name
+            ];
+        }
+
+        // Lets go through the second groups and look for events we can group together
+        $skipNextType = null;
+        foreach ($combined as $time_key => &$time)
+        {
+            foreach ($time as $user_id => &$events)
+            {
+                if ($user_id == "stats")
+                {
+                    continue;
+                }
+
+                /** @var $event MatchEvent */
+                foreach ($events as $key => &$event)
+                {
+                    if ($skipNextType != null && $skipNextType == $event->event_name)
+                    {
+                        unset($combined[$time_key][$user_id][$key]);
+                        continue;
+                    }
+
+                    if ($event->event_name == EventName::WeaponPickupPad)
+                    {
+                        $skipNextType = EventName::WeaponPickup;
+                    }
+                    else if ($event->event_name == EventName::Medal)
+                    {
+
+                    }
+                }
+            }
+        }
+
+        return $combined;
+    }
 
     /**
      * @param $match Match
@@ -167,7 +324,9 @@ class Game {
             self::checkOrSet($combined['loser'], $player, 'totalDeaths', true);
             self::checkOrSet($combined['deaths'], $player, 'totalDeaths', false);
             self::checkOrSet($combined['assists'], $player, 'totalAssists', true);
-            self::checkOrSet($combined['damage'], $player, 'weapon_dmg', true);
+            self::checkOrSet($combined['damage'], $player, function($player) {
+                return round($player->weapon_dmg, 2);
+            }, true);
             self::checkOrSet($combined['avgtime'], $player, 'avg_lifestime', true);
             self::checkOrSet($combined['groundpound'], $player, 'totalGroundPounds', true);
             self::checkOrSet($combined['assassin'], $player, 'totalAssassinations', true);

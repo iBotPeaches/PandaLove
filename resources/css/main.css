@@ -13,3 +13,8 @@
 .fb {
     vertical-align: middle !important;
 }
+canvas{
+    width: 100% !important;
+    max-width: 1200px;
+    height: auto !important;
+}

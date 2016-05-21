@@ -501,6 +501,11 @@ class Client extends Http {
                 ->where('updated_at', '>=', $season->end_date)
                 ->first();
 
+            if (\App::environment() != "production")
+            {
+                sleep(rand(1,6));
+            }
+
             if (($playlist == null && ! $season->isFuture()) || $forceDownload)
             {
                 $this->updateArenaServiceRecord($account, $season->contentId);
@@ -1077,7 +1082,7 @@ class Client extends Http {
     {
         if ($events)
         {
-            $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account'];
+            $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account', 'kill_events'];
         }
         else
         {

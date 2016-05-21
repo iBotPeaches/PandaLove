@@ -10,6 +10,6 @@
     @else
         <a href="#">AI</a>
     @endif
-    has earned the <b>{{ $event->killer_weapon->name }}</b> medal.
+    earned the <b>{{ $event->killer_weapon->name }}</b> medal.
     <div class="ui avatar image"><i class="medal medal-{{ $event->killer_weapon->uuid }}"></i></div>
 </div>

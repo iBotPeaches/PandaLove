@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Laravel\Helpers\Text;
 use Ramsey\Uuid\Uuid;
@@ -25,6 +26,7 @@ use Ramsey\Uuid\Uuid;
  * @property Playlist $playlist
  * @property MatchTeam[] $teams
  * @property MatchEvent[] $events
+ * @property MatchEvent[] $kill_events
  * @property MatchPlayer[] $players
  */
 class Match extends Model {
@@ -119,6 +121,13 @@ class Match extends Model {
     public function events()
     {
         return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'id')->orderBy('seconds_since_start');
+    }
+
+    public function kill_events()
+    {
+        return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'id')
+            ->where('event_name', EventName::Death)
+            ->orderBy('seconds_since_start');
     }
 
     /**

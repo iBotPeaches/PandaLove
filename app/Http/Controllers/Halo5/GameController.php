@@ -65,6 +65,8 @@ class GameController extends Controller {
             return view('halo5.games.events', [
                 'match' => $match,
                 'type' => $type,
+                'combined' => Game::buildCombinedMatchEvents($match),
+                'chart_data' => Game::buildKillChartArray($match),
             ]);
         }
         catch (ModelNotFoundException $e)
