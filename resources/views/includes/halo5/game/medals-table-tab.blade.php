@@ -26,7 +26,7 @@
                 <td>
                     @foreach ($player->medals as $key => $medal)
                         @if ($medal instanceof \Onyx\Halo5\Objects\Medal && $medal->count > 0)
-                            <i class="medal tiny-medal medal-{{ $medal->contentId }}" data-title="{{ $medal->name }}" data-content="{{ $medal->description }}"></i>
+                            <i class="medal tiny-medal medal-{{ $medal->contentId }}" data-title="{{ $medal->name }} ({{ $medal->count }})" data-content="{{ $medal->description }}"></i>
                         @endif
                     @endforeach
                 </td>
