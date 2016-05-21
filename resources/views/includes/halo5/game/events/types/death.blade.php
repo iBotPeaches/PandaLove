@@ -16,6 +16,6 @@
     @else
         <a href="#">{{ $event->victim_enemy->name or "Unknown Enemy" }}</a>
     @endif
-    with a <b>{{ $event->killer_weapon->name }}</b>
+    with a <b>{{ $event->killer_weapon->name }}</b> ({{ $event->distance }}m away)
     <img class="ui avatar image" src="{{ $event->killer_weapon->getImage() }}" />
 </div>

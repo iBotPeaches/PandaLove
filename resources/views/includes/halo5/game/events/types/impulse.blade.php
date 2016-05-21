@@ -10,5 +10,8 @@
     @else
         <a href="#">AI</a>
     @endif
-    has {{ $event->killer_weapon->name }}.
+    earned <strong>{{ $event->killer_weapon->name }}</strong>
+    @if (isset($event->totalTime))
+        ({{ \Onyx\Laravel\Helpers\Text::timeDuration($event->totalTime) }})
+    @endif
 </div>

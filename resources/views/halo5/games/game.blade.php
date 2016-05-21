@@ -30,6 +30,9 @@
                                 Players
                             </a>
                         @endif
+                        <a class="item" data-tab="medals">
+                            Medals
+                        </a>
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.halo5.game.overview-tab')
@@ -45,6 +48,9 @@
                             @include('includes.halo5.game.team-table-tab', ['players' => $match->players, 'team' => null])
                         </div>
                     @endif
+                    <div class="ui bottom attached tab" data-tab="medals">
+                        @include('includes.halo5.game.medals-table-tab', ['players' => $match->players])
+                    </div>
                 </div>
             </div>
             @foreach ($match->players as $player)

@@ -13,6 +13,6 @@
     has dropped <b>{{ $event->killer_weapon->name }}</b>
     <img class="ui avatar image" src="{{ $event->killer_weapon->getImage() }}" />
     @if ($event->shots_fired != 0)
-        ({{ $event->getPercentFired() . "%" }})
+        ({{ $event->getPercentFired() . "%" }} accuracy)
     @endif
 </div>

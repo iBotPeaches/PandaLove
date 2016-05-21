@@ -139,12 +139,14 @@ class Game {
      */
     public static function buildCombinedMatchEvents(Match $match)
     {
-        $combined = [];
+        $cacheKey = $match->id . "_events";
 
-        // Our goal here is simple. Events occur at the same second can be bulked
-        // IE all spawn events can be grouped
-        // All events for same user at same second
-        // This will make our lives easier for building the timeline
+        if (\Cache::has($cacheKey))
+        {
+            return \Cache::get($cacheKey);
+        }
+
+        $combined = [];
         $skipNextEvent = false;
         $secondToSkip = -1;
 
@@ -180,6 +182,7 @@ class Game {
 
         // Lets go through the second groups and look for events we can group together
         $skipNextType = null;
+        $tickedImpulses = [];
         foreach ($combined as $time_key => &$time)
         {
             foreach ($time as $user_id => &$events)
@@ -210,14 +213,69 @@ class Game {
                     {
                         if (MetadataType::isTickingImpulse($event->killer_weapon_id))
                         {
-                            // Check if this id already has IN-Progress, if so update `last`.
-                            // Iterate through the already active Impulse counts.
+                            if (isset($tickedImpulses[$event->killer_id][$event->killer_weapon_id]))
+                            {
+                                $tickedImpulses[$event->killer_id][$event->killer_weapon_id]['lastSecond'] = $time_key;
+                            }
+                            else
+                            {
+                                $tickedImpulses[$event->killer_id][$event->killer_weapon_id]['startSecond'] = $time_key;
+                                $tickedImpulses[$event->killer_id][$event->killer_weapon_id]['lastSecond'] = $time_key;
+                                $tickedImpulses[$event->killer_id][$event->killer_weapon_id]['event'] = $event;
+                            }
+                            unset($combined[$time_key][$user_id][$key]);
                         }
+                    }
+                }
+            }
+
+            foreach ($tickedImpulses as $user_id => $data)
+            {
+                foreach ($data as $uuid => $item)
+                {
+                    if ($item['lastSecond'] != $time_key)
+                    {
+                        // This impulse no longer exists. End it here and insert the last one acquired
+                        $item['event']['totalTime'] = $item['lastSecond'] - $item['startSecond'];
+                        $combined[$time_key][$user_id][] = $item['event'];
+                        unset($tickedImpulses[$item['event']->killer_id][$item['event']->killer_weapon_id]);
                     }
                 }
             }
         }
 
+        // Final Cleanup, remove times that have no events
+        $deleteEvent = true;
+        foreach ($combined as $time => $events)
+        {
+            if (! is_array($events))
+            {
+                unset($combined[$time]);
+                continue;
+            }
+
+            foreach ($events as $user_id => $user_events)
+            {
+                if ($user_id !== "stats" && count($user_events) > 0)
+                {
+                    $deleteEvent = false;
+                }
+
+                if (count($user_events) == 0)
+                {
+                    unset($combined[$time][$user_id]);
+                }
+            }
+
+            if ($deleteEvent)
+            {
+                unset($combined[$time]);
+            }
+
+            $deleteEvent = true;
+        }
+
+        \Cache::put($cacheKey, $combined, 60 * 24 * 7); // 60m * 24h * 7days
         return $combined;
     }
 
