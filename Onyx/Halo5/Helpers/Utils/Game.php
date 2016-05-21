@@ -72,6 +72,12 @@ class Game {
         $previousSecond = 0;
         foreach ($match->kill_events as $event)
         {
+            if ($event->killer_id == null)
+            {
+                // An AI killed someone. We aren't counting this.
+                continue;
+            }
+            
             /** @var integer $second */
             $second = $event->getOriginal('seconds_since_start');
             $team_id = $team_map[$event->killer_id];
