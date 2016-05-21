@@ -14,10 +14,13 @@ PandaLove was a website devoted to tracking our weekly raid Tuesdays, PVP destru
 * Destiny Post Game Reports
 * Destiny XUR checks
 * Roster page for "PandaLove" clan
-* Enhanced Destiny Trials reports
 * Comments
 * Xbox "Who is Online" checks
-* Halo 5 Active Playlists
+* Halo 5 Stats
+    * Post Game Carnage Reports (Arena/Warzone/FFA)
+    * Historic Playlist history
+    * Medal/Weapon counts
+    * CSR Percentile
 * Halo 5 Profile pages
 * Calendar w/ RSVP support to attend events
 * Validation of Ownership of Destiny account
