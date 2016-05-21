@@ -10,7 +10,7 @@ use Onyx\XboxLive\Constants;
 class xuidServiceTest extends TestCase
 {
 
-    public $seo = 'ibotpeaches+v5';
+    public $seo = 'ibot';
     public $xuid = '2533274960246448';
 
     public function testJsonEndpoint()
