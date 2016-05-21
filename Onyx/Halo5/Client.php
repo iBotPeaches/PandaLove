@@ -501,13 +501,13 @@ class Client extends Http {
                 ->where('updated_at', '>=', $season->end_date)
                 ->first();
 
-            if (\App::environment() != "production")
-            {
-                sleep(rand(1,6));
-            }
-
             if (($playlist == null && ! $season->isFuture()) || $forceDownload)
             {
+                if (\App::environment() != "production")
+                {
+                    sleep(rand(1,6));
+                }
+                
                 $this->updateArenaServiceRecord($account, $season->contentId);
             }
         }
