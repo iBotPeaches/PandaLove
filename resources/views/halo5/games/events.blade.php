@@ -19,7 +19,7 @@
                             Timeline
                         </a>
                         <a class="item" data-tab="gameviewer">
-                            GameViewer
+                            Viewer
                         </a>
                         <a class="item" href="{{ action('Halo5\GameController@getGame', [$type, $match->uuid]) }}">Back to Game</a>
                     </div>
