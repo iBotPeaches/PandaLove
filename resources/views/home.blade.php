@@ -22,6 +22,44 @@
             </div>
         </article>
     </div>
+    <div class="wrapper style3">
+        <article id="work">
+            <header>
+                <h2>Halo API Competition</h2>
+                <p>We added functionality to our clan site to make it easier to submit an entry</p>
+            </header>
+            <div class="container">
+                <div class="row">
+                    <div class="4u">
+                        <section class="box style1">
+                            <span class="icon featured fa-user"></span>
+                            <h3>Profile Pages</h3>
+                            <p>Each Spartan has a powerful profile page featuring Season history, CSR Percentile and
+                            medal/weapon counts.</p>
+                        </section>
+                    </div>
+                    <div class="4u">
+                        <section class="box style1">
+                            <span class="icon featured fa-crosshairs"></span>
+                            <h3>Carnage Reports</h3>
+                            <p>Post Game Carnage Reports provide unique overviews to help digest how players played in each game.</p>
+                        </section>
+                    </div>
+                    <div class="4u">
+                        <section class="box style1">
+                            <span class="icon featured fa-line-chart"></span>
+                            <h3>Charts & Time lines</h3>
+                            <p>Charts and a time line are used to present kills over time and match events in an easier consumable format.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p>Any Spartan can add their account below.</p>
+                <a href="{{ URL::action('AccountController@getIndex') }}" class="button big scrolly">Add My Gamertag</a>
+            </footer>
+        </article>
+    </div>
     <div class="wrapper style2">
         <article id="work">
             <header>
