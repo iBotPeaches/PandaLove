@@ -11,6 +11,12 @@
         </div>
     </div>
 </div>
+<div class="ui inverted black segment">
+    <span class="ui avatar image">
+        <i class="inverted green icon trophy"></i>
+    </span>
+    <span class="ui green label">VIP</span> {{ $combined['top']['vip']['spartan']->account->gamertag }}
+</div>
 @if (count($match->teams) > 1 && $match->isTeamGame)
     @foreach ($match->teams as $team)
         <div class="ui inverted {{ $team->team->getSemanticColor() }} segment">
