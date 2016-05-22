@@ -4,6 +4,9 @@
             <ul id="copyright">
                 <li><a href="{{ action('HomeController@getAbout') }}">About</a></li>
                 <li><a target="_blank" href="https://github.com/iBotPeaches/PandaLove">Source</a></li>
+                @if (! (isset($user) && $user != null))
+                    <li><a href="{{ URL::action('AuthController@getLogin') }}">Sign In</a></li>
+                @endif
                 <li><a target="_blank" href="https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/issues">Bug Reports</a></li>
                 <li>Design by <a href="http://html5up.net">HTML5UP</a></li>
             </ul>
