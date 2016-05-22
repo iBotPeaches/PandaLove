@@ -505,7 +505,7 @@ class Client extends Http {
             {
                 if (\App::environment() != "production")
                 {
-                    sleep(rand(1,6));
+                    sleep(rand(1,2));
                 }
                 
                 $this->updateArenaServiceRecord($account, $season->contentId);
