@@ -1,5 +1,5 @@
 @if (($message = Session::get('flash_message', isset($flash_message) ? $flash_message : null)) !== null)
-    <div class="ui green {{ $message['type'] or 'info' }} message top-message">
+    <div class="ui {{ $message['type'] or 'green' }} message top-message">
         @if (isset($message['close']) && $message['close'])
             <i class="close icon"></i>
         @endif
