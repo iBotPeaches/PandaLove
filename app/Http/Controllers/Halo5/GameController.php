@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use Onyx\Halo5\Client;
+use Onyx\Halo5\GameNotReadyException;
 use Onyx\Halo5\Helpers\Utils\Game;
 use PandaLove\Http\Controllers\Controller;
 use PandaLove\Http\Requests;
@@ -72,6 +73,16 @@ class GameController extends Controller {
         catch (ModelNotFoundException $e)
         {
             \App::abort(404);
+        }
+        catch (GameNotReadyException $e)
+        {
+            return \Redirect::to('/h5/games/game/' . $type . "/" . $matchId)
+                ->with('flash_message', [
+                    'type' => 'yellow',
+                    'header' => 'Uh Oh',
+                    'close' => true,
+                    'body' => $e->getMessage()
+                ]);
         }
     }
 

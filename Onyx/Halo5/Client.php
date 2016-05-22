@@ -589,8 +589,9 @@ class Client extends Http {
         {
             if (! $json['IsCompleteSetOfEvents'])
             {
-                throw new \Exception('This game (As reported by 343) does not have a complete set of Match Event data.
-                To prevent ugly looking stats, we will not process this game. Sorry');
+                throw new GameNotReadyException('This game (As reported by 343) does not have a complete set of Match Event data.
+                To prevent ugly looking stats, we will not process this game right now. Feel free to check back, but
+                we will only check 343 every 2 minutes at the quickest, so play another game and wait.');
             }
 
             MatchEvent::where('game_id', $match->id)->delete();
@@ -1104,3 +1105,4 @@ class Client extends Http {
 }
 
 class H5PlayerNotFoundException extends \Exception {};
+class GameNotReadyException extends \Exception {};
