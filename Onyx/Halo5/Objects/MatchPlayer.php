@@ -53,6 +53,7 @@ use Ramsey\Uuid\Uuid;
  * @property integer $percentNext
  * @property integer $ChampionRank
  *
+ * @property Match $match
  * @property MatchTeam $matchTeam
  * @property Account $account
  * @property CSR $csr
@@ -453,16 +454,33 @@ class MatchPlayer extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    /**
+     * @return Match
+     */
+    public function match()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\Match', 'id', 'game_id');
+    }
+
+    /**
+     * @return Account
+     */
     public function account()
     {
         return $this->hasOne('Onyx\Account', 'id', 'account_id')->select('id', 'gamertag', 'seo');
     }
 
+    /**
+     * @return CSR
+     */
     public function csr()
     {
         return $this->belongsTo('Onyx\Halo5\Objects\CSR', 'CsrDesignationId', 'designationId');
     }
 
+    /**
+     * @return Team
+     */
     public function team()
     {
         return $this->hasOne('Onyx\Halo5\Objects\MatchTeam', 'key', 'team_id');
@@ -510,6 +528,11 @@ class MatchPlayer extends Model {
     public function kad($formatted = true)
     {
         return self::stat_kad($this->totalKills, $this->totalDeaths, $this->totalAssists, $formatted);
+    }
+
+    public function teamColor()
+    {
+        return $this->match->isTeamGame ? $this->team->team->getSemanticColor() : 'black';
     }
 
     /**

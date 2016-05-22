@@ -1,5 +1,6 @@
+<h4 class="ui header">Filter Gamertags</h4>
 @foreach ($match->players as $player)
-    <span class="spartan-adjust ui label green" data-id="{{ $player->account_id . "_spartan" }}">{{ $player->account->gamertag }}</span>
+    <span class="spartan-adjust ui label {{ $player->teamColor() }}" data-color="{{ $player->teamColor() }}" data-id="{{ $player->account_id . "_spartan" }}">{{ $player->account->gamertag }}</span>
 @endforeach
 <div class="ui divider"></div>
 <div id="timeline-box">
@@ -54,10 +55,11 @@
         $(function() {
             var key;
             var $that;
+            var color;
 
             $('#timeline-box').dimmer("setting", {
                 onShow: function() {
-                    if ($that.hasClass('green')) {
+                    if ($that.hasClass(color)) {
                         $(key).show();
                         $(key).parents('.timeline-item').show();
                     } else {
@@ -78,10 +80,11 @@
             $(".spartan-adjust").click(function() {
                 key = "." + $(this).data("id");
                 $that = $(this);
+                color = $(this).data("color");
 
                 var addGreen = false;
-                if ($that.hasClass('green')) {
-                    $that.removeClass('green');
+                if ($that.hasClass(color)) {
+                    $that.removeClass(color);
                 } else {
                     addGreen = true;
                 }
@@ -93,7 +96,7 @@
                 key += ")";
 
                 if (addGreen) {
-                    $that.addClass('green');
+                    $that.addClass(color);
                 }
 
                 $("#timeline-box").dimmer('show');
