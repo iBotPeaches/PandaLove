@@ -42,6 +42,7 @@ use Ramsey\Uuid\Uuid;
  * @property Account $victim
  * @property Weapon $killer_weapon
  * @property Enemy $victim_stock
+ * @property MatchEventAssist[] $assists
  */
 class MatchEvent extends Model {
 
@@ -313,6 +314,53 @@ class MatchEvent extends Model {
     public function getPercentFired()
     {
         return round(($this->shots_landed / $this->shots_fired) * 100, 2);
+    }
+
+    /**
+     * @return string
+     */
+    public function getKilledString()
+    {
+        $msg = '';
+        if ($this->killer !== null)
+        {
+            $msg .= $this->killer->gamertag;
+        }
+        else
+        {
+            $msg .= 'AI';
+        }
+        $msg .= ' killed ';
+        
+        if ($this->victim !== null)
+        {
+            $msg .= $this->victim->gamertag;
+        }
+        else
+        {
+            if ($this->victim_stock instanceof Enemy)
+            {
+                $msg .= $this->victim_stock->name;
+            }
+            else
+            {
+                $msg .= 'Unknown Enemy';
+            }
+        }
+        
+        $msg .= ' with a ' . $this->killer_weapon->name;
+        $msg .= ' (' . $this->distance . 'm away)';
+
+        if (count($this->assists) > 0)
+        {
+            $msg .= ' assisted by: ';
+            foreach ($this->assists as $assist)
+            {
+                $msg .= $assist->account->gamertag . ", ";
+            }
+        }
+        
+        return rtrim($msg, ", ");
     }
 
     public function match()
