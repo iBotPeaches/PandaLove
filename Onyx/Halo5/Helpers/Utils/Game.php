@@ -33,6 +33,7 @@ class Game {
     {
         $team_map = [];
         $kill_time = [];
+        $kill_feed = [];
         $team_label = [];
 
         foreach ($match->players as $player)
@@ -49,6 +50,7 @@ class Game {
                 $team_label[$team->key] = [
                     'name' => $team->team->name,
                     'color' => $team->team->color,
+                    'id' => $team->key,
                 ];
             }
         }
@@ -82,7 +84,15 @@ class Game {
             $second = $event->getOriginal('seconds_since_start');
             $team_id = $team_map[$event->killer_id];
 
-            $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] + 1;
+            if ($event->killer_id === $event->victim_id)
+            {
+                $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] - 1; // Suicide
+            }
+            else
+            {
+                $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] + 1;
+            }
+            $kill_feed[][$team_id] = $event->getKilledString();
 
             if ($match->isTeamGame)
             {
@@ -128,12 +138,14 @@ class Game {
                 'borderColor' => $data['color'],
                 'backgroundColor' => "rgba(" . Color::hex2rgb($data['color']) . ", 0.1)",
                 'data' => $team_data[$key],
+                'team_id' => $data['id'],
             ];
         }
 
         $json = [
             'labels' => $label,
             'datasets' => $teams,
+            'killfeed' => $kill_feed,
         ];
 
         return json_encode($json);

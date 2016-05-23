@@ -22,7 +22,15 @@
                     tooltips: {
                         callbacks: {
                             afterBody: function(tooltipItem, data) {
-                                return "yee";
+                                var index = tooltipItem[0].index - 1;
+                                var teamIndex = tooltipItem[0].datasetIndex;
+                                var teamKey = data['datasets'][teamIndex]['team_id'];
+                                console.log(index, teamIndex, teamKey);
+
+                                if (typeof data['killfeed'][index][teamKey] !== 'undefined') {
+                                    return data['killfeed'][index][teamKey];
+                                }
+                                return "";
                             }
                         }
                     },

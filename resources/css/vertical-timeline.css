@@ -88,16 +88,16 @@
     border-bottom-left-radius: 50%;
     */
 }
-.timeline > li:nth-child(2n) > .timeline-panel {
+.timeline > li:nth-child(even) > .timeline-panel {
     float: right;
 }
-.timeline > li:nth-child(2n) > .timeline-panel:before {
+.timeline > li:nth-child(even) > .timeline-panel:before {
     border-left-width: 0;
     border-right-width: 15px;
     left: -15px;
     right: auto;
 }
-.timeline > li:nth-child(2n) > .timeline-panel:after {
+.timeline > li:nth-child(even) > .timeline-panel:after {
     border-left-width: 0;
     border-right-width: 14px;
     left: -14px;
@@ -127,16 +127,16 @@
     cursor: pointer;
     text-decoration: none;
 }
-.timeline > li:nth-child(2n) {
+.timeline > li:nth-child(even) {
     float: right;
     clear: right;
     margin-top: 30px;
     margin-bottom: 30px;
 }
-.timeline > li:nth-child(2n){
+.timeline > li:nth-child(even){
     margin-top: 60px;
 }
-.timeline > li:nth-child(2n) > .timeline-badge{
+.timeline > li:nth-child(even) > .timeline-badge{
     left: -12px;
 }
 
@@ -182,14 +182,14 @@
         right: auto;
     }
 
-    .timeline > li:nth-child(2n) {
+    .timeline > li:nth-child(even) {
         float: left;
         clear: left;
         margin-top: 30px;
         margin-bottom: 30px;
     }
 
-    .timeline > li:nth-child(2n) > .timeline-badge{
+    .timeline > li:nth-child(even) > .timeline-badge{
         left: 28px;
     }
 }
