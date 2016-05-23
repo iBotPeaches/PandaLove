@@ -140,6 +140,7 @@ class Game {
                 'backgroundColor' => "rgba(" . Color::hex2rgb($data['color']) . ", 0.1)",
                 'data' => $team_data[$key],
                 'team_id' => $data['id'],
+                'fill' => $match->isTeamGame,
             ];
         }
 
