@@ -22,7 +22,7 @@
                     tooltips: {
                         callbacks: {
                             afterBody: function(tooltipItem, data) {
-                                var index = tooltipItem[0].index - 1;
+                                var index = tooltipItem[0].yLabel;
                                 var teamIndex = tooltipItem[0].datasetIndex;
                                 var teamKey = data['datasets'][teamIndex]['team_id'];
                                 console.log(index, teamIndex, teamKey);

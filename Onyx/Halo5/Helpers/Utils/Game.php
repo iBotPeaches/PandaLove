@@ -73,9 +73,10 @@ class Game {
         }
 
         $previousSecond = 0;
+        $kill_feed[][] = null;
         foreach ($match->kill_events as $event)
         {
-            if ($event->killer_id == null)
+            if ($event->killer_id == null || $event->victim_id == null)
             {
                 // An AI killed someone. We aren't counting this.
                 continue;
@@ -85,15 +86,20 @@ class Game {
             $second = $event->getOriginal('seconds_since_start');
             $team_id = $team_map[$event->killer_id];
 
-            if ($event->killer_id === $event->victim_id)
+            if ($match->isTeamGame)
             {
-                $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] - 1; // Suicide
+                $victim_team_id = isset($team_map[$event->victim_id]) ? $team_map[$event->victim_id] : null;
+            }
+
+            if ($event->killer_id === $event->victim_id || (isset($victim_team_id) && $victim_team_id == $team_id))
+            {
+                $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] - 1; // Suicide or Team Kill
             }
             else
             {
                 $kill_time[$second][$team_id] = $kill_time[$previousSecond][$team_id] + 1;
             }
-            $kill_feed[][$team_id] = $event->getKilledString();
+            $kill_feed[$kill_time[$second][$team_id]][$team_id] = $event->getKilledString();
 
             if ($match->isTeamGame)
             {
