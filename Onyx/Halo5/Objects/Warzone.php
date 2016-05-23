@@ -129,12 +129,12 @@ class Warzone extends Model {
 
     public function kd($formatted = true)
     {
-        return self::stat_kd($this->totalSpartanKills, $this->totalDeaths, $formatted);
+        return self::stat_kd($this->totalKills, $this->totalDeaths, $formatted);
     }
 
     public function kad($formatted = true)
     {
-        return self::stat_kad($this->totalSpartanKills, $this->totalDeaths, $this->totalAssists, $formatted);
+        return self::stat_kad($this->totalKills, $this->totalDeaths, $this->totalAssists, $formatted);
     }
 
     public function winRate()
