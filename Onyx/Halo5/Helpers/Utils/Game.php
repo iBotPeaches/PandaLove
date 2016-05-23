@@ -67,6 +67,7 @@ class Game {
                 $team_label[$player->account_id] = [
                     'name' => $player->account->gamertag,
                     'color' => "#" . $colors[$i++],
+                    'id' => $player->account_id,
                 ];
             }
         }
@@ -161,7 +162,17 @@ class Game {
 
         if (\Cache::has($cacheKey))
         {
-            return \Cache::get($cacheKey);
+            $cache = \Cache::get($cacheKey);
+
+            if (is_array($cache) && count($cache) > 0)
+            {
+                return $cache;
+            }
+            else
+            {
+                \Cache::forget($cacheKey);
+                return self::buildCombinedMatchEvents($match);
+            }
         }
 
         $combined = [];
