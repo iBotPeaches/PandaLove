@@ -13,6 +13,7 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property int $id
  * @property int $account_id
  * @property int $totalKills
+ * @property int $totalSpartanKills
  * @property int $totalHeadshots
  * @property int $totalDeaths
  * @property int $totalAssists

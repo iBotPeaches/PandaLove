@@ -528,7 +528,8 @@ class Client extends Http {
 
         $record = $this->_getWarzoneServiceRecord($account);
 
-        $h5_warzone->totalKills = $record['WarzoneStat']['TotalSpartanKills'];
+        $h5_warzone->totalSpartanKills = $record['WarzoneStat']['TotalSpartanKills'];
+        $h5_warzone->totalKills = $record['WarzoneStat']['TotalKills'];
         $h5_warzone->totalHeadshots = $record['WarzoneStat']['TotalHeadshots'];
         $h5_warzone->totalDeaths = $record['WarzoneStat']['TotalDeaths'];
         $h5_warzone->totalAssists = $record['WarzoneStat']['TotalAssists'];

@@ -40,6 +40,7 @@ class GameHistoryCollection extends Collection
             // fix some cases
             $game['player']['totalDeaths'] = $game['player']['TotalDeaths'];
             $game['player']['totalKills'] = $game['player']['TotalKills'];
+            $game['player']['totalSpartanKills'] = $game['player']['TotalKills'];
             $game['player']['totalAssists'] = $game['player']['TotalAssists'];
 
             $this->items[$match['Id']['MatchId']] = $game;

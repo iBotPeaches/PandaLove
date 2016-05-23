@@ -43,7 +43,7 @@
     </div>
     <div class="statistic">
         <div class="value">
-            {{ number_format($account->h5->totalKills) }}
+            {{ number_format($account->h5->totalSpartanKills) }}
         </div>
         <div class="label">
             Total Kills
