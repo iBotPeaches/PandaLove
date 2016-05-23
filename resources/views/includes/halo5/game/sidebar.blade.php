@@ -30,3 +30,8 @@
 <div class="ui black segment">
     <a href="{{ action('Halo5\GameController@getMatchEvents', [$type, $match->uuid]) }}" class="ui black fluid button">Enhanced Game Look</a>
 </div>
+@if (\Session::has('previousHaloProfile'))
+    <a href="{{ action('Halo5\ProfileController@index', [\Session::get('previousHaloProfile')['seo']]) }}" class="ui">
+        Back to {{ \Session::get('previousHaloProfile')['gamertag'] }}'s Profile
+    </a>
+@endif
