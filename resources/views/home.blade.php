@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-user"></span>
+                            <i class="massive blue user icon desktop only"></i>
                             <h3>Profile Pages</h3>
                             <p>Each Spartan has a powerful profile page featuring Season history, CSR Percentile and
                             medal/weapon counts.</p>
@@ -40,14 +40,14 @@
                     </div>
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-crosshairs"></span>
+                            <i class="massive blue crosshairs icon desktop only"></i>
                             <h3>Carnage Reports</h3>
                             <p>Post Game Carnage Reports provide unique overviews to help digest how players played in each game.</p>
                         </section>
                     </div>
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-line-chart"></span>
+                            <i class="massive blue line chart icon desktop only"></i>
                             <h3>Charts & Time lines</h3>
                             <p>Charts and a time line are used to present kills over time and match events in an easier consumable format.</p>
                         </section>
@@ -70,21 +70,21 @@
                 <div class="row">
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-comments-o"></span>
+                            <i class="massive pink comments icon desktop only"></i>
                             <h3>Communication</h3>
                             <p>We plan events through this site, which includes a calendar.</p>
                         </section>
                     </div>
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-crosshairs"></span>
+                            <i class="massive pink crosshairs icon desktop only"></i>
                             <h3>Multiplayer</h3>
                             <p>We aren't pro level by any means, but we don't suck either.</p>
                         </section>
                     </div>
                     <div class="4u">
                         <section class="box style1">
-                            <span class="icon featured fa-thumbs-o-up"></span>
+                            <i class="massive pink thumbs up icon desktop only"></i>
                             <h3>Enhanced Stats</h3>
                             <p>We leverage the APIs that Bungie & 343 provide to build this site.</p>
                         </section>

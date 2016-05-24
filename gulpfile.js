@@ -30,6 +30,7 @@ elixir(function(mix) {
      .copy(paths.chartsjs + 'Chart.bundle.min.js', 'public/js/chart.js')
      .copy(paths.fontawesome + 'css/font-awesome.min.css', 'public/css/font-awesome.min.css')
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
+     .copy(paths.fonts, 'public/fonts')
      .copy(paths.weapons, 'public/images/weapons/')
      .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
      .copy(paths.images + 'unknown-weapon.png', 'public/images/')
@@ -40,6 +41,7 @@ elixir(function(mix) {
      .copy(paths.css, 'public/css/')
      .copy(paths.js, 'public/js/')
      .styles([
+         paths.css + 'fonts.css',
          paths.css + 'main.css',
          paths.css + 'semantic.css',
          paths.storage + 'resources/css/h5-sprites.css'
