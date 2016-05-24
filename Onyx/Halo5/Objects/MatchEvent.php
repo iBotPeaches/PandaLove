@@ -351,6 +351,7 @@ class MatchEvent extends Model {
         $msg .= ' with a ' . $this->killer_weapon->name;
         $msg .= ' (' . $this->distance . 'm away)';
 
+
         if (count($this->assists) > 0)
         {
             $msg .= ' assisted by: ';
@@ -375,12 +376,12 @@ class MatchEvent extends Model {
 
     public function killer()
     {
-        return $this->belongsTo('Onyx\Account', 'killer_id', 'id')->select('gamertag', 'id', 'seo');
+        return $this->hasOne('Onyx\Account', 'id', 'killer_id')->select('gamertag', 'id', 'seo');
     }
 
     public function victim()
     {
-        return $this->belongsTo('Onyx\Account', 'victim_id', 'id')->select('gamertag', 'id', 'seo');
+        return $this->hasOne('Onyx\Account', 'id', 'victim_id')->select('gamertag', 'id', 'seo');
     }
 
     public function killer_weapon()

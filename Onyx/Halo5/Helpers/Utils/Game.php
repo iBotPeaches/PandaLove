@@ -1,6 +1,5 @@
 <?php namespace Onyx\Halo5\Helpers\Utils;
 
-use Onyx\Calendar\Objects\Event;
 use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Enums\MetadataType;
 use Onyx\Halo5\Objects\Match;

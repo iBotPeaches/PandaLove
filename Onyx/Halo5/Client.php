@@ -1082,14 +1082,16 @@ class Client extends Http {
      */
     private function checkCacheForGame($gameId, $events = false)
     {
+        $select = [];
         if ($events)
         {
-            $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account', 'kill_events'];
+            $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account', 'kill_events',
+                'kill_events.killer', 'kill_events.victim', 'kill_events.killer_weapon', 'kill_events.assists.account'];
         }
-        else
-        {
-            $select = ['teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist'];
-        }
+        
+        $select = array_merge([
+            'teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist'
+        ], $select);
 
         /* @var Match $match */
         $match = Match::with($select)
