@@ -87,4 +87,20 @@ class Text {
 
         return implode(', ', $string);
     }
+
+    /**
+     * Makes number Ordinal (suffix)
+     *
+     * @param $number
+     * @url http://stackoverflow.com/a/3110033/455008
+     * @return string
+     */
+    public static function ordinal($number)
+    {
+        $ends = array('th','st','nd','rd','th','th','th','th','th','th');
+        if ((($number % 100) >= 11) && (($number % 100) <= 13))
+            return $number. 'th';
+        else
+            return $number. $ends[$number % 10];
+    }
 }

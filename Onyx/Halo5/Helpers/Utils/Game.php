@@ -25,6 +25,179 @@ class Game {
     const MEDAL_SNIPER_HEAD_UUID = '848240062';
 
     /**
+     * UUID for Energy Sword
+     */
+    const WEAPON_ENERGY_SWORD = '2650887244';
+
+    /**
+     * UUID For Spartan (Melee)
+     */
+    const WEAPON_SPARTAN_MELEE = '3168248199';
+
+    /**
+     * @param Match $match
+     * @return array
+     */
+    public static function buildRoundArray(Match $match)
+    {
+        $team_map = [];
+        $team_label = [];
+
+        $i = 0;
+        foreach ($match->players as $player)
+        {
+            $team_map[$player->account_id] = ($match->isTeamGame) ? $player->team_id : $player->account_id . "_" . $i++;
+        }
+
+        if ($match->isTeamGame)
+        {
+            foreach ($match->teams as $team)
+            {
+                $team_label[$team->key] = [
+                    'name' => $team->team->name,
+                    'id' => $team->key,
+                    'team' => $team,
+                ];
+            }
+        }
+        else
+        {
+            foreach ($match->players as $player)
+            {
+                $team_label[$player->account_id] = [
+                    'name' => $player->account->gamertag,
+                    'seo' => $player->account->seo,
+                    'id' => $player->account_id,
+                    'team' => $player->team,
+                    'dnf' => $player->dnf,
+                ];
+            }
+        }
+
+        $data = [];
+        for ($i = 0; $i < $match->hasRounds(); $i++)
+        {
+            foreach ($team_label as $team)
+            {
+                $stats = $team['team']->getRoundStats($i);
+
+                $data[$i][$team['id']] = [
+                    'kills' => 0,
+                    'deaths' => 0,
+                    'assists' => 0,
+                    'score' => $stats === false ? 0 : $stats['Score'],
+                    'dnf' => $team['dnf'],
+                    'extras' => [],
+                ];
+            }
+        }
+
+        $currentRound = 0;
+        $killsObtained = false;
+        $infectedCount = 0;
+        $zombies = [];
+        $rounds = [];
+
+        foreach ($match->events as $event)
+        {
+            if ($event->event_name == EventName::RoundStart)
+            {
+                $currentRound = $event->round_index;
+            }
+            else if ($event->event_name == EventName::RoundEnd)
+            {
+                if (! $match->isTeamGame)
+                {
+                    $numPlayers = 0;
+                    foreach ($team_label as $team)
+                    {
+                        if (! $team['dnf'])
+                        {
+                            $numPlayers++;
+                        }
+                    }
+
+                    $rounds[$event->round_index] = [
+                        'zombiesWin' => $infectedCount >= $numPlayers,
+                        'humansWin' => $infectedCount < $numPlayers,
+                    ];
+                }
+
+                $killsObtained = false;
+                $infectedCount = 1;
+            }
+            else if ($event->event_name == EventName::WeaponPickup)
+            {
+                if (! $killsObtained)
+                {
+                    if ($event->killer_weapon_id == self::WEAPON_ENERGY_SWORD)
+                    {
+                        $data[$currentRound][$event->killer_id]['extras']['alpha'] = true;
+                        $zombies[] = $event->killer_id;
+                        $infectedCount++;
+                    }
+                }
+            }
+            else if ($event->event_name == EventName::Death)
+            {
+                $killsObtained = true;
+
+                if ($event->killer_id == null || $event->victim_id == null)
+                {
+                    // An AI killed someone. We aren't counting this.
+                    continue;
+                }
+
+                if (! $match->isTeamGame)
+                {
+                    if ($event->killer_weapon_id == self::WEAPON_ENERGY_SWORD ||
+                        $event->killer_weapon_id == self::WEAPON_SPARTAN_MELEE)
+                    {
+                        $zombies[] = $event->killer_id;
+                        $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
+                    }
+                }
+                
+                $data[$currentRound][$event->killer_id]['kills'] += 1;
+                $data[$currentRound][$event->victim_id]['deaths'] += 1;
+
+                if (count($event->assists) > 0)
+                {
+                    foreach ($event->assists as $assist)
+                    {
+                        $data[$currentRound][$assist->account_id]['assists'] += 1;
+                    }
+                }
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        foreach ($data as $roundId => &$players)
+        {
+            foreach ($players as &$player)
+            {
+                $player['kd'] = $player['deaths'] == 0 ? $player['kills'] : ($player['kills'] / $player['deaths']);
+                $player['kda'] = $player['deaths'] == 0 ? ($player['kills'] + $player['assists']) : ($player['kills'] + $player['assists']) / $player['deaths'];
+            }
+
+            uasort($players, function($a, $b)
+            {
+                return $b['score'] - $a['score'];
+            });
+        }
+
+        return [
+            'data' => $data,
+            'team' => $team_label,
+            'roundCount' => $match->hasRounds(),
+            'rounds' => $rounds,
+        ];
+    }
+
+    /**
      * @param Match $match
      * @return string
      */
