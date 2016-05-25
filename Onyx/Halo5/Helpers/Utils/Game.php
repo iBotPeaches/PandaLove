@@ -30,11 +30,6 @@ class Game {
     const WEAPON_ENERGY_SWORD = '2650887244';
 
     /**
-     * UUID For Spartan (Melee)
-     */
-    const WEAPON_SPARTAN_MELEE = '3168248199';
-
-    /**
      * @param Match $match
      * @return array
      */
@@ -164,14 +159,10 @@ class Game {
 
                 if (! $match->isTeamGame)
                 {
-                    if ($event->killer_weapon_id == self::WEAPON_ENERGY_SWORD ||
-                        $event->killer_weapon_id == self::WEAPON_SPARTAN_MELEE)
+                    if (in_array($event->killer_id, $zombies) && ! in_array($event->victim_id, $zombies))
                     {
-                        if (in_array($event->killer_id, $zombies) && ! in_array($event->victim_id, $zombies))
-                        {
-                            $zombies[] = $event->victim_id;
-                            $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
-                        }
+                        $zombies[] = $event->victim_id;
+                        $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
                     }
                 }
                 
