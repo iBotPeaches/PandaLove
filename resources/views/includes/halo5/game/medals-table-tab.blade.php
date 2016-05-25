@@ -12,11 +12,11 @@
                 <td class="{{ $player->dnf == 1 ? 'strikethrough-css' : null }}" style="min-width: 220px">
                     @if ($match->isArena())
                         <span class="right floated author">
-                                <img class="ui avatar image arena-popup" src="{{ $player->getArenaImage() }}" data-content="{{ $player->getArenaTooltip() }}"/>
-                                <a href="{{ URL::action('Halo5\ProfileController@index', [$player->account->seo]) }}">
-                                    {{ $player->account->gamertag }}
-                                </a>
-                            </span>
+                            <img class="ui avatar image arena-popup" src="{{ $player->getArenaImage() }}" data-content="{{ $player->getArenaTooltip() }}"/>
+                            <a href="{{ URL::action('Halo5\ProfileController@index', [$player->account->seo]) }}">
+                                {{ $player->account->gamertag }}
+                            </a>
+                        </span>
                     @else
                         <a href="{{ URL::action('Halo5\ProfileController@index', [$player->account->seo]) }}">
                             {{ $player->account->gamertag }}
