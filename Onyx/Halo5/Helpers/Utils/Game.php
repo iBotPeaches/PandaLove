@@ -25,6 +25,274 @@ class Game {
     const MEDAL_SNIPER_HEAD_UUID = '848240062';
 
     /**
+     * UUID for Energy Sword
+     */
+    const WEAPON_ENERGY_SWORD = '2650887244';
+
+    /**
+     * If you are viewing this. This code is horrible.
+     * Literally 3 functions in this file all do the SAME thing.
+     * They iterate through match events and pull whats needed.
+     *
+     * This could be simplified and sexified so much, but during
+     * dev you don't know what you are making until its done.
+     *
+     * I'll rewrite this when not under pressure of API competition.
+     * @param Match $match
+     * @return array
+     */
+    public static function buildRoundArray(Match $match)
+    {
+        $team_map = [];
+        $team_label = [];
+
+        $i = 0;
+        foreach ($match->players as $player)
+        {
+            $team_map[$player->account_id] = ($match->isTeamGame) ? $player->team_id : $player->account_id . "_" . $i++;
+        }
+
+        if ($match->isTeamGame)
+        {
+            foreach ($match->teams as $team)
+            {
+                $team_label[$team->key] = [
+                    'name' => $team->team->name,
+                    'id' => $team->key,
+                    'team' => $team,
+                ];
+
+                foreach ($match->playersOnTeam($team->key) as $player)
+                {
+                    $team_label[$team->key]['players'][$player->account_id] = $player->account;
+                }
+            }
+        }
+        else
+        {
+            foreach ($match->players as $player)
+            {
+                $team_label[$player->account_id] = [
+                    'name' => $player->account->gamertag,
+                    'seo' => $player->account->seo,
+                    'id' => $player->account_id,
+                    'team' => $player->team,
+                    'dnf' => $player->dnf,
+                ];
+            }
+        }
+
+        $data = [];
+        $roundWinners = [];
+        for ($i = 0; $i < $match->hasRounds(); $i++)
+        {
+            foreach ($team_label as $team)
+            {
+                $stats = $team['team']->getRoundStats($i);
+                if ($stats['Rank'] == 1)
+                {
+                    $roundWinners[$i] = $team['id'];
+                }
+
+                if ($match->isTeamGame)
+                {
+                    foreach ($match->playersOnTeam($team['team']->key) as $player)
+                    {
+                        $data[$i][$team['id']][$player->account_id] = [
+                            'kills' => 0,
+                            'deaths' => 0,
+                            'assists' => 0,
+                            'score' => 0,
+                            'dnf' => $player->dnf,
+                            'extras' => [],
+                        ];
+                    }
+                }
+                else
+                {
+                    $data[$i][$team['id']] = [
+                        'kills' => 0,
+                        'deaths' => 0,
+                        'assists' => 0,
+                        'score' => $stats === false ? 0 : $stats['Score'],
+                        'dnf' => $team['dnf'],
+                        'extras' => [],
+                    ];
+                }
+            }
+        }
+
+        $currentRound = 0;
+        $killsObtained = false;
+        $infectedCount = 1;
+        $zombies = [];
+        $rounds = [];
+        $deathCount = 1;
+
+        foreach ($match->events as $event)
+        {
+            if ($event->event_name == EventName::RoundStart)
+            {
+                $currentRound = $event->round_index;
+            }
+            else if ($event->event_name == EventName::RoundEnd)
+            {
+                if (! $match->isTeamGame)
+                {
+                    $numPlayers = 0;
+                    foreach ($team_label as $team)
+                    {
+                        if (! $team['dnf'])
+                        {
+                            $numPlayers++;
+                        }
+                    }
+
+                    $rounds[$event->round_index] = [
+                        'zombiesWin' => ($infectedCount - 1) >= $numPlayers,
+                        'humansWin' => ($infectedCount - 1) < $numPlayers,
+                    ];
+                }
+
+                $killsObtained = false;
+                $infectedCount = 1;
+                $zombies = [];
+                $deathCount = 1;
+            }
+            else if ($event->event_name == EventName::WeaponPickup)
+            {
+                if (! $killsObtained && ! $match->isTeamGame)
+                {
+                    if ($event->killer_weapon_id == self::WEAPON_ENERGY_SWORD)
+                    {
+                        $data[$currentRound][$event->killer_id]['extras']['alpha'] = true;
+                        $zombies[] = $event->killer_id;
+                        $infectedCount++;
+                    }
+                }
+            }
+            else if ($event->event_name == EventName::Death)
+            {
+                $killsObtained = true;
+
+                if ($event->killer_id == null || $event->victim_id == null)
+                {
+                    // An AI killed someone. We aren't counting this.
+                    continue;
+                }
+                else if ($event->killer_id == $event->victim_id)
+                {
+                    if ($match->isTeamGame)
+                    {
+                        $data[$currentRound][$team_map[$event->victim_id]]['extras']['deathCount'] = $deathCount++;
+                        $data[$currentRound][$team_map[$event->victim_id]][$event->victim_id]['deaths'] += 1;
+                        continue;
+                    }
+                    if (in_array($event->killer_id, $zombies))
+                    {
+                        continue;
+                    }
+
+                    // Someone killed themself. They R ZOMBIE
+                    $zombies[] = $event->victim_id;
+                    $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
+                    $data[$currentRound][$event->victim_id]['deaths'] += 1;
+                    continue;
+                }
+
+                $team_killer_id = $team_map[$event->killer_id];
+                $team_victim_id = $team_map[$event->victim_id];
+
+                if (! $match->isTeamGame)
+                {
+                    if (in_array($event->killer_id, $zombies) && ! in_array($event->victim_id, $zombies))
+                    {
+                        $zombies[] = $event->victim_id;
+                        $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
+                    }
+
+                    $data[$currentRound][$event->killer_id]['kills'] += 1;
+                    $data[$currentRound][$event->victim_id]['deaths'] += 1;
+                }
+                else
+                {
+                    $data[$currentRound][$team_killer_id][$event->killer_id]['kills'] += 1;
+                    $data[$currentRound][$team_victim_id][$event->victim_id]['deaths'] += 1;
+                    $data[$currentRound][$team_victim_id][$event->victim_id]['extras']['deathCount'] = $deathCount++;
+                }
+
+
+                if (count($event->assists) > 0)
+                {
+                    foreach ($event->assists as $assist)
+                    {
+                        if ($match->isTeamGame)
+                        {
+                            $data[$currentRound][$team_killer_id][$event->killer_id]['assists'] += 1;
+                        }
+                        else
+                        {
+                            $data[$currentRound][$assist->account_id]['assists'] += 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        foreach ($data as $roundId => &$players)
+        {
+            foreach ($players as &$player)
+            {
+                if ($match->isTeamGame)
+                {
+                    foreach ($player as &$_player)
+                    {
+                        $_player['kd'] = $_player['deaths'] == 0 ? $_player['kills'] : ($_player['kills'] / $_player['deaths']);
+                        $_player['kda'] = $_player['deaths'] == 0 ? ($_player['kills'] + $_player['assists']) : ($_player['kills'] + $_player['assists']) / $_player['deaths'];
+                    }
+
+                    uasort($player, function($a, $b) use ($match)
+                    {
+                        return $b['kd'] - $a['kd'];
+                    });
+                }
+                else
+                {
+                    $player['kd'] = $player['deaths'] == 0 ? $player['kills'] : ($player['kills'] / $player['deaths']);
+                    $player['kda'] = $player['deaths'] == 0 ? ($player['kills'] + $player['assists']) : ($player['kills'] + $player['assists']) / $player['deaths'];
+                }
+            }
+
+            if (! $match->isTeamGame)
+            {
+                uasort($players, function($a, $b) use ($match)
+                {
+                    if ($match->isTeamGame)
+                    {
+                        return $b['kd'] - $a['kd'];
+                    }
+                    else
+                    {
+                        return $b['score'] - $a['score'];
+                    }
+                });
+            }
+        }
+
+        return [
+            'data' => $data,
+            'team' => $team_label,
+            'roundWinners' => $roundWinners,
+            'roundCount' => $match->hasRounds(),
+            'rounds' => $rounds,
+        ];
+    }
+
+    /**
      * @param Match $match
      * @return string
      */

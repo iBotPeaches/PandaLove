@@ -98,6 +98,29 @@ class Match extends Model {
     }
 
     /**
+     * @return bool|int|mixed
+     */
+    public function hasRounds()
+    {
+        if (isset($this->rounds))
+        {
+            return $this->rounds;
+        }
+        
+        $max = 0;
+        foreach ($this->teams as $team)
+        {
+            if (count($team->round_stats) > 1)
+            {
+                $max = max($max, count($team->round_stats));
+            }
+        }
+
+        $this->rounds = $max;
+        return ($max == 0) ? false : $max;
+    }
+
+    /**
      * @return null|MatchTeam
      */
     public function winner()

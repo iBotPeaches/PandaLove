@@ -57,6 +57,11 @@ class Gametype extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
     
+    public function isBreakout()
+    {
+        return $this->contentId == '1e473914-46e4-408d-af26-178fb115de76';
+    }
+    
     public function getImage()
     {
         $path = public_path('images/gametypes/');

@@ -251,6 +251,9 @@
 .desktop.only {
     display: none !important;
 }
+.desktop-only {
+	display: none !important;
+}
 .completed-table:before {
     content: "Completed: ";
 }

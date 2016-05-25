@@ -18,14 +18,14 @@
                         <a class="item" data-tab="timeline">
                             Timeline
                         </a>
-                        <a class="item" data-tab="gameviewer">
-                            Viewer
-                        </a>
                         @if ($match->hasRounds())
                             <a class="item" data-tab="rounds">
                                 Rounds
                             </a>
                         @endif
+                        <a class="item" data-tab="gameviewer">
+                            Viewer
+                        </a>
                         <a class="item" href="{{ action('Halo5\GameController@getGame', [$type, $match->uuid]) }}">Back to Game</a>
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
@@ -37,14 +37,14 @@
                     <div class="ui bottom attached tab" data-tab="timeline">
                         @include('includes.halo5.game.events.timeline-tab')
                     </div>
+                    @if ($match->hasRounds())
+                        <div class="ui bottom attached tab" data-tab="rounds">
+                            @include('includes.halo5.game.events.round-select-tab', ['data' => $round_data])
+                        </div>
+                    @endif
                     <div class="ui bottom attached tab" data-tab="gameviewer">
                         @include('includes.halo5.game.events.viewer-tab')
                     </div>
-                    @if ($match->hasRounds())
-                        <div class="ui bottom attached tab" data-tab="rounds">
-                            @include('includes.halo5.game.events.rounds-tab')
-                        </div>
-                    @endif
                 </div>
             </div>
         </article>

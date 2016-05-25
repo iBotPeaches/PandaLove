@@ -96,6 +96,24 @@ class MatchTeam extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function getRoundStats($roundId)
+    {
+        foreach ($this->round_stats as $round)
+        {
+            if ($round['RoundNumber'] == ($roundId + 1))
+            {
+                return $round;
+            }
+        }
+
+        return false;
+    }
+
+    public function getSemanticColor()
+    {
+        return $this->team->getSemanticColor();
+    }
+
     public function label()
     {
         if ($this->isWinner())

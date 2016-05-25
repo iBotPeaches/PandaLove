@@ -68,6 +68,7 @@ class GameController extends Controller {
                 'type' => $type,
                 'combined' => Game::buildCombinedMatchEvents($match),
                 'chart_data' => Game::buildKillChartArray($match),
+                'round_data' => $match->hasRounds() !== false ? Game::buildRoundArray($match) : null,
             ]);
         }
         catch (ModelNotFoundException $e)

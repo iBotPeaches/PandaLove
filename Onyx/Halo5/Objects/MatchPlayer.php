@@ -54,7 +54,7 @@ use Ramsey\Uuid\Uuid;
  * @property integer $ChampionRank
  *
  * @property Match $match
- * @property MatchTeam $matchTeam
+ * @property MatchTeam $team
  * @property Account $account
  * @property CSR $csr
  */
