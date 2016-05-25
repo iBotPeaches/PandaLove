@@ -15,6 +15,7 @@ use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
 use Onyx\Halo5\Objects\Data;
+use Onyx\Halo5\Objects\MapVariant;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchEventAssist;
@@ -253,7 +254,7 @@ class Client extends Http {
     {
         $match = new Match();
         $match->uuid = $gameId;
-        $match->map_variant = $data['MapVariantId'];
+        $match->map_variant = $this->checkOrInsertMapVariant($data['MapVariantId']);
         $match->game_variant = $data['GameVariantId'];
         $match->playlist_id = $data['PlaylistId'];
         $match->map_id = $data['MapId'];
@@ -944,6 +945,20 @@ class Client extends Http {
 
         throw new H5PlayerNotFoundException('Game could not be loaded.');
     }
+    
+    private function _getMapVariant($mapVariantId)
+    {
+        $url = sprintf(Constants::$metadata_mapvariants, $mapVariantId);
+
+        $json = $this->getJson($url);
+
+        if (isset($json['name']))
+        {
+            return $json;
+        }
+
+        throw new H5PlayerNotFoundException('Could not find Map Variant');
+    }
 
     /**
      * @param Account $account
@@ -1068,6 +1083,31 @@ class Client extends Http {
         }
         self::$updateRan = true;
         return $h5->save();
+    }
+
+    /**
+     * @param $mapVariantId
+     * @return bool
+     * @throws H5PlayerNotFoundException
+     */
+    private function checkOrInsertMapVariant($mapVariantId)
+    {
+        try
+        {
+            $variant = MapVariant::where('uuid', $mapVariantId)->firstOrFail();
+        }
+        catch (ModelNotFoundException $ex)
+        {
+            $json = $this->_getMapVariant($mapVariantId);
+            $mapVariant = new MapVariant();
+            $mapVariant->name = $json['name'];
+            $mapVariant->map_id = $json['mapId'];
+            $mapVariant->uuid = $json['contentId'];
+            $mapVariant->description = $json['description'];
+            $mapVariant->save();
+        }
+
+        return $mapVariantId;
     }
 
     /**

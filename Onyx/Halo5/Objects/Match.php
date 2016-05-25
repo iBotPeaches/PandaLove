@@ -1,6 +1,7 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Laravel\Helpers\Text;
