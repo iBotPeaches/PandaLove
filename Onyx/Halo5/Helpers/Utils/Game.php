@@ -94,7 +94,7 @@ class Game {
 
         $currentRound = 0;
         $killsObtained = false;
-        $infectedCount = 0;
+        $infectedCount = 1;
         $zombies = [];
         $rounds = [];
 
@@ -118,13 +118,14 @@ class Game {
                     }
 
                     $rounds[$event->round_index] = [
-                        'zombiesWin' => $infectedCount >= $numPlayers,
-                        'humansWin' => $infectedCount < $numPlayers,
+                        'zombiesWin' => ($infectedCount - 1) >= $numPlayers,
+                        'humansWin' => ($infectedCount - 1) < $numPlayers,
                     ];
                 }
 
                 $killsObtained = false;
                 $infectedCount = 1;
+                $zombies = [];
             }
             else if ($event->event_name == EventName::WeaponPickup)
             {
@@ -147,14 +148,30 @@ class Game {
                     // An AI killed someone. We aren't counting this.
                     continue;
                 }
+                else if ($event->killer_id == $event->victim_id)
+                {
+                    if (in_array($event->killer_id, $zombies))
+                    {
+                        continue;
+                    }
+
+                    // Someone killed themself. They R ZOMBIE
+                    $zombies[] = $event->victim_id;
+                    $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
+                    $data[$currentRound][$event->victim_id]['deaths'] += 1;
+                    continue;
+                }
 
                 if (! $match->isTeamGame)
                 {
                     if ($event->killer_weapon_id == self::WEAPON_ENERGY_SWORD ||
                         $event->killer_weapon_id == self::WEAPON_SPARTAN_MELEE)
                     {
-                        $zombies[] = $event->killer_id;
-                        $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
+                        if (in_array($event->killer_id, $zombies) && ! in_array($event->victim_id, $zombies))
+                        {
+                            $zombies[] = $event->victim_id;
+                            $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
+                        }
                     }
                 }
                 

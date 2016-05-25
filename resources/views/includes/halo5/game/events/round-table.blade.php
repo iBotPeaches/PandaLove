@@ -35,7 +35,7 @@
                     @if (isset($item['extras']['infected']))
                         <span class="ui green label">{{ \Onyx\Laravel\Helpers\Text::ordinal($item['extras']['infected']) }} Infected</span>
                     @endif
-                    @if (! $match->isTeamGame && $item['deaths'] == 0)
+                    @if (! $match->isTeamGame && $item['deaths'] == 0 && ! isset($item['extras']['alpha']))
                         <span class="ui blue label">Survived</span>
                     @endif
                 </td>
