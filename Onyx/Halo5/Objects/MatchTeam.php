@@ -109,6 +109,11 @@ class MatchTeam extends Model {
         return false;
     }
 
+    public function getSemanticColor()
+    {
+        return $this->team->getSemanticColor();
+    }
+
     public function label()
     {
         if ($this->isWinner())

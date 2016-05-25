@@ -8,7 +8,7 @@
         @endif
     </h3>
     <div class="ui attached segment">
-        @include('includes.halo5.game.events.round-table', ['round' => $data['data'][$i], 'i' => $i])
+        @include('includes.halo5.game.events.gametypes.infection.round-table', ['round' => $data['data'][$i], 'i' => $i])
     </div>
 @endfor
 

@@ -30,6 +30,14 @@ class Game {
     const WEAPON_ENERGY_SWORD = '2650887244';
 
     /**
+     * If you are viewing this. This code is horrible.
+     * Literally 3 functions in this file all do the SAME thing.
+     * They iterate through match events and pull whats needed.
+     *
+     * This could be simplified and sexified so much, but during
+     * dev you don't know what you are making until its done.
+     *
+     * I'll rewrite this when not under pressure of API competition.
      * @param Match $match
      * @return array
      */
@@ -53,6 +61,11 @@ class Game {
                     'id' => $team->key,
                     'team' => $team,
                 ];
+
+                foreach ($match->playersOnTeam($team->key) as $player)
+                {
+                    $team_label[$team->key]['players'][$player->account_id] = $player->account;
+                }
             }
         }
         else
@@ -70,20 +83,42 @@ class Game {
         }
 
         $data = [];
+        $roundWinners = [];
         for ($i = 0; $i < $match->hasRounds(); $i++)
         {
             foreach ($team_label as $team)
             {
                 $stats = $team['team']->getRoundStats($i);
+                if ($stats['Rank'] == 1)
+                {
+                    $roundWinners[$i] = $team['id'];
+                }
 
-                $data[$i][$team['id']] = [
-                    'kills' => 0,
-                    'deaths' => 0,
-                    'assists' => 0,
-                    'score' => $stats === false ? 0 : $stats['Score'],
-                    'dnf' => $team['dnf'],
-                    'extras' => [],
-                ];
+                if ($match->isTeamGame)
+                {
+                    foreach ($match->playersOnTeam($team['team']->key) as $player)
+                    {
+                        $data[$i][$team['id']][$player->account_id] = [
+                            'kills' => 0,
+                            'deaths' => 0,
+                            'assists' => 0,
+                            'score' => 0,
+                            'dnf' => $player->dnf,
+                            'extras' => [],
+                        ];
+                    }
+                }
+                else
+                {
+                    $data[$i][$team['id']] = [
+                        'kills' => 0,
+                        'deaths' => 0,
+                        'assists' => 0,
+                        'score' => $stats === false ? 0 : $stats['Score'],
+                        'dnf' => $team['dnf'],
+                        'extras' => [],
+                    ];
+                }
             }
         }
 
@@ -92,6 +127,7 @@ class Game {
         $infectedCount = 1;
         $zombies = [];
         $rounds = [];
+        $deathCount = 1;
 
         foreach ($match->events as $event)
         {
@@ -121,10 +157,11 @@ class Game {
                 $killsObtained = false;
                 $infectedCount = 1;
                 $zombies = [];
+                $deathCount = 1;
             }
             else if ($event->event_name == EventName::WeaponPickup)
             {
-                if (! $killsObtained)
+                if (! $killsObtained && ! $match->isTeamGame)
                 {
                     if ($event->killer_weapon_id == self::WEAPON_ENERGY_SWORD)
                     {
@@ -145,6 +182,12 @@ class Game {
                 }
                 else if ($event->killer_id == $event->victim_id)
                 {
+                    if ($match->isTeamGame)
+                    {
+                        $data[$currentRound][$team_map[$event->victim_id]]['extras']['deathCount'] = $deathCount++;
+                        $data[$currentRound][$team_map[$event->victim_id]][$event->victim_id]['deaths'] += 1;
+                        continue;
+                    }
                     if (in_array($event->killer_id, $zombies))
                     {
                         continue;
@@ -157,6 +200,9 @@ class Game {
                     continue;
                 }
 
+                $team_killer_id = $team_map[$event->killer_id];
+                $team_victim_id = $team_map[$event->victim_id];
+
                 if (! $match->isTeamGame)
                 {
                     if (in_array($event->killer_id, $zombies) && ! in_array($event->victim_id, $zombies))
@@ -164,16 +210,30 @@ class Game {
                         $zombies[] = $event->victim_id;
                         $data[$currentRound][$event->victim_id]['extras']['infected'] = $infectedCount++;
                     }
+
+                    $data[$currentRound][$event->killer_id]['kills'] += 1;
+                    $data[$currentRound][$event->victim_id]['deaths'] += 1;
                 }
-                
-                $data[$currentRound][$event->killer_id]['kills'] += 1;
-                $data[$currentRound][$event->victim_id]['deaths'] += 1;
+                else
+                {
+                    $data[$currentRound][$team_killer_id][$event->killer_id]['kills'] += 1;
+                    $data[$currentRound][$team_victim_id][$event->victim_id]['deaths'] += 1;
+                    $data[$currentRound][$team_victim_id][$event->victim_id]['extras']['deathCount'] = $deathCount++;
+                }
+
 
                 if (count($event->assists) > 0)
                 {
                     foreach ($event->assists as $assist)
                     {
-                        $data[$currentRound][$assist->account_id]['assists'] += 1;
+                        if ($match->isTeamGame)
+                        {
+                            $data[$currentRound][$team_killer_id][$event->killer_id]['assists'] += 1;
+                        }
+                        else
+                        {
+                            $data[$currentRound][$assist->account_id]['assists'] += 1;
+                        }
                     }
                 }
             }
@@ -187,19 +247,46 @@ class Game {
         {
             foreach ($players as &$player)
             {
-                $player['kd'] = $player['deaths'] == 0 ? $player['kills'] : ($player['kills'] / $player['deaths']);
-                $player['kda'] = $player['deaths'] == 0 ? ($player['kills'] + $player['assists']) : ($player['kills'] + $player['assists']) / $player['deaths'];
+                if ($match->isTeamGame)
+                {
+                    foreach ($player as &$_player)
+                    {
+                        $_player['kd'] = $_player['deaths'] == 0 ? $_player['kills'] : ($_player['kills'] / $_player['deaths']);
+                        $_player['kda'] = $_player['deaths'] == 0 ? ($_player['kills'] + $_player['assists']) : ($_player['kills'] + $_player['assists']) / $_player['deaths'];
+                    }
+
+                    uasort($player, function($a, $b) use ($match)
+                    {
+                        return $b['kd'] - $a['kd'];
+                    });
+                }
+                else
+                {
+                    $player['kd'] = $player['deaths'] == 0 ? $player['kills'] : ($player['kills'] / $player['deaths']);
+                    $player['kda'] = $player['deaths'] == 0 ? ($player['kills'] + $player['assists']) : ($player['kills'] + $player['assists']) / $player['deaths'];
+                }
             }
 
-            uasort($players, function($a, $b)
+            if (! $match->isTeamGame)
             {
-                return $b['score'] - $a['score'];
-            });
+                uasort($players, function($a, $b) use ($match)
+                {
+                    if ($match->isTeamGame)
+                    {
+                        return $b['kd'] - $a['kd'];
+                    }
+                    else
+                    {
+                        return $b['score'] - $a['score'];
+                    }
+                });
+            }
         }
 
         return [
             'data' => $data,
             'team' => $team_label,
+            'roundWinners' => $roundWinners,
             'roundCount' => $match->hasRounds(),
             'rounds' => $rounds,
         ];

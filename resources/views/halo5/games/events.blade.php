@@ -39,7 +39,7 @@
                     </div>
                     @if ($match->hasRounds())
                         <div class="ui bottom attached tab" data-tab="rounds">
-                            @include('includes.halo5.game.events.rounds-tab', ['data' => $round_data])
+                            @include('includes.halo5.game.events.round-select-tab', ['data' => $round_data])
                         </div>
                     @endif
                     <div class="ui bottom attached tab" data-tab="gameviewer">
