@@ -37,7 +37,7 @@ class Game {
 
         foreach ($match->players as $player)
         {
-            $team_map[$player->account_id] = ($match->isTeamGame) ? $player->team_id : $player->account_id;
+            $team_map[$player->account_id] =  $player->team_id;
         }
 
         if ($match->isTeamGame)
@@ -62,11 +62,11 @@ class Game {
             $i = 0;
             foreach ($match->players as $player)
             {
-                $kill_time[0][$player->account_id] = 0;
-                $team_label[$player->account_id] = [
+                $kill_time[0][$player->team_id] = 0;
+                $team_label[$player->team_id] = [
                     'name' => $player->account->gamertag,
                     'color' => "#" . $colors[$i++],
-                    'id' => $player->account_id,
+                    'id' => $player->team_id,
                 ];
             }
         }
@@ -114,9 +114,9 @@ class Game {
             {
                 foreach ($match->players as $player)
                 {
-                    if (! isset($kill_time[$second][$player->account_id]))
+                    if (! isset($kill_time[$second][$player->team_id]))
                     {
-                        $kill_time[$second][$player->account_id] = $kill_time[$previousSecond][$player->account_id];
+                        $kill_time[$second][$player->team_id] = $kill_time[$previousSecond][$player->team_id];
                     }
                 }
             }

@@ -718,3 +718,7 @@
 		{
 			color: #777;
 		}
+
+		i.icon {
+			text-decoration: none !important
+		}

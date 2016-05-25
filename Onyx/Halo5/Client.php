@@ -263,7 +263,6 @@ class Client extends Http {
         $match->duration = $data['TotalDuration'];
         $match->save();
 
-        $i = 0;
         foreach ($data['TeamStats'] as $team)
         {
             $_team = new MatchTeam();
@@ -274,7 +273,7 @@ class Client extends Http {
             }
             else
             {
-                $_team->player_id = $i++;
+                $_team->player_id = $team['TeamId'];
             }
             $_team->score = $team['Score'];
             $_team->rank = $team['Rank'];

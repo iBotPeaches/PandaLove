@@ -90,7 +90,7 @@
                 }
 
                 key += ":not(";
-                $(".spartan-adjust.green").each(function() {
+                $(".spartan-adjust." + color).each(function() {
                     key += "." + $(this).data("id") + "):not(";
                 });
                 key += ")";
