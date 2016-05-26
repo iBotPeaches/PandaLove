@@ -51,7 +51,7 @@
 
                         @if ($playlist == null)
                             <div class="ui warning message">
-                                Uh oh. No data found. Give this a refresh.
+                                Uh oh. No Arena data found. This user hasn't played any Arena.
                             </div>
                         @else
                             @include('includes.halo5.profile.overview-tab')
