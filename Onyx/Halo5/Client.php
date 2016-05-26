@@ -307,7 +307,7 @@ class Client extends Http {
             $_player->killed = $player['KilledOpponentDetails'];
             $_player->killed_by = $player['KilledByOpponentDetails'];
             $_player->account_id = $this->getAccount($player['Player']['Gamertag']);
-            $_player->team_id = $match->id . "_" . (($match->isTeamGame) ? $player['TeamId'] : $i++);
+            $_player->team_id = $this->_getTeamId($match, $player, $i);
             $_player->medals = $player['MedalAwards'];
             $_player->enemies = $player['EnemyKills'];
             $_player->weapons = $player['WeaponStats'];
@@ -857,6 +857,28 @@ class Client extends Http {
     // Private Methods
     //---------------------------------------------------------------------------------
 
+    /**
+     * @param Match $match
+     * @param array $player
+     * @param $i
+     * @return string
+     */
+    private function _getTeamId(Match $match, array $player, &$i)
+    {
+        $return = $match->id . "_";
+
+        if ($match->isTeamGame || $match->gametype->isWarzoneFirefight())
+        {
+            $return .= $player['TeamId'];
+        }
+        else
+        {
+            $return .= $i++;
+        }
+
+        return $return;
+    }
+
     private function _getEmblemImage($account, $size = 256)
     {
         $url = sprintf(Constants::$emblem_image, Halo5Text::encodeGamertagForApi($account->gamertag), $size);
@@ -1085,7 +1107,7 @@ class Client extends Http {
         if ($events)
         {
             $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account', 'kill_events',
-                'kill_events.killer', 'kill_events.victim', 'kill_events.killer_weapon', 'kill_events.assists.account'];
+                'kill_events.killer', 'kill_events.victim', 'kill_events.killer_weapon', 'kill_events.victim_enemy', 'kill_events.assists.account'];
         }
         
         $select = array_merge([

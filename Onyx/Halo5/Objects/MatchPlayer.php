@@ -522,12 +522,14 @@ class MatchPlayer extends Model {
 
     public function kd($formatted = true)
     {
-        return self::stat_kd($this->totalSpartanKills, $this->totalDeaths, $formatted);
+        $kills = ($this->match->gametype->isWarzoneFirefight() ? 'totalKills' : 'totalSpartanKills');
+        return self::stat_kd($this->$kills, $this->totalDeaths, $formatted);
     }
 
     public function kad($formatted = true)
     {
-        return self::stat_kad($this->totalSpartanKills, $this->totalDeaths, $this->totalAssists, $formatted);
+        $kills = ($this->match->gametype->isWarzoneFirefight() ? 'totalKills' : 'totalSpartanKills');
+        return self::stat_kad($this->$kills, $this->totalDeaths, $this->totalAssists, $formatted);
     }
 
     public function teamColor()

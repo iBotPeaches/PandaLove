@@ -102,6 +102,11 @@ class Match extends Model {
      */
     public function hasRounds()
     {
+        if ($this->gametype->isWarzoneFirefight())
+        {
+            return false;
+        }
+        
         if (isset($this->rounds))
         {
             return $this->rounds;

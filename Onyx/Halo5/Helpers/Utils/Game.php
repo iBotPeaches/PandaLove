@@ -2,6 +2,7 @@
 
 use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Enums\MetadataType;
+use Onyx\Halo5\Enums\VictimAgent;
 use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\MatchEvent;
 use Onyx\Halo5\Objects\MatchPlayer;
@@ -303,12 +304,21 @@ class Game {
         $kill_feed = [];
         $team_label = [];
 
-        foreach ($match->players as $player)
+        $i = 0;
+        foreach ($match->players as &$player)
         {
-            $team_map[$player->account_id] =  $player->team_id;
+            if ($match->gametype->isWarzoneFirefight())
+            {
+                $team_map[$player->account_id] = $match->id . "_" . $i++;
+                $player->team_id = $team_map[$player->account_id];
+            }
+            else
+            {
+                $team_map[$player->account_id] =  $player->team_id;
+            }
         }
 
-        if ($match->isTeamGame)
+        if ($match->isTeamGame && ! $match->gametype->isWarzoneFirefight())
         {
             // Set all teams to 0 kills at 0 seconds
             foreach ($match->teams as $team)
@@ -345,8 +355,14 @@ class Game {
         {
             if ($event->killer_id == null || $event->victim_id == null)
             {
-                // An AI killed someone. We aren't counting this.
-                continue;
+                if ($event->victim_type == VictimAgent::AI && $match->gametype->isWarzoneFirefight() && $event->killer_id != null)
+                {
+                    // do nothing
+                }
+                else
+                {
+                    continue; // no AI killed
+                }
             }
             
             /** @var integer $second */

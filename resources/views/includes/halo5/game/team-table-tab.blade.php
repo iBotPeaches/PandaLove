@@ -32,7 +32,7 @@
                     </td>
                     <td><span class="ui label">SR-{{ $player->spartanRank }}</span></td>
                     <td class="place-table">{!! $player->rank !!}</td>
-                    <td class="kills-table">{{ $player->totalSpartanKills }}</td>
+                    <td class="kills-table">{{ $match->gametype->isWarzoneFirefight() ? $player->totalKills : $player->totalSpartanKills }}</td>
                     <td class="deaths-table {{ $player->totalDeaths == 0 ? 'no-deaths' : null }}">
                         {!! $player->totalDeaths == 0 && $player->dnf == 0 ? '<i class="smile icon"></i> no deaths' : $player->totalDeaths !!}
                     </td>

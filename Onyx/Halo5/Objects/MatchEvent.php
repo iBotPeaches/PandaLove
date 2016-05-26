@@ -41,7 +41,7 @@ use Ramsey\Uuid\Uuid;
  * @property Account $killer
  * @property Account $victim
  * @property Weapon $killer_weapon
- * @property Enemy $victim_stock
+ * @property Metadata $victim_enemy
  * @property MatchEventAssist[] $assists
  */
 class MatchEvent extends Model {
@@ -338,9 +338,9 @@ class MatchEvent extends Model {
         }
         else
         {
-            if ($this->victim_stock instanceof Enemy)
+            if ($this->victim_enemy instanceof Metadata)
             {
-                $msg .= $this->victim_stock->name;
+                $msg .= "a " . $this->victim_enemy->name;
             }
             else
             {
@@ -391,6 +391,6 @@ class MatchEvent extends Model {
 
     public function victim_enemy()
     {
-        return $this->belongsTo('Onyx\Halo5\Objects\Event\Metadata', 'victim_stock_id', 'uuid');
+        return $this->hasOne('Onyx\Halo5\Objects\Event\Metadata', 'uuid', 'victim_stock_id');
     }
 }

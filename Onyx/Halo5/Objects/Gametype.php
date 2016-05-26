@@ -61,6 +61,16 @@ class Gametype extends Model {
     {
         return $this->contentId == '1e473914-46e4-408d-af26-178fb115de76';
     }
+
+    public function isWarzoneFirefight()
+    {
+        return $this->contentId == 'dfd51ee3-9060-46c3-b131-08d946c4c7b9';
+    }
+
+    public function isInfection()
+    {
+        return $this->contentId == 'f6051f51-bbb6-4ccc-8ac0-cf42b7291c76';
+    }
     
     public function getImage()
     {
