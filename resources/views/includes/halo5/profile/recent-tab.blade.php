@@ -44,7 +44,7 @@
                     Next
                 </button>
             @endif
-            <button class="ui right labeled icon  blue button recent-pagination" data-page="{{ $page + 1 }}">
+            <button class="ui right labeled icon blue button recent-pagination" data-page="{{ $page + 1 }}">
                 <i class="right arrow icon"></i>
                 Previous
             </button>
@@ -54,6 +54,10 @@
     <div class="ui warning message">
         No recent games. This will change once the user has played a game in Halo 5.
     </div>
+    <button class="ui left labeled icon blue button recent-pagination" data-page="{{ $page - 1 }}">
+        <i class="left arrow icon"></i>
+        Go Back
+    </button>
 @endif
 
 @section('inline-js')
