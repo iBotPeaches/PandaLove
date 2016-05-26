@@ -7,7 +7,7 @@
             <img class="ui avatar image" src="{{ $match->gametype->getImage()}}" />
         </div>
         <div class="right floated">
-            <span class="header">{{ $match->gametype->name }} on {{ $match->map->name }}</span>
+            <span class="header">{{ $match->gametype->name }} on {{ $match->mapVariant->name }}</span>
         </div>
     </div>
 </div>

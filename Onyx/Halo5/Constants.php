@@ -87,6 +87,12 @@ class Constants{
     public static $metadata_vehicles = 'https://www.haloapi.com/metadata/h5/metadata/vehicles';
 
     /**
+     * Halo 5 Map Variants
+     * @var string
+     */
+    public static $metadata_mapvariants = 'https://www.haloapi.com/metadata/h5/metadata/map-variants/%s';
+
+    /**
      * Halo5 Arena stats, all-time.
      *
      * @var string

@@ -21,6 +21,7 @@ use Ramsey\Uuid\Uuid;
  * @property integer $duration
  *
  * @property Map $map
+ * @property MapVariant $mapVariant
  * @property Gametype $gametype
  * @property Season $season
  * @property Playlist $playlist
@@ -177,6 +178,11 @@ class Match extends Model {
     public function map()
     {
         return $this->hasOne('Onyx\Halo5\Objects\Map', 'uuid', 'map_id');
+    }
+
+    public function mapVariant()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\MapVariant', 'uuid', 'map_variant');
     }
 
     public function gametype()
