@@ -24,7 +24,7 @@
                         {{ \Onyx\Halo5\Enums\GameResult::getTitle($result['win']) }}
                     </a>
                     <div class="meta">
-                        {{ $result['map']->name }} on {{ $result['date']->toFormattedDateString() }}
+                        {{ $result['map_variant']->name }} on {{ $result['date']->toFormattedDateString() }}
                     </div>
                 </div>
                 <div class="extra content">

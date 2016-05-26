@@ -60,7 +60,7 @@ class MapVariant extends Model {
         {
             $items = [];
 
-            foreach (Map::all() as $map)
+            foreach (MapVariant::all() as $map)
             {
                 $items[$map->uuid] = $map;
             }

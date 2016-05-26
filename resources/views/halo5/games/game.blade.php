@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="12u">
                     <h1 class="ui header">
-                        {{ $match->playlist->name }} on {{ $match->map->name }}
+                        {{ $match->playlist->name }} on {{ $match->mapVariant->name }} ({{ $match->map->name }})
                     </h1>
                 </div>
             </div>

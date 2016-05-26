@@ -1090,7 +1090,7 @@ class Client extends Http {
      * @return bool
      * @throws H5PlayerNotFoundException
      */
-    private function checkOrInsertMapVariant($mapVariantId)
+    public function checkOrInsertMapVariant($mapVariantId, $returnObject = false)
     {
         try
         {
@@ -1107,6 +1107,10 @@ class Client extends Http {
             $mapVariant->save();
         }
 
+        if ($returnObject)
+        {
+            return isset($variant) ? $variant : isset($mapVariant) ? $mapVariant : null;
+        }
         return $mapVariantId;
     }
 
@@ -1151,7 +1155,7 @@ class Client extends Http {
         }
         
         $select = array_merge([
-            'teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist'
+            'teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist', 'mapVariant'
         ], $select);
 
         /* @var Match $match */

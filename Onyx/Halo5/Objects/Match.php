@@ -1,7 +1,6 @@
 <?php namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Halo5\Enums\EventName;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Laravel\Helpers\Text;
@@ -22,6 +21,7 @@ use Ramsey\Uuid\Uuid;
  * @property integer $duration
  *
  * @property Map $map
+ * @property MapVariant $mapVariant
  * @property Gametype $gametype
  * @property Season $season
  * @property Playlist $playlist
@@ -178,6 +178,11 @@ class Match extends Model {
     public function map()
     {
         return $this->hasOne('Onyx\Halo5\Objects\Map', 'uuid', 'map_id');
+    }
+
+    public function mapVariant()
+    {
+        return $this->hasOne('Onyx\Halo5\Objects\MapVariant', 'uuid', 'map_variant');
     }
 
     public function gametype()
