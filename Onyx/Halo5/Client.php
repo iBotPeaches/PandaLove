@@ -225,7 +225,10 @@ class Client extends Http {
      */
     public function getLeaderboardViaSeasonAndPlaylist($seasonId, $playlistId)
     {
+        /** @var Season $season */
         $season = Season::where('contentId', $seasonId)->first();
+
+        /** @var Playlist $playlist */
         $playlist = Playlist::where('contentId', $playlistId)->first();
 
         if ($season == null || $playlist == null)
@@ -233,7 +236,7 @@ class Client extends Http {
             throw new \Exception('Season or Playlist could not be loaded.');
         }
 
-        $results = $this->getLeaderboard($seasonId, $playlistId);
+        $results = $this->getLeaderboard($season->contentId, $playlist->contentId);
 
         if ($results === false)
         {
