@@ -22,6 +22,7 @@ use PandaLove\Console\Commands\updateEnemies;
 use PandaLove\Console\Commands\updateImpulses;
 use PandaLove\Console\Commands\updateVehicles;
 use PandaLove\Console\Commands\batchHalo5Metadata;
+use PandaLove\Console\Commands\riseCountdown;
 
 class Kernel extends ConsoleKernel {
 
@@ -50,6 +51,7 @@ class Kernel extends ConsoleKernel {
 		updateImpulses::class,
 		updateVehicles::class,
 		batchHalo5Metadata::class,
+		riseCountdown::class,
 	];
 
 	/**
