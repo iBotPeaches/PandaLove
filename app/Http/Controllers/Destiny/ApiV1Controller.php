@@ -173,6 +173,14 @@ class ApiV1Controller extends Controller {
         }
     }
 
+    public function getRiseOfIronCountdown()
+    {
+        return \Response::json([
+            'error' => false,
+            'msg' => \Onyx\Destiny\Helpers\Bot\MessageGenerator::riseOfIronCountdown()
+        ]);
+    }
+
     public function getEvents()
     {
         $events = GameEvent::where('start', '>=', Carbon::now('America/Chicago'))
