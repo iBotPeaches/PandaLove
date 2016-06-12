@@ -72,6 +72,6 @@ class updateHistoricStats extends Command
             $historic->save();
         }
         
-        $messenger->sendGroupMessage('Hi pandas. I have updated the rolling KD/KDA chart automatically.');
+        //$messenger->sendGroupMessage('Hi pandas. I have updated the rolling KD/KDA chart automatically.');
     }
 }
