@@ -139,10 +139,23 @@ class Client extends Http {
                         'accountType' => $item['membershipType'],
                     ]);
 
-                    $data = new Data();
-                    $data->account_id = $cache->id;
-                    $data->membershipId = $item['membershipId'];
-                    $data->save();
+                    try
+                    {
+                        $data = Data::firstOrCreate([
+                            'account_id' => $cache->id,
+                            'membershipId' => $item['membershipId']
+                        ]);
+                    }
+                    catch (\Exception $e)
+                    {
+                        /** @var Data $data */
+                        $data = Data::firstOrCreate([
+                            'membershipId' => $item['membershipId']
+                        ]);
+
+                        $data->account_id = $cache->id;
+                        $data->save();
+                    }
                 }
 
                 $accounts[] = $cache;
@@ -674,16 +687,17 @@ class Client extends Http {
     /**
      * @param $console
      * @param $gamertag
-     * @return bool
+     * @return bool|Account
      */
     private function checkCacheForGamertagByConsole($console, $gamertag)
     {
+        /** @var Account $account */
         $account = Account::with('destiny')
             ->where('seo', Text::seoGamertag($gamertag))
             ->where('accountType', $console)
             ->first();
 
-        if ($account instanceof Account)
+        if ($account instanceof Account && $account->destiny !== null)
         {
             return $account;
         }
