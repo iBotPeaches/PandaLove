@@ -11,11 +11,16 @@ class MessageGenerator {
     public static function riseOfIronCountdown()
     {
         $now = Carbon::now('America/Chicago');
-        $rise = Carbon::parse('September 20 2016', 'America/Chicago');
+        $rise = Carbon::parse('September 20 2016 4:00am', 'America/Chicago');
+
+        if ($now > $rise)
+        {
+            return "RISE OF IRON IS LIVE. You best be playin or SIVA will get you.";
+        }
 
         $countdown = $rise->diffInSeconds($now);
         $countdown = Text::timeDuration($countdown);
 
-        return "Rise Of Iron arrives in: <strong>" . $countdown . "</strong>. <br />Pre-order: <a href='http://bit.ly/1YjjvBW'>here.</a>";
+        return "Rise Of Iron arrives in: <strong>" . $countdown . "</strong>.";
     }
 }
