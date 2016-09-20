@@ -83,7 +83,7 @@ class ApiV1Controller extends Controller {
         foreach($pandas as $panda)
         {
             $character = $panda->destiny->highestLevelHighestLight();
-            $p[$character->level][] = [
+            $p[$character->highest_light][] = [
                 'name' => $panda->gamertag . " (" . $character->class->title . ")",
                 'maxLight' => $character->highest_light,
                 'light' => $character->light
@@ -92,27 +92,16 @@ class ApiV1Controller extends Controller {
 
         krsort($p);
 
-        foreach ($p as $key => $value)
-        {
-            // lets sort the sub levels
-            usort($value, function($a, $b)
-            {
-                return $b['maxLight'] - $a['maxLight'];
-            });
-
-            $p[$key] = $value;
-        }
-
         $msg = '<strong>Light Leaderboard</strong><br /><br />';
 
         foreach ($p as $level => $chars)
         {
-            $msg .= "<strong>Level " . $level . "'s</strong><br />";
+            $msg .= "<strong>Light Level " . $level . "'s</strong><br />";
 
             $i = 1;
             foreach($chars as $char)
             {
-                $msg .= $i . ". " . $char['name'] . " <strong>" . $char['maxLight'] . "</strong><br />";
+                $msg .= $i . ". " . $char['name'] . "<br />";
                 $i++;
             }
 
