@@ -374,7 +374,7 @@ class Character extends Model {
 
     public function name()
     {
-        return $this->level . " " . $this->class->title;
+        return $this->highest_light . " " . $this->class->title;
     }
 
     public function armor()
