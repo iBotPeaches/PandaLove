@@ -1,5 +1,8 @@
 <?php namespace PandaLove\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Onyx\Hangouts\Helpers\Messages;
+
 class HomeController extends Controller {
 
 	/**

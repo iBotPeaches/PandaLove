@@ -59,6 +59,7 @@ class Messages extends Http {
      * @param $id
      * @param $msg
      * @return bool
+     * @throws Exception
      */
     private function _send($id, $msg)
     {
@@ -66,11 +67,17 @@ class Messages extends Http {
 
         try
         {
-            return $this->postJson($url, $id, $msg);
+            $this->postJson($url, $id, $msg);
         }
         catch (Exception $e)
         {
-            return $e->getMessage();
+            // Currently ignoring 500 errors because hangupsbot dies with this
+            // > results = results.encode("ascii", "xmlcharrefreplace")
+            // > AttributeError: 'bool' object has no attribute 'encode'
+            if ($e->getCode() !== 500)
+            {
+                throw $e;
+            }
         }
     }
 }

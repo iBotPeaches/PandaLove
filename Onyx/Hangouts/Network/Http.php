@@ -42,6 +42,9 @@ class Http {
                 'key' => env('BOT_APIKEY'),
                 'sendto' => $sendto,
                 'content' => $content
+            ],
+            'headers' => [
+                'Accept' => 'application/json'
             ]
         ]);
 
