@@ -24,6 +24,7 @@ class Client extends XboxAPI {
         '934424724',            // Gears of War 4 - BETA
         '706211867',            // Overwatch - BETA
         '94618376',             // Overwatch
+        '552499398',            // Gears of War 4
     ];
 
     /**
