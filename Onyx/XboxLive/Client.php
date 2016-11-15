@@ -26,6 +26,8 @@ class Client extends XboxAPI {
         '94618376',             // Overwatch
         '552499398',            // Gears of War 4
         '1204533074',           // Borderlands 2
+        '1145574011',           // Titanfall 2
+        '1386529057',           // Battlefield 1
     ];
 
     /**
