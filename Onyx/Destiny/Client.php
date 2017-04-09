@@ -190,6 +190,15 @@ class Client extends Http {
 
         if (isset($json['Response'][0]['membershipId']))
         {
+            // Look for membershipId
+            $destinyData = Data::where('membershipId', $json['Response'][0]['membershipId'])->first();
+
+            if ($destinyData instanceof Data) {
+                $destinyData->account->gamertag = $gamertag;
+                $destinyData->account->save();
+                return $destinyData->account;
+            }
+
             $account = Account::firstOrCreate([
                 'gamertag' => $json['Response'][0]['displayName'],
                 'accountType' => $json['Response'][0]['membershipType'],

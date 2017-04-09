@@ -21,6 +21,8 @@ use Onyx\Account;
  * @property int $inactiveCounter
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property Account $account
  */
 class Data extends Model {
 
