@@ -1,16 +1,16 @@
-<?php namespace PandaLove\Http\Controllers\Halo5;
+<?php
+
+namespace PandaLove\Http\Controllers\Halo5;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-
 use Onyx\Halo5\Client;
 use Onyx\Halo5\GameNotReadyException;
 use Onyx\Halo5\Helpers\Utils\Game;
 use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests;
 
-class GameController extends Controller {
-
+class GameController extends Controller
+{
     /**
      * @var \Illuminate\Http\Request
      */
@@ -33,56 +33,50 @@ class GameController extends Controller {
 
     public function getGame($type, $matchId, $api = false)
     {
-        try
-        {
+        try {
             $client = new Client();
             $match = $client->getGameByGameId($type, $matchId);
 
             if ($api) {
                 return $match;
             }
+
             return view('halo5.games.game', [
-                'type' => $type,
-                'match' => $match,
-                'combined' => Game::buildQuickGameStats($match)
+                'type'     => $type,
+                'match'    => $match,
+                'combined' => Game::buildQuickGameStats($match),
             ]);
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             \App::abort(404);
         }
     }
 
     public function getMatchEvents($type, $matchId, $api = false)
     {
-        try
-        {
+        try {
             $client = new Client();
             $match = $client->getGameByGameId($type, $matchId, true);
 
             if ($api) {
                 return $match;
             }
+
             return view('halo5.games.events', [
-                'match' => $match,
-                'type' => $type,
-                'combined' => Game::buildCombinedMatchEvents($match),
+                'match'      => $match,
+                'type'       => $type,
+                'combined'   => Game::buildCombinedMatchEvents($match),
                 'chart_data' => Game::buildKillChartArray($match),
                 'round_data' => $match->hasRounds() !== false ? Game::buildRoundArray($match) : null,
             ]);
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             \App::abort(404);
-        }
-        catch (GameNotReadyException $e)
-        {
-            return \Redirect::to('/h5/games/game/' . $type . "/" . $matchId)
+        } catch (GameNotReadyException $e) {
+            return \Redirect::to('/h5/games/game/'.$type.'/'.$matchId)
                 ->with('flash_message', [
-                    'type' => 'yellow',
+                    'type'   => 'yellow',
                     'header' => 'Uh Oh',
-                    'close' => true,
-                    'body' => $e->getMessage()
+                    'close'  => true,
+                    'body'   => $e->getMessage(),
                 ]);
         }
     }

@@ -1,22 +1,23 @@
-<?php namespace PandaLove\Events;
+<?php
 
-use Laravel\Socialite\Two\User;
+namespace PandaLove\Events;
 
 use Illuminate\Queue\SerializesModels;
+use Laravel\Socialite\Two\User;
 
-class GoogleLoggedIn extends Event {
+class GoogleLoggedIn extends Event
+{
+    use SerializesModels;
 
-	use SerializesModels;
+    public $user;
 
-	public $user;
-
-	/**
-	 * Create a new event instance.
-	 * @param \Laravel\Socialite\Two\User $user
-	 */
-	public function __construct(User $user)
-	{
-		$this->user = $user;
-	}
-
+    /**
+     * Create a new event instance.
+     *
+     * @param \Laravel\Socialite\Two\User $user
+     */
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
 }

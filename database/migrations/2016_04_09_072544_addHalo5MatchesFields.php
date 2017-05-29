@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddHalo5MatchesFields extends Migration
 {
@@ -12,8 +12,7 @@ class AddHalo5MatchesFields extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_matches', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches', function (Blueprint $table) {
             $table->uuid('map_variant')->nullable();
             $table->uuid('game_variant')->nullable();
             $table->uuid('playlist_id')->nullable(); // Playlist
@@ -33,8 +32,7 @@ class AddHalo5MatchesFields extends Migration
             $table->boolean('isTeamGame');
         });
 
-        Schema::create('halo5_matches_teams', function (Blueprint $table)
-        {
+        Schema::create('halo5_matches_teams', function (Blueprint $table) {
             $table->uuid('uuid')->unique();
             $table->uuid('game_id');
 
@@ -52,8 +50,7 @@ class AddHalo5MatchesFields extends Migration
             $table->primary('uuid');
         });
 
-        Schema::create('halo5_matches_players', function (Blueprint $table)
-        {
+        Schema::create('halo5_matches_players', function (Blueprint $table) {
             $table->uuid('uuid')->unique();
             $table->primary('uuid');
             $table->uuid('game_id');
@@ -118,8 +115,7 @@ class AddHalo5MatchesFields extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_matches', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches', function (Blueprint $table) {
             $table->dropForeign('halo5_matches_gamebase_id_foreign');
             $table->dropForeign('halo5_matches_map_id_foreign');
             $table->dropForeign('halo5_matches_playlist_id_foreign');
@@ -132,7 +128,7 @@ class AddHalo5MatchesFields extends Migration
                 'map_id',
                 'gamebase_id',
                 'season_id',
-                'isTeamGame'
+                'isTeamGame',
             ]);
         });
 

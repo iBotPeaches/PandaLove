@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddSeasonMetadata extends Migration
 {
@@ -12,8 +12,7 @@ class AddSeasonMetadata extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_seasons', function(Blueprint $table)
-        {
+        Schema::create('halo5_seasons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('contentId');
             $table->string('name', 32);

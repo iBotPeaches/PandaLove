@@ -1,11 +1,12 @@
-<?php namespace Onyx\Halo5\Collections;
+<?php
+
+namespace Onyx\Halo5\Collections;
 
 use Illuminate\Support\Collection;
 use Onyx\Halo5\Client;
 
 /**
- * Class LeaderboardCollection
- * @package Onyx\Halo5\Collections
+ * Class LeaderboardCollection.
  */
 class LeaderboardCollection extends Collection
 {
@@ -13,22 +14,20 @@ class LeaderboardCollection extends Collection
     {
         $items = [];
         $client = new Client();
-        
-        foreach ($results as $result)
-        {
+
+        foreach ($results as $result) {
             $item['gamertag'] = $result['Player']['Gamertag'];
             $item['rank'] = $result['Rank'];
             $item['csr'] = [
-                'tier' => $result['Score']['Tier'],
+                'tier'          => $result['Score']['Tier'],
                 'designationId' => $result['Score']['DesignationId'],
-                'csr' => $result['Score']['Csr']
+                'csr'           => $result['Score']['Csr'],
             ];
-            
+
             $items[] = $item;
         }
 
-        usort($items, function($a, $b)
-        {
+        usort($items, function ($a, $b) {
             return $a['rank'] - $b['rank'];
         });
 

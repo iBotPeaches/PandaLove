@@ -1,10 +1,12 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php
+
+namespace Onyx\Destiny\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Hash
- * @package Onyx\Destiny\Objects
+ * Class Hash.
+ *
  * @property int $id
  * @property string $hash
  * @property string $description
@@ -12,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $extraSecondary
  * @property string $extraThird
  */
-class Hash extends Model {
-
+class Hash extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -39,18 +41,16 @@ class Hash extends Model {
 
     public function getExtraAttribute($value)
     {
-        if ($value == null)
-        {
+        if ($value == null) {
             $value = 'foo.jpg';
         }
 
         $live_path = 'uploads/thumbs/';
         $location = public_path($live_path);
-        $filename = $this->hash . "." . pathinfo($value, PATHINFO_EXTENSION);
+        $filename = $this->hash.'.'.pathinfo($value, PATHINFO_EXTENSION);
 
-        if (\File::isFile($location . $filename))
-        {
-            return asset($live_path . $filename);
+        if (\File::isFile($location.$filename)) {
+            return asset($live_path.$filename);
         }
 
         return $value;
@@ -60,11 +60,10 @@ class Hash extends Model {
     {
         $live_path = 'uploads/thumbs/';
         $location = public_path($live_path);
-        $filename = $this->hash . "_bg" . "." . pathinfo($value, PATHINFO_EXTENSION);
+        $filename = $this->hash.'_bg'.'.'.pathinfo($value, PATHINFO_EXTENSION);
 
-        if (\File::isFile($location . $filename))
-        {
-            return asset($live_path . $filename);
+        if (\File::isFile($location.$filename)) {
+            return asset($live_path.$filename);
         }
 
         return $value;
@@ -93,44 +92,42 @@ class Hash extends Model {
     //---------------------------------------------------------------------------------
 
     /**
-     * @param array $data Array of Definitions
-     * @param string $index Index for this iteration
-     * @param string $hash Index for hash of item
-     * @param string $title Index for title of item
-     * @param string $desc Index for description of item
-     * @param null $extra Index for anything extra (optional)
-     * @param null $secondary Index for anything secondary extra (optional)
-     * @param null $third Index for a third extra field (optional)
+     * @param array  $data      Array of Definitions
+     * @param string $index     Index for this iteration
+     * @param string $hash      Index for hash of item
+     * @param string $title     Index for title of item
+     * @param string $desc      Index for description of item
+     * @param null   $extra     Index for anything extra (optional)
+     * @param null   $secondary Index for anything secondary extra (optional)
+     * @param null   $third     Index for a third extra field (optional)
+     *
      * @return bool
      */
     private static function loadDefinitions(&$data, $index, $hash, $title,
                                             $desc, $extra = null, $secondary = null, $third = null)
     {
-        if (isset($data[$index]))
-        {
-            foreach($data[$index] as $item)
-            {
-                if (($mHash = Hash::where('hash', $item[$hash])->first()) == null)
-                {
-                    $mHash = new Hash();
+        if (isset($data[$index])) {
+            foreach ($data[$index] as $item) {
+                if (($mHash = self::where('hash', $item[$hash])->first()) == null) {
+                    $mHash = new self();
                 }
 
                 // There are some records in the Hash response that have "FIELD_HIDDEN"
                 // Probably from a future DLC, but we can't decode these. So skip em.
-                if (! isset($item[$title])) continue;
+                if (!isset($item[$title])) {
+                    continue;
+                }
 
                 $mHash->hash = $item[$hash];
                 $mHash->title = $item[$title];
                 $mHash->description = isset($item[$desc]) ? $item[$desc] : null;
                 $mHash->extra = ($extra != null) ? $item[$extra] : null;
 
-                if ($secondary != null)
-                {
+                if ($secondary != null) {
                     $mHash->extraSecondary = isset($item[$secondary]) ? $item[$secondary] : null;
                 }
 
-                if ($third != null)
-                {
+                if ($third != null) {
                     $mHash->extraThird = isset($item[$third]) ? $item[$third] : null;
                 }
 

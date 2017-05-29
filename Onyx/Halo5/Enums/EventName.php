@@ -1,137 +1,140 @@
-<?php namespace Onyx\Halo5\Enums;
+<?php
 
-abstract class EventName {
+namespace Onyx\Halo5\Enums;
 
+abstract class EventName
+{
     /**
-     * Unknown
+     * Unknown.
      *
      * Not possible.
      */
     const Unknown = 0;
 
     /**
-     * Death
+     * Death.
      */
     const Death = 1;
 
     /**
-     * RoundStart
+     * RoundStart.
      */
     const RoundStart = 2;
 
     /**
-     * WeaponPickup
+     * WeaponPickup.
      */
     const WeaponPickup = 3;
 
     /**
-     * PlayerSpawn
+     * PlayerSpawn.
      */
     const PlayerSpawn = 4;
 
     /**
-     * Medal
+     * Medal.
      */
     const Medal = 5;
 
     /**
-     * WeaponDrop
+     * WeaponDrop.
      */
     const WeaponDrop = 6;
 
     /**
-     * WeaponPickupPad
+     * WeaponPickupPad.
      */
     const WeaponPickupPad = 7;
 
     /**
-     * RoundEnd
+     * RoundEnd.
      */
     const RoundEnd = 8;
 
     /**
-     * Impulse
+     * Impulse.
      */
     const Impulse = 9;
 
     /**
      * @param $name
-     * @return int
+     *
      * @throws \Exception
+     *
+     * @return int
      */
     public static function getId($name)
     {
-        switch ($name)
-        {
-            case "Death":
+        switch ($name) {
+            case 'Death':
                 return self::Death;
 
-            case "RoundStart":
+            case 'RoundStart':
                 return self::RoundStart;
 
-            case "RoundEnd":
+            case 'RoundEnd':
                 return self::RoundEnd;
 
-            case "WeaponPickup":
+            case 'WeaponPickup':
                 return self::WeaponPickup;
 
-            case "WeaponDrop":
+            case 'WeaponDrop':
                 return self::WeaponDrop;
 
-            case "WeaponPickupPad":
+            case 'WeaponPickupPad':
                 return self::WeaponPickupPad;
 
-            case "PlayerSpawn":
+            case 'PlayerSpawn':
                 return self::PlayerSpawn;
 
-            case "Medal":
+            case 'Medal':
                 return self::Medal;
 
-            case "Impulse":
+            case 'Impulse':
                 return self::Impulse;
 
             default:
-                throw new \Exception($name . ' Could not be found.');
+                throw new \Exception($name.' Could not be found.');
         }
     }
 
     /**
      * @param $id
+     *
      * @return string
      */
     public static function getSeo($id)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case self::RoundStart:
-                return "round-start";
+                return 'round-start';
 
             case self::RoundEnd:
-                return "round-end";
+                return 'round-end';
 
             case self::Death:
-                return "death";
+                return 'death';
 
             case self::Impulse:
-                return "impulse";
-            
+                return 'impulse';
+
             case self::Medal:
-                return "medal";
-            
+                return 'medal';
+
             case self::PlayerSpawn:
-                return "player-spawn";
-            
+                return 'player-spawn';
+
             case self::WeaponDrop:
-                return "weapon-drop";
-            
+                return 'weapon-drop';
+
             case self::WeaponPickup:
-                return "weapon-pickup";
-            
+                return 'weapon-pickup';
+
             case self::WeaponPickupPad:
-                return "weapon-pickup-pad";
-            
+                return 'weapon-pickup-pad';
+
             default:
-                return "this-doesnt-exist-so-will-fail";
+                return 'this-doesnt-exist-so-will-fail';
         }
     }
 }

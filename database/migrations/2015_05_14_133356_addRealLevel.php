@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddRealLevel extends Migration {
-
+class AddRealLevel extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +12,7 @@ class AddRealLevel extends Migration {
      */
     public function up()
     {
-        Schema::table('characters', function(Blueprint $table)
-        {
+        Schema::table('characters', function (Blueprint $table) {
             $table->integer('realLevel', false, true);
         });
     }
@@ -25,10 +24,8 @@ class AddRealLevel extends Migration {
      */
     public function down()
     {
-        Schema::table('characters', function(Blueprint $table)
-        {
+        Schema::table('characters', function (Blueprint $table) {
             $table->dropColumn('realLevel');
         });
     }
-
 }

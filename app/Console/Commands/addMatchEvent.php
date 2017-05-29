@@ -2,15 +2,8 @@
 
 namespace PandaLove\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Onyx\Account;
 use Onyx\Halo5\Client;
-use Onyx\Halo5\Objects\Data;
-use Onyx\Halo5\Objects\HistoricalStat;
-use Onyx\Hangouts\Helpers\Messages;
-use Onyx\User;
 
 class addMatchEvent extends Command
 {
@@ -49,15 +42,12 @@ class addMatchEvent extends Command
 
         \DB::beginTransaction();
 
-        try
-        {
+        try {
             $client = new Client();
             $client->addMatchEvents($matchId);
 
             \DB::commit();
-        }
-        catch (\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             \DB::rollBack();
         }
     }

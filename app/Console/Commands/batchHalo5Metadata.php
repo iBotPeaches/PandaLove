@@ -3,9 +3,6 @@
 namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\CSR;
 
 class batchHalo5Metadata extends Command
@@ -56,17 +53,16 @@ class batchHalo5Metadata extends Command
             'halo5:vehicles-update',
         ];
 
-        foreach ($commands as $command)
-        {
+        foreach ($commands as $command) {
             $exitCode = \Artisan::call($command);
 
-            $this->info('Ran command (' . $command . ') with output of: ' . $exitCode);
+            $this->info('Ran command ('.$command.') with output of: '.$exitCode);
 
             $randomSleep = mt_rand(1, 8);
-            $this->info('Sleeping for ' . $randomSleep . ' seconds before next command.');
+            $this->info('Sleeping for '.$randomSleep.' seconds before next command.');
             sleep($randomSleep);
         }
-        
+
         $caches = [
             'vehicles-metadata',
             'gametypes-metadata',
@@ -77,10 +73,9 @@ class batchHalo5Metadata extends Command
             'medals-metadata',
             'playlists-metadata',
         ];
-        
-        foreach ($caches as $name)
-        {
-            $this->info('Dumping cache for ' . $name);
+
+        foreach ($caches as $name) {
+            $this->info('Dumping cache for '.$name);
             \Cache::forget($name);
         }
     }

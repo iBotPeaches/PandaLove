@@ -42,24 +42,21 @@ class updateHistoricStats extends Command
     public function handle()
     {
         $pandas = Account::with('user', 'h5.warzone')
-            ->whereHas('user', function($query)
-            {
+            ->whereHas('user', function ($query) {
                 $query->where('isPanda', true);
             })
-            ->whereHas('h5', function($query)
-            {
+            ->whereHas('h5', function ($query) {
                 $query->where('totalKills', '!=', 0);
             })
             ->orderBy('gamertag', 'ASC')
             ->get();
 
         $messenger = new Messages();
-        
+
         /** @var $pandas \Onyx\Account[] */
         $insertedDate = new Carbon();
-        foreach ($pandas as $panda)
-        {
-            $this->info('Writing out Panda ' . $panda->gamertag);
+        foreach ($pandas as $panda) {
+            $this->info('Writing out Panda '.$panda->gamertag);
             $historic = new HistoricalStat();
             $historic->account_id = $panda->id;
             $historic->arena_kd = $panda->h5->kd(false);
@@ -71,7 +68,7 @@ class updateHistoricStats extends Command
             $historic->date = $insertedDate;
             $historic->save();
         }
-        
+
         //$messenger->sendGroupMessage('Hi pandas. I have updated the rolling KD/KDA chart automatically.');
     }
 }

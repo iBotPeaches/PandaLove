@@ -1,9 +1,9 @@
-<?php namespace PandaLove\Http\Requests;
+<?php
 
-use PandaLove\Http\Requests\Request;
+namespace PandaLove\Http\Requests;
 
-class deleteGameRequest extends Request {
-
+class deleteGameRequest extends Request
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,8 +13,7 @@ class deleteGameRequest extends Request {
     {
         $user = \Auth::user();
 
-        if ($user != null && $user->admin)
-        {
+        if ($user != null && $user->admin) {
             return true;
         }
 
@@ -29,8 +28,7 @@ class deleteGameRequest extends Request {
     public function rules()
     {
         return [
-            'game_id' => 'required|game-exists-real'
+            'game_id' => 'required|game-exists-real',
         ];
     }
-
 }

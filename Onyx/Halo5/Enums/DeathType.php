@@ -1,44 +1,46 @@
-<?php namespace Onyx\Halo5\Enums;
+<?php
 
-abstract class DeathType {
+namespace Onyx\Halo5\Enums;
 
+abstract class DeathType
+{
     /**
-     * Assassination
+     * Assassination.
      *
      * Describes if the death was committed by the killer from behind (Assassination or melee to back).
      */
     const Assassination = 0;
 
     /**
-     * GroundPound
+     * GroundPound.
      *
      * Describes if the kill was committed by the killer with a ground pound.
      */
     const GroundPound = 1;
 
     /**
-     * Headshot
+     * Headshot.
      *
      * Describes if the kill was committed by the killer with a head shot.
      */
     const Headshot = 2;
 
     /**
-     * Melee
+     * Melee.
      *
      * Describes if the kill was committed by the killer using melee.
      */
     const Melee = 3;
 
     /**
-     * ShoulderBash
+     * ShoulderBash.
      *
      * Describes if the kill was committed by the killer with a shoulder bash.
      */
     const ShoulderBash = 4;
 
     /**
-     * Weapon
+     * Weapon.
      *
      * Describes if the kill was committed by the killer with a weapon.
      */
@@ -46,28 +48,27 @@ abstract class DeathType {
 
     public static function getId($name)
     {
-        switch ($name)
-        {
-            case "IsAssassination":
+        switch ($name) {
+            case 'IsAssassination':
                 return self::Assassination;
 
-            case "IsGroundPound":
+            case 'IsGroundPound':
                 return self::GroundPound;
 
-            case "IsHeadshot":
+            case 'IsHeadshot':
                 return self::Headshot;
 
-            case "IsMelee":
+            case 'IsMelee':
                 return self::Melee;
 
-            case "IsShoulderBash":
+            case 'IsShoulderBash':
                 return self::ShoulderBash;
 
-            case "IsWeapon":
+            case 'IsWeapon':
                 return self::Weapon;
 
             default:
-                throw new \Exception($name . ' is an unknown type');
+                throw new \Exception($name.' is an unknown type');
         }
     }
 }

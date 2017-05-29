@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddH5Data extends Migration
 {
@@ -12,8 +12,7 @@ class AddH5Data extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_data', function(Blueprint $table)
-        {
+        Schema::create('halo5_data', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id', false, true);
             $table->mediumInteger('highestCsr', false, true)->nullable();
@@ -38,8 +37,7 @@ class AddH5Data extends Migration
             $table->string('spartan');
         });
 
-        Schema::create('halo5_playlists_data', function(Blueprint $table)
-        {
+        Schema::create('halo5_playlists_data', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id', false, true);
             $table->string('playlistId', 64);
@@ -72,8 +70,7 @@ class AddH5Data extends Migration
             $table->integer('totalTimePlayed', false, true);
         });
 
-        Schema::create('halo5_playlists', function(Blueprint $table)
-        {
+        Schema::create('halo5_playlists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('contentId')->unique();
             $table->string('name', 128);
@@ -81,8 +78,7 @@ class AddH5Data extends Migration
             $table->boolean('isRanked');
         });
 
-        Schema::create('halo5_medals', function(Blueprint $table)
-        {
+        Schema::create('halo5_medals', function (Blueprint $table) {
             $table->increments('id');
             $table->string('contentId')->unique();
             $table->string('name', 128);

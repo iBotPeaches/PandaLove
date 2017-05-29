@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -7,7 +9,6 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Enums\MetadataType;
-use Onyx\Halo5\Objects\Enemy;
 use Onyx\Halo5\Objects\Event\Metadata;
 use Onyx\Halo5\Objects\Vehicle;
 
@@ -49,17 +50,13 @@ class updateVehicles extends Command
         $vehicles = $client->getVehicles();
         $path = 'public/images/vehicles/';
 
-        if (! File::exists($path))
-        {
+        if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
 
-        if (is_array($vehicles))
-        {
-            foreach ($vehicles as $vehicle)
-            {
-                try
-                {
+        if (is_array($vehicles)) {
+            foreach ($vehicles as $vehicle) {
+                try {
                     $m = new Metadata();
                     $m->uuid = $vehicle['id'];
                     $m->contentId = $vehicle['contentId'];
@@ -67,23 +64,17 @@ class updateVehicles extends Command
                     $m->description = $vehicle['description'];
                     $m->type = MetadataType::Vehicle;
                     $m->save();
-                }
-                catch (QueryException $e)
-                {
-                    
+                } catch (QueryException $e) {
                 }
 
-                try
-                {
+                try {
                     $_vehicle = Vehicle::where('uuid', $vehicle['id'])->firstOrFail();
 
-                    $this->info('Vehicle ' . $vehicle['name'] . ' already exists. Updating.');
+                    $this->info('Vehicle '.$vehicle['name'].' already exists. Updating.');
                     $_vehicle->name = $vehicle['name'];
                     $_vehicle->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $vehicle['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$vehicle['name']);
 
                     $v = new Vehicle();
                     $v->uuid = $vehicle['id'];
@@ -93,27 +84,23 @@ class updateVehicles extends Command
                     $v->useableByPlayer = boolval($vehicle['isUsableByPlayer']);
                     $v->save();
 
-                    if ($vehicle['smallIconImageUrl'] != null)
-                    {
-                        if (! file_exists($path . $vehicle['id'] . '.png'))
-                        {
+                    if ($vehicle['smallIconImageUrl'] != null) {
+                        if (!file_exists($path.$vehicle['id'].'.png')) {
                             $icon = file_get_contents($vehicle['smallIconImageUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $vehicle['id'] . '-small.png');
+                            $image->save($path.$vehicle['id'].'-small.png');
                         }
                     }
 
-                    if ($vehicle['largeIconImageUrl'] != null)
-                    {
-                        if (! file_exists($path . $vehicle['id'] . '.png'))
-                        {
+                    if ($vehicle['largeIconImageUrl'] != null) {
+                        if (!file_exists($path.$vehicle['id'].'.png')) {
                             $icon = file_get_contents($vehicle['largeIconImageUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $vehicle['id'] . '-large.png');
+                            $image->save($path.$vehicle['id'].'-large.png');
                         }
                     }
                 }

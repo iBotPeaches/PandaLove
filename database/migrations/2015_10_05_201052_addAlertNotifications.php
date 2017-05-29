@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddAlertNotifications extends Migration
@@ -12,8 +11,7 @@ class AddAlertNotifications extends Migration
      */
     public function up()
     {
-        Schema::table('game_events', function($table)
-        {
+        Schema::table('game_events', function ($table) {
             $table->boolean('alert_5')->default(false);
             $table->boolean('alert_15')->default(false);
         });
@@ -26,8 +24,7 @@ class AddAlertNotifications extends Migration
      */
     public function down()
     {
-        Schema::table('game_events', function($table)
-        {
+        Schema::table('game_events', function ($table) {
             $table->dropColumn('alert_5');
             $table->dropColumn('alert_15');
         });

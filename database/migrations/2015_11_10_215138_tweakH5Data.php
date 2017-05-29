@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class TweakH5Data extends Migration
 {
@@ -12,8 +12,7 @@ class TweakH5Data extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_data', function(Blueprint $table)
-        {
+        Schema::table('halo5_data', function (Blueprint $table) {
             $table->dropColumn('highestCsr');
 
             // highest csr
@@ -32,11 +31,10 @@ class TweakH5Data extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_data', function(Blueprint $table)
-        {
+        Schema::table('halo5_data', function (Blueprint $table) {
             $table->mediumInteger('highestCsr', false, true)->nullable();
 
-            $table->dropColumn(array('highest_CsrTier', 'highest_CsrDesignationId', 'highest_Csr', 'highest_percentNext', 'highest_rank'));
+            $table->dropColumn(['highest_CsrTier', 'highest_CsrDesignationId', 'highest_Csr', 'highest_percentNext', 'highest_rank']);
         });
     }
 }

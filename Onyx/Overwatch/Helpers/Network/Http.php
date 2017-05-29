@@ -1,9 +1,11 @@
-<?php namespace Onyx\Overwatch\Helpers\Network;
+<?php
+
+namespace Onyx\Overwatch\Helpers\Network;
 
 use GuzzleHttp\Client as Guzzle;
 
-class Http {
-
+class Http
+{
     /**
      * @var \GuzzleHttp\Client
      */
@@ -21,19 +23,17 @@ class Http {
 
     public function getJson($url)
     {
-        if (! $this->guzzle instanceof Guzzle)
-        {
+        if (!$this->guzzle instanceof Guzzle) {
             $this->setupGuzzle();
         }
 
         $response = $this->guzzle->get($url, [
             'headers' => [
-                'Accept' => 'application/json'
-            ]
+                'Accept' => 'application/json',
+            ],
         ]);
 
-        if ($response->getStatusCode() != 200)
-        {
+        if ($response->getStatusCode() != 200) {
             throw new OWApiNetworkException();
         }
 
@@ -41,4 +41,6 @@ class Http {
     }
 }
 
-class OWApiNetworkException extends \Exception {}
+class OWApiNetworkException extends \Exception
+{
+}

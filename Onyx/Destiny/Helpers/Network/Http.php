@@ -1,18 +1,17 @@
-<?php namespace Onyx\Destiny\Helpers\Network;
+<?php
+
+namespace Onyx\Destiny\Helpers\Network;
 
 use Barryvdh\Debugbar\Facade as DebugBar;
 use GuzzleHttp\Client as Guzzle;
 
-class Http {
-
+class Http
+{
     /**
      * @var \GuzzleHttp\Client
      */
     protected $guzzle;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->setupGuzzle();
@@ -24,41 +23,40 @@ class Http {
     }
 
     /**
-     * Request an URL expecting JSON to be returned
+     * Request an URL expecting JSON to be returned.
+     *
      * @param $url
      * @param $cache integer
-     * @return array
+     *
      * @throws BungieOfflineException
+     *
+     * @return array
      */
     public function getJson($url, $cache = 0)
     {
-        if (! $this->guzzle instanceof Guzzle)
-        {
+        if (!$this->guzzle instanceof Guzzle) {
             $this->setupGuzzle();
         }
 
         $sum = md5($url);
 
-        if ($cache != 0 && \Cache::has($sum))
-        {
+        if ($cache != 0 && \Cache::has($sum)) {
             return \Cache::get($sum);
         }
 
         DebugBar::startMeasure($sum, $url);
 
         $response = $this->guzzle->get($url, [
-            'headers' => ['X-API-Key' => env('BUNGIE_KEY')]
+            'headers' => ['X-API-Key' => env('BUNGIE_KEY')],
         ]);
 
         DebugBar::stopMeasure($sum);
 
-        if ($response->getStatusCode() != 200)
-        {
+        if ($response->getStatusCode() != 200) {
             throw new BungieOfflineException();
         }
 
-        if ($cache != 0)
-        {
+        if ($cache != 0) {
             \Cache::put($sum, json_decode($response->getBody(), true), $cache);
         }
 
@@ -66,5 +64,6 @@ class Http {
     }
 }
 
-class BungieOfflineException extends \Exception {}
-
+class BungieOfflineException extends \Exception
+{
+}

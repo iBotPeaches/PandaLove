@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddSpartanRanksTable extends Migration
 {
@@ -12,8 +12,7 @@ class AddSpartanRanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_ranks', function (Blueprint $table)
-        {
+        Schema::create('halo5_ranks', function (Blueprint $table) {
             $table->integer('level', false, true);
             $table->integer('previousLevel', false, true); // finding table via eager
             $table->uuid('uuid');

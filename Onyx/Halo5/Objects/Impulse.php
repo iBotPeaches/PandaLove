@@ -1,16 +1,18 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Impulse
- * @package Onyx\Halo5\Objects
+ * Class Impulse.
+ *
  * @property string $id
  * @property string $contentId
  * @property string $name
  */
-class Impulse extends Model {
-
+class Impulse extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -26,7 +28,7 @@ class Impulse extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -47,12 +49,10 @@ class Impulse extends Model {
 
     public static function getAll()
     {
-        return \Cache::remember('impulses-metadata', 120, function()
-        {
+        return \Cache::remember('impulses-metadata', 120, function () {
             $items = [];
 
-            foreach (Impulse::all() as $impulse)
-            {
+            foreach (Impulse::all() as $impulse) {
                 $items[$impulse->id] = $impulse;
             }
 

@@ -1,19 +1,21 @@
-<?php namespace Onyx\Halo5\Enums;
+<?php
 
-abstract class VictimAgent {
+namespace Onyx\Halo5\Enums;
 
+abstract class VictimAgent
+{
     /**
-     * Nothing
+     * Nothing.
      */
     const None = 0;
 
     /**
-     * Another player
+     * Another player.
      */
     const Player = 1;
 
     /**
-     * AI, most likely in Warzone
+     * AI, most likely in Warzone.
      */
     const AI = 2;
 }

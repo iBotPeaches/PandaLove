@@ -1,12 +1,14 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php
+
+namespace Onyx\Destiny\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
 
 /**
- * Class Data
- * @package Onyx\Destiny\Objects
+ * Class Data.
+ *
  * @property int $id
  * @property int $account_id
  * @property int $membershipId
@@ -21,11 +23,10 @@ use Onyx\Account;
  * @property int $inactiveCounter
  * @property Carbon $created_at
  * @property Carbon $updated_at
- *
  * @property Account $account
  */
-class Data extends Model {
-
+class Data extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -44,8 +45,7 @@ class Data extends Model {
     {
         parent::boot();
 
-        Account::deleting(function($account)
-        {
+        Account::deleting(function ($account) {
             Character::where('membershipId', $account->membershipId)->delete();
         });
     }
@@ -70,7 +70,7 @@ class Data extends Model {
 
     public function isInPandaLoveClan()
     {
-        return $this->attributes['clanName'] == "Panda Love" && $this->attributes['clanTag'] == "WRKD";
+        return $this->attributes['clanName'] == 'Panda Love' && $this->attributes['clanTag'] == 'WRKD';
     }
 
     public function characters()
@@ -83,7 +83,7 @@ class Data extends Model {
         return [
             $this->character_1,
             $this->character_2,
-            $this->character_3
+            $this->character_3,
         ];
     }
 
@@ -100,6 +100,7 @@ class Data extends Model {
     public function characterAtPosition($index)
     {
         $index--;
+
         return $this->characters->get($index);
     }
 
@@ -127,10 +128,8 @@ class Data extends Model {
     {
         $chars = $this->characters;
 
-        foreach($chars as $char)
-        {
-            if ($char->characterId == $charId)
-            {
+        foreach ($chars as $char) {
+            if ($char->characterId == $charId) {
                 return true;
             }
         }

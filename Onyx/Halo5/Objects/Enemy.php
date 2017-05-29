@@ -1,18 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Enemy
- * @package Onyx\Halo5\Objects
+ * Class Enemy.
+ *
  * @property string $id
  * @property string $contentId
  * @property string $name
  * @property string $faction
  * @property string $description
  */
-class Enemy extends Model {
-
+class Enemy extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -28,7 +30,7 @@ class Enemy extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -46,5 +48,4 @@ class Enemy extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-
 }

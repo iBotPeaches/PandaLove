@@ -1,9 +1,9 @@
-<?php namespace PandaLove\Http\Requests;
+<?php
 
-use PandaLove\Http\Requests\Request;
+namespace PandaLove\Http\Requests;
 
-class AddCommentRequest extends Request {
-
+class AddCommentRequest extends Request
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,8 +13,7 @@ class AddCommentRequest extends Request {
     {
         $user = \Auth::user();
 
-        if ($user != null && $user->account != null)
-        {
+        if ($user != null && $user->account != null) {
             return true;
         }
 
@@ -30,8 +29,7 @@ class AddCommentRequest extends Request {
     {
         return [
             'message' => 'required',
-            'game_id' => 'required|game-exists-real'
+            'game_id' => 'required|game-exists-real',
         ];
     }
-
 }

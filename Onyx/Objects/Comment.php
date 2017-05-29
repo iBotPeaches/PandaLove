@@ -1,4 +1,6 @@
-<?php namespace Onyx\Objects;
+<?php
+
+namespace Onyx\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -7,21 +9,21 @@ use Onyx\Destiny\Objects\Game;
 use Onyx\Halo5\Objects\Data;
 
 /**
- * Class Comment
- * @package Onyx\Objects
- * @property integer $id
+ * Class Comment.
+ *
+ * @property int $id
  * @property string $comment
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $destiny_membershipId
  * @property string $destiny_characterId
- * @property integer $commentable_id
+ * @property int $commentable_id
  * @property string $commentable_type
- * @property integer $parent_comment_id
- * @property integer $account_id
+ * @property int $parent_comment_id
+ * @property int $account_id
  */
-class Comment extends Model {
-
+class Comment extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -50,12 +52,9 @@ class Comment extends Model {
         $date = new Carbon($value);
         $date = $date->timezone('America/Chicago');
 
-        if ($date->diffInDays() > 30)
-        {
+        if ($date->diffInDays() > 30) {
             return $date->format('M j, Y - g:ma');
-        }
-        else
-        {
+        } else {
             return $date->diffForHumans();
         }
     }
@@ -65,12 +64,9 @@ class Comment extends Model {
      */
     public function setDestinyCharacterIdAttribute($value)
     {
-        if ($value instanceof Account)
-        {
+        if ($value instanceof Account) {
             $this->attributes['destiny_characterId'] = $value->characterId;
-        }
-        else
-        {
+        } else {
             $this->attributes['destiny_characterId'] = null;
         }
     }
@@ -101,19 +97,13 @@ class Comment extends Model {
 
     public function emblem()
     {
-        if ($this->commentable instanceof Game)
-        {
-            if ($this->destiny_characterId != null) // In Game
-            {
+        if ($this->commentable instanceof Game) {
+            if ($this->destiny_characterId != null) { // In Game
                 return $this->player->emblem->extra;
-            }
-            else
-            {
+            } else {
                 return $this->destiny->characterAtPosition(1)->emblem->extra;
             }
-        }
-        elseif ($this->commentable instanceof Data)
-        {
+        } elseif ($this->commentable instanceof Data) {
             return false;
         }
     }

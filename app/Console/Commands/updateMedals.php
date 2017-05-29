@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
@@ -50,9 +52,8 @@ class updateMedals extends Command
         $this->info('Getting new Medal data from 343');
         $medals = $client->getMedals();
 
-        if (is_array($medals))
-        {
-            $this->info('We found a lot of medals. ' . count($medals) . ' to be exact.');
+        if (is_array($medals)) {
+            $this->info('We found a lot of medals. '.count($medals).' to be exact.');
 
             $this->info('Purging table to make room for new medals');
             DB::table('halo5_medals')->truncate();
@@ -62,10 +63,8 @@ class updateMedals extends Command
     display: inline-block;
 }\n
 EOF;
-            foreach($medals as $medal)
-            {
-                try
-                {
+            foreach ($medals as $medal) {
+                try {
                     $m = new Metadata();
                     $m->uuid = $medal['id'];
                     $m->contentId = $medal['contentId'];
@@ -73,13 +72,10 @@ EOF;
                     $m->description = $medal['description'];
                     $m->type = MetadataType::Medal;
                     $m->save();
-                }
-                catch (QueryException $e)
-                {
-
+                } catch (QueryException $e) {
                 }
 
-                $this->info('Adding: ' . $medal['name']);
+                $this->info('Adding: '.$medal['name']);
                 $m = new Medal();
                 $m->name = $medal['name'];
                 $m->description = $medal['description'];

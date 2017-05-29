@@ -1,12 +1,14 @@
-<?php namespace Onyx\Calendar\Objects;
+<?php
+
+namespace Onyx\Calendar\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Enums\Types;
 
 /**
- * Class Event
- * @package Onyx\Destiny\Objects
+ * Class Event.
+ *
  * @property int $id
  * @property string $title
  * @property string $type
@@ -14,12 +16,12 @@ use Onyx\Destiny\Enums\Types;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int $max_players
- * @property boolean $alert_5
- * @property boolean $alert_15
+ * @property bool $alert_5
+ * @property bool $alert_15
  * @property string $game destiny|h5
  */
-class Event extends Model {
-
+class Event extends Model
+{
     protected $table = 'calendar_game_events';
 
     protected $fillable = ['title', 'type', 'start', 'max_players', 'game'];
@@ -49,7 +51,7 @@ class Event extends Model {
 
     public function getGameAttribute($value)
     {
-        return $value == "" ? "destiny" : $value;
+        return $value == '' ? 'destiny' : $value;
     }
 
     //---------------------------------------------------------------------------------
@@ -88,88 +90,83 @@ class Event extends Model {
 
     public function getBackgroundColor()
     {
-        switch ($this->game)
-        {
-            case "destiny":
+        switch ($this->game) {
+            case 'destiny':
                 return '#5BBD72';
 
-            case "h5":
+            case 'h5':
                 return '#D95C5C';
         }
     }
 
     public function game_name()
     {
-        switch ($this->game)
-        {
-            case "destiny":
+        switch ($this->game) {
+            case 'destiny':
                 return 'Destiny';
 
-            case "h5":
+            case 'h5':
                 return 'Halo 5';
         }
     }
 
     public function getHumanType()
     {
-        switch($this->type)
-        {
-            case "ToO":
+        switch ($this->type) {
+            case 'ToO':
                 return 'Trials of Osiris';
 
-            case "Raid":
-            case "Flawless":
+            case 'Raid':
+            case 'Flawless':
                 return 'Raid';
 
-            case "PoE":
+            case 'PoE':
                 return 'Prison Of Elders';
 
-            case "PVP":
+            case 'PVP':
                 return 'PVP';
         }
     }
 
     public function getPlayerDefaultSize()
     {
-        switch ($this->game)
-        {
-            case "destiny":
-                switch ($this->type)
-                {
-                    case "ToO":
-                    case "PoE":
+        switch ($this->game) {
+            case 'destiny':
+                switch ($this->type) {
+                    case 'ToO':
+                    case 'PoE':
                         return 3;
 
-                    case "Raid":
-                    case "Flawless":
-                    case "PVP":
+                    case 'Raid':
+                    case 'Flawless':
+                    case 'PVP':
                         return 6;
                 }
+
                 return 3;
 
-            case "h5":
-                switch ($this->type)
-                {
-                    case "Big Team Battle":
+            case 'h5':
+                switch ($this->type) {
+                    case 'Big Team Battle':
                         return 8;
 
-                    case "Warzone":
+                    case 'Warzone':
                         return 12;
                 }
+
                 return 4;
         }
     }
 
     /**
      * @param $user
+     *
      * @return bool
      */
     public function isAttending($user)
     {
-        foreach ($this->attendees as $attendee)
-        {
-            if ($attendee->user->id == $user->id)
-            {
+        foreach ($this->attendees as $attendee) {
+            if ($attendee->user->id == $user->id) {
                 return true;
             }
         }
@@ -184,6 +181,6 @@ class Event extends Model {
 
     public function isDestiny()
     {
-        return $this->game == "destiny";
+        return $this->game == 'destiny';
     }
 }

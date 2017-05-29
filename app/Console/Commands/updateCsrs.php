@@ -4,7 +4,6 @@ namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\CSR;
 
@@ -45,23 +44,18 @@ class updateCsrs extends Command
         $this->info('Getting new CSR data from 343');
         $csrs = $client->getCsrs();
 
-        if (is_array($csrs))
-        {
+        if (is_array($csrs)) {
             $this->info('We found CSR data. Adding to table after purge.');
 
-            foreach($csrs as $csr)
-            {
-                try
-                {
-                    $this->info('Updating ' . $csr['name']);
+            foreach ($csrs as $csr) {
+                try {
+                    $this->info('Updating '.$csr['name']);
                     $_csr = CSR::where('designationId', $csr['id'])->firstOrFail();
                     $_csr->bannerUrl = $csr['bannerImageUrl'];
                     $_csr->tiers = $csr['tiers'];
                     $_csr->save();
-                }
-                catch (ModelNotFoundException $ex)
-                {
-                    $this->info('Adding ' . $csr['name']);
+                } catch (ModelNotFoundException $ex) {
+                    $this->info('Adding '.$csr['name']);
 
                     $c = new CSR();
                     $c->designationId = $csr['id'];

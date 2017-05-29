@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddImpulsesAndEnemiesMetadata extends Migration
 {
@@ -12,8 +12,7 @@ class AddImpulsesAndEnemiesMetadata extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_enemies', function (Blueprint $table)
-        {
+        Schema::create('halo5_enemies', function (Blueprint $table) {
             $table->string('id')->unique();
             $table->uuid('contentId');
             $table->string('name', 32);
@@ -24,11 +23,10 @@ class AddImpulsesAndEnemiesMetadata extends Migration
             $table->index('contentId');
         });
 
-        Schema::create('halo5_impulses', function (Blueprint $table)
-        {
+        Schema::create('halo5_impulses', function (Blueprint $table) {
             $table->string('id')->unique();
             $table->uuid('contentId');
-            
+
             $table->string('name', 32);
 
             $table->primary('id');

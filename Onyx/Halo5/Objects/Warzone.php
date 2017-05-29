@@ -1,15 +1,13 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
-use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
 
 /**
- * @package \Onyx\Halo5\Objects
  * @property int $id
  * @property int $account_id
  * @property int $totalKills
@@ -26,8 +24,8 @@ use Onyx\Halo5\Helpers\Date\DateIntervalFractions;
  * @property array $medals
  * @property array $weapons
  */
-class Warzone extends Model {
-
+class Warzone extends Model
+{
     use Stats;
 
     /**
@@ -45,7 +43,7 @@ class Warzone extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -62,12 +60,10 @@ class Warzone extends Model {
 
     public function setMedalsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $medal)
-            {
+            foreach ($value as $medal) {
                 $insert[$medal['MedalId']] = $medal['Count'];
             }
             $this->attributes['medals'] = json_encode($insert);
@@ -76,12 +72,10 @@ class Warzone extends Model {
 
     public function setWeaponsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $weapon)
-            {
+            foreach ($value as $weapon) {
                 $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
             }
 
@@ -92,12 +86,9 @@ class Warzone extends Model {
 
     public function setTotalTimePlayedAttribute($value)
     {
-        if (strlen($value) > 1)
-        {
+        if (strlen($value) > 1) {
             $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
-        }
-        else
-        {
+        } else {
             $this->attributes['totalTimePlayed'] = 0;
         }
     }

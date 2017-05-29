@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class ChangeForeignReferencesOnEvent extends Migration
 {
@@ -13,9 +13,8 @@ class ChangeForeignReferencesOnEvent extends Migration
     public function up()
     {
         $this->emptyEvents();
-        
-        Schema::table('halo5_match_events', function (Blueprint $table)
-        {
+
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->dropForeign('halo5_match_events_killer_weapon_id_foreign');
             $table->dropForeign('halo5_match_events_victim_stock_id_foreign');
 
@@ -33,8 +32,7 @@ class ChangeForeignReferencesOnEvent extends Migration
     {
         $this->emptyEvents();
 
-        Schema::table('halo5_match_events', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->dropForeign('halo5_match_events_killer_weapon_id_foreign');
             $table->dropForeign('halo5_match_events_victim_stock_id_foreign');
 

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddHalo5AdditionalMetadata extends Migration
 {
@@ -12,8 +12,7 @@ class AddHalo5AdditionalMetadata extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_teams', function (Blueprint $table)
-        {
+        Schema::create('halo5_teams', function (Blueprint $table) {
             $table->tinyInteger('id', false, true);
             $table->string('name', 32);
             $table->string('color', 8);

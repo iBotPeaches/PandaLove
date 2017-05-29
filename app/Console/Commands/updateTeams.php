@@ -1,11 +1,12 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
-use Onyx\Halo5\Objects\Gametype;
 use Onyx\Halo5\Objects\Team;
 
 class updateTeams extends Command
@@ -47,26 +48,20 @@ class updateTeams extends Command
         $teams = $client->getTeams();
         $path = 'public/images/teams/';
 
-        if (! File::exists($path))
-        {
+        if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
 
-        if (is_array($teams))
-        {
-            foreach ($teams as $team)
-            {
-                try
-                {
+        if (is_array($teams)) {
+            foreach ($teams as $team) {
+                try {
                     $_team = Team::where('id', $team['id'])->firstOrFail();
 
-                    $this->info('Team ' . $team['name'] . ' already exists. Updating.');
+                    $this->info('Team '.$team['name'].' already exists. Updating.');
                     $_team->name = $team['name'];
                     $_team->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $team['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$team['name']);
 
                     $t = new Team();
                     $t->id = $team['id'];
@@ -75,15 +70,13 @@ class updateTeams extends Command
                     $t->contentId = $team['contentId'];
                     $t->save();
 
-                    if ($team['iconUrl'] != null)
-                    {
-                        if (! file_exists($path . $team['id'] . '.png'))
-                        {
+                    if ($team['iconUrl'] != null) {
+                        if (!file_exists($path.$team['id'].'.png')) {
                             $icon = file_get_contents($team['iconUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $team['id'] . '.png');
+                            $image->save($path.$team['id'].'.png');
                         }
                     }
                 }

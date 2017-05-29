@@ -1,12 +1,14 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php
+
+namespace Onyx\Destiny\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Utils\Gametype;
 use Onyx\Destiny\Helpers\Utils\Team;
 
 /**
- * Class PVP
- * @package Onyx\Destiny\Objects
+ * Class PVP.
+ *
  * @property int $id
  * @property int $instanceId
  * @property string $gametype
@@ -16,8 +18,8 @@ use Onyx\Destiny\Helpers\Utils\Team;
  * @property int $loserId
  * @property int $pandaIa
  */
-class PVP extends Model {
-
+class PVP extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -37,7 +39,7 @@ class PVP extends Model {
      */
     public $timestamps = false;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -92,34 +94,23 @@ class PVP extends Model {
 
     public function pts($team_id)
     {
-        if ($this->attributes['winnerId'] == $team_id)
-        {
+        if ($this->attributes['winnerId'] == $team_id) {
             return $this->winnerPts;
-        }
-        elseif ($this->attributes['loserId'] == $team_id)
-        {
+        } elseif ($this->attributes['loserId'] == $team_id) {
             return $this->loserPts;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
 
     public function opposite($team_id)
     {
-        if ($team_id == 16)
-        {
+        if ($team_id == 16) {
             return 17;
-        }
-        elseif ($team_id == 17)
-        {
+        } elseif ($team_id == 17) {
             return 16;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
-
 }

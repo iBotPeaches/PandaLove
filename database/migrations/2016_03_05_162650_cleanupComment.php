@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CleanupComment extends Migration
 {
@@ -12,14 +12,12 @@ class CleanupComment extends Migration
      */
     public function up()
     {
-        Schema::table('comments', function(Blueprint $table)
-        {
+        Schema::table('comments', function (Blueprint $table) {
             $table->renameColumn('membershipId', 'destiny_membershipId');
             $table->renameColumn('characterId', 'destiny_characterId');
         });
 
-        Schema::table('comments', function(Blueprint $table)
-        {
+        Schema::table('comments', function (Blueprint $table) {
             $table->string('destiny_membershipId', 64)->nullable()->change();
             $table->string('destiny_characterId', 64)->nullable()->change();
         });
@@ -32,8 +30,7 @@ class CleanupComment extends Migration
      */
     public function down()
     {
-        Schema::table('comments', function(Blueprint $table)
-        {
+        Schema::table('comments', function (Blueprint $table) {
             $table->renameColumn('destiny_membershipId', 'membershipId');
             $table->renameColumn('destiny_characterId', 'characterId');
         });

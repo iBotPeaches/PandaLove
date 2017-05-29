@@ -1,16 +1,18 @@
-<?php namespace Onyx\Destiny\Enums;
+<?php
 
-abstract class Console {
+namespace Onyx\Destiny\Enums;
 
+abstract class Console
+{
     /**
-     * Xbox
+     * Xbox.
      *
      * On Xbox
      */
     const Xbox = 1;
 
     /**
-     * PSN
+     * PSN.
      *
      * On PSN
      */

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class LightIsNotTinyInt extends Migration
 {
@@ -12,8 +12,7 @@ class LightIsNotTinyInt extends Migration
      */
     public function up()
     {
-        Schema::table('characters', function(Blueprint $table)
-        {
+        Schema::table('characters', function (Blueprint $table) {
             $table->integer('light', false, true)->change();
         });
     }
@@ -25,8 +24,7 @@ class LightIsNotTinyInt extends Migration
      */
     public function down()
     {
-        Schema::table('characters', function(Blueprint $table)
-        {
+        Schema::table('characters', function (Blueprint $table) {
             $table->tinyInteger('light', false, true)->change();
         });
     }

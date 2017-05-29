@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddVehicleTable extends Migration
 {
@@ -14,18 +14,15 @@ class AddVehicleTable extends Migration
     {
         $this->emptyEvents();
 
-        Schema::table('halo5_enemies', function (Blueprint $table)
-        {
+        Schema::table('halo5_enemies', function (Blueprint $table) {
             $table->string('id', 12)->change();
         });
 
-        Schema::table('halo5_weapons', function (Blueprint $table)
-        {
+        Schema::table('halo5_weapons', function (Blueprint $table) {
             $table->string('id', 12)->change();
         });
 
-        Schema::create('halo5_vehicles', function (Blueprint $table)
-        {
+        Schema::create('halo5_vehicles', function (Blueprint $table) {
             $table->string('uuid', 12);
             $table->uuid('contentId');
             $table->string('name', 64)->nullable();
@@ -44,8 +41,7 @@ class AddVehicleTable extends Migration
         // However, this makes eager loading quite weird becoming `match.events.victim_stock.item`
         // So I decided to just create `halo5_event_metadata` and its contents are the non unique fields
         // of the Vehicle/Enemy/Weapon tables.
-        Schema::create('halo5_event_metadata', function (Blueprint $table)
-        {
+        Schema::create('halo5_event_metadata', function (Blueprint $table) {
             $table->string('uuid', 12);
             $table->uuid('contentId');
             $table->string('name', 64)->nullable();

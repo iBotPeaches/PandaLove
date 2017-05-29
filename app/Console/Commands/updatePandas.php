@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -46,12 +48,10 @@ class updatePandas extends Command
     public function handle()
     {
         $pandas = Account::with('user', 'destiny.characters')
-            ->whereHas('user', function($query)
-            {
+            ->whereHas('user', function ($query) {
                 $query->where('isPanda', true);
             })
-            ->whereHas('destiny', function($query)
-            {
+            ->whereHas('destiny', function ($query) {
                 $query
                     ->where('grimoire', '!=', 0)
                     ->where('inactiveCounter', '<=', 10);
@@ -59,30 +59,24 @@ class updatePandas extends Command
             ->orderBy('gamertag', 'ASC')
             ->get();
 
-        foreach ($pandas as $panda)
-        {
-            $this->info('Processing ' . $panda->gamertag);
+        foreach ($pandas as $panda) {
+            $this->info('Processing '.$panda->gamertag);
 
             // check for 10 inactive checks
-            if ($panda->inactiveCounter >= $this->inactiveCounter)
-            {
+            if ($panda->inactiveCounter >= $this->inactiveCounter) {
                 $this->info('This account has not had new data in awhile.');
                 break;
             }
 
             $char = $panda->destiny->firstCharacter();
 
-            if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes)
-            {
+            if ($char->updated_at->diffInMinutes() >= $this->refreshRateInMinutes) {
                 // update this
-                try
-                {
+                try {
                     $this->dispatch(new UpdateDestinyAccount($panda));
                     $this->info('Stats Updated!');
-                }
-                catch (HashNotLocatedException $e)
-                {
-                    $this->error('Could not find hash value: ' . $e->getMessage());
+                } catch (HashNotLocatedException $e) {
+                    $this->error('Could not find hash value: '.$e->getMessage());
                     $this->info('Stat update has been skipped.');
                 }
             }

@@ -1,9 +1,10 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Season;
 use Onyx\Halo5\Objects\SeasonPlaylist;
@@ -45,15 +46,12 @@ class updateSeasons extends Command
         $this->info('Getting new Season data from 343');
         $seasons = $client->getSeasons();
 
-        if (is_array($seasons))
-        {
+        if (is_array($seasons)) {
             $this->info('We found Season data. Adding to table after purge.');
 
-            foreach($seasons as $season)
-            {
-                try
-                {
-                    $this->info('Season:  ' . $season['name'] . ' already exists. Updating `end_date` and `is_active`.');
+            foreach ($seasons as $season) {
+                try {
+                    $this->info('Season:  '.$season['name'].' already exists. Updating `end_date` and `is_active`.');
 
                     /** @var $_season Season */
                     $_season = Season::where('contentId', $season['id'])->firstOrFail();
@@ -62,29 +60,22 @@ class updateSeasons extends Command
                     $_season->isActive = boolval($season['isActive']);
                     $_season->save();
 
-                    if (isset($season['playlists']) && is_array($season['playlists']))
-                    {
-                        foreach ($season['playlists'] as $playlist)
-                        {
-                            try
-                            {
+                    if (isset($season['playlists']) && is_array($season['playlists'])) {
+                        foreach ($season['playlists'] as $playlist) {
+                            try {
                                 $_link = new SeasonPlaylist();
                                 $_link->seasonId = $season['id'];
                                 $_link->playlistId = $playlist['contentId'];
                                 $_link->save();
 
-                                $this->info('Linking ' . $season['name'] . ' to playlist: ' . $playlist['name']);
-                            }
-                            catch (\Exception $e)
-                            {
+                                $this->info('Linking '.$season['name'].' to playlist: '.$playlist['name']);
+                            } catch (\Exception $e) {
                                 // ignored
                             }
                         }
                     }
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $season['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$season['name']);
 
                     $s = new Season();
                     $s->name = $season['name'];
@@ -94,10 +85,8 @@ class updateSeasons extends Command
                     $s->end_date = ($season['endDate'] == null ? new Carbon('December 31, 2020') : $season['endDate']);
                     $s->save();
 
-                    if (isset($season['playlists']) && is_array($season['playlists']))
-                    {
-                        foreach ($season['playlists'] as $playlist)
-                        {
+                    if (isset($season['playlists']) && is_array($season['playlists'])) {
+                        foreach ($season['playlists'] as $playlist) {
                             $_link = new SeasonPlaylist();
                             $_link->seasonId = $season['id'];
                             $_link->playlistId = $playlist['contentId'];

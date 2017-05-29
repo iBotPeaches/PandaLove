@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class HeatmapStructure extends Migration
 {
@@ -12,13 +12,11 @@ class HeatmapStructure extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_weapons', function(Blueprint $table)
-        {
+        Schema::table('halo5_weapons', function (Blueprint $table) {
             $table->unique('uuid');
         });
 
-        Schema::create('halo5_matches', function (Blueprint $table)
-        {
+        Schema::create('halo5_matches', function (Blueprint $table) {
             $table->uuid('uuid')->unique();
 
             // @todo we need match pages, with the "Enhanced" Heatmap view.
@@ -31,8 +29,7 @@ class HeatmapStructure extends Migration
             // Other types will ignore what they don't need.
         });
 
-        Schema::create('halo5_match_events', function (Blueprint $table)
-        {
+        Schema::create('halo5_match_events', function (Blueprint $table) {
             $table->uuid('uuid')->unique();
             $table->uuid('game_id');
 
@@ -70,8 +67,7 @@ class HeatmapStructure extends Migration
             $table->foreign('victim_weapon')->references('uuid')->on('halo5_weapons');
         });
 
-        Schema::create('halo5_match_event_assists', function (Blueprint $table)
-        {
+        Schema::create('halo5_match_event_assists', function (Blueprint $table) {
             $table->uuid('uuid')->unique();
             $table->uuid('match_event');
             $table->integer('account_id', false, true);
@@ -92,8 +88,7 @@ class HeatmapStructure extends Migration
         Schema::dropIfExists('halo5_match_events');
         Schema::dropIfExists('halo5_matches');
 
-        Schema::table('halo5_weapons', function(Blueprint $table)
-        {
+        Schema::table('halo5_weapons', function (Blueprint $table) {
             $table->dropIndex('halo5_weapons_uuid_unique');
         });
     }

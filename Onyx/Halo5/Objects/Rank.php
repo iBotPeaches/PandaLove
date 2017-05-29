@@ -1,17 +1,19 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Rank
- * @package Onyx\Halo5\Objects
- * @property integer $level
- * @property integer $previousLevel
- * @property integer $startXp
+ * Class Rank.
+ *
+ * @property int $level
+ * @property int $previousLevel
+ * @property int $startXp
  * @property string $uuid
  */
-class Rank extends Model {
-
+class Rank extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -27,7 +29,7 @@ class Rank extends Model {
     protected $guarded = ['uuid'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -37,14 +39,10 @@ class Rank extends Model {
     {
         parent::boot();
 
-        static::creating(function($rank)
-        {
-            if ($rank->level > 0)
-            {
+        static::creating(function ($rank) {
+            if ($rank->level > 0) {
                 $rank->previousLevel = ($rank->level - 1);
-            }
-            else
-            {
+            } else {
                 $rank->previousLevel = 0;
             }
         });

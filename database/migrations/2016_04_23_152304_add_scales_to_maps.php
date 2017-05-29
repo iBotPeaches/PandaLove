@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddScalesToMaps extends Migration
 {
@@ -12,8 +12,7 @@ class AddScalesToMaps extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_maps', function (Blueprint $table)
-        {
+        Schema::table('halo5_maps', function (Blueprint $table) {
             $table->smallInteger('x_orig')->nullable();
             $table->smallInteger('y_orig')->nullable();
             $table->decimal('x_scale', 6, 4)->nullable();
@@ -28,8 +27,7 @@ class AddScalesToMaps extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_maps', function (Blueprint $table)
-        {
+        Schema::table('halo5_maps', function (Blueprint $table) {
             $table->dropColumn('x_orig');
             $table->dropColumn('y_orig');
             $table->dropColumn('x_scale');

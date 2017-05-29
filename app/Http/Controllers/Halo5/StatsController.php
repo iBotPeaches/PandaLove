@@ -1,16 +1,17 @@
-<?php namespace PandaLove\Http\Controllers\Halo5;
+<?php
+
+namespace PandaLove\Http\Controllers\Halo5;
 
 use Carbon\Carbon;
+use Illuminate\Database\Connection as DB;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Halo5\Objects\HistoricalStat;
 use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests;
-use Illuminate\Database\Connection as DB;
 
-class StatsController extends Controller {
-
+class StatsController extends Controller
+{
     /**
      * @var \Illuminate\Http\Request
      */
@@ -39,20 +40,20 @@ class StatsController extends Controller {
         $graphs = [
             [
                 'title' => 'Arena KD',
-                'slug' => 'arena_kd',
+                'slug'  => 'arena_kd',
             ],
             [
                 'title' => 'Arena KDA',
-                'slug' => 'arena_kda'
+                'slug'  => 'arena_kda',
             ],
             [
                 'title' => 'Warzone KD',
-                'slug' => 'warzone_kd'
+                'slug'  => 'warzone_kd',
             ],
             [
                 'title' => 'Warzone KDA',
-                'slug' => 'warzone_kda'
-            ]
+                'slug'  => 'warzone_kda',
+            ],
         ];
 
         $timeLeft = new Carbon('22:55 UTC', 'UTC');
@@ -64,63 +65,59 @@ class StatsController extends Controller {
 
         return view('halo5.historic_stats', [
             'description' => 'PandaLove Halo 5 Historic Stats page',
-            'title' => 'PandaLove Halo 5 Historic Stats',
-            'graphs' => $graphs,
-            'timeLeft' => $timeLeft
+            'title'       => 'PandaLove Halo 5 Historic Stats',
+            'graphs'      => $graphs,
+            'timeLeft'    => $timeLeft,
         ]);
     }
 
     public function getIndividualGraph($type)
     {
-        $allowed = ["arena_kd", "arena_kda", "warzone_kd", "warzone_kda"];
+        $allowed = ['arena_kd', 'arena_kda', 'warzone_kd', 'warzone_kda'];
 
-        if (in_array($type, $allowed))
-        {
-            switch ($type)
-            {
-                case "arena_kd":
+        if (in_array($type, $allowed)) {
+            switch ($type) {
+                case 'arena_kd':
                     return $this->view->make('includes.halo5.stats._graph', [
                         'data' => [
-                            'type' => $type,
-                            'url' => action('Halo5\StatsController@getArenaKDStats'),
-                            'selector' => '#' . $type,
-                            'y_axis' => 'KD Ratio'
-                        ]
+                            'type'     => $type,
+                            'url'      => action('Halo5\StatsController@getArenaKDStats'),
+                            'selector' => '#'.$type,
+                            'y_axis'   => 'KD Ratio',
+                        ],
                     ]);
 
-                case "arena_kda":
+                case 'arena_kda':
                     return $this->view->make('includes.halo5.stats._graph', [
                         'data' => [
-                            'type' => $type,
-                            'url' => action('Halo5\StatsController@getArenaKDAStats'),
-                            'selector' => '#' . $type,
-                            'y_axis' => 'KDA Ratio'
-                        ]
+                            'type'     => $type,
+                            'url'      => action('Halo5\StatsController@getArenaKDAStats'),
+                            'selector' => '#'.$type,
+                            'y_axis'   => 'KDA Ratio',
+                        ],
                     ]);
 
-                case "warzone_kd":
+                case 'warzone_kd':
                     return $this->view->make('includes.halo5.stats._graph', [
                         'data' => [
-                            'type' => $type,
-                            'url' => action('Halo5\StatsController@getWarzoneKDStats'),
-                            'selector' => '#' . $type,
-                            'y_axis' => 'KD Ratio'
-                        ]
+                            'type'     => $type,
+                            'url'      => action('Halo5\StatsController@getWarzoneKDStats'),
+                            'selector' => '#'.$type,
+                            'y_axis'   => 'KD Ratio',
+                        ],
                     ]);
 
-                case "warzone_kda":
+                case 'warzone_kda':
                     return $this->view->make('includes.halo5.stats._graph', [
                         'data' => [
-                            'type' => $type,
-                            'url' => action('Halo5\StatsController@getWarzoneKDAStats'),
-                            'selector' => '#' . $type,
-                            'y_axis' => 'KDA Ratio'
-                        ]
+                            'type'     => $type,
+                            'url'      => action('Halo5\StatsController@getWarzoneKDAStats'),
+                            'selector' => '#'.$type,
+                            'y_axis'   => 'KDA Ratio',
+                        ],
                     ]);
             }
-        }
-        else
-        {
+        } else {
             $timeLeft = new Carbon('22:55 UTC', 'UTC');
             if ($timeLeft->isPast()) {
                 $timeLeft = new Carbon('tomorrow 22:55 UTC');
@@ -128,7 +125,7 @@ class StatsController extends Controller {
             $timeLeft = Text::timeDuration($timeLeft->diffInSeconds());
 
             return $this->view->make('includes.halo5.stats._overview', [
-                'timeLeft' => $timeLeft
+                'timeLeft' => $timeLeft,
             ]);
         }
     }
@@ -145,10 +142,8 @@ class StatsController extends Controller {
 
         $data = ['c3' => ['x' => [$stats[0]->date]]];
 
-        foreach ($stats as $stat)
-        {
-            if (! in_array($stat->date, $data['c3']['x']))
-            {
+        foreach ($stats as $stat) {
+            if (!in_array($stat->date, $data['c3']['x'])) {
                 $data['c3']['x'][] = $stat->date;
             }
             $data['c3'][$stat->gamertag][] = $stat->arena_kd;
@@ -171,10 +166,8 @@ class StatsController extends Controller {
 
         $data = ['c3' => ['x' => [$stats[0]->date]]];
 
-        foreach ($stats as $stat)
-        {
-            if (! in_array($stat->date, $data['c3']['x']))
-            {
+        foreach ($stats as $stat) {
+            if (!in_array($stat->date, $data['c3']['x'])) {
                 $data['c3']['x'][] = $stat->date;
             }
             $data['c3'][$stat->gamertag][] = $stat->arena_kda;
@@ -197,10 +190,8 @@ class StatsController extends Controller {
 
         $data = ['c3' => ['x' => [$stats[0]->date]]];
 
-        foreach ($stats as $stat)
-        {
-            if (! in_array($stat->date, $data['c3']['x']))
-            {
+        foreach ($stats as $stat) {
+            if (!in_array($stat->date, $data['c3']['x'])) {
                 $data['c3']['x'][] = $stat->date;
             }
 
@@ -224,10 +215,8 @@ class StatsController extends Controller {
 
         $data = ['c3' => ['x' => [$stats[0]->date]]];
 
-        foreach ($stats as $stat)
-        {
-            if (! in_array($stat->date, $data['c3']['x']))
-            {
+        foreach ($stats as $stat) {
+            if (!in_array($stat->date, $data['c3']['x'])) {
                 $data['c3']['x'][] = $stat->date;
             }
 

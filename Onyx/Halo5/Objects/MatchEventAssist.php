@@ -1,18 +1,19 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
-use Ramsey\Uuid\Uuid;
 
 /**
- * Class MatchEventAssist
- * @package Onyx\Halo5\Objects
- * @property integer $id
+ * Class MatchEventAssist.
+ *
+ * @property int $id
  * @property string $match_event
  * @property Account $account_id
  */
-class MatchEventAssist extends Model {
-
+class MatchEventAssist extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -26,9 +27,9 @@ class MatchEventAssist extends Model {
      * @var array
      */
     protected $guarded = ['id'];
-    
+
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -56,7 +57,7 @@ class MatchEventAssist extends Model {
     {
         return $this->belongsTo('Onyx\Halo5\Objects\MatchEvent');
     }
-    
+
     public function account()
     {
         return $this->hasOne('Onyx\Account', 'id', 'account_id')->select('id', 'gamertag', 'seo');

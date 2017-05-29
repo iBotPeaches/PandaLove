@@ -1,9 +1,11 @@
-<?php namespace Onyx\XboxLive\Helpers\Network;
+<?php
+
+namespace Onyx\XboxLive\Helpers\Network;
 
 use GuzzleHttp\Client as Guzzle;
 
-class XboxAPI {
-
+class XboxAPI
+{
     /**
      * @var \GuzzleHttp\Client
      */
@@ -21,33 +23,30 @@ class XboxAPI {
 
     public function getJson($url, $xuid = false)
     {
-        if (! $this->guzzle instanceof Guzzle)
-        {
+        if (!$this->guzzle instanceof Guzzle) {
             $this->setupGuzzle();
         }
 
         $response = $this->guzzle->get($url, [
             'headers' => [
                 'X-AUTH' => env('XBOXAPI_KEY'),
-                'Accept' => 'application/json'
-            ]
+                'Accept' => 'application/json',
+            ],
         ]);
 
-        if ($response->getStatusCode() != 200)
-        {
+        if ($response->getStatusCode() != 200) {
             throw new XboxAPIErrorException();
         }
 
         // Don't let it auto cast
-        if ($xuid)
-        {
+        if ($xuid) {
             return json_decode($response->getBody(), true)['xuid'];
-        }
-        else
-        {
+        } else {
             return json_decode($response->getBody(), true);
         }
     }
 }
 
-class XboxAPIErrorException extends \Exception {}
+class XboxAPIErrorException extends \Exception
+{
+}

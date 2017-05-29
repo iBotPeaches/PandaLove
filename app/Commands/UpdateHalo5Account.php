@@ -2,10 +2,9 @@
 
 namespace PandaLove\Commands;
 
+use Illuminate\Contracts\Bus\SelfHandling;
 use Onyx\Account;
 use Onyx\Halo5\Client;
-use PandaLove\Commands\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 class UpdateHalo5Account extends Command implements SelfHandling
 {
@@ -30,8 +29,7 @@ class UpdateHalo5Account extends Command implements SelfHandling
     {
         $client = new Client();
 
-        \DB::transaction(function () use ($client)
-        {
+        \DB::transaction(function () use ($client) {
             $client->updateH5Account($this->account);
         });
     }

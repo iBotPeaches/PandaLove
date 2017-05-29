@@ -1,13 +1,14 @@
-<?php namespace PandaLove\Http\Controllers\Destiny;
+<?php
+
+namespace PandaLove\Http\Controllers\Destiny;
 
 use Illuminate\Http\Request;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Hashes;
 use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests;
 
-class RosterController extends Controller {
-
+class RosterController extends Controller
+{
     /**
      * @var \Illuminate\Http\Request
      */
@@ -19,15 +20,13 @@ class RosterController extends Controller {
         $this->request = $request;
     }
 
-	public function getIndex()
+    public function getIndex()
     {
         $accounts = Account::with('user', 'destiny.characters')
-            ->whereHas('user', function($query)
-            {
+            ->whereHas('user', function ($query) {
                 $query->where('isPanda', true);
             })
-            ->whereHas('destiny', function($query)
-            {
+            ->whereHas('destiny', function ($query) {
                 $query->where('grimoire', '!=', 0);
             })
             ->orderBy('gamertag', 'ASC')
@@ -37,9 +36,9 @@ class RosterController extends Controller {
         Hashes::cacheAccountsHashes($accounts);
 
         return view('destiny.roster', [
-            'members' => $accounts,
+            'members'     => $accounts,
             'description' => 'PandaLove Destiny Roster page',
-            'title' => 'PandaLove Destiny Roster'
+            'title'       => 'PandaLove Destiny Roster',
         ]);
     }
 }

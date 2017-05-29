@@ -1,18 +1,17 @@
-<?php namespace PandaLove\Http\Controllers\Destiny;
+<?php
+
+namespace PandaLove\Http\Controllers\Destiny;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-
 use Onyx\Destiny\Helpers\String\Hashes;
-use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
-
+use Onyx\Destiny\Objects\Game;
 use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\deleteGameRequest;
 
-class GameController extends Controller {
-
+class GameController extends Controller
+{
     /**
      * @var \Illuminate\Http\Request
      */
@@ -54,12 +53,10 @@ class GameController extends Controller {
 
     public function getGame($instanceId, $all = false)
     {
-        try
-        {
-            $game = Game::with(['comments.player' => function($query) use ($instanceId)
-                {
-                    $query->where('game_id', $instanceId);
-                }, 'players.gameChar', 'players.account.destiny', 'comments.account', 'players.account.user'
+        try {
+            $game = Game::with(['comments.player' => function ($query) use ($instanceId) {
+                $query->where('game_id', $instanceId);
+            }, 'players.gameChar', 'players.account.destiny', 'comments.account', 'players.account.user',
                 ])
                 ->where('instanceId', $instanceId)
                 ->firstOrFail();
@@ -70,13 +67,11 @@ class GameController extends Controller {
             $gts = '';
             $revives = false;
 
-            $game->players->each(function($player) use (&$gts, &$revives)
-            {
+            $game->players->each(function ($player) use (&$gts, &$revives) {
                 $player->kd = $player->kdr();
-                $gts .= $player->account->gamertag . ", ";
+                $gts .= $player->account->gamertag.', ';
 
-                if ($player->revives_given != 0)
-                {
+                if ($player->revives_given != 0) {
                     $revives = true;
                 }
             });
@@ -84,29 +79,25 @@ class GameController extends Controller {
             // shared views
             \View::share('game', $game);
             \View::share('showAll', boolval($all));
-            \View::share('description', $game->type()->title . " with players: " . rtrim($gts, ", "));
-            \View::share('title', 'PandaLove: ' . $game->type()->title);
+            \View::share('description', $game->type()->title.' with players: '.rtrim($gts, ', '));
+            \View::share('title', 'PandaLove: '.$game->type()->title);
             \View::share('revives', $revives);
 
-            if ($game->type == "PVP")
-            {
+            if ($game->type == 'PVP') {
                 // This is a fucking mess, but we don't have KD in the table so can't leverage the DB
                 // We append score (1501) to KD (multiplied by 100 to remove decimal)
                 // Thus 1501 w/ KD of .44 becomes 1501.00000044 (padded 8 times)
-                $game->players = $game->players->sortBy(function($player)
-                {
+                $game->players = $game->players->sortBy(function ($player) {
                     return sprintf('%08d.%08d', $player->getOriginal('score'), ($player->kd * 100));
                 }, SORT_REGULAR, true);
+
                 return view('destiny.games.pvp');
-            }
-            else
-            {
+            } else {
                 $game->players = $game->players->sortByDesc('kd');
+
                 return view('destiny.games.game');
             }
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             \App::abort(404);
         }
     }
@@ -117,8 +108,7 @@ class GameController extends Controller {
             ->OfTuesday($raidTuesday)
             ->get();
 
-        if ($games->isEmpty())
-        {
+        if ($games->isEmpty()) {
             \App::abort(404);
         }
 
@@ -131,8 +121,8 @@ class GameController extends Controller {
             ->with('games', $games)
             ->with('showAll', false)
             ->with('combined', $combined)
-            ->with('title', 'PandaLove Raid Tuesday: ' . $raidTuesday)
-            ->with('description', 'PandaLove Raid Tuesday: ' . $raidTuesday . ' including ' . count($games) . ' raids.')
+            ->with('title', 'PandaLove Raid Tuesday: '.$raidTuesday)
+            ->with('description', 'PandaLove Raid Tuesday: '.$raidTuesday.' including '.count($games).' raids.')
             ->with('gameId', GameHelper::gameIdExists($games, $gameId));
     }
 
@@ -142,8 +132,7 @@ class GameController extends Controller {
             ->ofPassage($passageId)
             ->get();
 
-        if ($games->isEmpty())
-        {
+        if ($games->isEmpty()) {
             \App::abort(404);
         }
 
@@ -157,8 +146,8 @@ class GameController extends Controller {
             ->with('games', $games)
             ->with('combined', $combined)
             ->with('passage', $passageCombined)
-            ->with('title', 'PandaLove: Trials Of Osiris #' . $passageId)
-            ->with('description', 'PandaLove: Trials Of Osiris #' . $passageId)
+            ->with('title', 'PandaLove: Trials Of Osiris #'.$passageId)
+            ->with('description', 'PandaLove: Trials Of Osiris #'.$passageId)
             ->with('showAll', true)
             ->with('gameId', GameHelper::gameIdExists($games, $gameId));
     }
@@ -171,9 +160,8 @@ class GameController extends Controller {
         $description = '';
         $p = $this->isPanda;
 
-        switch ($category)
-        {
-            case "Raid":
+        switch ($category) {
+            case 'Raid':
                 $description = 'Raids';
                 $raids = Game::raid($p)
                     ->singular()
@@ -181,7 +169,7 @@ class GameController extends Controller {
                     ->paginate(10);
                 break;
 
-            case "Flawless";
+            case 'Flawless':
                 $description = 'Flawless Raids';
                 $raids = Game::flawless($p)
                     ->singular()
@@ -189,14 +177,14 @@ class GameController extends Controller {
                     ->paginate(10);
                 break;
 
-            case "RaidTuesdays";
+            case 'RaidTuesdays':
                 $description = 'Raid Tuesdays';
                 $raids = Game::tuesday($p)
                     ->with('players.historyAccount.user')
                     ->paginate(10);
                 break;
 
-            case "PVP":
+            case 'PVP':
                 $description = 'PVP';
                 $title = 'Gametype';
                 $raids = Game::multiplayer($p)
@@ -205,7 +193,7 @@ class GameController extends Controller {
                     ->paginate(10);
                 break;
 
-            case "PoE":
+            case 'PoE':
                 $description = 'Prison Of Elders';
                 $raids = Game::poe($p)
                     ->singular()
@@ -213,7 +201,7 @@ class GameController extends Controller {
                     ->paginate(10);
                 break;
 
-            case "ToO":
+            case 'ToO':
                 $description = 'Trials Of Osiris';
                 $title = 'Gametype';
                 $raids = Game::passage()
@@ -231,8 +219,8 @@ class GameController extends Controller {
         return view('destiny.games.history')
             ->with('raids', $raids)
             ->with('t_header', $title)
-            ->with('title', 'PandaLove: ' . $description . ' History')
-            ->with('description', 'PandaLove complete history of: ' . $description);
+            ->with('title', 'PandaLove: '.$description.' History')
+            ->with('description', 'PandaLove complete history of: '.$description);
     }
 
     //---------------------------------------------------------------------------------
@@ -246,41 +234,34 @@ class GameController extends Controller {
 
         return \Redirect::action('Destiny\GameController@getIndex')
             ->with('flash_message', [
-                'type' => 'green',
+                'type'   => 'green',
                 'header' => 'Game Delete!',
-                'close' => true,
-                'body' => 'You deleted gameId (' . $request->get('game_id') . ") "
+                'close'  => true,
+                'body'   => 'You deleted gameId ('.$request->get('game_id').') ',
             ]);
     }
 
     public function postToggleGameVisibility(deleteGameRequest $request)
     {
-        try
-        {
+        try {
             $game = Game::where('instanceId', $request->get('game_id'))->firstOrFail();
-            $game->hidden = ! $game->hidden;
+            $game->hidden = !$game->hidden;
             $game->save();
 
-            if ($game->hidden)
-            {
+            if ($game->hidden) {
                 $msg = 'Game was hidden from public.';
-            }
-            else
-            {
+            } else {
                 $msg = 'Game is now visible to public';
             }
 
-            return \Redirect::action('Destiny\GameController@getGame', array($request->get('game_id')))
+            return \Redirect::action('Destiny\GameController@getGame', [$request->get('game_id')])
                 ->with('flash_message', [
-                    'type' => 'green',
+                    'type'   => 'green',
                     'header' => 'Game Visibility Toggled!',
-                    'close' => true,
-                    'body' => $msg
+                    'close'  => true,
+                    'body'   => $msg,
                 ]);
-
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             return \Redirect::action('Destiny\GameController@getIndex');
         }
     }

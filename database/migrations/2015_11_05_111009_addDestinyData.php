@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddDestinyData extends Migration
 {
@@ -12,8 +12,7 @@ class AddDestinyData extends Migration
      */
     public function up()
     {
-        Schema::create('destiny_data', function(Blueprint $table)
-        {
+        Schema::create('destiny_data', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id', false, true);
             $table->string('membershipId', 64)->unique();
@@ -29,10 +28,8 @@ class AddDestinyData extends Migration
             $table->timestamps();
         });
 
-        \Onyx\Account::chunk(100, function($accounts)
-        {
-            foreach ($accounts as $account)
-            {
+        \Onyx\Account::chunk(100, function ($accounts) {
+            foreach ($accounts as $account) {
                 $data = new \Onyx\Destiny\Objects\Data($account->toArray());
                 $data->account_id = $account->id;
                 $data->save();

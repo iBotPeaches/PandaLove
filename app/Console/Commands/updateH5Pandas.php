@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -47,12 +49,10 @@ class updateH5Pandas extends Command
     public function handle()
     {
         $pandas = Account::with('h5.warzone', 'user')
-            ->whereHas('user', function($query)
-            {
+            ->whereHas('user', function ($query) {
                 $query->where('isPanda', true);
             })
-            ->whereHas('h5', function($query)
-            {
+            ->whereHas('h5', function ($query) {
                 $query
                     ->where('inactiveCounter', '<=', $this->inactiveCounter)
                     ->where('totalKills', '!=', 0);
@@ -61,17 +61,13 @@ class updateH5Pandas extends Command
             ->get();
 
         /** @var $pandas Account[] */
-        foreach ($pandas as $panda)
-        {
-            $this->info('Processing ' . $panda->gamertag);
+        foreach ($pandas as $panda) {
+            $this->info('Processing '.$panda->gamertag);
 
             // check for 10 inactive checks
-            if ($panda->h5->inactiveCounter >= $this->inactiveCounter)
-            {
+            if ($panda->h5->inactiveCounter >= $this->inactiveCounter) {
                 $this->info('This account has not had new data in awhile.');
-            }
-            else
-            {
+            } else {
                 $oldXp = $panda->h5->Xp;
 
                 $this->dispatch(new UpdateHalo5Account($panda));
@@ -79,7 +75,7 @@ class updateH5Pandas extends Command
 
                 $h5 = Data::where('account_id', $panda->id)->first();
 
-                $this->info('Stats Updated from ' . number_format($oldXp) . ' to ' . number_format($h5->Xp));
+                $this->info('Stats Updated from '.number_format($oldXp).' to '.number_format($h5->Xp));
             }
         }
     }

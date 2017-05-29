@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddExpLevels extends Migration
 {
@@ -12,8 +12,7 @@ class AddExpLevels extends Migration
      */
     public function up()
     {
-        Schema::table('characters', function(Blueprint $table)
-        {
+        Schema::table('characters', function (Blueprint $table) {
             $table->integer('next_level_exp');
             $table->integer('progress_exp');
         });
@@ -26,8 +25,7 @@ class AddExpLevels extends Migration
      */
     public function down()
     {
-        Schema::table('characters', function(Blueprint $table)
-        {
+        Schema::table('characters', function (Blueprint $table) {
             $table->dropColumn('next_level_exp');
             $table->dropColumn('progress_exp');
         });

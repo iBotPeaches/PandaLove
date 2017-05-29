@@ -1,21 +1,21 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
 
-use Carbon\Carbon;
+namespace Onyx\Halo5\Objects;
+
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Halo5\Helpers\Date\DateHelper;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class Vehicle
- * @package Onyx\Halo5\Objects
+ * Class Vehicle.
+ *
  * @property string $uuid
  * @property Uuid $contentId
  * @property string $name
  * @property string $description
- * @property boolean $useableByPlayer
+ * @property bool $useableByPlayer
  */
-class Vehicle extends Model {
-
+class Vehicle extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -34,9 +34,9 @@ class Vehicle extends Model {
      * @var string
      */
     protected $primaryKey = 'uuid';
-    
+
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -57,12 +57,10 @@ class Vehicle extends Model {
 
     public static function getAll()
     {
-        return \Cache::remember('vehicles-metadata', 120, function()
-        {
+        return \Cache::remember('vehicles-metadata', 120, function () {
             $items = [];
 
-            foreach (Vehicle::all() as $vehicle)
-            {
+            foreach (Vehicle::all() as $vehicle) {
                 $items[$vehicle->uuid] = $vehicle;
             }
 

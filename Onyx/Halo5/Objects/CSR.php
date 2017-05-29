@@ -1,18 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class CSR
- * @package Onyx\Halo5\Objects
+ * Class CSR.
+ *
  * @property int $id
  * @property string $name
  * @property string bannerUrl
  * @property array $tiers
  * @property int designationId
  */
-class CSR extends Model {
-
+class CSR extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -28,7 +30,7 @@ class CSR extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -46,8 +48,7 @@ class CSR extends Model {
     public function setTiersAttribute($tiers)
     {
         $set = [];
-        foreach($tiers as $tier)
-        {
+        foreach ($tiers as $tier) {
             $set[intval($tier['id'])] = $tier['iconImageUrl'];
         }
 
@@ -62,5 +63,4 @@ class CSR extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-
 }

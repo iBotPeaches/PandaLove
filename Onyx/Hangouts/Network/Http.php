@@ -1,17 +1,16 @@
-<?php namespace Onyx\Hangouts\Network;
+<?php
+
+namespace Onyx\Hangouts\Network;
 
 use GuzzleHttp\Client as Guzzle;
 
-class Http {
-
+class Http
+{
     /**
      * @var \GuzzleHttp\Client
      */
     protected $guzzle;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->setupGuzzle();
@@ -23,33 +22,34 @@ class Http {
     }
 
     /**
-     * Request an URL expecting JSON to be returned
+     * Request an URL expecting JSON to be returned.
+     *
      * @param $url
      * @param $sendto
      * @param $content
-     * @return boolean
+     *
      * @throws HangoutsServerOfflineException
+     *
+     * @return bool
      */
     public function postJson($url, $sendto, $content)
     {
-        if (! $this->guzzle instanceof Guzzle)
-        {
+        if (!$this->guzzle instanceof Guzzle) {
             $this->setupGuzzle();
         }
 
         $response = $this->guzzle->request('POST', $url, [
             'json' => [
-                'key' => env('BOT_APIKEY'),
-                'sendto' => $sendto,
-                'content' => $content
+                'key'     => env('BOT_APIKEY'),
+                'sendto'  => $sendto,
+                'content' => $content,
             ],
             'headers' => [
-                'Accept' => 'application/json'
-            ]
+                'Accept' => 'application/json',
+            ],
         ]);
 
-        if ($response->getStatusCode() != 200)
-        {
+        if ($response->getStatusCode() != 200) {
             throw new HangoutsServerOfflineException();
         }
 
@@ -57,5 +57,6 @@ class Http {
     }
 }
 
-class HangoutsServerOfflineException extends \Exception {}
-
+class HangoutsServerOfflineException extends \Exception
+{
+}

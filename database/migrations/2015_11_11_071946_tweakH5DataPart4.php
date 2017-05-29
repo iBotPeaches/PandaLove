@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class TweakH5DataPart4 extends Migration
 {
@@ -12,8 +12,7 @@ class TweakH5DataPart4 extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_playlists', function(Blueprint $table)
-        {
+        Schema::table('halo5_playlists', function (Blueprint $table) {
             $table->string('imageUrl')->nullable();
             $table->boolean('isActive');
             $table->enum('gameMode', ['Arena', 'Campaign', 'Custom', 'Warzone']);
@@ -27,8 +26,7 @@ class TweakH5DataPart4 extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_playlists', function(Blueprint $table)
-        {
+        Schema::table('halo5_playlists', function (Blueprint $table) {
             $table->dropColumn(['imageUrl', 'isActive', 'gameMode']);
         });
     }

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddPandaIdToPVP extends Migration {
-
+class AddPandaIdToPVP extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +12,7 @@ class AddPandaIdToPVP extends Migration {
      */
     public function up()
     {
-        Schema::table('pvp_games', function(Blueprint $table)
-        {
+        Schema::table('pvp_games', function (Blueprint $table) {
             $table->tinyInteger('pandaId', false, true);
         });
     }
@@ -25,10 +24,8 @@ class AddPandaIdToPVP extends Migration {
      */
     public function down()
     {
-        Schema::table('pvp_games', function(Blueprint $table)
-        {
+        Schema::table('pvp_games', function (Blueprint $table) {
             $table->dropColumn('pandaId');
         });
     }
-
 }

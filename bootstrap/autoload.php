@@ -2,9 +2,8 @@
 
 define('LARAVEL_START', microtime(true));
 
-if (function_exists('xdebug_disable'))
-{
-	xdebug_disable();
+if (function_exists('xdebug_disable')) {
+    xdebug_disable();
 }
 
 /*
@@ -34,7 +33,6 @@ require __DIR__.'/../vendor/autoload.php';
 
 $compiledPath = __DIR__.'/cache/compiled.php';
 
-if (file_exists($compiledPath))
-{
-	require $compiledPath;
+if (file_exists($compiledPath)) {
+    require $compiledPath;
 }

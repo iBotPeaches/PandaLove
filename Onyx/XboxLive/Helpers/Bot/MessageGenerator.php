@@ -1,9 +1,11 @@
-<?php namespace Onyx\XboxLive\Helpers\Bot;
+<?php
+
+namespace Onyx\XboxLive\Helpers\Bot;
 
 use Carbon\Carbon;
 
-class MessageGenerator {
-
+class MessageGenerator
+{
     /**
      * @var string
      */
@@ -23,7 +25,7 @@ class MessageGenerator {
      * @var string
      */
     public static $mountain = 'piece';
-    
+
     /**
      * @var string
      */
@@ -42,12 +44,11 @@ class MessageGenerator {
 
         $msg = '<strong>Timezones of Pandas</strong><br /><br />';
 
-        $msg .= '<strong>' . self::$pacific . '</strong> - ' . $pac->format('g:ia - M j') . '<br />';
-        $msg .= '<strong>' . self::$mountain . '</strong> - ' . $mnt->format('g:ia - M j') . '<br />';
-        $msg .= '<strong>' . self::$central . '</strong> - ' . $cst->format('g:ia - M j') . '<br />';
-        $msg .= '<strong>' . self::$eastern . '</strong> - ' . $est->format('g:ia - M j') . '<br />';
-        $msg .= '<strong>' . self::$gmt . '</strong> - ' . $gmt->format('g:ia - M j') . '<br />';
-
+        $msg .= '<strong>'.self::$pacific.'</strong> - '.$pac->format('g:ia - M j').'<br />';
+        $msg .= '<strong>'.self::$mountain.'</strong> - '.$mnt->format('g:ia - M j').'<br />';
+        $msg .= '<strong>'.self::$central.'</strong> - '.$cst->format('g:ia - M j').'<br />';
+        $msg .= '<strong>'.self::$eastern.'</strong> - '.$est->format('g:ia - M j').'<br />';
+        $msg .= '<strong>'.self::$gmt.'</strong> - '.$gmt->format('g:ia - M j').'<br />';
 
         return $msg;
     }

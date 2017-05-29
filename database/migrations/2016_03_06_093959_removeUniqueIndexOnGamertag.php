@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class RemoveUniqueIndexOnGamertag extends Migration
 {
@@ -12,8 +12,7 @@ class RemoveUniqueIndexOnGamertag extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function(Blueprint $table)
-        {
+        Schema::table('accounts', function (Blueprint $table) {
             $table->dropIndex('accounts_gamertag_unique');
             $table->index('gamertag');
         });
@@ -26,8 +25,7 @@ class RemoveUniqueIndexOnGamertag extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function(Blueprint $table)
-        {
+        Schema::table('accounts', function (Blueprint $table) {
             $table->dropIndex('accounts_gamertag_index');
             $table->unique('gamertag');
         });

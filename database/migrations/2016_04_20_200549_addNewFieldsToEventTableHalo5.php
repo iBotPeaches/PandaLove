@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddNewFieldsToEventTableHalo5 extends Migration
 {
@@ -12,8 +12,7 @@ class AddNewFieldsToEventTableHalo5 extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_match_events', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->integer('seconds_held_as_primary')->nullable();
             $table->mediumInteger('shots_fired', false, true)->nullable();
             $table->mediumInteger('shots_landed', false, true)->nullable();
@@ -46,8 +45,7 @@ class AddNewFieldsToEventTableHalo5 extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_match_events', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->dropColumn('seconds_held_as_primary');
             $table->dropColumn('shots_fired');
             $table->dropColumn('shots_landed');

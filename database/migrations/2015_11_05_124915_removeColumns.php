@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class RemoveColumns extends Migration
 {
@@ -12,10 +12,9 @@ class RemoveColumns extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function(Blueprint $table)
-        {
-            $table->dropColumn(array('membershipId', 'clanName', 'clanTag', 'glimmer', 'grimoire', 'legendary_marks',
-                'character_1', 'character_2', 'character_3', 'inactiveCounter'));
+        Schema::table('accounts', function (Blueprint $table) {
+            $table->dropColumn(['membershipId', 'clanName', 'clanTag', 'glimmer', 'grimoire', 'legendary_marks',
+                'character_1', 'character_2', 'character_3', 'inactiveCounter', ]);
         });
     }
 
@@ -26,8 +25,7 @@ class RemoveColumns extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function(Blueprint $table)
-        {
+        Schema::table('accounts', function (Blueprint $table) {
             $table->string('membershipId', 64)->unique();
             $table->string('clanName', 32)->nullable();
             $table->string('clanTag', 6)->nullable();

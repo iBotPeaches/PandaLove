@@ -1,18 +1,19 @@
-<?php namespace Onyx\Halo5\Items;
+<?php
+
+namespace Onyx\Halo5\Items;
 
 /**
- * Class ArenaLeaderboardItem
- * @package Onyx\Halo5\Items
+ * Class ArenaLeaderboardItem.
  */
-class ArenaLeaderboardItem {
-
+class ArenaLeaderboardItem
+{
     /**
-     * @var $score float
+     * @var float
      */
     public $score;
 
     /**
-     * @var $account \Onyx\Account
+     * @var \Onyx\Account
      */
     public $account;
 

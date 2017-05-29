@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateHalo5StatsHistoryTable extends Migration
 {
@@ -12,7 +12,7 @@ class CreateHalo5StatsHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_stats_history', function (Blueprint $table){
+        Schema::create('halo5_stats_history', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id', false, true);
             $table->double('arena_kd', 5, 2);

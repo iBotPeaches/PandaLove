@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddFieldsToGameEvents extends Migration
 {
@@ -12,13 +12,11 @@ class AddFieldsToGameEvents extends Migration
      */
     public function up()
     {
-        Schema::table('game_events', function (Blueprint $table)
-        {
+        Schema::table('game_events', function (Blueprint $table) {
             $table->tinyInteger('max_players', false, true);
         });
 
-        Schema::create('attendees', function (Blueprint $table)
-        {
+        Schema::create('attendees', function (Blueprint $table) {
             $table->integer('game_id', false, true);
             $table->string('membershipId', 64);
             $table->string('characterId', 64);
@@ -36,8 +34,7 @@ class AddFieldsToGameEvents extends Migration
      */
     public function down()
     {
-        Schema::table('game_events', function (Blueprint $table)
-        {
+        Schema::table('game_events', function (Blueprint $table) {
             $table->dropColumn('max_players');
         });
 

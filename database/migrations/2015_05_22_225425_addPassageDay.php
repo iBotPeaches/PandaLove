@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddPassageDay extends Migration {
-
+class AddPassageDay extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +12,7 @@ class AddPassageDay extends Migration {
      */
     public function up()
     {
-        Schema::table('games', function(Blueprint $table)
-        {
+        Schema::table('games', function (Blueprint $table) {
             $table->tinyInteger('passageId', false, true)->default(0);
             DB::statement("ALTER TABLE games CHANGE COLUMN type type ENUM('Raid', 'Flawless', 'PVP', 'PoE', 'ToO')");
         });
@@ -26,11 +25,9 @@ class AddPassageDay extends Migration {
      */
     public function down()
     {
-        Schema::table('games', function(Blueprint $table)
-        {
+        Schema::table('games', function (Blueprint $table) {
             $table->dropColumn('passageId');
             DB::statement("ALTER TABLE games CHANGE COLUMN type type ENUM('Raid', 'Flawless', 'PVP', 'PoE')");
         });
     }
-
 }

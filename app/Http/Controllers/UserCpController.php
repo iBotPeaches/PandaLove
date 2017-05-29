@@ -1,15 +1,14 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php
+
+namespace PandaLove\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Support\Facades\DB;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\Game;
-use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\OwnershipFormRequest;
 
-class UserCpController extends Controller {
-
+class UserCpController extends Controller
+{
     public function __construct(Guard $auth)
     {
         parent::__construct();
@@ -23,7 +22,7 @@ class UserCpController extends Controller {
     public function getIndex()
     {
         return view('usercp.index', [
-            'title' => 'PandaLove Control Panel'
+            'title' => 'PandaLove Control Panel',
         ]);
     }
 
@@ -33,10 +32,10 @@ class UserCpController extends Controller {
 
         return \Redirect::to('/')
             ->with('flash_message', [
-                'type' => 'green',
+                'type'   => 'green',
                 'header' => 'See you soon',
-                'close' => true,
-                'body' => 'Your sign out was successful.'
+                'close'  => true,
+                'body'   => 'Your sign out was successful.',
             ]);
     }
 
@@ -54,8 +53,8 @@ class UserCpController extends Controller {
         return \Redirect::action('UserCpController@getIndex')
             ->with('flash_message', [
                 'header' => 'Gamertag Verified!',
-                'close' => true,
-                'body' => 'You have proved ownership of <strong>' . $account->gamertag . '</strong>.'
+                'close'  => true,
+                'body'   => 'You have proved ownership of <strong>'.$account->gamertag.'</strong>.',
             ]);
     }
 }

@@ -1,19 +1,21 @@
-<?php namespace Onyx\Halo5\Enums;
+<?php
 
-abstract class DeathOwner {
+namespace Onyx\Halo5\Enums;
 
+abstract class DeathOwner
+{
     /**
-     * Friendly
+     * Friendly.
      */
     const Friendly = 0;
 
     /**
-     * Hostile
+     * Hostile.
      */
     const Hostile = 1;
 
     /**
-     * Neutral
+     * Neutral.
      */
     const Neutral = 2;
 }

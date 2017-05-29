@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddSpartanKillsToWarzone extends Migration
 {
@@ -12,8 +12,7 @@ class AddSpartanKillsToWarzone extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_warzone', function(Blueprint $table)
-        {
+        Schema::table('halo5_warzone', function (Blueprint $table) {
             $table->integer('totalSpartanKills', false, true);
         });
     }
@@ -25,8 +24,7 @@ class AddSpartanKillsToWarzone extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_warzone', function(Blueprint $table)
-        {
+        Schema::table('halo5_warzone', function (Blueprint $table) {
             $table->dropColumn('totalSpartanKills');
         });
     }

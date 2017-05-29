@@ -1,21 +1,22 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Halo5\Helpers\Date\DateHelper;
 
 /**
- * Class Season
- * @package Onyx\Halo5\Objects
+ * Class Season.
+ *
  * @property int $id
  * @property string $contentId
  * @property string $name
  * @property Carbon $end_date
  * @property Carbon $start_date
- * @property boolean $isActive
+ * @property bool $isActive
  */
-class Season extends Model {
-
+class Season extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -36,7 +37,7 @@ class Season extends Model {
     protected $primaryKey = 'contentId';
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -55,15 +56,14 @@ class Season extends Model {
 
     public function setNameAttribute($value)
     {
-        if (is_null($value))
-        {
+        if (is_null($value)) {
             // Season name was null, so replicate the same pattern of Month Year Season
-            $value = date('F Y') . ' Season';
+            $value = date('F Y').' Season';
         }
-        
+
         $this->attributes['name'] = $value;
     }
-    
+
     public function setStartDateAttribute($value)
     {
         $this->attributes['start_date'] = new Carbon($value);
@@ -82,10 +82,11 @@ class Season extends Model {
     {
         return $this->belongsToMany('Onyx\Halo5\Objects\Playlist', 'halo5_season_playlists', 'seasonId', 'playlistId');
     }
-    
+
     public function isFuture()
     {
         $date = $this->start_date;
+
         return $date->isFuture();
     }
 }

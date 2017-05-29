@@ -1,22 +1,24 @@
-<?php namespace Onyx\Halo5\Objects\Event;
+<?php
+
+namespace Onyx\Halo5\Objects\Event;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Enums\MetadataType;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class Vehicle
- * @package Onyx\Halo5\Objects
+ * Class Vehicle.
+ *
  * @property string $uuid
  * @property Uuid $contentId
  * @property string $name
  * @property string $description
- * @property integer $type
+ * @property int $type
  */
-class Metadata extends Model {
-
+class Metadata extends Model
+{
     /**
-     * Spartan UUID
+     * Spartan UUID.
      */
     const SPARTAN_UUID = '3168248199';
 
@@ -40,7 +42,7 @@ class Metadata extends Model {
     protected $primaryKey = 'uuid';
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -62,8 +64,7 @@ class Metadata extends Model {
 
     public function getNameAttribute($value)
     {
-        switch ($this->uuid)
-        {
+        switch ($this->uuid) {
             case self::SPARTAN_UUID:
                 return 'Melee';
 
@@ -80,8 +81,7 @@ class Metadata extends Model {
     {
         $path = null;
 
-        switch ($this->type)
-        {
+        switch ($this->type) {
             case MetadataType::Enemy:
                 $path = 'enemies';
                 $size = ($size == 'small' ? '-small' : '-large');
@@ -98,7 +98,7 @@ class Metadata extends Model {
                 break;
         }
 
-        return asset('images/' . $path . '/' . $this->uuid . $size . '.png');
+        return asset('images/'.$path.'/'.$this->uuid.$size.'.png');
     }
 
     /**
@@ -111,24 +111,22 @@ class Metadata extends Model {
 
     public static function getAll()
     {
-        if (count(self::$cache) > 0)
-        {
+        if (count(self::$cache) > 0) {
             return self::$cache;
         }
-        
-        $items =  \Cache::remember('metadata-metadata', 120, function()
-        {
+
+        $items = \Cache::remember('metadata-metadata', 120, function () {
             $items = [];
 
-            foreach (Metadata::all() as $metadata)
-            {
+            foreach (Metadata::all() as $metadata) {
                 $items[$metadata->uuid] = $metadata;
             }
 
             return $items;
         });
-        
+
         self::$cache = $items;
+
         return $items;
     }
 }

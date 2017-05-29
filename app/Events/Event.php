@@ -1,7 +1,8 @@
-<?php namespace PandaLove\Events;
+<?php
 
-abstract class Event {
+namespace PandaLove\Events;
 
-	//
-
+abstract class Event
+{
+    //
 }

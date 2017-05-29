@@ -1,23 +1,25 @@
-<?php namespace Onyx\Halo5\Enums;
+<?php
 
-abstract class GameResult {
+namespace Onyx\Halo5\Enums;
 
+abstract class GameResult
+{
     /**
-     * DidNotFinish
+     * DidNotFinish.
      *
      * The player was not present when the match ended.
      */
     const DidNotFinish = 0;
 
     /**
-     * Lost
+     * Lost.
      *
      * The player was on a team that was assigned a loss, typically this is when a team does not have rank = 1.
      */
     const Lost = 1;
 
     /**
-     * Tied
+     * Tied.
      *
      * The player was on the team that was awarded a tie. Typically this is when the player is on the team with rank
      * = 1, and there is at least one other team with rank = 1.
@@ -25,7 +27,7 @@ abstract class GameResult {
     const Tied = 2;
 
     /**
-     * Won
+     * Won.
      *
      * The player was on the team that was assigned the win, typically this is the team that has rank = 1.
      */
@@ -33,12 +35,12 @@ abstract class GameResult {
 
     /**
      * @param $id
+     *
      * @return string
      */
     public static function getColor($id)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case self::DidNotFinish:
                 return 'yellow';
 
@@ -55,12 +57,12 @@ abstract class GameResult {
 
     /**
      * @param $id
+     *
      * @return string
      */
     public static function getIcon($id)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case self::DidNotFinish:
                 return 'meh';
 
@@ -77,12 +79,12 @@ abstract class GameResult {
 
     /**
      * @param $id
+     *
      * @return string
      */
     public static function getTitle($id)
     {
-        switch ($id)
-        {
+        switch ($id) {
             case self::DidNotFinish:
                 return 'Quit Out';
 

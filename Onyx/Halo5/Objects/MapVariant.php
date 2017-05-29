@@ -1,18 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MapVariant
- * @package Onyx\Halo5\Objects
+ * Class MapVariant.
+ *
  * @property string $uuid
  * @property string $name
  * @property string $map_id
  * @property string $description
  * @property Map $map
  */
-class MapVariant extends Model {
-
+class MapVariant extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -28,14 +30,14 @@ class MapVariant extends Model {
     protected $guarded = ['uuid'];
 
     /**
-     * The primary key of the table
+     * The primary key of the table.
      *
      * @var string
      */
     protected $primaryKey = 'uuid';
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -49,19 +51,17 @@ class MapVariant extends Model {
     //---------------------------------------------------------------------------------
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
-    
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
 
     public static function getAll()
     {
-        return \Cache::remember('map_variants-metadata', 120, function()
-        {
+        return \Cache::remember('map_variants-metadata', 120, function () {
             $items = [];
 
-            foreach (MapVariant::all() as $map)
-            {
+            foreach (MapVariant::all() as $map) {
                 $items[$map->uuid] = $map;
             }
 

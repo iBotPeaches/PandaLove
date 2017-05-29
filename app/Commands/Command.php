@@ -1,7 +1,8 @@
-<?php namespace PandaLove\Commands;
+<?php
 
-abstract class Command {
+namespace PandaLove\Commands;
 
-	//
-
+abstract class Command
+{
+    //
 }

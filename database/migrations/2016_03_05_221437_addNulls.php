@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddNulls extends Migration
 {
@@ -12,8 +12,7 @@ class AddNulls extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_data', function(Blueprint $table)
-        {
+        Schema::table('halo5_data', function (Blueprint $table) {
             $table->string('seasonId', 255)->nullable()->change();
         });
     }
@@ -25,9 +24,7 @@ class AddNulls extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_data', function(Blueprint $table)
-        {
-
+        Schema::table('halo5_data', function (Blueprint $table) {
         });
     }
 }

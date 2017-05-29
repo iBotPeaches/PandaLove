@@ -1,7 +1,8 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php
+
+namespace Onyx\Destiny\Objects;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
@@ -9,23 +10,23 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\User;
 
 /**
- * Class Game
- * @package Onyx\Destiny\Objects
+ * Class Game.
+ *
  * @property int $id
  * @property int $instancId
  * @property int $referenceId
- * @property boolean $isHard
+ * @property bool $isHard
  * @property string $type Raid|Flawless|PVP|PoE|ToO
  * @property Carbon $occurredAt
  * @property int $raidTuesday
  * @property int $timeTookInSeconds
  * @property int $passageId
- * @property boolean $hidden
+ * @property bool $hidden
  * @property int $version
- * @property boolean $mercy
+ * @property bool $mercy
  */
-class Game extends Model {
-
+class Game extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -46,11 +47,11 @@ class Game extends Model {
     public $timestamps = false;
 
     /**
-     * @var \Onyx\Destiny\Helpers\String\Hashes $translator
+     * @var \Onyx\Destiny\Helpers\String\Hashes
      */
     private $translator;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -61,17 +62,14 @@ class Game extends Model {
     {
         parent::boot();
 
-        Game::deleting(function($game)
-        {
-            foreach($game->players as $player)
-            {
+        self::deleting(function ($game) {
+            foreach ($game->players as $player) {
                 $player->delete();
             }
 
             $game->comments()->delete();
 
-            if ($game->pvp instanceof PVP)
-            {
+            if ($game->pvp instanceof PVP) {
                 $game->pvp->delete();
             }
         });
@@ -87,25 +85,16 @@ class Game extends Model {
         $object = $this->translator->map($value, false);
 
         $hard = false;
-        if (str_contains($object->title, 'Crota'))
-        {
-            if ($object->extraThird == 33)
-            {
+        if (str_contains($object->title, 'Crota')) {
+            if ($object->extraThird == 33) {
                 $hard = true;
             }
-        }
-        else if (str_contains($object->title, 'Vault'))
-        {
-
-            if ($object->extraThird == 30)
-            {
+        } elseif (str_contains($object->title, 'Vault')) {
+            if ($object->extraThird == 30) {
                 $hard = true;
             }
-        }
-        else if (str_contains($object->title, 'King'))
-        {
-            if ($object->extraThird == 42)
-            {
+        } elseif (str_contains($object->title, 'King')) {
+            if ($object->extraThird == 42) {
                 $hard = true;
             }
         }
@@ -128,12 +117,9 @@ class Game extends Model {
         $date = new Carbon($value);
         $date = $date->timezone('America/Chicago');
 
-        if ($date->diffInDays() > 30)
-        {
+        if ($date->diffInDays() > 30) {
             return $date->format('M j, Y - g:ma');
-        }
-        else
-        {
+        } else {
             return $date->diffForHumans();
         }
     }
@@ -159,8 +145,7 @@ class Game extends Model {
 
     public function teamPlayers($team_id)
     {
-        $players = $this->players->filter(function($player) use ($team_id)
-        {
+        $players = $this->players->filter(function ($player) use ($team_id) {
             return $player->team == $team_id;
         });
 
@@ -169,9 +154,8 @@ class Game extends Model {
 
     public function pandas()
     {
-        return $this->players->reject(function($player)
-        {
-            return ! $player->account->isPandaLove();
+        return $this->players->reject(function ($player) {
+            return !$player->account->isPandaLove();
         });
     }
 
@@ -184,42 +168,30 @@ class Game extends Model {
 
     public function findAccountViaMembershipId($membershipId, $returnAccount = true)
     {
-        foreach($this->players as $player)
-        {
-            if ($player->membershipId == $membershipId)
-            {
-                if ($returnAccount == false)
-                {
+        foreach ($this->players as $player) {
+            if ($player->membershipId == $membershipId) {
+                if ($returnAccount == false) {
                     return $player;
-                }
-                else
-                {
+                } else {
                     return $player->account;
                 }
             }
         }
 
         $destiny = Data::where('membershipId', $membershipId)->first();
-        if ($destiny instanceof Data)
-        {
-            if ($returnAccount)
-            {
+        if ($destiny instanceof Data) {
+            if ($returnAccount) {
                 return $destiny->account;
             }
         }
-
-        return null;
     }
 
     public function completed()
     {
         $count = 0;
-        foreach($this->getRelation('players') as $player)
-        {
-            if ($player->completed && $player->historyAccount != null)
-            {
-                if ($player->historyAccount->user instanceof User && $player->historyAccount->user->isPanda)
-                {
+        foreach ($this->getRelation('players') as $player) {
+            if ($player->completed && $player->historyAccount != null) {
+                if ($player->historyAccount->user instanceof User && $player->historyAccount->user->isPanda) {
                     $count++;
                 }
             }
@@ -258,10 +230,10 @@ class Game extends Model {
 
     public function scopeRaid($query, $p)
     {
-        if ($p)
-        {
+        if ($p) {
             return $query->where('type', 'Raid');
         }
+
         return $query->where('type', 'Raid')->where('hidden', false);
     }
 
@@ -272,10 +244,10 @@ class Game extends Model {
 
     public function scopeFlawless($query, $p)
     {
-        if ($p)
-        {
+        if ($p) {
             return $query->where('type', 'Flawless');
         }
+
         return $query->where('type', 'Flawless')->where('hidden', false);
     }
 
@@ -290,19 +262,19 @@ class Game extends Model {
 
     public function scopeMultiplayer($query, $p)
     {
-        if ($p)
-        {
+        if ($p) {
             return $query->where('type', 'PVP');
         }
+
         return $query->where('type', 'PVP')->where('hidden', false);
     }
 
     public function scopePoE($query, $p)
     {
-        if ($p)
-        {
+        if ($p) {
             return $query->where('type', 'PoE');
         }
+
         return $query->where('type', 'PoE')->where('hidden', false);
     }
 
@@ -327,52 +299,47 @@ class Game extends Model {
 
     public function isPoE()
     {
-        return $this->type == "PoE";
+        return $this->type == 'PoE';
     }
 
     public function isToO()
     {
-        return $this->type == "ToO";
+        return $this->type == 'ToO';
     }
 
     public function title()
     {
-        switch($this->type)
-        {
-            case "PoE":
+        switch ($this->type) {
+            case 'PoE':
                 return '<span class="ui purple label">Prison Of Elders</span>';
 
-            case "ToO":
+            case 'ToO':
                 return '<span class="ui black label">Trials Of Osiris</span>';
 
-            case "PVP":
+            case 'PVP':
                 return '<span class="ui red label">PVP</span>';
 
-            case "Raid":
-            case "Flawless":
+            case 'Raid':
+            case 'Flawless':
                 return '<span class="ui label">Raid</span>';
         }
     }
 
     public function buildUrl()
     {
-        switch ($this->type)
-        {
-            case "PoE":
-            case "PVP":
-            case "Flawless":
+        switch ($this->type) {
+            case 'PoE':
+            case 'PVP':
+            case 'Flawless':
                 return \URL::action('Destiny\GameController@getGame', [$this->instanceId]);
 
-            case "ToO":
+            case 'ToO':
                 return \URL::action('Destiny\GameController@getPassage', [$this->passageId, $this->instanceId]);
 
-            case "Raid":
-                if ($this->raidTuesday != 0)
-                {
+            case 'Raid':
+                if ($this->raidTuesday != 0) {
                     return \URL::action('Destiny\GameController@getTuesday', [$this->raidTuesday, $this->instanceId]);
-                }
-                else
-                {
+                } else {
                     return \URL::action('Destiny\GameController@getGame', [$this->instanceId]);
                 }
                 break;
@@ -388,12 +355,15 @@ class Game extends Model {
 
     /**
      * @param string $index Index for $this->attributes
-     * @param string $hash hashCode for item
+     * @param string $hash  hashCode for item
+     *
      * @throws \Onyx\Destiny\Helpers\String\HashNotLocatedException
      */
     private function setAttributePullImage($index, $hash)
     {
-        if ($hash == null || $hash == "") return;
+        if ($hash == null || $hash == '') {
+            return;
+        }
         Images::saveImagesLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }

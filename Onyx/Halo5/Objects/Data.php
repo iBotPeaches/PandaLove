@@ -1,4 +1,6 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -7,7 +9,6 @@ use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 
 /**
- * @package \Onyx\Halo5\Objects
  * @property int $id
  * @property int $account_id
  * @property int $totalKills
@@ -37,11 +38,11 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
  * @property Carbon $updated_at
  * @property string $seasonId
  * @property int $inactiveCounter
- * @property boolean $disabled
+ * @property bool $disabled
  * @property int $version
  */
-class Data extends Model {
-
+class Data extends Model
+{
     use Stats;
 
     /**
@@ -59,7 +60,7 @@ class Data extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -69,8 +70,7 @@ class Data extends Model {
     {
         parent::boot();
 
-        Data::deleting(function($h5)
-        {
+        self::deleting(function ($h5) {
             $h5->playlists->delete();
         });
     }
@@ -81,12 +81,10 @@ class Data extends Model {
 
     public function setMedalsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $medal)
-            {
+            foreach ($value as $medal) {
                 $insert[$medal['MedalId']] = $medal['Count'];
             }
             $this->attributes['medals'] = json_encode($insert);
@@ -95,12 +93,10 @@ class Data extends Model {
 
     public function setWeaponsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $weapon)
-            {
+            foreach ($value as $weapon) {
                 $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
             }
 
@@ -111,12 +107,9 @@ class Data extends Model {
 
     public function setTotalTimePlayedAttribute($value)
     {
-        if (strlen($value) > 1)
-        {
+        if (strlen($value) > 1) {
             $this->attributes['totalTimePlayed'] = DateHelper::returnSeconds($value);
-        }
-        else
-        {
+        } else {
             $this->attributes['totalTimePlayed'] = 0;
         }
     }
@@ -168,29 +161,26 @@ class Data extends Model {
         // @todo still a glaring n+1 problem here. Can't find top playlists per person at once.
         $playlist = $this->playlists()->first();
 
-        if ($playlist != null && $playlist->stock instanceof Playlist)
-        {
+        if ($playlist != null && $playlist->stock instanceof Playlist) {
             return $playlist;
         }
-
-        return null;
     }
 
     public function getSpartan()
     {
-        if (file_exists('uploads/h5/' . $this->account->seo . '/spartan.png'))
-        {
-            return asset('uploads/h5/' . $this->account->seo . '/spartan.png');
+        if (file_exists('uploads/h5/'.$this->account->seo.'/spartan.png')) {
+            return asset('uploads/h5/'.$this->account->seo.'/spartan.png');
         }
+
         return asset('images/unknown-spartan.png');
     }
 
     public function getEmblem()
     {
-        if (file_exists('uploads/h5/' . $this->account->seo . '/emblem.png'))
-        {
-            return asset('uploads/h5/' . $this->account->seo . '/emblem.png');
+        if (file_exists('uploads/h5/'.$this->account->seo.'/emblem.png')) {
+            return asset('uploads/h5/'.$this->account->seo.'/emblem.png');
         }
+
         return asset('images/unknown-emblem.png');
     }
 

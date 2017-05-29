@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AccountIdDefault extends Migration
@@ -22,6 +21,5 @@ class AccountIdDefault extends Migration
      */
     public function down()
     {
-
     }
 }

@@ -4,7 +4,6 @@ namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Objects\Playlist;
 
@@ -45,26 +44,21 @@ class updatePlaylists extends Command
         $this->info('Getting new Playlist data from 343');
         $playlists = $client->getPlaylists();
 
-        if (is_array($playlists))
-        {
+        if (is_array($playlists)) {
             $this->info('We found Playlist data. Adding to table after purge.');
-            foreach($playlists as $playlist)
-            {
-                try
-                {
+            foreach ($playlists as $playlist) {
+                try {
                     /** @var $_playlist Playlist */
                     $_playlist = Playlist::where('contentId', $playlist['id'])->firstOrFail();
-                    $this->info('Playlist: ' . $playlist['name'] . ' already exists. Updating now.');
+                    $this->info('Playlist: '.$playlist['name'].' already exists. Updating now.');
 
                     $_playlist->name = $playlist['name'];
                     $_playlist->description = $playlist['description'];
                     $_playlist->isRanked = $playlist['isRanked'];
                     $_playlist->isActive = $playlist['isActive'];
                     $_playlist->save();
-                }
-                catch (ModelNotFoundException $ex)
-                {
-                    $this->info('Adding ' . $playlist['name']);
+                } catch (ModelNotFoundException $ex) {
+                    $this->info('Adding '.$playlist['name']);
                     $p = new Playlist();
                     $p->name = $playlist['name'];
                     $p->description = $playlist['description'];

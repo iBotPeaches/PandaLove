@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class RemoveDestinyMembershipFromAccounts extends Migration
 {
@@ -12,8 +12,7 @@ class RemoveDestinyMembershipFromAccounts extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function(Blueprint $table)
-        {
+        Schema::table('accounts', function (Blueprint $table) {
             $table->dropColumn('destiny_membershipId');
         });
     }
@@ -25,8 +24,7 @@ class RemoveDestinyMembershipFromAccounts extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function(Blueprint $table)
-        {
+        Schema::table('accounts', function (Blueprint $table) {
             $table->string('destiny_membershipId', 64);
         });
     }

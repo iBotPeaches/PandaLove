@@ -1,11 +1,12 @@
-<?php namespace PandaLove\Http\Controllers\Halo5;
+<?php
+
+namespace PandaLove\Http\Controllers\Halo5;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\View\Factory as View;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Collection;
+use Illuminate\View\Factory as View;
 use Onyx\Account;
 use Onyx\Halo5\Collections\ArenaLeaderboardCollection;
 use Onyx\Halo5\Helpers\Bot\MessageGenerator;
@@ -14,15 +15,15 @@ use Onyx\User;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
 
-class ApiV1Controller extends Controller {
-
+class ApiV1Controller extends Controller
+{
     private $view;
     private $request;
     private $redirect;
 
     public $inactiveCounter = 10;
 
-    protected $layout = "layouts.master";
+    protected $layout = 'layouts.master';
 
     public function __construct(View $view, Redirect $redirect, Request $request)
     {
@@ -41,28 +42,25 @@ class ApiV1Controller extends Controller {
     {
         // Get all halo accounts
         $accounts = Account::with('h5.warzone', 'user')
-            ->whereHas('user', function($query)
-            {
+            ->whereHas('user', function ($query) {
                 $query->where('isPanda', true);
             })
-            ->whereHas('h5', function($query)
-            {
+            ->whereHas('h5', function ($query) {
                 $query
                     ->where('inactiveCounter', '<=', $this->inactiveCounter)
                     ->where('totalKills', '!=', 0);
             })
             ->orderBy('gamertag', 'ASC')
             ->get();
-            
+
         $collection = new ArenaLeaderboardCollection($accounts);
         $msg = MessageGenerator::buildArenaLeaderboardMessage($collection);
 
         return Response::json([
             'error' => false,
-            'msg' => $msg
+            'msg'   => $msg,
         ], 200);
     }
-        
 
     //---------------------------------------------------------------------------------
     // Halo5 POST
@@ -72,15 +70,12 @@ class ApiV1Controller extends Controller {
     {
         $all = $this->request->all();
 
-        if (isset($all['google_id']))
-        {
-            try
-            {
+        if (isset($all['google_id'])) {
+            try {
                 $user = User::where('google_id', $all['google_id'])
                     ->firstOrFail();
 
-                if ($user->account_id != 0 && $user->account->h5 instanceof Data)
-                {
+                if ($user->account_id != 0 && $user->account->h5 instanceof Data) {
                     $old_h5 = clone $user->account->h5;
                     $old_warzone = clone $user->account->h5->warzone;
 
@@ -92,19 +87,15 @@ class ApiV1Controller extends Controller {
 
                     return Response::json([
                         'error' => false,
-                        'msg' => $msg
+                        'msg'   => $msg,
                     ], 200);
-                }
-                else
-                {
+                } else {
                     return Response::json([
                         'error' => false,
-                        'msg' => 'bitch pls. You need to confirm your gamertag on PandaLove so I know who you are.'
+                        'msg'   => 'bitch pls. You need to confirm your gamertag on PandaLove so I know who you are.',
                     ], 200);
                 }
-            }
-            catch (ModelNotFoundException $e)
-            {
+            } catch (ModelNotFoundException $e) {
                 return $this->_error('User account could not be found.');
             }
         }
@@ -117,8 +108,8 @@ class ApiV1Controller extends Controller {
     private function _error($message)
     {
         return Response::json([
-            'error' => true,
-            'message' => $message
+            'error'   => true,
+            'message' => $message,
         ], 200);
     }
 }

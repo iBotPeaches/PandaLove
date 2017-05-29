@@ -1,4 +1,6 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\Enums\EventName;
@@ -7,19 +9,18 @@ use Onyx\Laravel\Helpers\Text;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class Match
- * @package Onyx\Halo5\Objects
+ * Class Match.
+ *
  * @property Uuid $uuid
- * @property integer $id
+ * @property int $id
  * @property string $map_variant
  * @property string $game_variant
  * @property string $playlist_id
  * @property string $map_id
  * @property string $gamebase_id
  * @property string $season_id
- * @property boolean $isTeamGame
- * @property integer $duration
- *
+ * @property bool $isTeamGame
+ * @property int $duration
  * @property Map $map
  * @property MapVariant $mapVariant
  * @property Gametype $gametype
@@ -30,8 +31,8 @@ use Ramsey\Uuid\Uuid;
  * @property MatchEvent[] $kill_events
  * @property MatchPlayer[] $players
  */
-class Match extends Model {
-
+class Match extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -47,7 +48,7 @@ class Match extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -64,16 +65,13 @@ class Match extends Model {
 
     public function setSeasonIdAttribute($value)
     {
-        if (strlen($value) > 1)
-        {
+        if (strlen($value) > 1) {
             $this->attributes['season_id'] = $value;
-        }
-        else
-        {
+        } else {
             $this->attributes['season_id'] = null;
         }
     }
-    
+
     public function setDurationAttribute($value)
     {
         $this->attributes['duration'] = DateHelper::returnSeconds($value);
@@ -103,26 +101,23 @@ class Match extends Model {
      */
     public function hasRounds()
     {
-        if ($this->gametype->isWarzoneFirefight())
-        {
+        if ($this->gametype->isWarzoneFirefight()) {
             return false;
         }
-        
-        if (isset($this->rounds))
-        {
+
+        if (isset($this->rounds)) {
             return $this->rounds;
         }
-        
+
         $max = 0;
-        foreach ($this->teams as $team)
-        {
-            if (count($team->round_stats) > 1)
-            {
+        foreach ($this->teams as $team) {
+            if (count($team->round_stats) > 1) {
                 $max = max($max, count($team->round_stats));
             }
         }
 
         $this->rounds = $max;
+
         return ($max == 0) ? false : $max;
     }
 
@@ -131,22 +126,18 @@ class Match extends Model {
      */
     public function winner()
     {
-        foreach ($this->teams as $team)
-        {
-            if ($team->isWinner())
-            {
+        foreach ($this->teams as $team) {
+            if ($team->isWinner()) {
                 return $team;
             }
         }
-        
-        return null;
     }
 
     public function playersOnTeam($key)
     {
         return $this->players->where('team_id', $key);
     }
-    
+
     public function events()
     {
         return $this->hasMany('Onyx\Halo5\Objects\MatchEvent', 'game_id', 'id')->orderBy('seconds_since_start');

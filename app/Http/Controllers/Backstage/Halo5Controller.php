@@ -1,22 +1,21 @@
-<?php namespace PandaLove\Http\Controllers\Backstage;
+<?php
+
+namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Intervention\Image\ImageManager;
 use Onyx\Account;
 use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Halo5\Helpers\Utils\MapGenerator;
-use Onyx\Halo5\Objects\Match;
 use Onyx\Halo5\Objects\Map;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AddHalo5GamertagRequest;
 use PandaLove\Http\Requests\Halo5MapGeneratorRequest;
-use Intervention\Image\ImageManager;
 
 class Halo5Controller extends Controller
 {
-
     /**
      * @var ImageManager
      */
@@ -24,7 +23,8 @@ class Halo5Controller extends Controller
 
     /**
      * Halo5Controller constructor.
-     * @param Guard $auth
+     *
+     * @param Guard        $auth
      * @param ImageManager $image
      */
     public function __construct(Guard $auth, ImageManager $image)
@@ -53,7 +53,7 @@ class Halo5Controller extends Controller
 
         return view('backstage.halo5.index', [
             'accounts' => $accounts,
-            'maps' => $maps,
+            'maps'     => $maps,
         ]);
     }
 
@@ -64,26 +64,23 @@ class Halo5Controller extends Controller
             ->get();
 
         return view('backstage.halo5.maps', [
-            'maps' => $maps
+            'maps' => $maps,
         ]);
     }
-    
+
     public function getMap($id)
     {
-        try
-        {
+        try {
             $map = Map::where('contentId', $id)->firstOrFail();
-            
+
             return \Response::json([
                 'error' => false,
-                'map' => $map,
+                'map'   => $map,
             ]);
-        }
-        catch (ModelNotFoundException $ex)
-        {
+        } catch (ModelNotFoundException $ex) {
             return \Response::json([
-                'error' => true,
-                'message' => $ex->getMessage()
+                'error'   => true,
+                'message' => $ex->getMessage(),
             ]);
         }
     }
@@ -93,14 +90,10 @@ class Halo5Controller extends Controller
         $ret = [];
         $data = $request->request->all();
 
-        if ($request->request->get('type') == "generate")
-        {
+        if ($request->request->get('type') == 'generate') {
             $ret = MapGenerator::buildMap($this->image, $data);
-        } 
-        else 
-        {
-            try
-            {
+        } else {
+            try {
                 $map = Map::where('uuid', $data['map_id'])->firstOrFail();
                 $map->x_orig = $data['x_orig'];
                 $map->y_orig = $data['y_orig'];
@@ -109,17 +102,15 @@ class Halo5Controller extends Controller
                 $map->save();
 
                 $ret['error'] = false;
-                $ret['message'] = "Scale saved successfully";
-            }
-            catch (ModelNotFoundException $e)
-            {
+                $ret['message'] = 'Scale saved successfully';
+            } catch (ModelNotFoundException $e) {
                 $ret['error'] = true;
-                $ret['message'] = "The map specified could not be found.";
+                $ret['message'] = 'The map specified could not be found.';
             }
         }
 
         return \Response::json([
-            $ret
+            $ret,
         ]);
     }
 

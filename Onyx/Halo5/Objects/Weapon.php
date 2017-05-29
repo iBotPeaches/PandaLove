@@ -1,20 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
 
-use Carbon\Carbon;
+namespace Onyx\Halo5\Objects;
+
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Halo5\Helpers\Date\DateHelper;
 
 /**
- * Class Season
- * @package Onyx\Halo5\Objects
+ * Class Season.
+ *
  * @property int $id
  * @property string $uuid
  * @property string $contentId
  * @property string $name
  * @property string $description
  */
-class Weapon extends Model {
-
+class Weapon extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -35,7 +35,7 @@ class Weapon extends Model {
     protected $primaryKey = 'uuid';
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -56,12 +56,10 @@ class Weapon extends Model {
 
     public static function getAll()
     {
-        return \Cache::remember('weapons-metadata', 120, function()
-        {
+        return \Cache::remember('weapons-metadata', 120, function () {
             $items = [];
 
-            foreach (Weapon::all() as $weapon)
-            {
+            foreach (Weapon::all() as $weapon) {
                 $items[$weapon->uuid] = $weapon;
             }
 

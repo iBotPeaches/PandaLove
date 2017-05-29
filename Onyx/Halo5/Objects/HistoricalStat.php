@@ -1,11 +1,13 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class HistoricalStat
- * @package Onyx\Halo5\Objects
+ * Class HistoricalStat.
+ *
  * @property int $id
  * @property int $account_id
  * @property float $arena_kd
@@ -16,8 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $warzone_total_games
  * @property Carbon $date
  */
-class HistoricalStat extends Model {
-
+class HistoricalStat extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -38,7 +40,7 @@ class HistoricalStat extends Model {
     protected $date = ['date'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -60,5 +62,4 @@ class HistoricalStat extends Model {
     {
         return $this->belongsTo('Onyx\Account');
     }
-
 }

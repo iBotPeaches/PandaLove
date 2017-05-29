@@ -1,18 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Map
- * @package Onyx\Halo5\Objects
+ * Class Map.
+ *
  * @property string $uuid
  * @property string $contentId
  * @property string $name
  * @property string $description
  * @property array $game_modes
  */
-class Map extends Model {
-
+class Map extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -28,14 +30,14 @@ class Map extends Model {
     protected $guarded = ['uuid'];
 
     /**
-     * The primary key of the table
+     * The primary key of the table.
      *
      * @var string
      */
     protected $primaryKey = 'uuid';
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -68,24 +70,19 @@ class Map extends Model {
     {
         $path = public_path('images/maps/');
 
-        if (file_exists($path . $this->uuid . '.jpg'))
-        {
-            return asset('images/maps/' . $this->uuid . '.jpg');
-        }
-        else
-        {
+        if (file_exists($path.$this->uuid.'.jpg')) {
+            return asset('images/maps/'.$this->uuid.'.jpg');
+        } else {
             return asset('images/unknown-weapon.png');
         }
     }
 
     public static function getAll()
     {
-        return \Cache::remember('maps-metadata', 120, function()
-        {
+        return \Cache::remember('maps-metadata', 120, function () {
             $items = [];
 
-            foreach (Map::all() as $map)
-            {
+            foreach (Map::all() as $map) {
                 $items[$map->uuid] = $map;
             }
 

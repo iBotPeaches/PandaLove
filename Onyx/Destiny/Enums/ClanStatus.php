@@ -1,30 +1,32 @@
-<?php namespace Onyx\Destiny\Enums;
+<?php
 
-abstract class ClanStatus {
+namespace Onyx\Destiny\Enums;
 
+abstract class ClanStatus
+{
     /**
-     * Active
+     * Active.
      *
      * In Clan, active member
      */
     const Active = 0;
 
     /**
-     * Inactive
+     * Inactive.
      *
      * Was part of Clan, became inactive
      */
     const Inactive = 1;
 
     /**
-     * Honorary
+     * Honorary.
      *
      * Friend of a Clan member, not part of the clan
      */
     const Honorary = 2;
 
     /**
-     * Random
+     * Random.
      *
      * A Random LFG guy, or someone we (The Clan) don't know
      */

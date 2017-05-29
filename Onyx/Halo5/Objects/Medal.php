@@ -1,10 +1,12 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Medal
- * @package Onyx\Halo5\Objects
+ * Class Medal.
+ *
  * @property int $id
  * @property string $contentId
  * @property string $name
@@ -12,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string classification
  * @property int $difficulty
  */
-class Medal extends Model {
-
+class Medal extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -29,7 +31,7 @@ class Medal extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -55,12 +57,10 @@ class Medal extends Model {
 
     public static function getAll()
     {
-        return \Cache::remember('medals-metadata', 120, function()
-        {
+        return \Cache::remember('medals-metadata', 120, function () {
             $items = [];
 
-            foreach (Medal::orderBy('difficulty')->get() as $medal)
-            {
+            foreach (Medal::orderBy('difficulty')->get() as $medal) {
                 $items[$medal->contentId] = $medal;
             }
 

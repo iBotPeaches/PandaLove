@@ -1,15 +1,14 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php
+
+namespace PandaLove\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Onyx\Destiny\Objects\Game;
-
 use Onyx\Objects\Comment;
-use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AddCommentRequest;
 
-class CommentController extends Controller {
-
+class CommentController extends Controller
+{
     /**
      * @var \Illuminate\Http\Request
      */
@@ -32,7 +31,7 @@ class CommentController extends Controller {
     public function postComment(AddCommentRequest $request)
     {
         $game = Game::where('instanceId', $request->get('game_id'))->first();
-        $membershipId =  $this->user->account->destiny->membershipId;
+        $membershipId = $this->user->account->destiny->membershipId;
 
         $comment = new Comment();
         $comment->comment = $request->get('message');
@@ -45,5 +44,4 @@ class CommentController extends Controller {
 
         return response()->json(['flag' => true, 'url' => \URL::action('Destiny\GameController@getGame', $game->instanceId)]);
     }
-
 }

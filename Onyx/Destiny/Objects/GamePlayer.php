@@ -1,14 +1,15 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php
+
+namespace Onyx\Destiny\Objects;
 
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Destiny\Constants;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
 
 /**
- * Class GamePlayer
- * @package Onyx\Destiny\Objects
+ * Class GamePlayer.
+ *
  * @property int $id
  * @property int $game_id
  * @property int $membershipId
@@ -19,7 +20,7 @@ use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
  * @property int $assists
  * @property int $deaths
  * @property int $kills
- * @property boolean $completed
+ * @property bool $completed
  * @property int $secondsPlayed
  * @property float $averageLifespan
  * @property int $score
@@ -29,8 +30,8 @@ use Onyx\Destiny\Helpers\Utils\Game as GameHelper;
  * @property int $revives_taken
  * @property int $account_id
  */
-class GamePlayer extends Model {
-
+class GamePlayer extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -51,11 +52,11 @@ class GamePlayer extends Model {
     public $timestamps = false;
 
     /**
-     * @var \Onyx\Destiny\Helpers\String\Hashes $translator
+     * @var \Onyx\Destiny\Helpers\String\Hashes
      */
     private $translator;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -70,12 +71,9 @@ class GamePlayer extends Model {
     {
         $hash = Hash::where('extra', $value)->first();
 
-        if ($hash instanceof Hash)
-        {
+        if ($hash instanceof Hash) {
             $this->setAttributePullImage('emblem', $hash->hash);
-        }
-        else
-        {
+        } else {
             $this->attributes['emblem'] = '9999999999';
         }
     }
@@ -142,12 +140,15 @@ class GamePlayer extends Model {
 
     /**
      * @param string $index Index for $this->attributes
-     * @param string $hash hashCode for item
+     * @param string $hash  hashCode for item
+     *
      * @throws \Onyx\Destiny\Helpers\String\HashNotLocatedException
      */
     private function setAttributePullImage($index, $hash)
     {
-        if ($hash == null || $hash == "") return;
+        if ($hash == null || $hash == '') {
+            return;
+        }
         Images::saveImagesLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }

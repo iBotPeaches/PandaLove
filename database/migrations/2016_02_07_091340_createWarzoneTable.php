@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateWarzoneTable extends Migration
 {
@@ -12,8 +12,7 @@ class CreateWarzoneTable extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_warzone', function(Blueprint $table)
-        {
+        Schema::create('halo5_warzone', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_id', false, true);
             $table->integer('totalKills', false, true);

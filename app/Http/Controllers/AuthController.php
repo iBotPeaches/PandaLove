@@ -1,14 +1,14 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php
+
+namespace PandaLove\Http\Controllers;
 
 use Onyx\User;
 use PandaLove\Events\GoogleLoggedIn;
-use PandaLove\Http\Requests;
 
-class AuthController extends Controller {
-
+class AuthController extends Controller
+{
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -43,11 +43,10 @@ class AuthController extends Controller {
 
         return \Redirect::to('/')
             ->with('flash_message', [
-                'type' => 'green',
-                'close' => true,
+                'type'   => 'green',
+                'close'  => true,
                 'header' => 'Your sign in was successful.',
-                'body' => 'You have correctly authenticated with PandaLove.'
+                'body'   => 'You have correctly authenticated with PandaLove.',
             ]);
     }
-
 }

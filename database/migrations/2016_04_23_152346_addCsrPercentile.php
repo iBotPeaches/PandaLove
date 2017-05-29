@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddCsrPercentile extends Migration
 {
@@ -12,8 +12,7 @@ class AddCsrPercentile extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_playlists_data', function (Blueprint $table)
-        {
+        Schema::table('halo5_playlists_data', function (Blueprint $table) {
             $table->tinyInteger('csrPercentile', false, true)->nullable();
         });
     }
@@ -25,8 +24,7 @@ class AddCsrPercentile extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_playlists_data', function (Blueprint $table)
-        {
+        Schema::table('halo5_playlists_data', function (Blueprint $table) {
             $table->dropColumn('csrPercentile');
         });
     }

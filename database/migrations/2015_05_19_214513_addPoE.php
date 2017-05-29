@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPoE extends Migration {
-
+class AddPoE extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -24,5 +23,4 @@ class AddPoE extends Migration {
     {
         DB::statement("ALTER TABLE games CHANGE COLUMN type type ENUM('Raid', 'Flawless', 'PVP')");
     }
-
 }

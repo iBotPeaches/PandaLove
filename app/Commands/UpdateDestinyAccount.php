@@ -1,36 +1,36 @@
-<?php namespace PandaLove\Commands;
+<?php
 
+namespace PandaLove\Commands;
+
+use Illuminate\Contracts\Bus\SelfHandling;
 use Onyx\Account;
 use Onyx\Destiny\Client;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+class UpdateDestinyAccount extends Command implements SelfHandling
+{
+    private $account;
 
-class UpdateDestinyAccount extends Command implements SelfHandling {
+    /**
+     * Create a new command instance.
+     *
+     * @param \Onyx\Account $account
+     */
+    public function __construct(Account $account)
+    {
+        $this->account = $account;
+    }
 
-	private $account;
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $client = new Client();
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @param \Onyx\Account $account
-	 */
-	public function __construct(Account $account)
-	{
-		$this->account = $account;
-	}
-
-	/**
-	 * Execute the command.
-	 *
-	 * @return void
-	 */
-	public function handle()
-	{
-		$client = new Client();
-
-		\DB::transaction(function () use ($client)
-		{
-			$client->fetchAccountData($this->account);
-		});
-	}
+        \DB::transaction(function () use ($client) {
+            $client->fetchAccountData($this->account);
+        });
+    }
 }

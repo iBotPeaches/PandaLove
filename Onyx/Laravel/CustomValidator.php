@@ -1,35 +1,32 @@
-<?php namespace Onyx\Laravel;
+<?php
+
+namespace Onyx\Laravel;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\Validator;
 use Onyx\Account;
+use Onyx\Calendar\Objects\Event as GameEvent;
+use Onyx\Destiny\Client as DestinyClient;
 use Onyx\Destiny\GameNotFoundException;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
-use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Destiny\PlayerNotFoundException;
-use Onyx\Halo5\H5PlayerNotFoundException;
-use Onyx\Halo5\Helpers\Network\ThreeFourThreeOfflineException;
-use Onyx\User;
-
 use Onyx\Halo5\Client as Halo5Client;
-use Onyx\Destiny\Client as DestinyClient;
+use Onyx\Halo5\H5PlayerNotFoundException;
+use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 
-class CustomValidator extends Validator {
-
+class CustomValidator extends Validator
+{
     public function validateGameReal($attribute, $value, $parameters)
     {
         $client = new DestinyClient();
 
-        try
-        {
+        try {
             $game = $client->fetchGameByInstanceId($value);
-        }
-        catch (GameNotFoundException $e)
-        {
+        } catch (GameNotFoundException $e) {
             return false;
         }
 
@@ -38,12 +35,9 @@ class CustomValidator extends Validator {
 
     public function validateGameExistsReal($attribute, $value, $parameters)
     {
-        try
-        {
+        try {
             $game = Game::where('instanceId', $value)->firstOrFail();
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             return false;
         }
 
@@ -54,12 +48,9 @@ class CustomValidator extends Validator {
     {
         $client = new DestinyClient();
 
-        try
-        {
+        try {
             $account = $client->fetchAccountByGamertag(1, $value);
-        }
-        catch (PlayerNotFoundException $e)
-        {
+        } catch (PlayerNotFoundException $e) {
             return false;
         }
 
@@ -70,12 +61,9 @@ class CustomValidator extends Validator {
     {
         $client = new DestinyClient();
 
-        try
-        {
+        try {
             $account = $client->searchAccountByName($value);
-        }
-        catch (PlayerNotFoundException $ex)
-        {
+        } catch (PlayerNotFoundException $ex) {
             return false;
         }
 
@@ -86,16 +74,11 @@ class CustomValidator extends Validator {
     {
         $client = new Halo5Client();
 
-        try
-        {
+        try {
             $account = $client->getAccountByGamertag($value);
-        }
-        catch (H5PlayerNotFoundException $e)
-        {
+        } catch (H5PlayerNotFoundException $e) {
             return false;
-        }
-        catch (ClientException $e)
-        {
+        } catch (ClientException $e) {
             return false;
         }
 
@@ -104,12 +87,9 @@ class CustomValidator extends Validator {
 
     public function validateCharacterReal($attribute, $value, $parameters)
     {
-        try
-        {
+        try {
             $character = Character::where('characterId', $value)->firstOrFail();
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             return false;
         }
 
@@ -118,12 +98,9 @@ class CustomValidator extends Validator {
 
     public function validateEventExists($attribute, $value, $parameters)
     {
-        try
-        {
+        try {
             $event = GameEvent::where('id', $value)->firstOrFail();
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             return false;
         }
 
@@ -134,8 +111,7 @@ class CustomValidator extends Validator {
     {
         $account = $this->getAccount($value);
 
-        if ($account instanceof Account && $account->user == null)
-        {
+        if ($account instanceof Account && $account->user == null) {
             return true;
         }
 
@@ -147,13 +123,11 @@ class CustomValidator extends Validator {
         $account = $this->getAccount($value);
         $user = \Auth::user();
 
-        if ($account instanceof Account && $user instanceof User)
-        {
+        if ($account instanceof Account && $user instanceof User) {
             $client = new XboxClient();
             $bio = $client->fetchAccountBio($account);
 
-            if (str_contains($bio, $user->google_id))
-            {
+            if (str_contains($bio, $user->google_id)) {
                 return true;
             }
         }
@@ -163,12 +137,13 @@ class CustomValidator extends Validator {
 
     /**
      * @param $gamertag
+     *
      * @return mixed
      */
     private function getAccount($gamertag)
     {
         $lowercase = Text::seoGamertag($gamertag);
 
-       return Account::where('seo', $lowercase)->first();
+        return Account::where('seo', $lowercase)->first();
     }
 }

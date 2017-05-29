@@ -28,7 +28,7 @@ class AddHalo5GamertagRequest extends Request
         Input::merge(array_map('trim', Input::all()));
 
         return [
-            'gamertag' => 'required|min:3|h5gamertag-real'
+            'gamertag' => 'required|min:3|h5gamertag-real',
         ];
     }
 }

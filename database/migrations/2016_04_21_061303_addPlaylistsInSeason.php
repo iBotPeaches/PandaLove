@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddPlaylistsInSeason extends Migration
 {
@@ -12,8 +12,7 @@ class AddPlaylistsInSeason extends Migration
      */
     public function up()
     {
-        Schema::create('halo5_season_playlists', function (Blueprint $table)
-        {
+        Schema::create('halo5_season_playlists', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('seasonId');
             $table->uuid('playlistId');

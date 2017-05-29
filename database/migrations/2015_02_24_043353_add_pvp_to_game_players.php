@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class AddPvpToGamePlayers extends Migration {
-
+class AddPvpToGamePlayers extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +12,7 @@ class AddPvpToGamePlayers extends Migration {
      */
     public function up()
     {
-        Schema::table('game_players', function(Blueprint $table)
-        {
+        Schema::table('game_players', function (Blueprint $table) {
             $table->integer('score')->nullable();
             $table->tinyInteger('team')->nullable();
             $table->tinyInteger('standing')->nullable();
@@ -27,12 +26,10 @@ class AddPvpToGamePlayers extends Migration {
      */
     public function down()
     {
-        Schema::table('game_players', function(Blueprint $table)
-        {
+        Schema::table('game_players', function (Blueprint $table) {
             $table->dropColumn('score');
             $table->dropColumn('team');
             $table->dropColumn('standing');
         });
     }
-
 }

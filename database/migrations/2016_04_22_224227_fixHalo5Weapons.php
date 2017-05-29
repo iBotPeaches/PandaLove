@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class FixHalo5Weapons extends Migration
 {
@@ -12,10 +12,9 @@ class FixHalo5Weapons extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_weapons', function (Blueprint $table)
-        {
+        Schema::table('halo5_weapons', function (Blueprint $table) {
             $table->dropColumn('id');
-            
+
             $table->primary('uuid');
         });
     }
@@ -27,8 +26,7 @@ class FixHalo5Weapons extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_weapons', function (Blueprint $table)
-        {
+        Schema::table('halo5_weapons', function (Blueprint $table) {
             $table->increments('id');
         });
     }

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class DumpPassword extends Migration
 {
@@ -12,8 +12,7 @@ class DumpPassword extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table)
-        {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('password');
         });
     }
@@ -25,8 +24,7 @@ class DumpPassword extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $table)
-        {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('password', 60);
         });
     }

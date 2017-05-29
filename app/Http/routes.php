@@ -1,6 +1,6 @@
 <?php
 
-## Destiny
+//# Destiny
 Route::controller('/destiny/api/v1', 'Destiny\ApiV1Controller');
 Route::controller('/destiny/roster', 'Destiny\RosterController');
 Route::controller('/destiny/games', 'Destiny\GameController');
@@ -9,10 +9,10 @@ Route::get('/destiny/profile/check-for-update/{console}/{gamertag}', 'Destiny\Pr
 Route::get('/destiny/profile/manual-update/{console}/{seo}', 'Destiny\ProfileController@manualUpdate');
 Route::get('/destiny/profile/{console}/{gamertag}/{characterId?}', 'Destiny\ProfileController@index');
 
-## Xbox
+//# Xbox
 Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 
-## Halo 5
+//# Halo 5
 Route::controller('/h5/api/v1', 'Halo5\ApiV1Controller');
 Route::controller('/h5/api/panda', 'Halo5\LeafApiController');
 Route::controller('/h5/roster', 'Halo5\RosterController');
@@ -23,12 +23,12 @@ Route::get('/h5/profile/{gamertag}', 'Halo5\ProfileController@index');
 Route::get('/h5/profile/manual-update/{seo}', 'Halo5\ProfileController@manualUpdate');
 Route::get('/h5/profile/check-for-update/{gamertag}', 'Halo5\ProfileController@checkForUpdate');
 
-## Admin
+//# Admin
 Route::controller('/backstage/destiny', 'Backstage\DestinyController');
 Route::controller('/backstage/halo5', 'Backstage\Halo5Controller');
 Route::controller('/backstage', 'Backstage\IndexController');
 
-## Other
+//# Other
 Route::controller('/account', 'AccountController');
 Route::controller('/comment', 'CommentController');
 Route::controller('/calendar', 'CalendarController');

@@ -1,26 +1,28 @@
-<?php namespace PandaLove\Http\Controllers\Xbox;
+<?php
 
+namespace PandaLove\Http\Controllers\Xbox;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\View\Factory as View;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
+use Illuminate\View\Factory as View;
 use Onyx\Account;
 use Onyx\Calendar\Helpers\Event\MessageGenerator;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
-use Carbon\Carbon;
-use PandaLove\Http\Controllers\Controller;
 use Onyx\XboxLive\Helpers\Bot\MessageGenerator as XboxMessageGenerator;
+use PandaLove\Http\Controllers\Controller;
 
-class ApiV1Controller extends Controller {
-
+class ApiV1Controller extends Controller
+{
     private $view;
     private $request;
     private $redirect;
 
-    protected $layout = "layouts.master";
+    protected $layout = 'layouts.master';
 
     public function __construct(View $view, Redirect $redirect, Request $request)
     {
@@ -37,36 +39,30 @@ class ApiV1Controller extends Controller {
             ->orderBy('start', 'ASC')
             ->get();
 
-        if (count($events) > 0)
-        {
+        if (count($events) > 0) {
             $msg = MessageGenerator::buildEventsResponse($events);
 
             return Response::json([
                 'error' => false,
-                'msg' => $msg
+                'msg'   => $msg,
             ]);
-        }
-        else
-        {
+        } else {
             return $this->_error('There are no events upcoming.');
         }
     }
 
     public function getEvent($id)
     {
-        try
-        {
+        try {
             $event = GameEvent::where('id', intval($id))->firstOrFail();
 
             $msg = MessageGenerator::buildSingleEventResponse($event);
 
             return Response::json([
                 'error' => false,
-                'msg' => $msg
+                'msg'   => $msg,
             ]);
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             return $this->_error('This game could not be found.');
         }
     }
@@ -75,10 +71,8 @@ class ApiV1Controller extends Controller {
     {
         $all = $this->request->all();
 
-        if (isset($all['google_id']))
-        {
-            try
-            {
+        if (isset($all['google_id'])) {
+            try {
                 $user = User::where('google_id', $all['google_id'])
                     ->where('admin', true)
                     ->firstOrFail();
@@ -92,22 +86,19 @@ class ApiV1Controller extends Controller {
                 }
 
                 // re-set max_players if 0
-                if ($gameEvent->max_players == 0)
-                {
+                if ($gameEvent->max_players == 0) {
                     $gameEvent->max_players = $gameEvent->getPlayerDefaultSize();
                     $gameEvent->save();
                 }
 
-                $msg = 'This event was created. There are <strong>' .  $gameEvent->max_players . '</strong> spots left. You may apply online <a href="' . \URL::action('CalendarController@getEvent', [$gameEvent->id]) . '">here</a>.';
-                $msg .= ' or you can apply via the bot via <strong>/bot rsvp ' . $gameEvent->id . '</strong>';
+                $msg = 'This event was created. There are <strong>'.$gameEvent->max_players.'</strong> spots left. You may apply online <a href="'.\URL::action('CalendarController@getEvent', [$gameEvent->id]).'">here</a>.';
+                $msg .= ' or you can apply via the bot via <strong>/bot rsvp '.$gameEvent->id.'</strong>';
 
                 return Response::json([
                     'error' => false,
-                    'msg' => $msg
+                    'msg'   => $msg,
                 ], 200);
-            }
-            catch (ModelNotFoundException $e)
-            {
+            } catch (ModelNotFoundException $e) {
                 return $this->_error('User does not have permission to make events.');
             }
         }
@@ -117,10 +108,8 @@ class ApiV1Controller extends Controller {
     {
         $all = $this->request->all();
 
-        if (isset($all['google_id']))
-        {
-            try
-            {
+        if (isset($all['google_id'])) {
+            try {
                 $user = User::where('google_id', $all['google_id'])
                     ->firstOrFail();
 
@@ -128,11 +117,9 @@ class ApiV1Controller extends Controller {
 
                 return Response::json([
                     'error' => false,
-                    'msg' => $msg
+                    'msg'   => $msg,
                 ], 200);
-            }
-            catch (ModelNotFoundException $e)
-            {
+            } catch (ModelNotFoundException $e) {
                 return $this->_error('I do not know who you are. Therefore you cannot RSVP. Sorry.');
             }
         }
@@ -142,10 +129,8 @@ class ApiV1Controller extends Controller {
     {
         $all = $this->request->all();
 
-        if (isset($all['chat_id']) && isset($all['google_id']))
-        {
-            try
-            {
+        if (isset($all['chat_id']) && isset($all['google_id'])) {
+            try {
                 $user = User::where('google_id', $all['google_id'])
                     ->firstOrFail();
 
@@ -154,16 +139,12 @@ class ApiV1Controller extends Controller {
 
                 return Response::json([
                     'error' => false,
-                    'msg' => 'Updated ChatId to <strong>' . $all['chat_id'] . '</strong>. I will PM you here for alerts.'
+                    'msg'   => 'Updated ChatId to <strong>'.$all['chat_id'].'</strong>. I will PM you here for alerts.',
                 ], 200);
-            }
-            catch (ModelNotFoundException $e)
-            {
+            } catch (ModelNotFoundException $e) {
                 return $this->_error('I do not know who you are. Therefore I cannot set your chat ID.');
             }
-        }
-        else
-        {
+        } else {
             return $this->_error('Chat/Google ID not found.');
         }
     }
@@ -176,23 +157,19 @@ class ApiV1Controller extends Controller {
     {
         /** @var $accounts Account[] */
         $accounts = Account::with('user')
-            ->whereHas('user', function($query)
-            {
+            ->whereHas('user', function ($query) {
                 $query->where('isPanda', true);
             })->get();
 
-        if (count($accounts) > 0)
-        {
+        if (count($accounts) > 0) {
             $xboxclient = new XboxClient();
             $presence = $xboxclient->fetchAccountsPresence($accounts);
 
             return Response::json([
                 'error' => false,
-                'msg' => $xboxclient->prettifyOnlineStatus($presence, $accounts)
+                'msg'   => $xboxclient->prettifyOnlineStatus($presence, $accounts),
             ]);
-        }
-        else
-        {
+        } else {
             $this->_error('No Panda Love members were found');
         }
     }
@@ -201,7 +178,7 @@ class ApiV1Controller extends Controller {
     {
         return Response::json([
             'error' => false,
-            'msg' => XboxMessageGenerator::buildTimezonesMessage()
+            'msg'   => XboxMessageGenerator::buildTimezonesMessage(),
         ]);
     }
 
@@ -212,8 +189,8 @@ class ApiV1Controller extends Controller {
     private function _error($message)
     {
         return Response::json([
-            'error' => true,
-            'message' => $message
+            'error'   => true,
+            'message' => $message,
         ], 200);
     }
 }

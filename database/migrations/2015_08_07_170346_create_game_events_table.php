@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateGameEventsTable extends Migration
@@ -12,8 +11,7 @@ class CreateGameEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('game_events', function($table)
-        {
+        Schema::create('game_events', function ($table) {
             $table->increments('id');
             $table->string('title');
             $table->enum('type', ['Raid', 'Flawless', 'PVP', 'PoE', 'ToO']);

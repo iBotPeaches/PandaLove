@@ -1,21 +1,23 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Playlist
- * @package Onyx\Halo5\Objects
+ * Class Playlist.
+ *
  * @property int $id
  * @property string $contentId
  * @property string $name
  * @property string $description
- * @property boolean $isRanked
+ * @property bool $isRanked
  * @property string $imageUrl
- * @property boolean isActive
+ * @property bool isActive
  * @property string $gameMode
  */
-class Playlist extends Model {
-
+class Playlist extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -36,7 +38,7 @@ class Playlist extends Model {
     protected $primaryKey = 'contentId';
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -62,12 +64,10 @@ class Playlist extends Model {
 
     public static function getAll()
     {
-        return \Cache::remember('playlists-metadata', 120, function()
-        {
+        return \Cache::remember('playlists-metadata', 120, function () {
             $items = [];
 
-            foreach (Playlist::all() as $playlist)
-            {
+            foreach (Playlist::all() as $playlist) {
                 $items[$playlist->contentId] = $playlist;
             }
 

@@ -1,19 +1,21 @@
-<?php namespace Onyx\Calendar\Objects;
+<?php
+
+namespace Onyx\Calendar\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Attendee
- * @package Onyx\Destiny\Objects
+ * Class Attendee.
+ *
  * @property int $game_id
  * @property int $membershipId
  * @property int $characterId
  * @property int $account_id
  * @property int $user_id
- * @property boolean $attended
+ * @property bool $attended
  */
-class Attendee extends Model {
-
+class Attendee extends Model
+{
     protected $table = 'calendar_attendees';
 
     protected $fillable = ['game_id', 'membershipId', 'characterId', 'account_id', 'user_id', 'attended'];
@@ -30,7 +32,6 @@ class Attendee extends Model {
 
     public static function boot()
     {
-
     }
 
     //---------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class ForeignKeyOnDestinyData extends Migration
 {
@@ -12,8 +12,7 @@ class ForeignKeyOnDestinyData extends Migration
      */
     public function up()
     {
-        Schema::table('destiny_data', function (Blueprint $table)
-        {
+        Schema::table('destiny_data', function (Blueprint $table) {
             $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
@@ -25,8 +24,7 @@ class ForeignKeyOnDestinyData extends Migration
      */
     public function down()
     {
-        Schema::table('destiny_data', function (Blueprint $table)
-        {
+        Schema::table('destiny_data', function (Blueprint $table) {
             $table->dropForeign('destiny_data_account_id_foreign');
         });
     }

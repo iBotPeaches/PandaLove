@@ -1,17 +1,19 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Team
- * @package Onyx\Halo5\Objects
- * @property integer $id
+ * Class Team.
+ *
+ * @property int $id
  * @property string $name
  * @property string $color
  * @property string $contentId
  */
-class Team extends Model {
-
+class Team extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -27,7 +29,7 @@ class Team extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -53,12 +55,9 @@ class Team extends Model {
     {
         $path = public_path('images/teams/');
 
-        if (file_exists($path . $this->id . '.png'))
-        {
-            return asset('images/teams/' . $this->id . '.png');
-        }
-        else
-        {
+        if (file_exists($path.$this->id.'.png')) {
+            return asset('images/teams/'.$this->id.'.png');
+        } else {
             return asset('images/unknown-weapon.png');
         }
     }
@@ -68,29 +67,28 @@ class Team extends Model {
      */
     public function getSemanticColor()
     {
-        switch ($this->id)
-        {
+        switch ($this->id) {
             case 0:
                 return 'red';
-            
+
             case 1:
                 return 'blue';
-            
+
             case 2:
                 return 'yellow';
-            
+
             case 3:
                 return 'green';
-            
+
             case 4:
                 return 'violet';
-            
+
             case 5:
                 return 'pink';
-            
+
             case 6:
                 return 'orange';
-            
+
             case 7:
                 return 'teal';
         }

@@ -1,4 +1,7 @@
-<?php namespace PandaLove\Jobs;
+<?php
+
+namespace PandaLove\Jobs;
+
 use Illuminate\Bus\Queueable;
 
 abstract class Job

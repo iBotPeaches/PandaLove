@@ -13,8 +13,8 @@
 
 $factory->define(Onyx\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'remember_token' => str_random(10)
+        'name'           => $faker->name,
+        'email'          => $faker->email,
+        'remember_token' => str_random(10),
     ];
 });

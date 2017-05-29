@@ -1,4 +1,6 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
@@ -10,42 +12,41 @@ use Onyx\Laravel\Helpers\Text;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class MatchEvent
- * @package Onyx\Halo5\Objects
- * @property integer $id
- * @property string $game_id
- * @property integer $death_owner
- * @property integer $death_type
- * @property integer $killer_id
- * @property integer $killer_type
- * @property array $killer_attachments
- * @property integer $killer_weapon_id
- * @property double $killer_x
- * @property double $killer_y
- * @property double $killer_z
- * @property integer $victim_id
- * @property integer $victim_type
- * @property array $victim_attachments
- * @property integer $victim_stock_id
- * @property double $victim_x
- * @property double $victim_y
- * @property double $victim_z
- * @property double $distance
- * @property integer $event_name
- * @property integer $seconds_since_start
- * @property integer $seconds_held_as_primary
- * @property integer $shots_fired
- * @property integer $shots_landed
- * @property integer $round_index
+ * Class MatchEvent.
  *
+ * @property int $id
+ * @property string $game_id
+ * @property int $death_owner
+ * @property int $death_type
+ * @property int $killer_id
+ * @property int $killer_type
+ * @property array $killer_attachments
+ * @property int $killer_weapon_id
+ * @property float $killer_x
+ * @property float $killer_y
+ * @property float $killer_z
+ * @property int $victim_id
+ * @property int $victim_type
+ * @property array $victim_attachments
+ * @property int $victim_stock_id
+ * @property float $victim_x
+ * @property float $victim_y
+ * @property float $victim_z
+ * @property float $distance
+ * @property int $event_name
+ * @property int $seconds_since_start
+ * @property int $seconds_held_as_primary
+ * @property int $shots_fired
+ * @property int $shots_landed
+ * @property int $round_index
  * @property Account $killer
  * @property Account $victim
  * @property Weapon $killer_weapon
  * @property Metadata $victim_enemy
  * @property MatchEventAssist[] $assists
  */
-class MatchEvent extends Model {
-
+class MatchEvent extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -61,7 +62,7 @@ class MatchEvent extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -71,11 +72,9 @@ class MatchEvent extends Model {
     {
         parent::boot();
 
-        static::creating(function ($matchEvent)
-        {
+        static::creating(function ($matchEvent) {
             /** @var $matchEvent MatchEvent */
-            if ($matchEvent->event_name == EventName::Death) 
-            {
+            if ($matchEvent->event_name == EventName::Death) {
                 $matchEvent->setDistance();
             }
         });
@@ -87,24 +86,18 @@ class MatchEvent extends Model {
 
     public function setKillerIdAttribute($value)
     {
-        if ($value !== null)
-        {
+        if ($value !== null) {
             $this->attributes['killer_id'] = $value->id;
-        }
-        else
-        {
+        } else {
             $this->attributes['killer_id'] = null;
         }
     }
 
     public function setVictimIdAttribute($value)
     {
-        if ($value !== null)
-        {
+        if ($value !== null) {
             $this->attributes['victim_id'] = $value->id;
-        }
-        else
-        {
+        } else {
             $this->attributes['victim_id'] = null;
         }
     }
@@ -113,10 +106,8 @@ class MatchEvent extends Model {
     {
         $fields = ['IsAssassination', 'IsGroundPound', 'IsHeadshot',  'IsMelee', 'IsShoulderBash', 'IsWeapon'];
 
-        foreach ($fields as $field)
-        {
-            if (isset($event[$field]) && $event[$field])
-            {
+        foreach ($fields as $field) {
+            if (isset($event[$field]) && $event[$field]) {
                 $this->attributes['death_type'] = DeathType::getId($field);
                 break;
             }
@@ -142,7 +133,7 @@ class MatchEvent extends Model {
     {
         $this->attributes['seconds_since_start'] = DateHelper::returnSeconds($value);
     }
-    
+
     public function setSecondsHeldAsPrimaryAttribute($value)
     {
         $this->attributes['seconds_held_as_primary'] = DateHelper::returnSeconds($value);
@@ -150,18 +141,17 @@ class MatchEvent extends Model {
 
     public function setKillerWeaponIdAttribute($value)
     {
-        if ($value > 0)
-        {
+        if ($value > 0) {
             $metadata = Metadata::getAll();
 
-            if (isset($metadata[$value]))
-            {
+            if (isset($metadata[$value])) {
                 $this->attributes['killer_weapon_id'] = $value;
+
                 return;
             }
         }
 
-        /**
+        /*
          * @url https://www.halowaypoint.com/en-us/forums/01b3ca58f06c4bd4ad074d8794d2cf86/topics/unknown-weaponid/ed7157ac-e30b-4c6d-9292-9c0032dc17c7/posts
          *
          * TLDR - 2457457776 ID is not in API
@@ -171,18 +161,17 @@ class MatchEvent extends Model {
 
     public function setVictimStockIdAttribute($value)
     {
-        if ($value > 0)
-        {
+        if ($value > 0) {
             $metadata = Metadata::getAll();
 
-            if (isset($metadata[$value]))
-            {
+            if (isset($metadata[$value])) {
                 $this->attributes['victim_stock_id'] = $value;
+
                 return;
             }
         }
 
-        /**
+        /*
          * @url https://www.halowaypoint.com/en-us/forums/01b3ca58f06c4bd4ad074d8794d2cf86/topics/unknown-weaponid/ed7157ac-e30b-4c6d-9292-9c0032dc17c7/posts
          *
          * TLDR - 2457457776 ID is not in API
@@ -272,10 +261,10 @@ class MatchEvent extends Model {
 
     public function getSecondsSinceStartAttribute($value)
     {
-        if ($value == 0)
-        {
+        if ($value == 0) {
             return '0 seconds ';
         }
+
         return Text::timeDuration($value);
     }
 
@@ -283,9 +272,6 @@ class MatchEvent extends Model {
     // Public Methods
     //---------------------------------------------------------------------------------
 
-    /**
-     *
-     */
     public function setDistance()
     {
         $x = $this->victim_x - $this->killer_x;
@@ -297,15 +283,15 @@ class MatchEvent extends Model {
 
     /**
      * @param string $type
-     * @param array $data
+     * @param array  $data
      */
-    public function setPoint($type = 'Killer', array $data)
+    public function setPoint($type, array $data)
     {
         $type = ($type == 'Killer' ? 'killer' : 'victim');
 
-        $this->attributes[$type . "_x"] = floatval($data['x']);
-        $this->attributes[$type . "_y"] = floatval($data['y']);
-        $this->attributes[$type . "_z"] = floatval($data['z']);
+        $this->attributes[$type.'_x'] = floatval($data['x']);
+        $this->attributes[$type.'_y'] = floatval($data['y']);
+        $this->attributes[$type.'_z'] = floatval($data['z']);
     }
 
     /**
@@ -322,46 +308,34 @@ class MatchEvent extends Model {
     public function getKilledString()
     {
         $msg = '';
-        if ($this->killer !== null)
-        {
+        if ($this->killer !== null) {
             $msg .= $this->killer->gamertag;
-        }
-        else
-        {
+        } else {
             $msg .= 'AI';
         }
         $msg .= ' killed ';
-        
-        if ($this->victim !== null)
-        {
+
+        if ($this->victim !== null) {
             $msg .= $this->victim->gamertag;
-        }
-        else
-        {
-            if ($this->victim_enemy instanceof Metadata)
-            {
-                $msg .= "a " . $this->victim_enemy->name;
-            }
-            else
-            {
+        } else {
+            if ($this->victim_enemy instanceof Metadata) {
+                $msg .= 'a '.$this->victim_enemy->name;
+            } else {
                 $msg .= 'Unknown Enemy';
             }
         }
-        
-        $msg .= ' with a ' . $this->killer_weapon->name;
-        $msg .= ' (' . $this->distance . 'm away)';
 
+        $msg .= ' with a '.$this->killer_weapon->name;
+        $msg .= ' ('.$this->distance.'m away)';
 
-        if (count($this->assists) > 0)
-        {
+        if (count($this->assists) > 0) {
             $msg .= ' assisted by: ';
-            foreach ($this->assists as $assist)
-            {
-                $msg .= $assist->account->gamertag . ", ";
+            foreach ($this->assists as $assist) {
+                $msg .= $assist->account->gamertag.', ';
             }
         }
-        
-        return rtrim($msg, ", ");
+
+        return rtrim($msg, ', ');
     }
 
     public function match()

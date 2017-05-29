@@ -1,19 +1,23 @@
-<?php namespace Onyx\Halo5\CustomTraits;
+<?php
 
-trait Stats {
+namespace Onyx\Halo5\CustomTraits;
 
+trait Stats
+{
     /**
      * @param $k integer
      * @param $d integer
      * @param bool $formatted
+     *
      * @return float
      */
     public function stat_kd($k, $d, $formatted = true)
     {
-        if ($formatted)
+        if ($formatted) {
             return number_format($this->_raw_kd($k, $d), 2);
-        else
+        } else {
             return $this->_raw_kd($k, $d);
+        }
     }
 
     /**
@@ -21,16 +25,14 @@ trait Stats {
      * @param $d integer
      * @param $a integer
      * @param bool $formatted
+     *
      * @return float
      */
     public function stat_kad($k, $d, $a, $formatted = true)
     {
-        if ($formatted)
-        {
+        if ($formatted) {
             return number_format($this->_raw_kad($k, $d, $a), 2);
-        }
-        else
-        {
+        } else {
             return $this->_raw_kad($k, $d, $a);
         }
     }
@@ -38,29 +40,29 @@ trait Stats {
     /**
      * @param $won integer
      * @param $total integer
+     *
      * @return mixed
      */
     public function stat_winRate($won, $total)
     {
-        if ($total == 0)
-        {
+        if ($total == 0) {
             return 0;
         }
-        
+
         return round(($won / $total) * 100);
     }
 
     /**
      * @param $won integer
      * @param $total integer
+     *
      * @return string
      */
     public function stat_winRateColor($won, $total)
     {
         $rate = $this->winRate($won, $total);
 
-        switch (true)
-        {
+        switch (true) {
             case $rate > 75:
                 return 'green';
 
@@ -77,21 +79,21 @@ trait Stats {
 
     /**
      * @param $percent
+     *
      * @return string
      */
     public function stat_percentileColor($percent)
     {
-        switch (true)
-        {
-            case $percent == null || $percent == "?":
+        switch (true) {
+            case $percent == null || $percent == '?':
                 return '';
 
             case $percent < 20:
                 return 'green';
-            
+
             case $percent <= 40 && $percent > 20:
                 return 'yellow';
-            
+
             case $percent <= 40 && $percent > 80:
                 return 'orange';
 
@@ -103,12 +105,12 @@ trait Stats {
     /**
      * @param $k integer
      * @param $d integer
+     *
      * @return float
      */
     private function _raw_kd($k, $d)
     {
-        if ($d == 0)
-        {
+        if ($d == 0) {
             return $k;
         }
 
@@ -119,12 +121,12 @@ trait Stats {
      * @param $k integer
      * @param $d integer
      * @param $a integer
+     *
      * @return float
      */
     private function _raw_kad($k, $d, $a)
     {
-        if ($d == 0)
-        {
+        if ($d == 0) {
             return $k + $a;
         }
 

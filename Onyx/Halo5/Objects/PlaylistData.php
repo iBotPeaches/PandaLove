@@ -1,12 +1,14 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 
 /**
- * Class PlaylistData
- * @package Onyx\Halo5\Objects
+ * Class PlaylistData.
+ *
  * @property int $id
  * @property int $account_id
  * @property string $playlistId
@@ -34,10 +36,10 @@ use Onyx\Halo5\Helpers\Date\DateHelper;
  * @property int measurementMatchesLeft
  * @property string $seasonId
  */
-class PlaylistData extends Model {
-
+class PlaylistData extends Model
+{
     use Stats;
-    
+
     /**
      * The database table used by the model.
      *
@@ -53,7 +55,7 @@ class PlaylistData extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -95,7 +97,7 @@ class PlaylistData extends Model {
 
     public function getCsrPercentileAttribute($value)
     {
-        return ($value != null) ? $value . "%" : '?';
+        return ($value != null) ? $value.'%' : '?';
     }
 
     //---------------------------------------------------------------------------------
@@ -141,8 +143,7 @@ class PlaylistData extends Model {
     {
         $action = $type == 'highest' ? 'highest_CsrTier' : 'current_CsrTier';
 
-        if ($this->measurementMatchesLeft != 0)
-        {
+        if ($this->measurementMatchesLeft != 0) {
             return $this->getGamesDone();
         }
 
@@ -155,15 +156,14 @@ class PlaylistData extends Model {
         $tier = $type == 'highest' ? 'highest_CsrTier' : 'current_CsrTier';
         $designationId = $type == 'highest' ? 'highest_CsrDesignationId' : 'current_CsrDesignationId';
 
-        switch ($this->$designationId)
-        {
+        switch ($this->$designationId) {
             case 0: // Unranked
             case 6: // SemiPro
             case 7: // Pro
                 return $this->$action->name;
 
             default:
-                return $this->$action->name . " " . $this->$tier;
+                return $this->$action->name.' '.$this->$tier;
         }
     }
 
@@ -171,8 +171,7 @@ class PlaylistData extends Model {
     {
         $action = $type == 'highest' ? 'highest_rank' : 'current_rank';
 
-        switch ($this->$action)
-        {
+        switch ($this->$action) {
             case 1:
                 return '1st';
 
@@ -183,7 +182,7 @@ class PlaylistData extends Model {
                 return '3rd';
 
             default:
-                return $this->$action . 'th';
+                return $this->$action.'th';
         }
     }
 
@@ -192,14 +191,12 @@ class PlaylistData extends Model {
      */
     public function rosterTitle()
     {
-        $title = $this->stock->name . " (" . $this->title() . ") ";
+        $title = $this->stock->name.' ('.$this->title().') ';
 
-        if ($this->highest_Csr != 0 && $this->highest_rank == 0)
-        {
-            $title .= '' . number_format($this->highest_Csr) . ' CSR';
-        }
-        else if ($this->highest_Csr != 0 && $this->highest_rank != 0) {
-            $title .= '' . $this->rank('highest') . ' place.';
+        if ($this->highest_Csr != 0 && $this->highest_rank == 0) {
+            $title .= ''.number_format($this->highest_Csr).' CSR';
+        } elseif ($this->highest_Csr != 0 && $this->highest_rank != 0) {
+            $title .= ''.$this->rank('highest').' place.';
         }
 
         return $title;
@@ -224,7 +221,7 @@ class PlaylistData extends Model {
     {
         return $this->stat_winRateColor($this->totalGamesWon, $this->totalGames);
     }
-    
+
     public function percentileColor()
     {
         return $this->stat_percentileColor($this->getOriginal('csrPercentile'));

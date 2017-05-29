@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -48,17 +50,13 @@ class updateEnemies extends Command
         $enemies = $client->getEnemies();
         $path = 'public/images/enemies/';
 
-        if (! File::exists($path))
-        {
+        if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
 
-        if (is_array($enemies))
-        {
-            foreach ($enemies as $enemy)
-            {
-                try
-                {
+        if (is_array($enemies)) {
+            foreach ($enemies as $enemy) {
+                try {
                     $m = new Metadata();
                     $m->uuid = $enemy['id'];
                     $m->contentId = $enemy['contentId'];
@@ -66,23 +64,18 @@ class updateEnemies extends Command
                     $m->description = $enemy['description'];
                     $m->type = MetadataType::Enemy;
                     $m->save();
-                }
-                catch (QueryException $e)
-                {
+                } catch (QueryException $e) {
                     // ignored
                 }
-                
-                try
-                {
+
+                try {
                     $_enemy = Enemy::where('id', $enemy['id'])->firstOrFail();
 
-                    $this->info('Enemy ' . $enemy['name'] . ' already exists. Updating.');
+                    $this->info('Enemy '.$enemy['name'].' already exists. Updating.');
                     $_enemy->name = $enemy['name'];
                     $_enemy->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $enemy['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$enemy['name']);
 
                     $e = new Enemy();
                     $e->id = $enemy['id'];
@@ -92,27 +85,23 @@ class updateEnemies extends Command
                     $e->description = $enemy['description'];
                     $e->save();
 
-                    if ($enemy['smallIconImageUrl'] != null)
-                    {
-                        if (! file_exists($path . $enemy['id'] . '.png'))
-                        {
+                    if ($enemy['smallIconImageUrl'] != null) {
+                        if (!file_exists($path.$enemy['id'].'.png')) {
                             $icon = file_get_contents($enemy['smallIconImageUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $enemy['id'] . '-small.png');
+                            $image->save($path.$enemy['id'].'-small.png');
                         }
                     }
 
-                    if ($enemy['largeIconImageUrl'] != null)
-                    {
-                        if (! file_exists($path . $enemy['id'] . '.png'))
-                        {
+                    if ($enemy['largeIconImageUrl'] != null) {
+                        if (!file_exists($path.$enemy['id'].'.png')) {
                             $icon = file_get_contents($enemy['largeIconImageUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $enemy['id'] . '-large.png');
+                            $image->save($path.$enemy['id'].'-large.png');
                         }
                     }
                 }

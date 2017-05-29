@@ -14,17 +14,15 @@ class DestinyHashSeeder extends Seeder
     {
         date_default_timezone_set('America/Chicago');
 
-        if (\App::environment() != 'production')
-        {
-
+        if (\App::environment() != 'production') {
         }
 
         Hash::create([
-            'hash' => '9999999999',
-            'title' => 'Classified',
-            'description' => 'This item is classified. It is hidden from the API. The true origins are unknown.',
-            'extra' => null,
-            'extraSecondary' => null
+            'hash'           => '9999999999',
+            'title'          => 'Classified',
+            'description'    => 'This item is classified. It is hidden from the API. The true origins are unknown.',
+            'extra'          => null,
+            'extraSecondary' => null,
         ]);
     }
 }

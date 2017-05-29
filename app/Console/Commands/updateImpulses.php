@@ -1,15 +1,14 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Enums\MetadataType;
 use Onyx\Halo5\Objects\Enemy;
 use Onyx\Halo5\Objects\Event\Metadata;
-use Onyx\Halo5\Objects\Gametype;
 use Onyx\Halo5\Objects\Impulse;
 
 class updateImpulses extends Command
@@ -49,12 +48,9 @@ class updateImpulses extends Command
         $this->info('Getting impulses from 343');
         $impulses = $client->getImpulses();
 
-        if (is_array($impulses))
-        {
-            foreach ($impulses as $impulse)
-            {
-                try
-                {
+        if (is_array($impulses)) {
+            foreach ($impulses as $impulse) {
+                try {
                     $m = new Metadata();
                     $m->uuid = $impulse['id'];
                     $m->contentId = $impulse['contentId'];
@@ -62,23 +58,17 @@ class updateImpulses extends Command
                     $m->description = null;
                     $m->type = MetadataType::Impulses;
                     $m->save();
-                }
-                catch (QueryException $e)
-                {
-
+                } catch (QueryException $e) {
                 }
 
-                try
-                {
+                try {
                     $_impulse = Impulse::where('id', $impulse['id'])->firstOrFail();
 
-                    $this->info('Enemy ' . $impulse['internalName'] . ' already exists. Updating.');
+                    $this->info('Enemy '.$impulse['internalName'].' already exists. Updating.');
                     $_impulse->name = $impulse['internalName'];
                     $_impulse->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $impulse['internalName']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$impulse['internalName']);
 
                     $i = new Impulse();
                     $i->name = $impulse['internalName'];

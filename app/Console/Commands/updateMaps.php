@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,28 +47,22 @@ class updateMaps extends Command
         $maps = $client->getMaps();
         $path = 'public/images/maps/';
 
-        if (! File::exists($path))
-        {
+        if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
 
-        if (is_array($maps))
-        {
-            foreach ($maps as $map)
-            {
-                try
-                {
+        if (is_array($maps)) {
+            foreach ($maps as $map) {
+                try {
                     $_map = Map::where('uuid', $map['id'])->firstOrFail();
 
-                    $this->info('Found map ' . $_map['name'] .'. Updating.');
+                    $this->info('Found map '.$_map['name'].'. Updating.');
                     $_map->name = $map['name'];
                     $_map->description = $map['description'];
                     $_map->game_modes = $map['supportedGameModes'];
                     $_map->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding map ' . $map['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding map '.$map['name']);
 
                     $m = new Map();
                     $m->uuid = $map['id'];
@@ -77,15 +73,13 @@ class updateMaps extends Command
 
                     $m->save();
 
-                    if ($map['imageUrl'] != null)
-                    {
-                        if (! file_exists($path . $map['id'] . '.jpg'))
-                        {
+                    if ($map['imageUrl'] != null) {
+                        if (!file_exists($path.$map['id'].'.jpg')) {
                             $icon = file_get_contents($map['imageUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $map['id'] . '.jpg');
+                            $image->save($path.$map['id'].'.jpg');
                         }
                     }
                 }

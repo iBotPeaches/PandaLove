@@ -1,10 +1,12 @@
-<?php namespace PandaLove\Jobs;
+<?php
 
+namespace PandaLove\Jobs;
+
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Onyx\Account;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Onyx\Halo5\Client;
 
 class Halo5EmblemDownloader extends Job implements SelfHandling, ShouldQueue
@@ -12,7 +14,7 @@ class Halo5EmblemDownloader extends Job implements SelfHandling, ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     /**
-     * @var Account $account
+     * @var Account
      */
     protected $account;
 

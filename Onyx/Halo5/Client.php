@@ -1,8 +1,9 @@
-<?php namespace Onyx\Halo5;
+<?php
+
+namespace Onyx\Halo5;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
@@ -11,9 +12,9 @@ use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Collections\GameHistoryCollection;
 use Onyx\Halo5\Collections\LeaderboardCollection;
 use Onyx\Halo5\Enums\EventName;
-use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Helpers\Network\Http;
 use Onyx\Halo5\Helpers\String\Text;
+use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\MapVariant;
 use Onyx\Halo5\Objects\Match;
@@ -28,8 +29,8 @@ use Onyx\Halo5\Objects\Warzone;
 use PandaLove\Jobs\Halo5EmblemDownloader;
 use Ramsey\Uuid\Uuid;
 
-class Client extends Http {
-
+class Client extends Http
+{
     public static $updateRan = false;
 
     /**
@@ -52,34 +53,28 @@ class Client extends Http {
      * @param $typeId string (warzone/arena)
      * @param $gameId uuid
      * @param bool $events
-     * @return bool|mixed|Match
+     *
      * @throws \Exception
+     *
+     * @return bool|mixed|Match
      */
     public function getGameByGameId($typeId, $gameId, $events = false)
     {
         $match = $this->checkCacheForGame($gameId, $events);
 
-        if ($match instanceof Match)
-        {
-            if ($events)
-            {
-                if (count($match->events) > 0)
-                {
+        if ($match instanceof Match) {
+            if ($events) {
+                if (count($match->events) > 0) {
                     return $match;
-                }
-                else
-                {
+                } else {
                     \DB::beginTransaction();
 
-                    try
-                    {
+                    try {
                         $this->addMatchEvents($match);
                         \DB::commit();
 
                         return $this->getGameByGameId($typeId, $gameId, $events);
-                    }
-                    catch (\Exception $e)
-                    {
+                    } catch (\Exception $e) {
                         \DB::rollBack();
                         \Cache::flush();
                         \Bugsnag::notifyException($e);
@@ -89,26 +84,21 @@ class Client extends Http {
                 }
             }
 
-            $match->players->each(function($player)
-            {
+            $match->players->each(function ($player) {
                 $player->kd = $player->kd();
             });
 
-            $match->players = $match->players->sortBy(function($player)
-            {
+            $match->players = $match->players->sortBy(function ($player) {
                 return $player->kd * 100;
             }, SORT_REGULAR, true);
 
             return $match;
-        }
-        else
-        {
-            switch ($typeId)
-            {
-                case "warzone":
+        } else {
+            switch ($typeId) {
+                case 'warzone':
                     break;
 
-                case "arena":
+                case 'arena':
                     break;
 
                 default:
@@ -117,8 +107,7 @@ class Client extends Http {
 
             \DB::beginTransaction();
 
-            try
-            {
+            try {
                 $url = sprintf(Constants::$postgame_carnage, $typeId, $gameId);
                 $json = $this->getJson($url);
 
@@ -126,9 +115,7 @@ class Client extends Http {
                 \DB::commit();
 
                 return $this->getGameByGameId($typeId, $match->uuid);
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 \DB::rollBack();
                 \Cache::flush();
                 \Bugsnag::notifyException($e);
@@ -139,9 +126,11 @@ class Client extends Http {
 
     /**
      * @param $gamertag
-     * @return Account|void|static
+     *
      * @throws H5PlayerNotFoundException
      * @throws Helpers\Network\ThreeFourThreeOfflineException
+     *
+     * @return Account|void|static
      */
     public function getAccountByGamertag($gamertag)
     {
@@ -149,29 +138,22 @@ class Client extends Http {
 
         $account = $this->checkCacheForGamertag($gamertag);
 
-        if ($account instanceof Account)
-        {
+        if ($account instanceof Account) {
             return $account;
         }
 
         $json = $this->getJson($url, 2);
 
-        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) // @todo this check is wrong.
-        {
-            try
-            {
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) { // @todo this check is wrong.
+            try {
                 return Account::firstOrCreate([
-                    'gamertag' => $json['Results'][0]['Id'],
-                    'accountType' => Console::Xbox
+                    'gamertag'    => $json['Results'][0]['Id'],
+                    'accountType' => Console::Xbox,
                 ]);
-            }
-            catch (QueryException $e)
-            {
+            } catch (QueryException $e) {
                 throw new H5PlayerNotFoundException();
             }
-        }
-        else
-        {
+        } else {
             throw new H5PlayerNotFoundException();
         }
     }
@@ -180,19 +162,16 @@ class Client extends Http {
     {
         $data = $this->_getBulkArenaServiceRecord($gamertags);
 
-        foreach ($data as $entry)
-        {
-            if ($entry['ResultCode'] != 0)
-            {
-                \Bugsnag::notifyError("Account Failed", $entry['Id'], $entry);
-                throw new \Exception("This account: " . $entry['Id'] . " Could not be loaded");
+        foreach ($data as $entry) {
+            if ($entry['ResultCode'] != 0) {
+                \Bugsnag::notifyError('Account Failed', $entry['Id'], $entry);
+                throw new \Exception('This account: '.$entry['Id'].' Could not be loaded');
             }
 
-            try
-            {
+            try {
                 $account = Account::firstOrCreate([
-                    'gamertag' => $entry['Id'],
-                    'accountType' => Console::Xbox
+                    'gamertag'    => $entry['Id'],
+                    'accountType' => Console::Xbox,
                 ]);
 
                 $account->save();
@@ -200,17 +179,14 @@ class Client extends Http {
                 /** @var Data $h5_data */
                 $h5_data = $account->h5;
 
-                if (! $h5_data instanceof Data)
-                {
+                if (!$h5_data instanceof Data) {
                     $h5_data = new Data();
                     $h5_data->account_id = $account->id;
                 }
 
                 $this->_parseServiceRecord($account, $entry['Result'], $h5_data, true);
                 app('Illuminate\Bus\Dispatcher')->dispatch(new Halo5EmblemDownloader($account));
-            }
-            catch (QueryException $e)
-            {
+            } catch (QueryException $e) {
                 \Bugsnag::notifyException($e);
                 throw $e;
             }
@@ -220,8 +196,10 @@ class Client extends Http {
     /**
      * @param $seasonId
      * @param $playlistId
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function getLeaderboardViaSeasonAndPlaylist($seasonId, $playlistId)
     {
@@ -231,19 +209,15 @@ class Client extends Http {
         /** @var Playlist $playlist */
         $playlist = Playlist::where('contentId', $playlistId)->first();
 
-        if ($season == null || $playlist == null)
-        {
+        if ($season == null || $playlist == null) {
             throw new \Exception('Season or Playlist could not be loaded.');
         }
 
         $results = $this->getLeaderboard($season->contentId, $playlist->contentId);
 
-        if ($results === false)
-        {
+        if ($results === false) {
             throw new \Exception('This Leaderboard could not be loaded.');
-        }
-        else
-        {
+        } else {
             return new LeaderboardCollection($results);
         }
     }
@@ -251,6 +225,7 @@ class Client extends Http {
     /**
      * @param $data
      * @param $gameId
+     *
      * @return Match
      */
     public function parseGameData($data, $gameId)
@@ -267,16 +242,12 @@ class Client extends Http {
         $match->duration = $data['TotalDuration'];
         $match->save();
 
-        foreach ($data['TeamStats'] as $team)
-        {
+        foreach ($data['TeamStats'] as $team) {
             $_team = new MatchTeam();
             $_team->game_id = $match->id;
-            if ($match->isTeamGame)
-            {
+            if ($match->isTeamGame) {
                 $_team->team_id = $team['TeamId'];
-            }
-            else
-            {
+            } else {
                 $_team->player_id = $team['TeamId'];
             }
             $_team->score = $team['Score'];
@@ -286,26 +257,22 @@ class Client extends Http {
         }
 
         $gts = '';
-        foreach ($data['PlayerStats'] as $player)
-        {
+        foreach ($data['PlayerStats'] as $player) {
             $gamertag = $player['Player']['Gamertag'];
 
             $account = $this->checkCacheForGamertag($gamertag);
 
-            if (! $account instanceof Account)
-            {
-                $gts .= Halo5Text::encodeGamertagForApi($gamertag) . ",";
+            if (!$account instanceof Account) {
+                $gts .= Halo5Text::encodeGamertagForApi($gamertag).',';
             }
         }
 
-        if ($gts != '')
-        {
-            $this->getAccountsByGamertags(rtrim($gts, ","));
+        if ($gts != '') {
+            $this->getAccountsByGamertags(rtrim($gts, ','));
         }
 
         $i = 0;
-        foreach ($data['PlayerStats'] as $player)
-        {
+        foreach ($data['PlayerStats'] as $player) {
             $_player = new MatchPlayer();
             $_player->game_id = $match->id;
             $_player->killed = $player['KilledOpponentDetails'];
@@ -317,14 +284,12 @@ class Client extends Http {
             $_player->weapons = $player['WeaponStats'];
             $_player->impulses = $player['Impulses'];
 
-            if (isset($player['WarzoneLevel']))
-            {
+            if (isset($player['WarzoneLevel'])) {
                 $_player->warzone_req = $player['WarzoneLevel'];
                 $_player->total_pies = $player['TotalPiesEarned'];
             }
 
-            if (isset($player['CurrentCsr']))
-            {
+            if (isset($player['CurrentCsr'])) {
                 $_player->CsrTier = $player['CurrentCsr']['Tier'];
                 $_player->CsrDesignationId = $player['CurrentCsr']['DesignationId'];
                 $_player->Csr = $player['CurrentCsr']['Csr'];
@@ -332,8 +297,7 @@ class Client extends Http {
                 $_player->ChampionRank = $player['CurrentCsr']['Rank'];
             }
 
-            if (isset($player['MeasurementMatchesLeft']) && $player['MeasurementMatchesLeft'] != 0)
-            {
+            if (isset($player['MeasurementMatchesLeft']) && $player['MeasurementMatchesLeft'] != 0) {
                 $_player->CsrDesignationId = 0;
                 $_player->CsrTier = 10 - $player['MeasurementMatchesLeft'];
             }
@@ -365,14 +329,14 @@ class Client extends Http {
 
     /**
      * @param $account Account
+     *
      * @return bool
      */
     public function updateH5Account($account)
     {
         \DB::beginTransaction();
 
-        try
-        {
+        try {
             $this->pullArenaSeasonHistoryRecord($account);
             $this->updateArenaServiceRecord($account);
             $this->updateWarzoneServiceRecord($account);
@@ -384,9 +348,7 @@ class Client extends Http {
             $account->save();
 
             \DB::commit();
-        }
-        catch (H5PlayerNotFoundException $ex)
-        {
+        } catch (H5PlayerNotFoundException $ex) {
             \DB::rollBack();
 
             // If we are here then the 343 responses failed. At the same time
@@ -395,34 +357,30 @@ class Client extends Http {
             // We will check another endpoint (Xbox) and if that returns false. We are
             // marking this H5 account as disabled.
             $xbox = new \Onyx\XboxLive\Client();
-            try
-            {
+            try {
                 $check = $xbox->fetchAccountBio($account);
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 $account->h5->disabled = true;
                 $account->h5->save();
+
                 return false;
             }
-        }
-        catch (\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             \DB::rollBack();
             \Cache::flush();
         }
     }
-    
+
     /**
      * @param $account Account
+     *
      * @return bool
      */
     public function setInitialEmblem(Account $account)
     {
         \DB::beginTransaction();
 
-        try
-        {
+        try {
             $this->updateEmblem($account);
 
             unset($account->h5);
@@ -430,9 +388,7 @@ class Client extends Http {
             $account->save();
 
             \DB::commit();
-        }
-        catch (\Exception $ex)
-        {
+        } catch (\Exception $ex) {
             \DB::rollBack();
             \Cache::flush();
         }
@@ -446,18 +402,18 @@ class Client extends Http {
     {
         $emblem = $this->_getEmblemImage($account, $size);
 
-        if ($emblem == null)
+        if ($emblem == null) {
             return;
+        }
 
         $base = 'uploads/h5/';
 
         // Create directory
-        if (! File::isDirectory(public_path($base . $account->seo)))
-        {
-            File::makeDirectory(public_path($base . $account->seo), 0755, true);
+        if (!File::isDirectory(public_path($base.$account->seo))) {
+            File::makeDirectory(public_path($base.$account->seo), 0755, true);
         }
 
-        $emblem->save(public_path($base . $account->seo . "/" . 'emblem.png'));
+        $emblem->save(public_path($base.$account->seo.'/'.'emblem.png'));
     }
 
     /**
@@ -468,18 +424,18 @@ class Client extends Http {
     {
         $spartan = $this->_getSpartanImage($account, $size);
 
-        if ($spartan == null)
+        if ($spartan == null) {
             return;
+        }
 
         $base = 'uploads/h5/';
 
         // Create directory
-        if (! File::isDirectory(public_path($base . $account->seo)))
-        {
-            File::makeDirectory(public_path($base . $account->seo), 0755, true);
+        if (!File::isDirectory(public_path($base.$account->seo))) {
+            File::makeDirectory(public_path($base.$account->seo), 0755, true);
         }
 
-        $spartan->save(public_path($base . $account->seo . "/" . 'spartan.png'));
+        $spartan->save(public_path($base.$account->seo.'/'.'spartan.png'));
     }
 
     /**
@@ -489,28 +445,24 @@ class Client extends Http {
     {
         $seasons = Season::all();
         $forceDownload = false;
-        
-        if (isset($account->h5))
-        {
+
+        if (isset($account->h5)) {
             $forceDownload = config('app.halo_version') != $account->h5->version;
         }
 
         /** @var $season Season */
-        foreach ($seasons as $season)
-        {
+        foreach ($seasons as $season) {
             // check if season is in past and exists, if so don't reload
             $playlist = PlaylistData::where('account_id', $account->id)
                 ->where('seasonId', $season->contentId)
                 ->where('updated_at', '>=', $season->end_date)
                 ->first();
 
-            if (($playlist == null && ! $season->isFuture()) || $forceDownload)
-            {
-                if (\App::environment() != "production")
-                {
-                    sleep(rand(1,2));
+            if (($playlist == null && !$season->isFuture()) || $forceDownload) {
+                if (\App::environment() != 'production') {
+                    sleep(rand(1, 2));
                 }
-                
+
                 $this->updateArenaServiceRecord($account, $season->contentId);
             }
         }
@@ -523,8 +475,7 @@ class Client extends Http {
     {
         $h5_warzone = $account->h5->warzone;
 
-        if (! $h5_warzone instanceof Warzone)
-        {
+        if (!$h5_warzone instanceof Warzone) {
             $h5_warzone = new Warzone();
             $h5_warzone->account_id = $account->id;
         }
@@ -554,6 +505,7 @@ class Client extends Http {
     /**
      * @param $account Account
      * @param null $seasonId
+     *
      * @return bool
      */
     public function updateArenaServiceRecord(&$account, $seasonId = null)
@@ -561,19 +513,15 @@ class Client extends Http {
         /** @var Data $h5_data */
         $h5_data = $account->h5;
 
-        if (! $h5_data instanceof Data)
-        {
+        if (!$h5_data instanceof Data) {
             $h5_data = new Data();
             $h5_data->account_id = $account->id;
         }
 
-        if ($seasonId != null)
-        {
+        if ($seasonId != null) {
             $record = $this->_getArenaServiceRecordSeason($account, $seasonId);
             $this->_checkForStatChange($h5_data, $h5_data->Xp, $record['Xp']);
-        }
-        else
-        {
+        } else {
             $record = $this->_getArenaServiceRecord($account);
             $this->_checkForStatChange($h5_data, $h5_data->Xp, $record['Xp']);
         }
@@ -583,16 +531,15 @@ class Client extends Http {
 
     /**
      * @param $match Match
+     *
      * @throws \Exception
      */
     public function addMatchEvents($match)
     {
         $json = $this->getEvents($match->uuid);
 
-        if (isset($json['GameEvents']) && is_array($json['GameEvents']))
-        {
-            if (! $json['IsCompleteSetOfEvents'])
-            {
+        if (isset($json['GameEvents']) && is_array($json['GameEvents'])) {
+            if (!$json['IsCompleteSetOfEvents']) {
                 throw new GameNotReadyException('This game (As reported by 343) does not have a complete set of Match Event data.
                 To prevent ugly looking stats, we will not process this game right now. Feel free to check back, but
                 we will only check 343 every 2 minutes at the quickest, so play another game and wait.');
@@ -600,15 +547,13 @@ class Client extends Http {
 
             MatchEvent::where('game_id', $match->id)->delete();
 
-            foreach ($json['GameEvents'] as $event)
-            {
+            foreach ($json['GameEvents'] as $event) {
                 $matchEvent = new MatchEvent();
                 $matchEvent->event_name = $event['EventName'];
                 $matchEvent->game_id = $match->id;
                 $matchEvent->seconds_since_start = $event['TimeSinceStart'];
 
-                switch ($matchEvent->event_name)
-                {
+                switch ($matchEvent->event_name) {
                     case EventName::Death:
                         $killer = $event['Killer']['Gamertag'];
                         $victim = $event['Victim']['Gamertag'];
@@ -628,13 +573,13 @@ class Client extends Http {
                         $matchEvent->victim_stock_id = $event['VictimStockId'];
                         $matchEvent->setPoint('Victim', $event['VictimWorldLocation']);
                         break;
-                    
+
                     case EventName::WeaponPickup:
                         $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
                         $matchEvent->killer_weapon_id = $event['WeaponStockId'];
                         $matchEvent->killer_attachments = $event['WeaponAttachmentIds'];
                         break;
-                    
+
                     case EventName::WeaponDrop:
                         $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
                         $matchEvent->killer_weapon_id = $event['WeaponStockId'];
@@ -649,7 +594,7 @@ class Client extends Http {
                         $matchEvent->killer_weapon_id = $event['WeaponStockId'];
                         $matchEvent->killer_attachments = $event['WeaponAttachmentIds'];
                         break;
-                    
+
                     case EventName::RoundStart:
                     case EventName::RoundEnd:
                         $matchEvent->round_index = $event['RoundIndex'];
@@ -664,7 +609,7 @@ class Client extends Http {
                         $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
                         $matchEvent->killer_weapon_id = $event['ImpulseId'];
                         break;
-                    
+
                     case EventName::PlayerSpawn:
                         $matchEvent->killer_id = $this->getAccount($event['Player']['Gamertag']);
                         break;
@@ -673,10 +618,8 @@ class Client extends Http {
 
                 $matchEvent->save();
 
-                if (isset($event['Assistants']) && is_array($event['Assistants']))
-                {
-                    foreach($event['Assistants'] as $assistant)
-                    {
+                if (isset($event['Assistants']) && is_array($event['Assistants'])) {
+                    foreach ($event['Assistants'] as $assistant) {
                         $assist = new MatchEventAssist();
                         $assist->match_event = $matchEvent->id;
                         $assist->account_id = $this->getAccount($assistant['Gamertag']);
@@ -684,38 +627,36 @@ class Client extends Http {
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             throw new \Exception('Match Event not found.');
         }
     }
 
     /**
      * @param Account $account
-     * @param string $types - comma delimited list of game types
-     * @param int $start - start
-     * @return array
+     * @param string  $types   - comma delimited list of game types
+     * @param int     $start   - start
+     *
      * @throws Helpers\Network\ThreeFourThreeOfflineException
+     *
+     * @return array
      */
     public function getPlayerMatches($account, $types = 'arena,warzone', $start = 0)
     {
-        if ($start != 0)
-        {
+        if ($start != 0) {
             $start = (self::PER_PAGE * $start);
         }
-        
+
         $url = sprintf(Constants::$player_matches, $account->gamertag, $types, $start, self::PER_PAGE);
 
         $matches = $this->getJson($url, 3); // 3 minute cache
 
         $games = [
             'ResultCount' => $matches['ResultCount'],
-            'Results' => []
+            'Results'     => [],
         ];
 
-        if ($matches['ResultCount'] > 0)
-        {
+        if ($matches['ResultCount'] > 0) {
             $games['Results'] = new GameHistoryCollection($account, $matches['Results']);
         }
 
@@ -784,32 +725,34 @@ class Client extends Http {
 
         return $this->getJson($url);
     }
-    
+
     public function getEnemies()
     {
         $url = Constants::$metadata_enemies;
-        
+
         return $this->getJson($url);
     }
-    
+
     public function getImpulses()
     {
         $url = Constants::$metadata_impulses;
-        
+
         return $this->getJson($url);
     }
-    
+
     public function getVehicles()
     {
         $url = Constants::$metadata_vehicles;
-        
+
         return $this->getJson($url);
     }
 
     /**
      * @param $matchId
-     * @return array
+     *
      * @throws Helpers\Network\ThreeFourThreeOfflineException
+     *
+     * @return array
      */
     public function getEvents($matchId)
     {
@@ -821,8 +764,10 @@ class Client extends Http {
     /**
      * @param $seasonId
      * @param $playlistId
-     * @return array
+     *
      * @throws Helpers\Network\ThreeFourThreeOfflineException
+     *
+     * @return array
      */
     public function getLeaderboard($seasonId, $playlistId)
     {
@@ -830,8 +775,7 @@ class Client extends Http {
 
         $data = $this->getJson($url, 2); // 2 minute cache for debugging
 
-        if (isset($data['Results']) && $data['ResultCount'] > 0)
-        {
+        if (isset($data['Results']) && $data['ResultCount'] > 0) {
             return $data['Results'];
         }
 
@@ -840,17 +784,17 @@ class Client extends Http {
 
     /**
      * @param $gamertag
+     *
      * @return Account|void
      */
     public function getAccount($gamertag)
     {
         $account = $this->checkCacheForGamertag($gamertag);
 
-        if ($account === null)
-        {
+        if ($account === null) {
             return Account::firstOrCreate([
-                'gamertag' => $gamertag,
-                'accountType' => 1
+                'gamertag'    => $gamertag,
+                'accountType' => 1,
             ]);
         }
 
@@ -865,18 +809,16 @@ class Client extends Http {
      * @param Match $match
      * @param array $player
      * @param $i
+     *
      * @return string
      */
     private function _getTeamId(Match $match, array $player, &$i)
     {
-        $return = $match->id . "_";
+        $return = $match->id.'_';
 
-        if ($match->isTeamGame || $match->gametype->isWarzoneFirefight())
-        {
+        if ($match->isTeamGame || $match->gametype->isWarzoneFirefight()) {
             $return .= $player['TeamId'];
-        }
-        else
-        {
+        } else {
             $return .= $i++;
         }
 
@@ -886,12 +828,14 @@ class Client extends Http {
     private function _getEmblemImage($account, $size = 256)
     {
         $url = sprintf(Constants::$emblem_image, Halo5Text::encodeGamertagForApi($account->gamertag), $size);
+
         return $this->getAsset($url);
     }
 
     private function _getSpartanImage($account, $size = 512)
     {
         $url = sprintf(Constants::$spartan_image, Halo5Text::encodeGamertagForApi($account->gamertag), $size);
+
         return $this->getAsset($url);
     }
 
@@ -900,8 +844,7 @@ class Client extends Http {
         $url = sprintf(Constants::$servicerecord_warzone, Halo5Text::encodeGamertagForApi($account->gamertag));
         $json = $this->getJson($url);
 
-        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
-        {
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) {
             return $json['Results'][0]['Result'];
         }
 
@@ -913,8 +856,7 @@ class Client extends Http {
         $url = sprintf(Constants::$servicerecord_arena, $gamertags);
         $json = $this->getJson($url);
 
-        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
-        {
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) {
             return $json['Results'];
         }
 
@@ -926,8 +868,7 @@ class Client extends Http {
         $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
         $json = $this->getJson($url, 2);
 
-        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
-        {
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) {
             return $json['Results'][0]['Result'];
         }
 
@@ -937,26 +878,24 @@ class Client extends Http {
     private function _getArenaServiceRecordSeason($account, $seasonId)
     {
         $url = sprintf(Constants::$servicerecord_arena, Halo5Text::encodeGamertagForApi($account->gamertag));
-        $url .= "&seasonId=" . $seasonId;
+        $url .= '&seasonId='.$seasonId;
 
         $json = $this->getJson($url);
 
-        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0)
-        {
+        if (isset($json['Results'][0]['ResultCode']) && $json['Results'][0]['ResultCode'] == 0) {
             return $json['Results'][0]['Result'];
         }
 
         throw new H5PlayerNotFoundException('Game could not be loaded.');
     }
-    
+
     private function _getMapVariant($mapVariantId)
     {
         $url = sprintf(Constants::$metadata_mapvariants, $mapVariantId);
 
         $json = $this->getJson($url);
 
-        if (isset($json['name']))
-        {
+        if (isset($json['name'])) {
             return $json;
         }
 
@@ -965,9 +904,10 @@ class Client extends Http {
 
     /**
      * @param Account $account
-     * @param array $record
-     * @param Data $h5_data
-     * @param boolean $bulkAdded
+     * @param array   $record
+     * @param Data    $h5_data
+     * @param bool    $bulkAdded
+     *
      * @return bool
      */
     private function _parseServiceRecord(&$account, $record, &$h5_data, $bulkAdded = false)
@@ -992,8 +932,7 @@ class Client extends Http {
         $h5_data->weapons = $record['ArenaStats']['WeaponStats'];
         $h5_data->seasonId = $record['ArenaStats']['ArenaPlaylistStatsSeasonId'];
 
-        if ($record['ArenaStats']['HighestCsrAttained'] != null)
-        {
+        if ($record['ArenaStats']['HighestCsrAttained'] != null) {
             $h5_data->highest_CsrTier = $record['ArenaStats']['HighestCsrAttained']['Tier'];
             $h5_data->highest_CsrDesignationId = $record['ArenaStats']['HighestCsrAttained']['DesignationId'];
             $h5_data->highest_Csr = $record['ArenaStats']['HighestCsrAttained']['Csr'];
@@ -1004,23 +943,20 @@ class Client extends Http {
         }
 
         PlaylistData::where('account_id', $account->id)
-            ->where(function ($query) use ($record)
-            {
+            ->where(function ($query) use ($record) {
                 $query->where('seasonId', $record['ArenaStats']['ArenaPlaylistStatsSeasonId']);
                 $query->orWhere('seasonId', 'IS', DB::raw('null'));
             })
             ->delete();
 
-        foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist)
-        {
+        foreach ($record['ArenaStats']['ArenaPlaylistStats'] as $playlist) {
             $p = new PlaylistData();
             $p->account_id = $account->id;
             $p->playlistId = $playlist['PlaylistId'];
             $p->measurementMatchesLeft = $playlist['MeasurementMatchesLeft'];
 
             // highest csr
-            if ($playlist['HighestCsr'] != null)
-            {
+            if ($playlist['HighestCsr'] != null) {
                 $p->highest_CsrTier = $playlist['HighestCsr']['Tier'];
                 $p->highest_CsrDesignationId = $playlist['HighestCsr']['DesignationId'];
                 $p->highest_Csr = $playlist['HighestCsr']['Csr'];
@@ -1029,8 +965,7 @@ class Client extends Http {
             }
 
             // current csr
-            if ($playlist['Csr'] != null)
-            {
+            if ($playlist['Csr'] != null) {
                 $p->current_CsrTier = $playlist['Csr']['Tier'];
                 $p->current_CsrDesignationId = $playlist['Csr']['DesignationId'];
                 $p->current_Csr = $playlist['Csr']['Csr'];
@@ -1059,12 +994,12 @@ class Client extends Http {
 
         // We need a way to determine these additions vs others
         // so mark as -1 so the updater knows to trigger an update on these
-        if ($bulkAdded)
-        {
+        if ($bulkAdded) {
             $h5_data->inactiveCounter = 128;
         }
 
         $account->h5 = $h5_data;
+
         return $h5_data->save();
     }
 
@@ -1072,35 +1007,37 @@ class Client extends Http {
      * @param $h5 Data
      * @param $old_xp int
      * @param $new_xp int
+     *
      * @return bool
      */
     private function _checkForStatChange(&$h5, $old_xp, $new_xp)
     {
-        if (self::$updateRan || $old_xp == null) return true;
+        if (self::$updateRan || $old_xp == null) {
+            return true;
+        }
 
         $h5->inactiveCounter = ($old_xp != $new_xp) ? 0 : $h5->inactiveCounter++;
 
-        if ($h5->inactiveCounter >= 128)
-        {
+        if ($h5->inactiveCounter >= 128) {
             $h5->inactiveCounter = 0;
         }
         self::$updateRan = true;
+
         return $h5->save();
     }
 
     /**
      * @param $mapVariantId
-     * @return bool
+     *
      * @throws H5PlayerNotFoundException
+     *
+     * @return bool
      */
     public function checkOrInsertMapVariant($mapVariantId, $returnObject = false)
     {
-        try
-        {
+        try {
             $variant = MapVariant::where('uuid', $mapVariantId)->firstOrFail();
-        }
-        catch (ModelNotFoundException $ex)
-        {
+        } catch (ModelNotFoundException $ex) {
             $json = $this->_getMapVariant($mapVariantId);
             $mapVariant = new MapVariant();
             $mapVariant->name = $json['name'];
@@ -1110,23 +1047,23 @@ class Client extends Http {
             $mapVariant->save();
         }
 
-        if ($returnObject)
-        {
+        if ($returnObject) {
             return isset($variant) ? $variant : isset($mapVariant) ? $mapVariant : null;
         }
+
         return $mapVariantId;
     }
 
     /**
      * @param $gamertag
+     *
      * @return \Onyx\Account|void
      */
     private function checkCacheForGamertag($gamertag)
     {
         $seo = DestinyText::seoGamertag($gamertag);
 
-        if (isset($this->account_cached[$seo]))
-        {
+        if (isset($this->account_cached[$seo])) {
             return $this->account_cached[$seo];
         }
 
@@ -1134,31 +1071,29 @@ class Client extends Http {
             ->where('accountType', Console::Xbox)
             ->first();
 
-        if ($account !== null)
-        {
+        if ($account !== null) {
             $this->account_cached[$seo] = $account;
+
             return $account;
         }
-
-        return null;
     }
 
     /**
      * @param $gameId
-     * @param boolean $events
+     * @param bool $events
+     *
      * @return bool
      */
     private function checkCacheForGame($gameId, $events = false)
     {
         $select = [];
-        if ($events)
-        {
+        if ($events) {
             $select = ['events', 'events.killer_weapon', 'events.victim_enemy', 'events.victim', 'events.killer.h5_emblem.account', 'kill_events',
-                'kill_events.killer', 'kill_events.victim', 'kill_events.killer_weapon', 'kill_events.victim_enemy', 'kill_events.assists.account'];
+                'kill_events.killer', 'kill_events.victim', 'kill_events.killer_weapon', 'kill_events.victim_enemy', 'kill_events.assists.account', ];
         }
-        
+
         $select = array_merge([
-            'teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist', 'mapVariant'
+            'teams.team', 'map', 'players.account', 'players.csr', 'players.team.team', 'gametype', 'season', 'playlist', 'mapVariant',
         ], $select);
 
         /* @var Match $match */
@@ -1166,8 +1101,7 @@ class Client extends Http {
             ->where('uuid', $gameId)
             ->first();
 
-        if ($match instanceof Match)
-        {
+        if ($match instanceof Match) {
             return $match;
         }
 
@@ -1175,5 +1109,9 @@ class Client extends Http {
     }
 }
 
-class H5PlayerNotFoundException extends \Exception {};
-class GameNotReadyException extends \Exception {};
+class H5PlayerNotFoundException extends \Exception
+{
+}
+class GameNotReadyException extends \Exception
+{
+}

@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -46,14 +48,11 @@ class updateWeapons extends Command
         $this->info('Getting new Weapon data from 343');
         $weapons = $client->getWeapons();
 
-        if (is_array($weapons))
-        {
+        if (is_array($weapons)) {
             $this->info('We found Weapon data. Adding to table.');
 
-            foreach($weapons as $weapon)
-            {
-                try
-                {
+            foreach ($weapons as $weapon) {
+                try {
                     $m = new Metadata();
                     $m->uuid = $weapon['id'];
                     $m->contentId = $weapon['contentId'];
@@ -61,24 +60,19 @@ class updateWeapons extends Command
                     $m->description = $weapon['description'];
                     $m->type = MetadataType::Weapon;
                     $m->save();
-                }
-                catch (QueryException $e)
-                {
+                } catch (QueryException $e) {
                     // ignored
                 }
-                
-                try
-                {
+
+                try {
                     $_weapon = Weapon::where('uuid', $weapon['id'])->firstOrFail();
 
-                    $this->info('Weapon: ' . $_weapon['name'] . ' already exists. Updating `name` and `description`');
+                    $this->info('Weapon: '.$_weapon['name'].' already exists. Updating `name` and `description`');
                     $_weapon->name = $_weapon['name'];
                     $_weapon->description = $_weapon['description'];
                     $_weapon->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $weapon['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$weapon['name']);
 
                     $w = new Weapon();
                     $w->name = $weapon['name'];
@@ -89,13 +83,12 @@ class updateWeapons extends Command
 
                     $path = 'resources/images/weapons/';
 
-                    if (! file_exists($path . $weapon['id'] . '.png'))
-                    {
+                    if (!file_exists($path.$weapon['id'].'.png')) {
                         $icon = file_get_contents($weapon['smallIconImageUrl']);
 
                         /** @var $image \Intervention\Image\Image */
                         $image = Image::make($icon);
-                        $image->save($path . $weapon['id'] . '.png');
+                        $image->save($path.$weapon['id'].'.png');
                     }
                 }
             }

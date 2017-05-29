@@ -1,18 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Gametype
- * @package Onyx\Halo5\Objects
+ * Class Gametype.
+ *
  * @property string $uuid
  * @property string $contentId
  * @property string $name
  * @property string $internal_name
  * @property array $game_modes
  */
-class Gametype extends Model {
-
+class Gametype extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -28,7 +30,7 @@ class Gametype extends Model {
     protected $guarded = ['uuid'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -56,7 +58,7 @@ class Gametype extends Model {
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
-    
+
     public function isBreakout()
     {
         return $this->contentId == '1e473914-46e4-408d-af26-178fb115de76';
@@ -71,29 +73,24 @@ class Gametype extends Model {
     {
         return $this->contentId == 'f6051f51-bbb6-4ccc-8ac0-cf42b7291c76';
     }
-    
+
     public function getImage()
     {
         $path = public_path('images/gametypes/');
 
-        if (file_exists($path . $this->uuid . '.png'))
-        {
-            return asset('images/gametypes/' . $this->uuid . '.png');
-        }
-        else
-        {
+        if (file_exists($path.$this->uuid.'.png')) {
+            return asset('images/gametypes/'.$this->uuid.'.png');
+        } else {
             return asset('images/unknown-weapon.png');
         }
     }
 
     public static function getAll()
     {
-        return \Cache::remember('gametypes-metadata', 120, function()
-        {
+        return \Cache::remember('gametypes-metadata', 120, function () {
             $items = [];
 
-            foreach (Gametype::all() as $gametype)
-            {
+            foreach (Gametype::all() as $gametype) {
                 $items[$gametype->uuid] = $gametype;
             }
 

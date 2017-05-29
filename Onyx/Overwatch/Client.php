@@ -1,15 +1,19 @@
-<?php namespace Onyx\Overwatch;
+<?php
 
-use Onyx\Overwatch\Helpers\Network\Http;
+namespace Onyx\Overwatch;
+
 use Onyx\Overwatch\Constants as OverwatchConstants;
+use Onyx\Overwatch\Helpers\Network\Http;
 use Onyx\Overwatch\Helpers\Network\OWApiNetworkException;
 
-class Client extends Http {
-
+class Client extends Http
+{
     /**
      * @param $account
-     * @return mixed
+     *
      * @throws OWApiNetworkException
+     *
+     * @return mixed
      */
     public function fetchBlobStat($account)
     {

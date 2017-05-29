@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class RemoveUUIDFromEvents extends Migration
 {
@@ -14,21 +14,18 @@ class RemoveUUIDFromEvents extends Migration
     {
         $this->emptyEvents();
 
-        Schema::table('halo5_matches', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches', function (Blueprint $table) {
             $table->increments('id')->unsigned();
         });
 
-        Schema::table('halo5_match_event_assists', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_event_assists', function (Blueprint $table) {
             $table->dropForeign('halo5_match_event_assists_match_event_foreign');
 
             $table->dropColumn('match_event');
             $table->dropColumn('uuid');
         });
 
-        Schema::table('halo5_match_events', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->dropForeign('halo5_match_events_game_id_foreign');
 
             $table->dropColumn('uuid');
@@ -37,8 +34,7 @@ class RemoveUUIDFromEvents extends Migration
             $table->dropColumn('seconds_held_as_primary');
         });
 
-        Schema::table('halo5_matches_players', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches_players', function (Blueprint $table) {
             $table->dropForeign('halo5_matches_players_game_id_foreign');
             $table->dropForeign('halo5_matches_players_team_id_foreign');
             $table->dropColumn('uuid');
@@ -46,16 +42,14 @@ class RemoveUUIDFromEvents extends Migration
             $table->dropColumn('team_id');
         });
 
-        Schema::table('halo5_matches_teams', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches_teams', function (Blueprint $table) {
             $table->dropForeign('halo5_matches_teams_game_id_foreign');
             $table->dropColumn('uuid');
             $table->dropColumn('game_id');
             $table->dropColumn('key');
         });
 
-        Schema::table('halo5_match_events', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('game_id', false, true);
             $table->smallInteger('seconds_held_as_primary', false, true);
@@ -63,16 +57,14 @@ class RemoveUUIDFromEvents extends Migration
             $table->foreign('game_id')->references('id')->on('halo5_matches');
         });
 
-        Schema::table('halo5_match_event_assists', function (Blueprint $table)
-        {
+        Schema::table('halo5_match_event_assists', function (Blueprint $table) {
             $table->increments('id')->unsigned();
 
             $table->integer('match_event', false, true);
             $table->foreign('match_event')->references('id')->on('halo5_match_events');
         });
 
-        Schema::table('halo5_matches_teams', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches_teams', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('game_id', false, true);
             $table->string('key', 24);
@@ -82,12 +74,11 @@ class RemoveUUIDFromEvents extends Migration
             $table->foreign('game_id')->references('id')->on('halo5_matches');
         });
 
-        Schema::table('halo5_matches_players', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches_players', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('game_id', false, true);
             $table->string('team_id', 24);
-            
+
             $table->index('team_id');
 
             $table->foreign('game_id')->references('id')->on('halo5_matches');

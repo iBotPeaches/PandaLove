@@ -2,8 +2,6 @@
 
 namespace PandaLove\Http\Requests;
 
-use PandaLove\Http\Requests\Request;
-
 class deleteEventRequest extends Request
 {
     /**
@@ -15,8 +13,7 @@ class deleteEventRequest extends Request
     {
         $user = \Auth::user();
 
-        if ($user != null && $user->admin)
-        {
+        if ($user != null && $user->admin) {
             return true;
         }
 
@@ -31,7 +28,7 @@ class deleteEventRequest extends Request
     public function rules()
     {
         return [
-            'event_id' => 'required|event-exists'
+            'event_id' => 'required|event-exists',
         ];
     }
 }

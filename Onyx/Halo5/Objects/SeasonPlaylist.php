@@ -1,18 +1,20 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class SeasonPlaylist
- * @package Onyx\Halo5\Objects
- * @property integer $id
+ * Class SeasonPlaylist.
+ *
+ * @property int $id
  * @property uuid $seasonId
  * @property uuid $playlistId
  * @property Playlist[] $playlists
  */
-class SeasonPlaylist extends Model {
-
+class SeasonPlaylist extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -28,7 +30,7 @@ class SeasonPlaylist extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */

@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -36,7 +38,6 @@ class alertSender extends Command
 
     /**
      * Create a new command instance.
-     *
      */
     public function __construct()
     {
@@ -57,23 +58,18 @@ class alertSender extends Command
 
         $messenger = new Messages();
 
-        if (count($events) > 0)
-        {
-            foreach($events as $event)
-            {
-                $this->info('Checking event: ' . $event->title);
+        if (count($events) > 0) {
+            foreach ($events as $event) {
+                $this->info('Checking event: '.$event->title);
                 $diff = $event->start->diffInSeconds(Carbon::now('America/Chicago'));
-                $this->info('Event happens in ' . $diff . ' seconds.');
+                $this->info('Event happens in '.$diff.' seconds.');
 
-                if (! $event->alert_15)
-                {
-                    if ($diff <= $this->seconds_in_15minutes)
-                    {
+                if (!$event->alert_15) {
+                    if ($diff <= $this->seconds_in_15minutes) {
                         $this->info('Alerting members of fireteam, that its 15 minutes before event');
-                        foreach ($event->attendees as $attendee)
-                        {
+                        foreach ($event->attendees as $attendee) {
                             $user = $attendee->user;
-                            $messenger->sendMessage($user, '<strong>The Event: <i> (' . $event->getHumanType() . ') ' . $event->title . '</i></strong> starts in about 15 minutes.<br /><br /><i>You RSVP`d to this Event, which is why you are being alerted</i>.');
+                            $messenger->sendMessage($user, '<strong>The Event: <i> ('.$event->getHumanType().') '.$event->title.'</i></strong> starts in about 15 minutes.<br /><br /><i>You RSVP`d to this Event, which is why you are being alerted</i>.');
                         }
 
                         $event->alert_15 = true;
@@ -81,15 +77,12 @@ class alertSender extends Command
                     }
                 }
 
-                if (! $event->alert_5)
-                {
-                    if ($diff <= $this->seconds_in_5minutes)
-                    {
+                if (!$event->alert_5) {
+                    if ($diff <= $this->seconds_in_5minutes) {
                         $this->info('Alerting members of fireteam, that its 5 minutes before event.');
-                        foreach ($event->attendees as $attendee)
-                        {
+                        foreach ($event->attendees as $attendee) {
                             $user = $attendee->user;
-                            $messenger->sendMessage($user, '<strong>The Event: <i> (' . $event->getHumanType() . ') ' . $event->title . '</i></strong> starts in about 5 minutes.<br /><br /><i>You RSVP`d to this Event, which is why you are being alerted</i>.');
+                            $messenger->sendMessage($user, '<strong>The Event: <i> ('.$event->getHumanType().') '.$event->title.'</i></strong> starts in about 5 minutes.<br /><br /><i>You RSVP`d to this Event, which is why you are being alerted</i>.');
                         }
 
                         $event->alert_5 = true;

@@ -2,8 +2,6 @@
 
 namespace PandaLove\Http\Requests;
 
-use PandaLove\Http\Requests\Request;
-
 class Halo5MapGeneratorRequest extends Request
 {
     /**
@@ -15,8 +13,7 @@ class Halo5MapGeneratorRequest extends Request
     {
         $user = \Auth::user();
 
-        if ($user != null & $user->admin)
-        {
+        if ($user != null & $user->admin) {
             return true;
         }
 

@@ -1,9 +1,11 @@
-<?php namespace Onyx\Destiny\Enums;
+<?php
 
-abstract class Types {
+namespace Onyx\Destiny\Enums;
 
+abstract class Types
+{
     /**
-     * A regular ole raid
+     * A regular ole raid.
      */
     const Raid = 'Raid';
 
@@ -13,17 +15,17 @@ abstract class Types {
     const Flawless = 'Flawless Raid';
 
     /**
-     * A regular ole PVP match (not to be confused with Trials of Osiris)
+     * A regular ole PVP match (not to be confused with Trials of Osiris).
      */
     const PVP = 'PVP';
 
     /**
-     * A regular ole PoE (lvl 28 -> 35)
+     * A regular ole PoE (lvl 28 -> 35).
      */
     const PoE = 'Prison Of Elders';
 
     /**
-     * The competitive Crucible PVP mode
+     * The competitive Crucible PVP mode.
      */
     const ToO = 'Trials of Osiris';
 
@@ -33,60 +35,60 @@ abstract class Types {
     public static function getAll()
     {
         return [
-            'Raid' => self::Raid,
+            'Raid'     => self::Raid,
             'Flawless' => self::Flawless,
-            'PVP' => self::PVP,
-            'PoE' => self::PoE,
-            'ToO' => self::ToO
+            'PVP'      => self::PVP,
+            'PoE'      => self::PoE,
+            'ToO'      => self::ToO,
         ];
     }
 
     /**
      * @param $value
+     *
      * @return string
      */
     public static function getProperFormat($value)
     {
-        switch (strtolower($value))
-        {
-            case "raid":
+        switch (strtolower($value)) {
+            case 'raid':
                 return 'Raid';
 
-            case "flawless":
+            case 'flawless':
                 return 'Flawless';
 
-            case "pvp":
+            case 'pvp':
                 return 'PVP';
 
-            case "poe":
+            case 'poe':
                 return 'PoE';
 
-            case "too":
+            case 'too':
                 return 'ToO';
 
-            case "campaign":
+            case 'campaign':
                 return 'Campaign';
 
-            case "arena":
+            case 'arena':
                 return 'Arena';
 
-            case "slayer":
+            case 'slayer':
                 return 'Slayer';
 
-            case "btb":
+            case 'btb':
                 return 'Big Team Battle';
 
-            case "wza":
-            case "warzone":
+            case 'wza':
+            case 'warzone':
                 return 'Warzone';
 
-            case "doubles":
+            case 'doubles':
                 return 'Doubles';
 
-            case "custom":
+            case 'custom':
                 return 'Custom Game';
 
-            case "Forge":
+            case 'Forge':
                 return 'Forge';
         }
     }

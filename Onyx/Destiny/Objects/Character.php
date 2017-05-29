@@ -1,17 +1,17 @@
-<?php namespace Onyx\Destiny\Objects;
+<?php
+
+namespace Onyx\Destiny\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
-use Onyx\Destiny\Enums\LightLevels;
 use Onyx\Destiny\Enums\MaxStats;
 use Onyx\Destiny\Helpers\Assets\Images;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 
 /**
- * Class Character
- * @package Onyx\Destiny\Objects
+ * Class Character.
+ *
  * @property int $id
  * @property int $membershipId
  * @property int $characterId
@@ -52,8 +52,8 @@ use Onyx\Destiny\Helpers\String\Text;
  * @property int $highest_light
  * @property Hash $horn
  */
-class Character extends Model {
-
+class Character extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -70,7 +70,7 @@ class Character extends Model {
 
     private $translator;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
@@ -81,9 +81,7 @@ class Character extends Model {
     {
         parent::boot();
 
-        Character::saving(function($character)
-        {
-
+        self::saving(function ($character) {
         });
     }
 
@@ -191,22 +189,19 @@ class Character extends Model {
 
         $rtr = '';
 
-        if ($days > 0)
-        {
+        if ($days > 0) {
             $name = ($days > 1) ? 'days' : 'day';
-            $rtr .= $days . " " . $name . " ";
+            $rtr .= $days.' '.$name.' ';
         }
 
-        if ($hours > 0)
-        {
+        if ($hours > 0) {
             $name = ($hours > 1) ? 'hours' : 'hour';
-            $rtr .= $hours . " " . $name . " ";
+            $rtr .= $hours.' '.$name.' ';
         }
 
-        if ($days == 0)
-        {
+        if ($days == 0) {
             $name = ($minutes > 1) ? 'minutes' : 'minute';
-            $rtr .= $minutes . " " . $name . ".";
+            $rtr .= $minutes.' '.$name.'.';
         }
 
         return $rtr;
@@ -220,6 +215,7 @@ class Character extends Model {
     public function getLastPlayedAttribute($value)
     {
         $date = new Carbon($value);
+
         return $date->toFormattedDateString();
     }
 
@@ -374,7 +370,7 @@ class Character extends Model {
 
     public function name()
     {
-        return $this->highest_light . " " . $this->class->title;
+        return $this->highest_light.' '.$this->class->title;
     }
 
     public function armor()
@@ -383,7 +379,7 @@ class Character extends Model {
             $this->helmet,
             $this->arms,
             $this->chest,
-            $this->boots
+            $this->boots,
         ];
     }
 
@@ -393,7 +389,7 @@ class Character extends Model {
             $this->primary,
             $this->secondary,
             $this->heavy,
-            $this->class_item
+            $this->class_item,
         ];
     }
 
@@ -402,10 +398,8 @@ class Character extends Model {
         $attrs = ['ship', 'sparrow', 'ghost', 'shader'];
 
         $data = [];
-        foreach ($attrs as $attribute)
-        {
-            if (strlen($this->attributes[$attribute]) > 0)
-            {
+        foreach ($attrs as $attribute) {
+            if (strlen($this->attributes[$attribute]) > 0) {
                 $data[] = $this->{$attribute};
             }
         }
@@ -418,10 +412,8 @@ class Character extends Model {
         $attrs = ['emote', 'artifact', 'horn'];
 
         $data = [];
-        foreach ($attrs as $attribute)
-        {
-            if (strlen($this->attributes[$attribute]) > 0)
-            {
+        foreach ($attrs as $attribute) {
+            if (strlen($this->attributes[$attribute]) > 0) {
                 $data[] = $this->{$attribute};
             }
         }
@@ -431,11 +423,11 @@ class Character extends Model {
 
     public function stats()
     {
-        return array(
-            'Intellect' => $this->intellect,
+        return [
+            'Intellect'  => $this->intellect,
             'Discipline' => $this->discipline,
-            'Strength' => $this->strength
-        );
+            'Strength'   => $this->strength,
+        ];
     }
 
     public function getLastUpdatedRelative()
@@ -454,7 +446,7 @@ class Character extends Model {
     {
         return ['race', 'gender', 'class', 'emblem', 'background', 'subclass', 'helmet', 'arms', 'chest', 'boots',
             'class_item', 'primary', 'secondary', 'heavy', 'ship', 'sparrow', 'ghost', 'shader', 'emote', 'artifact',
-            'horn'];
+            'horn', ];
     }
 
     //---------------------------------------------------------------------------------
@@ -464,29 +456,31 @@ class Character extends Model {
     /**
      * @param $value
      * @param $max
+     *
      * @return string
      */
     private function getStatRollWithPercent($value, $max)
     {
-        if ($value > $max)
-        {
+        if ($value > $max) {
             $percent = 100;
-        }
-        else
-        {
+        } else {
             $percent = round($value / $max, 2) * 100;
         }
-        return number_format($value) . " (" . $percent . "%)";
+
+        return number_format($value).' ('.$percent.'%)';
     }
 
     /**
      * @param string $index Index for $this->attributes
-     * @param string $hash hashCode for item
+     * @param string $hash  hashCode for item
+     *
      * @throws \Onyx\Destiny\Helpers\String\HashNotLocatedException
      */
     private function setAttributePullImage($index, $hash)
     {
-        if ($hash == null || $hash == "") return;
+        if ($hash == null || $hash == '') {
+            return;
+        }
         Images::saveImagesLocally($this->translator->map($hash, false));
         $this->attributes[$index] = $hash;
     }

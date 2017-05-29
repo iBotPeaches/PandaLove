@@ -1,4 +1,6 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
@@ -12,10 +14,10 @@ use Onyx\Laravel\Helpers\Text as LaravelText;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class MatchPlayer
- * @package Onyx\Halo5\Objects
- * @property integer $id
- * @property integer $account_id
+ * Class MatchPlayer.
+ *
+ * @property int $id
+ * @property int $account_id
  * @property string $team_id
  * @property string $game_id
  * @property array $killed
@@ -24,42 +26,41 @@ use Ramsey\Uuid\Uuid;
  * @property array $enemies
  * @property array $weapons
  * @property array $impulses
- * @property integer $warzone_req
- * @property integer $total_pies
- * @property integer $rank
- * @property boolean $dnf
- * @property integer $avg_lifestime
- * @property integer $totalKills
- * @property integer $totalSpartanKills
- * @property integer $totalAiKills
- * @property integer $totalHeadshots
- * @property integer $totalDeaths
- * @property integer $totalAssists
- * @property integer $totalTimePlayed
+ * @property int $warzone_req
+ * @property int $total_pies
+ * @property int $rank
+ * @property bool $dnf
+ * @property int $avg_lifestime
+ * @property int $totalKills
+ * @property int $totalSpartanKills
+ * @property int $totalAiKills
+ * @property int $totalHeadshots
+ * @property int $totalDeaths
+ * @property int $totalAssists
+ * @property int $totalTimePlayed
  * @property float $weapon_dmg
- * @property integer $shots_fired
- * @property integer $shots_landed
- * @property integer $totalMeleeKills
- * @property integer $totalAssassinations
- * @property integer $totalGroundPounds
- * @property integer $totalShoulderBash
- * @property integer $totalGrenadeKills
- * @property integer $totalPowerWeaponKills
- * @property integer $totalPowerWeaponTime
- * @property integer $spartanRank
- * @property integer $CsrTier
- * @property integer $CsrDesignationId
- * @property integer $Csr
- * @property integer $percentNext
- * @property integer $ChampionRank
- *
+ * @property int $shots_fired
+ * @property int $shots_landed
+ * @property int $totalMeleeKills
+ * @property int $totalAssassinations
+ * @property int $totalGroundPounds
+ * @property int $totalShoulderBash
+ * @property int $totalGrenadeKills
+ * @property int $totalPowerWeaponKills
+ * @property int $totalPowerWeaponTime
+ * @property int $spartanRank
+ * @property int $CsrTier
+ * @property int $CsrDesignationId
+ * @property int $Csr
+ * @property int $percentNext
+ * @property int $ChampionRank
  * @property Match $match
  * @property MatchTeam $team
  * @property Account $account
  * @property CSR $csr
  */
-class MatchPlayer extends Model {
-
+class MatchPlayer extends Model
+{
     use Stats;
 
     /**
@@ -77,7 +78,7 @@ class MatchPlayer extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -86,9 +87,8 @@ class MatchPlayer extends Model {
     public static function boot()
     {
         parent::boot();
-        
-        static::creating(function ($player)
-        {
+
+        static::creating(function ($player) {
             /* @var $player $this */
             $player->totalAiKills = $player->totalKills - $player->totalSpartanKills;
         });
@@ -100,39 +100,31 @@ class MatchPlayer extends Model {
 
     public function setKilledAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $inserted = [];
             $deferred = [];
             $deferred_gts = '';
 
-            foreach ($value as $opponent)
-            {
+            foreach ($value as $opponent) {
                 $account = $this->_getAccount($opponent['GamerTag']);
 
-                if ($account instanceof Account)
-                {
+                if ($account instanceof Account) {
                     $inserted[$account->id] = $opponent['TotalKills'];
-                }
-                else
-                {
-                    $deferred[]  = $opponent;
-                    $deferred_gts .= Halo5Text::encodeGamertagForApi($opponent['GamerTag']) . ",";
+                } else {
+                    $deferred[] = $opponent;
+                    $deferred_gts .= Halo5Text::encodeGamertagForApi($opponent['GamerTag']).',';
                 }
             }
 
-            if (count($deferred) > 0)
-            {
+            if (count($deferred) > 0) {
                 // Now lets go through the ones we deferred and load their service records (thus making accounts)
                 $client = new Client();
-                $client->getAccountsByGamertags(rtrim($deferred_gts, ","));
+                $client->getAccountsByGamertags(rtrim($deferred_gts, ','));
 
-                foreach ($deferred as $opponent)
-                {
+                foreach ($deferred as $opponent) {
                     $account = $this->_getAccount($opponent['GamerTag']);
 
-                    if ($account instanceof Account)
-                    {
+                    if ($account instanceof Account) {
                         $inserted[$account->id] = $opponent['TotalKills'];
                     }
                 }
@@ -144,39 +136,31 @@ class MatchPlayer extends Model {
 
     public function setKilledByAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $inserted = [];
             $deferred = [];
             $deferred_gts = '';
 
-            foreach ($value as $opponent)
-            {
+            foreach ($value as $opponent) {
                 $account = $this->_getAccount($opponent['GamerTag']);
 
-                if ($account instanceof Account)
-                {
+                if ($account instanceof Account) {
                     $inserted[$account->id] = $opponent['TotalKills'];
-                }
-                else
-                {
-                    $deferred[]  = $opponent;
-                    $deferred_gts .= Halo5Text::encodeGamertagForApi($opponent['GamerTag']) . ",";
+                } else {
+                    $deferred[] = $opponent;
+                    $deferred_gts .= Halo5Text::encodeGamertagForApi($opponent['GamerTag']).',';
                 }
             }
 
-            if (count($deferred) > 0)
-            {
+            if (count($deferred) > 0) {
                 // Now lets go through the ones we deferred and load their service records (thus making accounts)
                 $client = new Client();
-                $client->getAccountsByGamertags(rtrim($deferred_gts, ","));
+                $client->getAccountsByGamertags(rtrim($deferred_gts, ','));
 
-                foreach ($deferred as $opponent)
-                {
+                foreach ($deferred as $opponent) {
                     $account = $this->_getAccount($opponent['GamerTag']);
 
-                    if ($account instanceof Account)
-                    {
+                    if ($account instanceof Account) {
                         $inserted[$account->id] = $opponent['TotalKills'];
                     }
                 }
@@ -188,12 +172,10 @@ class MatchPlayer extends Model {
 
     public function setMedalsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $medal)
-            {
+            foreach ($value as $medal) {
                 $insert[$medal['MedalId']] = $medal['Count'];
             }
 
@@ -203,14 +185,11 @@ class MatchPlayer extends Model {
 
     public function setWeaponsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $weapon)
-            {
-                if ($weapon['TotalKills'] > 0)
-                {
+            foreach ($value as $weapon) {
+                if ($weapon['TotalKills'] > 0) {
                     $insert[$weapon['WeaponId']['StockId']] = $weapon['TotalKills'];
                 }
             }
@@ -222,12 +201,10 @@ class MatchPlayer extends Model {
 
     public function setEnemiesAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $enemy)
-            {
+            foreach ($value as $enemy) {
                 $insert[$enemy['Enemy']['BaseId']] = $enemy['TotalKills'];
             }
 
@@ -238,12 +215,10 @@ class MatchPlayer extends Model {
 
     public function setImpulsesAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $insert = [];
 
-            foreach($value as $impulse)
-            {
+            foreach ($value as $impulse) {
                 $insert[$impulse['Id']] = $impulse['Count'];
             }
 
@@ -264,43 +239,38 @@ class MatchPlayer extends Model {
 
     public function setTotalPowerWeaponTimeAttribute($value)
     {
-        if ($value != "PT0S")
-        {
+        if ($value != 'PT0S') {
             $this->attributes['totalPowerWeaponTime'] = DateHelper::returnSeconds($value);
-        }
-        else
-        {
+        } else {
             $this->attributes['totalPowerWeaponTime'] = 0;
         }
     }
 
     public function setAccountIdAttribute($value)
     {
-        if ($value instanceof Account)
-        {
+        if ($value instanceof Account) {
             $this->attributes['account_id'] = $value->id;
         }
     }
-    
+
     public function setUuidAttribute($value)
     {
-        if ($value instanceof Uuid)
-        {
+        if ($value instanceof Uuid) {
             $this->attributes['uuid'] = $value->toString();
         }
     }
-    
+
     public function getKilledAttribute($value)
     {
         $killed = json_decode($value, true);
         arsort($killed);
-        
-        foreach ($killed as $id => &$value)
-        {
+
+        foreach ($killed as $id => &$value) {
             $account = $this->_getAccountViaId($id);
             $account['count'] = $value;
             $value = $account;
         }
+
         return $killed;
     }
 
@@ -309,12 +279,12 @@ class MatchPlayer extends Model {
         $killed = json_decode($value, true);
         arsort($killed);
 
-        foreach ($killed as $id => &$value)
-        {
+        foreach ($killed as $id => &$value) {
             $account = $this->_getAccountViaId($id);
             $account['count'] = $value;
             $value = $account;
         }
+
         return $killed;
     }
 
@@ -322,24 +292,20 @@ class MatchPlayer extends Model {
     {
         $medals = json_decode($value, true);
 
-        if (is_array($medals))
-        {
+        if (is_array($medals)) {
             $stockMedals = Medal::getAll();
 
-            foreach($medals as $key => &$value)
-            {
-                if (isset($stockMedals[$key]))
-                {
+            foreach ($medals as $key => &$value) {
+                if (isset($stockMedals[$key])) {
                     $medal = $stockMedals[$key];
                     $medal['count'] = $value;
                     $value = $medal;
-                }
-                else
-                {
+                } else {
                     unset($value);
                 }
             }
         }
+
         return $medals;
     }
 
@@ -347,24 +313,20 @@ class MatchPlayer extends Model {
     {
         $weapons = json_decode($value, true);
 
-        if (is_array($weapons))
-        {
+        if (is_array($weapons)) {
             $stockWeapons = Weapon::getAll();
 
-            foreach ($weapons as $key => &$value)
-            {
-                if (isset($stockWeapons[$key]))
-                {
+            foreach ($weapons as $key => &$value) {
+                if (isset($stockWeapons[$key])) {
                     $weapon = $stockWeapons[$key];
                     $weapon['count'] = $value;
                     $value = $weapon;
-                }
-                else
-                {
+                } else {
                     unset($value);
                 }
             }
         }
+
         return $weapons;
     }
 
@@ -376,26 +338,21 @@ class MatchPlayer extends Model {
     public function getImpulsesAttribute($value)
     {
         $impulses = json_decode($value, true);
-        
-        if (is_array($impulses))
-        {
+
+        if (is_array($impulses)) {
             $stockImpulses = Impulse::getAll();
-            
-            foreach ($impulses as $key => &$value)
-            {
-                if (isset($stockImpulses[$key]))
-                {
+
+            foreach ($impulses as $key => &$value) {
+                if (isset($stockImpulses[$key])) {
                     $impulse = $stockImpulses[$key];
                     $impulse['count'] = $value;
                     $value = $impulse;
-                }
-                else
-                {
+                } else {
                     unset($value);
                 }
             }
         }
-        
+
         return $impulses;
     }
 
@@ -406,8 +363,7 @@ class MatchPlayer extends Model {
 
     public function getChampionRank($value)
     {
-        switch ($value)
-        {
+        switch ($value) {
             case 1:
                 return '1st';
 
@@ -418,14 +374,13 @@ class MatchPlayer extends Model {
                 return '3rd';
 
             default:
-                return $value . 'th';
+                return $value.'th';
         }
     }
 
     public function getRankAttribute($value)
     {
-        switch ($value)
-        {
+        switch ($value) {
             case 1:
                 return '1<sup>st</sup>';
 
@@ -436,7 +391,7 @@ class MatchPlayer extends Model {
                 return '3<sup>rd</sup>';
 
             default:
-                return $value . '<sup>th</sup>';
+                return $value.'<sup>th</sup>';
         }
     }
 
@@ -494,41 +449,41 @@ class MatchPlayer extends Model {
     {
         $csr = $this->csr;
 
-        if ($csr != null)
-        {
+        if ($csr != null) {
             return $csr->tiers->{$this->CsrTier};
         }
     }
-    
+
     public function getArenaTooltip()
     {
         $csr = $this->csr;
-        
-        switch ($csr->designationId)
-        {
+
+        switch ($csr->designationId) {
             case 0:
-                return 'Unranked ( ' . (10 - $this->CsrTier) . ' games remaining)';
+                return 'Unranked ( '.(10 - $this->CsrTier).' games remaining)';
 
             case 6:
-                return $csr->name . ' CSR: ' . $this->Csr;
+                return $csr->name.' CSR: '.$this->Csr;
 
             case 7:
-                return $csr->name . ' Rank: ' . $this->ChampionRank;
+                return $csr->name.' Rank: '.$this->ChampionRank;
 
             default:
-                return $csr->name . ' ' . $this->CsrTier;
+                return $csr->name.' '.$this->CsrTier;
         }
     }
 
     public function kd($formatted = true)
     {
         $kills = ($this->match->gametype->isWarzoneFirefight() ? 'totalKills' : 'totalSpartanKills');
+
         return self::stat_kd($this->$kills, $this->totalDeaths, $formatted);
     }
 
     public function kad($formatted = true)
     {
         $kills = ($this->match->gametype->isWarzoneFirefight() ? 'totalKills' : 'totalSpartanKills');
+
         return self::stat_kad($this->$kills, $this->totalDeaths, $this->totalAssists, $formatted);
     }
 
@@ -539,12 +494,12 @@ class MatchPlayer extends Model {
 
     /**
      * @param $gamertag
+     *
      * @return mixed
      */
     private function _getAccount($gamertag)
     {
-        return \Cache::remember('gamertag-' . $gamertag, 60, function() use ($gamertag)
-        {
+        return \Cache::remember('gamertag-'.$gamertag, 60, function () use ($gamertag) {
             return Account::where('seo', DestinyText::seoGamertag($gamertag))
                 ->where('accountType', Console::Xbox)
                 ->first();
@@ -553,12 +508,12 @@ class MatchPlayer extends Model {
 
     /**
      * @param $id integer
+     *
      * @return mixed
      */
     private function _getAccountViaId($id)
     {
-        return \Cache::remember('account_id-' . $id, 60, function() use ($id)
-        {
+        return \Cache::remember('account_id-'.$id, 60, function () use ($id) {
             return Account::find($id);
         });
     }

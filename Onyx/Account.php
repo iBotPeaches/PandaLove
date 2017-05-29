@@ -1,17 +1,17 @@
-<?php namespace Onyx;
+<?php
+
+namespace Onyx;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Destiny\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
-use Onyx\Destiny\Objects\Data as DestinyData;
 use Onyx\Destiny\Objects\Data;
-use Onyx\Halo5\Objects\Data as H5Data;
 use Onyx\Halo5\Objects\HistoricalStat;
 
 /**
- * Class Account
- * @package Onyx
+ * Class Account.
+ *
  * @property int $id
  * @property string $gamertag
  * @property int $accountType
@@ -20,12 +20,11 @@ use Onyx\Halo5\Objects\HistoricalStat;
  * @property Carbon $updated_at
  * @property string $xuid
  * @property string $destiny_membershipId
- * 
  * @property Data $destiny
  * @property \Onyx\Halo5\Objects\Data $h5
  */
-class Account extends Model {
-
+class Account extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -110,18 +109,16 @@ class Account extends Model {
 
     /**
      * @param $membershipId
+     *
      * @return int|null
      */
     public static function getAccountIdViaDestiny($membershipId)
     {
-        $account = Account::where('destiny_membershipId', $membershipId)->first();
+        $account = self::where('destiny_membershipId', $membershipId)->first();
 
-        if ($account instanceof Account)
-        {
+        if ($account instanceof self) {
             return $account->id;
         }
-
-        return null;
     }
 
     /**
@@ -145,7 +142,7 @@ class Account extends Model {
      */
     public function console_image()
     {
-        return asset('images/' . (($this->accountType == Console::Xbox) ? 'xbl.png' : 'psn.png'));
+        return asset('images/'.(($this->accountType == Console::Xbox) ? 'xbl.png' : 'psn.png'));
     }
 
     /**

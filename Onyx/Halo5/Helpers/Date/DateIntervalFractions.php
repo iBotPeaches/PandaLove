@@ -1,4 +1,6 @@
-<?php namespace Onyx\Halo5\Helpers\Date;
+<?php
+
+namespace Onyx\Halo5\Helpers\Date;
 
 class DateIntervalFractions extends \DateInterval
 {
@@ -16,24 +18,23 @@ class DateIntervalFractions extends \DateInterval
      * Extracting these milliseconds out patches DateInterval to work.
      *
      * @url https://bugs.php.net/bug.php?id=53831
+     *
      * @param string $interval_spec
      */
     public function __construct($interval_spec)
     {
-        if (strpos($interval_spec, ".") !== false)
-        {
+        if (strpos($interval_spec, '.') !== false) {
             $this->milliseconds = 0;
-            $matches = array();
-            preg_match_all("#([0-9]*[.,]?[0-9]*)[S]#", $interval_spec, $matches);
+            $matches = [];
+            preg_match_all('#([0-9]*[.,]?[0-9]*)[S]#', $interval_spec, $matches);
 
-            foreach ($matches[0] as $result)
-            {
+            foreach ($matches[0] as $result) {
                 $original = $result;
 
-                list($seconds, $milliseconds) = explode(".", substr($result, 0, -1));
+                list($seconds, $milliseconds) = explode('.', substr($result, 0, -1));
 
                 $this->milliseconds = $milliseconds / pow(10, strlen($milliseconds) - 3);
-                $interval_spec = str_replace($original, $seconds . "S", $interval_spec);
+                $interval_spec = str_replace($original, $seconds.'S', $interval_spec);
             }
         }
 

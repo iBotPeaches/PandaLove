@@ -1,10 +1,13 @@
-<?php namespace Onyx\Halo5\Helpers\Utils;
+<?php
 
-class Color {
+namespace Onyx\Halo5\Helpers\Utils;
 
+class Color
+{
     /**
      * @param $hex
      * @param $percent
+     *
      * @return string
      */
     public static function color_luminance($hex, $percent)
@@ -17,8 +20,7 @@ class Color {
         }
 
         // convert to decimal and change luminosity
-        for ($i = 0; $i < 3; $i++) 
-        {
+        for ($i = 0; $i < 3; $i++) {
             $dec = hexdec(substr($hex, $i * 2, 2));
             $dec = min(max(0, $dec + $dec * $percent), 255);
             $new_hex .= str_pad(dechex($dec), 2, 0, STR_PAD_LEFT);
@@ -29,26 +31,25 @@ class Color {
 
     /**
      * @param $hex
+     *
      * @return string
      */
-    public static function hex2rgb($hex) 
+    public static function hex2rgb($hex)
     {
-        $hex = str_replace("#", "", $hex);
+        $hex = str_replace('#', '', $hex);
 
-        if(strlen($hex) == 3) 
-        {
-            $r = hexdec(substr($hex,0,1).substr($hex,0,1));
-            $g = hexdec(substr($hex,1,1).substr($hex,1,1));
-            $b = hexdec(substr($hex,2,1).substr($hex,2,1));
-        } 
-        else 
-        {
-            $r = hexdec(substr($hex,0,2));
-            $g = hexdec(substr($hex,2,2));
-            $b = hexdec(substr($hex,4,2));
+        if (strlen($hex) == 3) {
+            $r = hexdec(substr($hex, 0, 1).substr($hex, 0, 1));
+            $g = hexdec(substr($hex, 1, 1).substr($hex, 1, 1));
+            $b = hexdec(substr($hex, 2, 1).substr($hex, 2, 1));
+        } else {
+            $r = hexdec(substr($hex, 0, 2));
+            $g = hexdec(substr($hex, 2, 2));
+            $b = hexdec(substr($hex, 4, 2));
         }
-        
-        $rgb = array($r, $g, $b);
-        return implode(",", $rgb);
+
+        $rgb = [$r, $g, $b];
+
+        return implode(',', $rgb);
     }
 }

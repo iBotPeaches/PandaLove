@@ -2,9 +2,6 @@
 
 namespace PandaLove\Http\Requests;
 
-use Onyx\Account;
-use PandaLove\Http\Requests\Request;
-
 class AddRSVP extends Request
 {
     /**
@@ -16,8 +13,7 @@ class AddRSVP extends Request
     {
         $user = \Auth::user();
 
-        if ($user != null && $user->isPanda)
-        {
+        if ($user != null && $user->isPanda) {
             return true;
         }
 
@@ -32,7 +28,7 @@ class AddRSVP extends Request
     public function rules()
     {
         return [
-            'character' => 'character-real'
+            'character' => 'character-real',
         ];
     }
 }

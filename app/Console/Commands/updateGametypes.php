@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Console\Commands;
+<?php
+
+namespace PandaLove\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,28 +47,22 @@ class updateGametypes extends Command
         $gametypes = $client->getGametypes();
         $path = 'public/images/gametypes/';
 
-        if (! File::exists($path))
-        {
+        if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
 
-        if (is_array($gametypes))
-        {
-            foreach ($gametypes as $gametype)
-            {
-                try
-                {
+        if (is_array($gametypes)) {
+            foreach ($gametypes as $gametype) {
+                try {
                     $_gametype = Gametype::where('uuid', $gametype['id'])->firstOrFail();
 
-                    $this->info('Gametype ' . $_gametype['name'] . ' already exists. Updating.');
+                    $this->info('Gametype '.$_gametype['name'].' already exists. Updating.');
                     $_gametype->name = $gametype['name'];
                     $_gametype->internal_name = $gametype['internalName'];
                     $_gametype->game_modes = $gametype['supportedGameModes'];
                     $_gametype->save();
-                }
-                catch (ModelNotFoundException $e)
-                {
-                    $this->info('Adding ' . $gametype['name']);
+                } catch (ModelNotFoundException $e) {
+                    $this->info('Adding '.$gametype['name']);
 
                     $g = new Gametype();
                     $g->name = $gametype['name'];
@@ -76,15 +72,13 @@ class updateGametypes extends Command
                     $g->contentId = $gametype['contentId'];
                     $g->save();
 
-                    if ($gametype['iconUrl'] != null)
-                    {
-                        if (! file_exists($path . $gametype['id'] . '.png'))
-                        {
+                    if ($gametype['iconUrl'] != null) {
+                        if (!file_exists($path.$gametype['id'].'.png')) {
                             $icon = file_get_contents($gametype['iconUrl']);
 
                             /** @var $image \Intervention\Image\Image */
                             $image = Image::make($icon);
-                            $image->save($path . $gametype['id'] . '.png');
+                            $image->save($path.$gametype['id'].'.png');
                         }
                     }
                 }

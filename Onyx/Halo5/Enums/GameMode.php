@@ -1,43 +1,45 @@
-<?php namespace Onyx\Halo5\Enums;
+<?php
 
-abstract class GameMode {
+namespace Onyx\Halo5\Enums;
 
+abstract class GameMode
+{
     /**
-     * Error
+     * Error.
      */
     const Error = 0;
 
     /**
-     * Arena
+     * Arena.
      */
     const Arena = 1;
 
     /**
-     * Campaign
+     * Campaign.
      */
     const Campaign = 2;
 
     /**
-     * Custom
+     * Custom.
      */
     const Custom = 3;
 
     /**
-     * Wrzone
+     * Wrzone.
      */
     const Warzone = 4;
 
     /**
      * @param $id
      * @param bool $slug
+     *
      * @return string
      */
     public static function getName($id, $slug = false)
     {
         $name = '';
 
-        switch ($id)
-        {
+        switch ($id) {
             case self::Error:
                 $name = 'Error';
                 break;
@@ -59,8 +61,7 @@ abstract class GameMode {
                 break;
         }
 
-        if ($slug)
-        {
+        if ($slug) {
             return strtolower($name);
         }
 

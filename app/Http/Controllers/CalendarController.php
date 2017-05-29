@@ -1,4 +1,6 @@
-<?php namespace PandaLove\Http\Controllers;
+<?php
+
+namespace PandaLove\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -8,11 +10,10 @@ use Onyx\Hangouts\Helpers\Messages;
 use PandaLove\Http\Requests\AddRSVP;
 use PandaLove\Http\Requests\deleteEventRequest;
 
-class CalendarController extends Controller {
-
+class CalendarController extends Controller
+{
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -36,8 +37,7 @@ class CalendarController extends Controller {
     {
         $events = GameEvent::whereBetween('start', [$request->get('start'), $request->get('end')])->get();
 
-        $events->each(function($event)
-        {
+        $events->each(function ($event) {
             $event->url = action('CalendarController@getEvent', [$event->id]);
             $event->backgroundColor = $event->getBackgroundColor();
         });
@@ -47,25 +47,21 @@ class CalendarController extends Controller {
 
     public function getEvent($id)
     {
-        try
-        {
+        try {
             $event = GameEvent::with('attendees')
                 ->where('id', intval($id))->firstOrFail();
 
             return view('calendar/event')
-                ->with('description', 'PandaLove:' . $event->title)
+                ->with('description', 'PandaLove:'.$event->title)
                 ->with('event', $event);
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             app()->abort(404, 'Event could not be found.');
         }
     }
 
     public function getRsvpEvent($id)
     {
-        try
-        {
+        try {
             $event = GameEvent::with('attendees')
                 ->where('id', intval($id))->firstOrFail();
 
@@ -74,20 +70,17 @@ class CalendarController extends Controller {
                 ->first();
 
             return view('calendar/rsvp')
-                ->with('description', 'RSVP: ' . $event->title)
+                ->with('description', 'RSVP: '.$event->title)
                 ->with('event', $event)
                 ->with('attendee', $attendee);
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             app()->abort(404, 'Event could not be found.');
         }
     }
 
     public function getCancelEvent($id)
     {
-        try
-        {
+        try {
             $event = GameEvent::where('id', intval($id))->firstOrFail();
             Attendee::where('game_id', $event->id)
                 ->where('user_id', $this->user->id)
@@ -95,12 +88,10 @@ class CalendarController extends Controller {
 
             return \Redirect::action('CalendarController@getEvent', [$event->id])
                 ->with('flash_message', [
-                    'type' => 'success',
-                    'header' => 'You have cancelled your RSVP.'
+                    'type'   => 'success',
+                    'header' => 'You have cancelled your RSVP.',
                 ]);
-        }
-        catch (ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             app()->abort(404, 'Event could not be found.');
         }
     }
@@ -112,10 +103,10 @@ class CalendarController extends Controller {
 
         return \Redirect::to('/calendar')
             ->with('flash_message', [
-                'type' => 'green',
+                'type'   => 'green',
                 'header' => 'Event Deleted!',
-                'close' => true,
-                'body' => 'You deleted event (' . $request->get('event_id') . ") "
+                'close'  => true,
+                'body'   => 'You deleted event ('.$request->get('event_id').') ',
             ]);
     }
 
@@ -123,15 +114,13 @@ class CalendarController extends Controller {
     {
         $game_id = $request->get('game_id');
 
-        try
-        {
+        try {
             $event = GameEvent::where('id', intval($game_id))->firstOrFail();
 
             $attendee = new Attendee();
             $attendee->game_id = $event->id;
 
-            if ($event->isDestiny())
-            {
+            if ($event->isDestiny()) {
                 $attendee->membershipId = $this->user->account->destiny->membershipId;
                 $attendee->characterId = $request->get('character', 0);
             }
@@ -141,20 +130,17 @@ class CalendarController extends Controller {
             $attendee->save();
 
             // hit bot
-            if (app()->environment() == "production")
-            {
+            if (app()->environment() == 'production') {
                 $messenger = new Messages();
-                $messenger->sendGroupMessage('<strong>' . $this->user->account->gamertag . '</strong> confirmed RSVP to event: <strong>' . $event->title . '</strong>');
+                $messenger->sendGroupMessage('<strong>'.$this->user->account->gamertag.'</strong> confirmed RSVP to event: <strong>'.$event->title.'</strong>');
             }
 
             return \Redirect::action('CalendarController@getEvent', [$event->id])
                 ->with('flash_message', [
-                    'type' => 'success',
-                    'header' => 'RSVP Confirmed!'
+                    'type'   => 'success',
+                    'header' => 'RSVP Confirmed!',
                 ]);
-        }
-        catch(ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             return false;
         }
     }

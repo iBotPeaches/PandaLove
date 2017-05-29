@@ -1,41 +1,41 @@
-<?php namespace PandaLove\Commands;
+<?php
 
-use Onyx\Destiny\Client as DestinyClient;
-use PandaLove\Commands\Command;
+namespace PandaLove\Commands;
 
 use Illuminate\Contracts\Bus\SelfHandling;
+use Onyx\Destiny\Client as DestinyClient;
 
-class UpdateGamertag extends Command implements SelfHandling {
+class UpdateGamertag extends Command implements SelfHandling
+{
+    public $gamertag;
+    public $type;
 
-	public $gamertag;
-	public $type;
+    /**
+     * Create a new command instance.
+     *
+     * @param $gamertag
+     * @param $type
+     */
+    public function __construct($gamertag, $type)
+    {
+        $this->gamertag = $gamertag;
+        $this->type = $type;
+    }
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @param $gamertag
-	 * @param $type
-	 */
-	public function __construct($gamertag, $type)
-	{
-		$this->gamertag = $gamertag;
-		$this->type = $type;
-	}
+    /**
+     * @throws \Onyx\Destiny\PlayerNotFoundException
+     *
+     * @return \Onyx\Account
+     */
+    public function handle()
+    {
+        $client = new DestinyClient();
 
-	/**
-	 * @return \Onyx\Account
-	 * @throws \Onyx\Destiny\PlayerNotFoundException
-	 */
-	public function handle()
-	{
-		$client = new DestinyClient();
+        \DB::transaction(function () use ($client) {
+            $account = $client->fetchAccountByGamertag($this->type, $this->gamertag);
+            $client->fetchAccountData($account);
 
-		\DB::transaction(function () use ($client)
-		{
-			$account = $client->fetchAccountByGamertag($this->type, $this->gamertag);
-			$client->fetchAccountData($account);
-
-			return $account;
-		});
-	}
+            return $account;
+        });
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddChatIdToUser extends Migration
 {
@@ -12,8 +12,7 @@ class AddChatIdToUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table)
-        {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('chat_id')->nullable();
         });
     }
@@ -25,8 +24,7 @@ class AddChatIdToUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $table)
-        {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('chat_id');
         });
     }

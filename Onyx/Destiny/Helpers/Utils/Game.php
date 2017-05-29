@@ -1,24 +1,24 @@
-<?php namespace Onyx\Destiny\Helpers\Utils;
+<?php
+
+namespace Onyx\Destiny\Helpers\Utils;
 
 use Illuminate\Support\Collection;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 
-class Game {
-
+class Game
+{
     /**
      * @param $kills
      * @param $deaths
+     *
      * @return float
      */
     public static function kd($kills, $deaths)
     {
-        if ($deaths == 0)
-        {
+        if ($deaths == 0) {
             return $kills;
-        }
-        else
-        {
+        } else {
             return round($kills / $deaths, 2);
         }
     }
@@ -27,18 +27,16 @@ class Game {
      * @param $kills
      * @param $assists
      * @param $deaths
+     *
      * @return float
      */
     public static function kadr($kills, $assists, $deaths)
     {
         $total = $kills + $assists;
 
-        if ($deaths == 0)
-        {
+        if ($deaths == 0) {
             return $total;
-        }
-        else
-        {
+        } else {
             return round($total / $deaths, 2);
         }
     }
@@ -51,21 +49,19 @@ class Game {
         $timeCount = 0;
         $revives = false;
 
-        foreach($games as $game)
-        {
+        foreach ($games as $game) {
             // Check for Trials game, and check if any non Panda are playing
             $pandaId = 0;
-            if ($game->isToO())
-            {
+            if ($game->isToO()) {
                 $pandaId = $game->pvp->pandaId;
             }
 
-            foreach($game->players as $player)
-            {
-                if (! $player->completed) continue;
+            foreach ($game->players as $player) {
+                if (!$player->completed) {
+                    continue;
+                }
 
-                if (isset($combined[$player->membershipId]))
-                {
+                if (isset($combined[$player->membershipId])) {
                     $combined[$player->membershipId]['kills'] += $player->kills;
                     $combined[$player->membershipId]['deaths'] += $player->deaths;
                     $combined[$player->membershipId]['assists'] += $player->assists;
@@ -74,44 +70,38 @@ class Game {
                     $combined[$player->membershipId]['revives_given'] += $player->revives_given;
                     $combined[$player->membershipId]['revives_taken'] += $player->revives_taken;
 
-                    if ($player->revives_given != 0)
-                    {
+                    if ($player->revives_given != 0) {
                         $revives = true;
                     }
 
                     // find players max level
                     $combined[$player->membershipId]['maxLevel'] = max($combined[$player->membershipId]['maxLevel'], $player->level);
-                }
-                else
-                {
+                } else {
                     $combined[$player->membershipId] = [
-                        'kills' => $player->kills,
-                        'deaths' => $player->deaths,
-                        'assists' => $player->assists,
-                        'level' => $player->level,
-                        'count' => 1,
-                        'maxLevel' => 0,
-                        'class' => $player->class,
-                        'charId' => $player->characterId,
+                        'kills'         => $player->kills,
+                        'deaths'        => $player->deaths,
+                        'assists'       => $player->assists,
+                        'level'         => $player->level,
+                        'count'         => 1,
+                        'maxLevel'      => 0,
+                        'class'         => $player->class,
+                        'charId'        => $player->characterId,
                         'revives_given' => $player->revives_given,
-                        'revives_taken' => $player->revives_taken
+                        'revives_taken' => $player->revives_taken,
                     ];
 
-                    if (isset($player->account->gamertag))
-                    {
+                    if (isset($player->account->gamertag)) {
                         $extra = [
-                            'gamertag' => $player->account->gamertag,
-                            'seo' => $player->account->seo,
-                            'type' => $player->account->accountType,
-                            'isPandaLove' => $player->account->isPandaLove(),
-                            'isPandaGuest' => false
+                            'gamertag'     => $player->account->gamertag,
+                            'seo'          => $player->account->seo,
+                            'type'         => $player->account->accountType,
+                            'isPandaLove'  => $player->account->isPandaLove(),
+                            'isPandaGuest' => false,
                         ];
 
                         // Check if this player is on PandaTeam, if so mark them as Panda
-                        if ($game->isToO())
-                        {
-                            if (! $extra['isPandaLove'] && $player->team == $pandaId)
-                            {
+                        if ($game->isToO()) {
+                            if (!$extra['isPandaLove'] && $player->team == $pandaId) {
                                 $extra['isPandaLove'] = true;
                                 $extra['isPandaGuest'] = true;
                             }
@@ -122,8 +112,7 @@ class Game {
                 }
             }
 
-            $game->players = $game->players->each(function($player)
-            {
+            $game->players = $game->players->each(function ($player) {
                 $player->kd = $player->kdr();
             })->sortByDesc('kd');
 
@@ -131,11 +120,10 @@ class Game {
             $timeCount += $game->getRawSeconds();
         }
 
-        foreach($combined as $key => $user)
-        {
+        foreach ($combined as $key => $user) {
             $combined[$key]['avgLevel'] = round($user['level'] / $user['count'], 1);
-            $combined[$key]['kdr'] = Game::kd($user['kills'], $user['deaths']);
-            $combined[$key]['kadr'] = Game::kadr($user['kills'], $user['assists'], $user['deaths']);
+            $combined[$key]['kdr'] = self::kd($user['kills'], $user['deaths']);
+            $combined[$key]['kadr'] = self::kadr($user['kills'], $user['assists'], $user['deaths']);
         }
 
         $combined = new Collection($combined);
@@ -143,11 +131,11 @@ class Game {
 
         return [
             'players' => $combined,
-            'stats' => [
-                'games' => $gameCount,
+            'stats'   => [
+                'games'            => $gameCount,
                 'combinedGameTime' => Text::timeDuration($timeCount),
-                'revives' => $revives
-            ]
+                'revives'          => $revives,
+            ],
         ];
     }
 
@@ -155,39 +143,35 @@ class Game {
     {
         $combined = [];
         $combined['stats'] = [
-            'pandaPts' => 0,
-            'opponentPts' => 0,
-            'pandaWins' => 0,
-            'opponentWins' => 0,
-            'totalGames' => 0,
-            'blowoutGames' => 0,
-            'differentMaps' => false
+            'pandaPts'      => 0,
+            'opponentPts'   => 0,
+            'pandaWins'     => 0,
+            'opponentWins'  => 0,
+            'totalGames'    => 0,
+            'blowoutGames'  => 0,
+            'differentMaps' => false,
         ];
 
         $combined['buffs'] = [
-            'favor' => false,
-            'mercy' => false,
-            'boon' => false,
+            'favor'         => false,
+            'mercy'         => false,
+            'boon'          => false,
             'boon-or-favor' => false,
-            'quitout' => 0
+            'quitout'       => 0,
         ];
 
         $previous = null;
         $maps = new Collection();
 
-        foreach($games as $game)
-        {
+        foreach ($games as $game) {
             $pandaId = $game->pvp->pandaId;
             $opponentId = $game->pvp->opposite($pandaId);
 
-            if ($maps->has($game->referenceId))
-            {
+            if ($maps->has($game->referenceId)) {
                 $count = $maps->get($game->referenceId);
                 $maps->forget($game->referenceId);
                 $maps->put($game->referenceId, ++$count);
-            }
-            else
-            {
+            } else {
                 $maps->put($game->referenceId, 1);
             }
 
@@ -200,46 +184,34 @@ class Game {
             // Check if PandaLove blew them out (15 - 0)
             // Update: Trials #2 maxes at 5-0
             // Update: Forget max, just check if enemy got 0pts
-            if ($pandaId == $game->pvp->winnerId)
-            {
-                if ($game->pvp->pts($opponentId) == 0)
-                {
+            if ($pandaId == $game->pvp->winnerId) {
+                if ($game->pvp->pts($opponentId) == 0) {
                     $combined['stats']['blowoutGames'] += 1;
                 }
             }
 
-            if ($previous == null)
-            {
+            if ($previous == null) {
                 $previous = $game->referenceId;
-            }
-            else
-            {
-                if ($previous != $game->referenceId)
-                {
+            } else {
+                if ($previous != $game->referenceId) {
                     $combined['stats']['differentMaps'] = true;
                 }
             }
 
-            foreach($game->players as $player)
-            {
+            foreach ($game->players as $player) {
                 $slug = $player->account->seo;
 
-                if ($player->account->isPandaLove() || $player->team == $pandaId)
-                {
+                if ($player->account->isPandaLove() || $player->team == $pandaId) {
                     // check for unbroken
-                    if ($player->deaths == 0)
-                    {
-                        if (isset($combined['stats']['unbroken'][$slug]))
-                        {
+                    if ($player->deaths == 0) {
+                        if (isset($combined['stats']['unbroken'][$slug])) {
                             $combined['stats']['unbroken'][$slug]['count'] += 1;
-                        }
-                        else
-                        {
+                        } else {
                             $combined['stats']['unbroken'][$slug] = [
                                 'gamertag' => $player->account->gamertag,
-                                'seo' => $player->account->seo,
-                                'type' => $player->account->accountType,
-                                'count' => 1
+                                'seo'      => $player->account->seo,
+                                'type'     => $player->account->accountType,
+                                'count'    => 1,
                             ];
                         }
                     }
@@ -248,45 +220,39 @@ class Game {
         }
 
         // are we on different maps? If so lets get the names of them
-        if ($combined['stats']['differentMaps'])
-        {
+        if ($combined['stats']['differentMaps']) {
             $map_list = '';
             $new_maps = null;
 
-            $maps->each(function($count, $map) use (&$map_list, &$new_maps)
-            {
-                $map_list .= Hashes::quick($map)['title'] . ", ";
+            $maps->each(function ($count, $map) use (&$map_list, &$new_maps) {
+                $map_list .= Hashes::quick($map)['title'].', ';
             });
 
-            $combined['stats']['maps'] = rtrim($map_list, ", ");
+            $combined['stats']['maps'] = rtrim($map_list, ', ');
             $new_maps = $maps->toArray();
             arsort($new_maps);
             $combined['stats']['rMaps'] = $new_maps;
         }
 
         $bonus = 0;
-        if ($combined['stats']['pandaWins'] < 7)
-        {
+        if ($combined['stats']['pandaWins'] < 7) {
             $combined['buffs']['quitout'] = (7 - $combined['stats']['pandaWins']);
             $bonus += $combined['buffs']['quitout'];
         }
 
         // Lets check for Boon/Mercy/Favor of Osiris
-        if ($combined['stats']['pandaWins'] != $combined['stats']['totalGames'])
-        {
+        if ($combined['stats']['pandaWins'] != $combined['stats']['totalGames']) {
             // Our Panda # of wins does not equal total games, therefore a loss was encountered
             $combined['buffs']['mercy'] = true;
         }
 
-        if ($combined['stats']['pandaWins'] == (8 - $bonus))
-        {
+        if ($combined['stats']['pandaWins'] == (8 - $bonus)) {
             // We have 8 wins. This means the group could of either used a Boon (First win = two wins)
             // or a Favor (start with 1 win).
             $combined['buffs']['boon-or-favor'] = true;
         }
 
-        if ($combined['stats']['pandaWins'] == (7 - $bonus))
-        {
+        if ($combined['stats']['pandaWins'] == (7 - $bonus)) {
             // We have 7 wins. That means both the Boon and Favor was used.
             $combined['buffs']['favor'] = true;
             $combined['buffs']['boon'] = true;
@@ -298,14 +264,13 @@ class Game {
     /**
      * @param $games
      * @param $gameId
+     *
      * @return bool
      */
     public static function gameIdExists($games, $gameId)
     {
-        foreach($games as $game)
-        {
-            if ($game->instanceId == $gameId)
-            {
+        foreach ($games as $game) {
+            if ($game->instanceId == $gameId) {
                 return $gameId;
             }
         }
@@ -315,10 +280,8 @@ class Game {
 
     public static function getMaps($passages)
     {
-        if ($passages instanceof Collection)
-        {
-            $passages->each(function($passage)
-            {
+        if ($passages instanceof Collection) {
+            $passages->each(function ($passage) {
                 $passage['message'] = self::explodeMap($passage->maps);
             });
         }
@@ -328,17 +291,14 @@ class Game {
 
     public static function explodeMap($list)
     {
-        $maps = explode(",", $list);
+        $maps = explode(',', $list);
 
         $different = false;
         $previous = $maps[0];
 
-        if (is_array($maps))
-        {
-            foreach ($maps as $map)
-            {
-                if ($previous != $map)
-                {
+        if (is_array($maps)) {
+            foreach ($maps as $map) {
+                if ($previous != $map) {
                     $different = true;
                     break;
                 }
@@ -346,12 +306,9 @@ class Game {
         }
 
         // check if we played on different maps
-        if ($different)
-        {
+        if ($different) {
             return ' a variety of maps';
-        }
-        else
-        {
+        } else {
             return false; // defer loading to view so we can have autoloaded hashes
         }
     }

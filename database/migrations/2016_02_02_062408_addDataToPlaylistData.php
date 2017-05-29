@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddDataToPlaylistData extends Migration
 {
@@ -12,8 +12,7 @@ class AddDataToPlaylistData extends Migration
      */
     public function up()
     {
-        Schema::table('halo5_playlists_data', function(Blueprint $table)
-        {
+        Schema::table('halo5_playlists_data', function (Blueprint $table) {
             $table->timestamps();
         });
     }
@@ -25,8 +24,7 @@ class AddDataToPlaylistData extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_playlists_data', function(Blueprint $table)
-        {
+        Schema::table('halo5_playlists_data', function (Blueprint $table) {
             $table->dropTimestamps();
         });
     }

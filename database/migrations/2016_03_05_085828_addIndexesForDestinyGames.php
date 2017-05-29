@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddIndexesForDestinyGames extends Migration
 {
@@ -12,15 +12,13 @@ class AddIndexesForDestinyGames extends Migration
      */
     public function up()
     {
-        Schema::table('destiny_games', function (Blueprint $table)
-        {
+        Schema::table('destiny_games', function (Blueprint $table) {
             $table->index('type');
             $table->index('raidTuesday');
             $table->index('passageId');
         });
 
-        Schema::table('destiny_game_players', function (Blueprint $table)
-        {
+        Schema::table('destiny_game_players', function (Blueprint $table) {
             $table->index('game_id');
         });
     }
@@ -32,15 +30,13 @@ class AddIndexesForDestinyGames extends Migration
      */
     public function down()
     {
-        Schema::table('destiny_games', function (Blueprint $table)
-        {
+        Schema::table('destiny_games', function (Blueprint $table) {
             $table->dropIndex('destiny_games_type_index');
             $table->dropIndex('destiny_games_raidtuesday_index');
             $table->dropIndex('destiny_games_passageid_index');
         });
 
-        Schema::table('destiny_game_players', function (Blueprint $table)
-        {
+        Schema::table('destiny_game_players', function (Blueprint $table) {
             $table->dropIndex('destiny_game_players_game_id_index');
         });
     }

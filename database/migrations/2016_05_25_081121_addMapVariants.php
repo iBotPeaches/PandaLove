@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddMapVariants extends Migration
 {
@@ -13,9 +13,8 @@ class AddMapVariants extends Migration
     public function up()
     {
         $this->emptyEvents();
-        
-        Schema::create('halo5_map_variants', function (Blueprint $table)
-        {
+
+        Schema::create('halo5_map_variants', function (Blueprint $table) {
             $table->uuid('uuid');
             $table->string('name', 64);
             $table->string('map_id', 64);
@@ -25,9 +24,8 @@ class AddMapVariants extends Migration
             $table->index('map_id');
             $table->foreign('map_id')->references('contentId')->on('halo5_maps');
         });
-        
-        Schema::table('halo5_matches', function (Blueprint $table)
-        {
+
+        Schema::table('halo5_matches', function (Blueprint $table) {
             $table->index('map_variant');
 
             $table->foreign('map_variant')->references('uuid')->on('halo5_map_variants');
@@ -41,11 +39,10 @@ class AddMapVariants extends Migration
      */
     public function down()
     {
-        Schema::table('halo5_matches', function (Blueprint $table)
-        {
+        Schema::table('halo5_matches', function (Blueprint $table) {
             $table->dropForeign('');
         });
-        
+
         Schema::dropIfExists('halo5_map_variants');
     }
 

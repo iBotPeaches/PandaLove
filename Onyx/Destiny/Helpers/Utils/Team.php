@@ -1,15 +1,17 @@
-<?php namespace Onyx\Destiny\Helpers\Utils;
+<?php
+
+namespace Onyx\Destiny\Helpers\Utils;
 
 use Illuminate\Support\Facades\Log;
 
-class Team {
-
+class Team
+{
     /**
      * @var array
      */
     private static $team_id_to_string = [
         16 => 'Alpha',
-        17 => 'Bravo'
+        17 => 'Bravo',
     ];
 
     /**
@@ -17,7 +19,7 @@ class Team {
      */
     private static $team_id_to_color = [
         16 => 'blue',
-        17 => 'red'
+        17 => 'red',
     ];
 
     /**
@@ -30,40 +32,37 @@ class Team {
 
     /**
      * @param $id
+     *
      * @return string
      */
     public static function teamIdToColor($id)
     {
         $id = intval($id);
 
-        if (isset(self::$team_id_to_color[$id]))
-        {
+        if (isset(self::$team_id_to_color[$id])) {
             return self::$team_id_to_color[$id];
-        }
-        else
-        {
-            Log::warning('Team ID: ' . $id . ' is unknown');
+        } else {
+            Log::warning('Team ID: '.$id.' is unknown');
+
             return '';
         }
     }
 
     /**
      * @param $id
+     *
      * @return string
      */
     public static function teamIdToString($id)
     {
         $id = intval($id);
 
-        if (isset(self::$team_id_to_string[$id]))
-        {
+        if (isset(self::$team_id_to_string[$id])) {
             return self::$team_id_to_string[$id];
-        }
-        else
-        {
-            Log::warning('Team ID: ' . $id . ' is unknown.');
+        } else {
+            Log::warning('Team ID: '.$id.' is unknown.');
+
             return 'Unknown';
         }
     }
 }
-

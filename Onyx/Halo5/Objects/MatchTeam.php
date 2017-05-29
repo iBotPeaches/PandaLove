@@ -1,23 +1,24 @@
-<?php namespace Onyx\Halo5\Objects;
+<?php
+
+namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class MatchTeam
- * @package Onyx\Halo5\Objects
- * @property integer $id
+ * Class MatchTeam.
+ *
+ * @property int $id
  * @property string $game_id
- * @property integer $team_id
- * @property integer $score
- * @property integer $rank
+ * @property int $team_id
+ * @property int $score
+ * @property int $rank
  * @property array $round_stats
  * @property string $key
- *
  * @property Team $team
  */
-class MatchTeam extends Model {
-
+class MatchTeam extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -33,7 +34,7 @@ class MatchTeam extends Model {
     protected $guarded = ['id'];
 
     /**
-     * Disable timestamps
+     * Disable timestamps.
      *
      * @var bool
      */
@@ -43,21 +44,17 @@ class MatchTeam extends Model {
     {
         parent::boot();
 
-        static::creating(function ($team)
-        {
-            if ($team->team_id === null)
-            {
-                $team->key = ($team->game_id . "_" . $team->player_id);
+        static::creating(function ($team) {
+            if ($team->team_id === null) {
+                $team->key = ($team->game_id.'_'.$team->player_id);
                 unset($team->player_id);
             }
         });
 
-        static::created(function ($team)
-        {
+        static::created(function ($team) {
             /* @var $team \Onyx\Halo5\Objects\MatchTeam */
-            if ($team->team_id !== null)
-            {
-                $team->key = ($team->game_id . "_" . $team->team_id);
+            if ($team->team_id !== null) {
+                $team->key = ($team->game_id.'_'.$team->team_id);
                 $team->save();
             }
         });
@@ -69,20 +66,16 @@ class MatchTeam extends Model {
 
     public function setRoundStatsAttribute($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $this->attributes['round_stats'] = json_encode($value);
-        }
-        else
-        {
+        } else {
             $this->attributes['round_stats'] = null;
         }
     }
 
     public function setUuidAttribute($value)
     {
-        if ($value instanceof Uuid)
-        {
+        if ($value instanceof Uuid) {
             $this->attributes['uuid'] = $value->toString();
         }
     }
@@ -98,10 +91,8 @@ class MatchTeam extends Model {
 
     public function getRoundStats($roundId)
     {
-        foreach ($this->round_stats as $round)
-        {
-            if ($round['RoundNumber'] == ($roundId + 1))
-            {
+        foreach ($this->round_stats as $round) {
+            if ($round['RoundNumber'] == ($roundId + 1)) {
                 return $round;
             }
         }
@@ -116,10 +107,10 @@ class MatchTeam extends Model {
 
     public function label()
     {
-        if ($this->isWinner())
-        {
+        if ($this->isWinner()) {
             return '<span class="ui green label">Win</span>';
         }
+
         return '<span class="ui label">Lose</span>';
     }
 

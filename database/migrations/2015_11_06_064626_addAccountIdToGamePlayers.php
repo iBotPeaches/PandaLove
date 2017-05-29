@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddAccountIdToGamePlayers extends Migration
 {
@@ -12,8 +12,7 @@ class AddAccountIdToGamePlayers extends Migration
      */
     public function up()
     {
-        Schema::table('game_players', function(Blueprint $table)
-        {
+        Schema::table('game_players', function (Blueprint $table) {
             $table->integer('account_id', false, true);
         });
     }
@@ -25,8 +24,7 @@ class AddAccountIdToGamePlayers extends Migration
      */
     public function down()
     {
-        Schema::table('game_players', function(Blueprint $table)
-        {
+        Schema::table('game_players', function (Blueprint $table) {
             $table->dropColumn('account_id');
         });
     }

@@ -1,16 +1,17 @@
-<?php namespace PandaLove\Http\Controllers\Backstage;
+<?php
+
+namespace PandaLove\Http\Controllers\Backstage;
 
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
 use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Http\Controllers\Controller;
-use PandaLove\Http\Requests;
 use PandaLove\Http\Requests\AddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AddGameRequest;
 
-class DestinyController extends Controller {
-
+class DestinyController extends Controller
+{
     public function __construct(Guard $auth)
     {
         parent::__construct();
@@ -21,15 +22,14 @@ class DestinyController extends Controller {
     public function getIndex()
     {
         $accounts = Account::with('destiny', 'user')
-            ->whereHas('destiny', function($query)
-            {
+            ->whereHas('destiny', function ($query) {
                 $query->where('grimoire', '!=', 0);
             })
             ->orderBy('id', 'DESC')
             ->paginate(15);
 
         return view('backstage.destiny.index', [
-            'accounts' => $accounts
+            'accounts' => $accounts,
         ]);
     }
 
@@ -51,8 +51,8 @@ class DestinyController extends Controller {
 
         return \Redirect::action('Backstage\DestinyController@getIndex')
             ->with('flash_message', [
-                'type' => 'success',
-                'header' => 'Game Added!'
+                'type'   => 'success',
+                'header' => 'Game Added!',
             ]);
     }
 }

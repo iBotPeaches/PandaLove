@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -15,6 +15,6 @@ return array(
     |
     */
 
-    'driver' => env('IMAGE_DRIVER', 'imagick')
+    'driver' => env('IMAGE_DRIVER', 'imagick'),
 
-);
+];

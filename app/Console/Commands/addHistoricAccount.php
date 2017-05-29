@@ -2,13 +2,11 @@
 
 namespace PandaLove\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Account;
 use Onyx\Halo5\Objects\Data;
 use Onyx\Halo5\Objects\HistoricalStat;
-use Onyx\Hangouts\Helpers\Messages;
 use Onyx\User;
 
 class addHistoricAccount extends Command
@@ -46,22 +44,16 @@ class addHistoricAccount extends Command
     {
         $user_id = $this->argument('user_id');
 
-        try
-        {
+        try {
             $user = User::where('id', intval($user_id))->firstOrFail();
 
-            if (! $user->isPanda)
-            {
+            if (!$user->isPanda) {
                 $this->error('This user is not Panda');
-            }
-            else
-            {
-                if ($user->account->h5 instanceof Data)
-                {
+            } else {
+                if ($user->account->h5 instanceof Data) {
                     $count = HistoricalStat::where('account_id', $user->account->id)->count();
 
-                    if ($count == 0)
-                    {
+                    if ($count == 0) {
                         $dates = HistoricalStat::where('account_id', 1)
                             ->groupBy('date')
                             ->get();
@@ -69,8 +61,7 @@ class addHistoricAccount extends Command
                         /** @var $panda Account */
                         $panda = $user->account;
 
-                        foreach ($dates as $date)
-                        {
+                        foreach ($dates as $date) {
                             $historic = new HistoricalStat();
                             $historic->account_id = $panda->id;
                             $historic->arena_kd = $panda->h5->kd(false);
@@ -82,20 +73,14 @@ class addHistoricAccount extends Command
                             $historic->date = $date->date;
                             $historic->save();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $this->error('You are already an account in this.');
                     }
-                }
-                else
-                {
+                } else {
                     $this->error('This user does not even play Halo 5.');
                 }
             }
-        }
-        catch (ModelNotFoundException $ex)
-        {
+        } catch (ModelNotFoundException $ex) {
             $this->error('Account not found.');
         }
     }

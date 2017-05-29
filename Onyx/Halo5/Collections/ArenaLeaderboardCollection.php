@@ -1,12 +1,14 @@
-<?php namespace Onyx\Halo5\Collections;
+<?php
+
+namespace Onyx\Halo5\Collections;
 
 use Illuminate\Support\Collection;
 use Onyx\Account;
 use Onyx\Halo5\Items\ArenaLeaderboardItem;
 
 /**
- * Class ArenaLeaderboardCollection
- * @package Onyx\Halo5\Collections
+ * Class ArenaLeaderboardCollection.
+ *
  * @property $items array
  */
 class ArenaLeaderboardCollection extends Collection
@@ -15,16 +17,14 @@ class ArenaLeaderboardCollection extends Collection
     {
         /** @var $account Account */
         $items = [];
-        foreach ($accounts as $account)
-        {
+        foreach ($accounts as $account) {
             $score = log($account->h5->totalGames) * $account->h5->kd(false);
 
             // Mathematically improbable any will ever have the same score
             $items[] = new ArenaLeaderboardItem($score, $account);
         }
 
-        usort($items, function($a, $b)
-        {
+        usort($items, function ($a, $b) {
             return strcmp($b->score, $a->score);
         });
 
