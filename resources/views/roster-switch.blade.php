@@ -8,9 +8,10 @@
                     <header>
                         <h1>Hi. Select a <strong>Game</strong>.</h1>
                     </header>
-                    <p>We have clan members in both <strong>Halo 5</strong> and <strong>Destiny</strong>.</p>
-                    <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
+                    <p>We have clan members in both <strong>Halo 5</strong>, <strong>Destiny</strong> and <strong>Overwatch</strong>.</p>
                     <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
+                    <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
+                    <a href="#" class="button big scrolly">Overwatch</a>
                 </div>
             </div>
         </article>

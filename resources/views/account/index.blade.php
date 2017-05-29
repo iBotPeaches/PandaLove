@@ -11,13 +11,15 @@
                 </div>
             </div>
             <div class="ui divider"></div>
-            <div class="ui two column middle aligned very relaxed stackable grid">
+            <div class="ui three column middle aligned very relaxed stackable grid">
+                <div class="column">
+                    @include('includes.account.add-destiny')
+                </div>
                 <div class="column">
                     @include('includes.account.add-h5')
                 </div>
-                <div class="ui vertical divider">Or</div>
                 <div class="column">
-                    @include('includes.account.add-destiny')
+
                 </div>
             </div>
             <h3 class="ui header">Recently Added Accounts</h3>
