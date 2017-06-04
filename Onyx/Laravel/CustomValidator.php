@@ -15,6 +15,8 @@ use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Halo5\H5PlayerNotFoundException;
+use Onyx\Overwatch\Client as OverwatchClient;
+use Onyx\Overwatch\Helpers\Network\OWApiNetworkException;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 
@@ -79,6 +81,20 @@ class CustomValidator extends Validator
         } catch (H5PlayerNotFoundException $e) {
             return false;
         } catch (ClientException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateOverwatchReal($attribute, $value, $parameters)
+    {
+        $client = new OverwatchClient();
+
+        try {
+            // @todo
+            //$account = $client->fetchBlobStat($)
+        } catch (OWApiNetworkException $ex) {
             return false;
         }
 

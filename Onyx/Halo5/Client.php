@@ -7,7 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
-use Onyx\Destiny\Enums\Console;
+use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Collections\GameHistoryCollection;
 use Onyx\Halo5\Collections\LeaderboardCollection;

@@ -19,7 +19,7 @@
                     @include('includes.account.add-h5')
                 </div>
                 <div class="column">
-
+                    @include('includes.account.add-overwatch')
                 </div>
             </div>
             <h3 class="ui header">Recently Added Accounts</h3>

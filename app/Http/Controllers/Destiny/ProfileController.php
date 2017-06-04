@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
-use Onyx\Destiny\Enums\Console;
+use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\GamePlayer;

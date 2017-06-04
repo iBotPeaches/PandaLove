@@ -4,7 +4,7 @@ namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
-use Onyx\Destiny\Enums\Console;
+use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\CustomTraits\Stats;

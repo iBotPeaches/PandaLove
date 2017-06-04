@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Onyx\Account;
-use Onyx\Destiny\Enums\Console;
+use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;

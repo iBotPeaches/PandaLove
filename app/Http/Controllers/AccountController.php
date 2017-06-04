@@ -14,6 +14,7 @@ use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Requests\AddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AddHalo5GamertagRequest;
+use PandaLove\Http\Requests\AddOverwatchRequest;
 
 class AccountController extends Controller
 {
@@ -70,6 +71,20 @@ class AccountController extends Controller
                 'type'   => 'yellow',
                 'header' => 'Uh oh',
                 'body'   => 'We could not find this gamertag.',
+            ]);
+        }
+    }
+
+    public function postAddOverwatchGamertag(AddOverwatchRequest $request)
+    {
+        try {
+
+        } catch (\Exception $ex) {
+            return redirect('/account', [
+                'close' => true,
+                'type' => 'yellow',
+                'header' => 'Uh oh',
+                'body' => 'We could not find this name on either Xbox/PS/PC'
             ]);
         }
     }

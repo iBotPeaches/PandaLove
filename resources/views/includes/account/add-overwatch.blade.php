@@ -1,9 +1,9 @@
-{!! Form::open(['action' => '#', 'class' => 'form']) !!}
-    @foreach ($errors->destiny->all() as $error)
+{!! Form::open(['action' => 'AccountController@postAddOverwatchGamertag', 'class' => 'form']) !!}
+    @foreach ($errors->all() as $error)
         <p class="ui red message">{{ $error }}</p>
     @endforeach
-    <label>Gamertag / PSN</label>
-    <div class="field {{ $errors->destiny->has('gamertag') ? 'error' : '' }}">
+    <label>Gamertag / PSN / PC</label>
+    <div class="field {{ $errors->has('gamertag') ? 'error' : '' }}">
         <input type="text" name="gamertag" id="gamertag" placeholder="Gamertag" />
     </div>
     <br />

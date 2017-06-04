@@ -4,7 +4,7 @@ namespace Onyx;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Destiny\Enums\Console;
+use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Data;
 use Onyx\Halo5\Objects\HistoricalStat;
