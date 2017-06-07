@@ -34,7 +34,7 @@
                     </div>
                     @if (isset($user) && $user != null)
                         <div class="ui raised segment" id="manual-refresh-button" style="display:none;">
-                            <a href="{{ action('Overwatch\ProfileController@manualUpdate', [$account->accountType, $account->seo]) }}" class="ui fluid green button">Refresh Data</a>
+                            <a href="{{ action('Overwatch\ProfileController@manualUpdate', [$account->seo, $account->accountType]) }}" class="ui fluid green button">Refresh Data</a>
                         </div>
                     @endif
                 </div>
@@ -74,7 +74,7 @@
     <script type="text/javascript">
         $(function() {
             $.ajax({
-                url: '{{ URL::action('Overwatch\ProfileController@checkForUpdate', [$account->accountType, $account->gamertag]) }}',
+                url: '{{ URL::action('Overwatch\ProfileController@checkForUpdate', [$account->gamertag, $account->accountType]) }}',
                 success: function(result) {
                     $msg = $("#update-message");
                     if (result.updated && result.frozen == false) {

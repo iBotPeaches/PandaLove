@@ -25,8 +25,8 @@ class Client extends Http
     private $account_cached = [];
 
     /**
-     * @param $account
-     * @param $platform
+     * @param Account $account
+     * @param int $platform
      *
      * @throws OWApiNetworkException
      *
@@ -44,6 +44,17 @@ class Client extends Http
         }
 
         throw new OWApiNetworkException('Could not find account.');
+    }
+
+    /**
+     * @param Account $account
+     * @return bool
+     */
+    public function updateAccount($account)
+    {
+        $data = $this->fetchBlobStat($account, $account->accountType);
+
+        return $this->updateOrInsertStats($account, $data);
     }
 
     public function getAccountByTag($account, $platform = 'xbl')
@@ -122,6 +133,9 @@ class Client extends Http
             ]);
         }
 
+        $oldDmg = $stats->damage_done;
+        $oldHealing = $stats->healing_done;
+
         // dump stats
         $categories = ['average_stats', 'overall_stats', 'game_stats'];
 
@@ -131,6 +145,13 @@ class Client extends Http
                     $stats->$key = $value;
                 }
             }
+        }
+
+        // Check if stats changed
+        if ($oldDmg != $stats->damage_done || $oldHealing != $stats->healing_done) {
+            $stats->inactive_counter = 0;
+        } else {
+            $stats->inactive_counter++;
         }
 
         // dump characters

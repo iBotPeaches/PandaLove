@@ -151,6 +151,13 @@ class Stats extends Model
         return $this->characters->sortByDesc('playtime')->first();
     }
 
+    public function getLastUpdatedRelative()
+    {
+        $date = new Carbon($this->updated_at);
+
+        return $date->diffForHumans();
+    }
+
     public function totalLevel()
     {
         return (100 * $this->prestige) + $this->level;

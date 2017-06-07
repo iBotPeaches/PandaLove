@@ -90,7 +90,7 @@ class Account extends Model
      */
     public function mainOverwatchSeason()
     {
-        return $this->overwatch->orderByDesc('season')->first();
+        return $this->overwatch->sortByDesc('season')->first();
     }
 
     /**
