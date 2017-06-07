@@ -127,7 +127,9 @@ class Client extends Http
 
         foreach ($categories as $category) {
             foreach ($data['stats']['competitive'][$category] as $key => $value) {
-                $stats->$key = $value;
+                if (\Schema::hasColumn('overwatch_stats', $key)) {
+                    $stats->$key = $value;
+                }
             }
         }
 

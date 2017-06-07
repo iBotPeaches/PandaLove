@@ -48,11 +48,12 @@ use Onyx\Account;
  * @property int $offensive_assists_most_in_game
  * @property int $turrets_destroyed
  * @property float $defensive_assists_most_in_game
- * @property int $turret_destroyed_most_in_game
+ * @property int $turrets_destroyed_most_in_game
  * @property int $teleporter_pad_destroyed
  * @property int $healing_done
  * @property int $medals_silver
  * @property int $multikills
+ * @property int $multikill
  * @property int $medals_gold
  * @property int $eliminations
  * @property int $multikill_best
@@ -124,6 +125,11 @@ class Stats extends Model
         }
 
         $this->attributes['comprank'] = $value;
+    }
+
+    public function getTierAttribute($value)
+    {
+        return ucfirst($value);
     }
 
     //---------------------------------------------------------------------------------

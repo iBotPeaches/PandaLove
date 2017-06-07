@@ -58,7 +58,7 @@ class AddOWTables extends Migration
             $table->integer('turrets_destroyed', false, true);
             $table->decimal('objective_time_most_in_game', 5, 3);
             $table->mediumInteger('defensive_assists_most_in_game', false, true);
-            $table->tinyInteger('turret_destroyed_most_in_game', false, true);
+            $table->tinyInteger('turrets_destroyed_most_in_game', false, true);
             $table->mediumInteger('teleporter_pad_destroyed', false, true);
             $table->bigInteger('healing_done', false, true);
             $table->integer('medals_silver', false, true);

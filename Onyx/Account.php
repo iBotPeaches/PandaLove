@@ -4,6 +4,7 @@ namespace Onyx;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Onyx\Overwatch\Objects\Stats;
 use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
@@ -23,7 +24,7 @@ use Onyx\Halo5\Objects\HistoricalStat;
  * @property string $destiny_membershipId
  * @property Data $destiny
  * @property \Onyx\Halo5\Objects\Data $h5
- * @property Stats $overwatch
+ * @property Collection $overwatch
  */
 class Account extends Model
 {
@@ -82,6 +83,14 @@ class Account extends Model
     public function overwatch()
     {
         return $this->hasMany('Onyx\Overwatch\Objects\Stats', 'account_id', 'id');
+    }
+
+    /**
+     * @return Stats
+     */
+    public function mainOverwatchSeason()
+    {
+        return $this->overwatch->orderByDesc('season')->first();
     }
 
     /**

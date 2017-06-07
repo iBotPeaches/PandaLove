@@ -28,7 +28,7 @@
                                 <img class="ui avatar image" src="{{ $overall->avatar }}" />
                             </div>
                             <div class="right floated">
-                                <span class="header">Level {{ $overall->totalLevel() }}</span>
+                                <span class="header">Level {{ $overall->totalLevel() }} ({{ $overall->tier }})</span>
                             </div>
                         </div>
                     </div>
@@ -43,9 +43,19 @@
                         <a class="active item" data-tab="overview">
                             Overview
                         </a>
+                        @foreach ($account->overwatch as $overwatch)
+                            <a class="item" data-tab="season-{{ $overwatch->season }}">
+                                Season {{ $overwatch->season }}
+                            </a>
+                        @endforeach
                     </div>
                     <div class="ui bottom attached active tab" data-tab="overview">
+                        @include('includes.overwatch.profile.overview-tab')
                     </div>
+                    @foreach ($account->overwatch as $overwatch)
+                        <div class="ui bottom attached tab" data-tab="season-{{ $overwatch->season }}">
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </article>
