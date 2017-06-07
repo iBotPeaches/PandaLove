@@ -15,6 +15,7 @@ use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Requests\AddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AddHalo5GamertagRequest;
 use PandaLove\Http\Requests\AddOverwatchRequest;
+use Onyx\Overwatch\Client as OverwatchClient;
 
 class AccountController extends Controller
 {
@@ -78,7 +79,15 @@ class AccountController extends Controller
     public function postAddOverwatchGamertag(AddOverwatchRequest $request)
     {
         try {
+            $client = new OverwatchClient();
 
+            $gamertag = $request->request->get('gamertag');
+            $platform = $request->request->get('platform');
+
+            /** @var Account $account */
+            $account = $client->getAccountByTag($gamertag, $platform);
+
+            return \Redirect::action('Overwatch\ProfileController@index', [$account->seo, $account->accountType]);
         } catch (\Exception $ex) {
             return redirect('/account', [
                 'close' => true,

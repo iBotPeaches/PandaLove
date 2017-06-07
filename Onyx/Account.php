@@ -4,6 +4,7 @@ namespace Onyx;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Overwatch\Objects\Stats;
 use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Data;
@@ -22,6 +23,7 @@ use Onyx\Halo5\Objects\HistoricalStat;
  * @property string $destiny_membershipId
  * @property Data $destiny
  * @property \Onyx\Halo5\Objects\Data $h5
+ * @property Stats $overwatch
  */
 class Account extends Model
 {
@@ -72,6 +74,14 @@ class Account extends Model
     public function h5()
     {
         return $this->hasOne('Onyx\Halo5\Objects\Data', 'account_id', 'id');
+    }
+
+    /**
+     * @return Stats
+     */
+    public function overwatch()
+    {
+        return $this->hasMany('Onyx\Overwatch\Objects\Stats', 'account_id', 'id');
     }
 
     /**
@@ -126,7 +136,14 @@ class Account extends Model
      */
     public function console()
     {
-        return $this->accountType == Console::Xbox ? 'Xbox' : 'Playstation';
+        switch ($this->accountType) {
+            case Console::Xbox:
+                return 'Xbox';
+            case Console::PSN:
+                return 'Playstation';
+            case Console::PC:
+                return 'PC';
+        }
     }
 
     /**
@@ -134,7 +151,14 @@ class Account extends Model
      */
     public function sConsole()
     {
-        return $this->accountType == Console::Xbox ? 'Xbox' : 'PSN';
+        switch ($this->accountType) {
+            case Console::Xbox:
+                return 'Xbox';
+            case Console::PSN:
+                return 'PSN';
+            case Console::PC:
+                return 'PC';
+        }
     }
 
     /**

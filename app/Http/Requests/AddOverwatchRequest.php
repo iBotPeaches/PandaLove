@@ -27,6 +27,7 @@ class AddOverwatchRequest extends Request
 
         return [
             'gamertag' => 'required|min:3|overwatch-real',
+            'platform' => 'required|in:0,1,2'
         ];
     }
 }

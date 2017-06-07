@@ -1,5 +1,10 @@
 <?php
 
+//# Overwatch
+Route::get('/overwatch/profile/check-for-update/{console}/{gamertag}', 'Overwatch\ProfileController@checkForUpdate');
+Route::get('/overwatch/profile/manual-update/{console}/{gamertag}', 'Overwatch\ProfileController@manualUpdate');
+Route::get('/overwatch/profile/{console}/{gamertag}/', 'Overwatch\ProfileController@index');
+
 //# Destiny
 Route::controller('/destiny/api/v1', 'Destiny\ApiV1Controller');
 Route::controller('/destiny/roster', 'Destiny\RosterController');

@@ -36,6 +36,7 @@ elixir(function(mix) {
      .copy(paths.images + 'unknown-weapon.png', 'public/images/')
      .copy(paths.images + 'xbl.png', 'public/images/')
      .copy(paths.images + 'psn.png', 'public/images/')
+     .copy(paths.images + 'overwatch', 'public/images/overwatch/')
      .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
      .copy(paths.themes, 'public/themes/')
      .copy(paths.css, 'public/css/')
