@@ -17,6 +17,22 @@ class MessageGenerator
     {
         $msg = '';
 
+        $random_key = array_rand($old->getAttributes(), 1);
+
+        while ($random_key == 'avatar' || $random_key == 'rank_image') {
+            $random_key = array_rand($old->getAttributes(), 1);
+        }
+
+        $difference = $new->$random_key - $old->$random_key;
+
+        $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated!<br />';
+        $msg .= 'Level: <strong>' . $new->totalLevel() . "</strong><br />";
+        $msg .= 'SR (current/high): <strong>' . $new->comprank . ' / ' . $new->max_comprank . '</strong><br />';
+
+        $msg .= '<br />Random Stat:<br />';
+        $msg .= ucfirst(str_replace('_', ' ', $random_key)) . ': ';
+        $msg .= $new->$random_key . ' (' . sprintf("%+d", $difference) . ')';
+
         return $msg;
     }
 }

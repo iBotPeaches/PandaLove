@@ -7,8 +7,13 @@ use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\Factory as View;
+use Onyx\Account;
+use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Overwatch\Client;
 use Onyx\Overwatch\Helpers\Bot\MessageGenerator;
 use Onyx\User;
+use Onyx\XboxLive\Enums\Console;
+use PandaLove\Commands\UpdateOverwatchAccount;
 use PandaLove\Http\Controllers\Controller;
 
 class ApiV1Controller extends Controller
@@ -50,6 +55,9 @@ class ApiV1Controller extends Controller
 
                 if ($user->account_id != 0 && $user->account->mainOverwatchSeason() !== null) {
                     $old = clone $user->account->mainOverwatchSeason();
+
+                    //$this->dispatch(new UpdateOverwatchAccount($user->account));
+
                     $new = $user->account->mainOverwatchSeason();
 
                     $msg = MessageGenerator::buildOverwatchUpdateMessage($user->account, $old, $new);
@@ -70,7 +78,31 @@ class ApiV1Controller extends Controller
         }
 
         if (isset($all['gamertag'])) {
+            $platform = isset($all['platform']) ? $all['platform'] : Console::Xbox;
 
+            $client = new Client();
+
+            try {
+                /** @var Account $account */
+                $client->getAccountByTag($all['gamertag'], $platform);
+
+                $account = Account::where('seo', Text::seoGamertag($all['gamertag']))
+                    ->with('overwatch')
+                    ->where('accountType', $platform)
+                    ->first();
+
+                $old = $account->mainOverwatchSeason();
+                $new = $account->mainOverwatchSeason();
+
+                $msg = MessageGenerator::buildOverwatchUpdateMessage($account, $old, $new);
+
+                return Response::json([
+                    'error' => false,
+                    'msg'   => $msg,
+                ], 200);
+            } catch (\Exception $ex) {
+                return $this->_error('Account could not be found - ' . $all['gamertag']);
+            }
         }
     }
 

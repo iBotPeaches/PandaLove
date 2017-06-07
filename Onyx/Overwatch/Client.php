@@ -57,6 +57,11 @@ class Client extends Http
         return $this->updateOrInsertStats($account, $data);
     }
 
+    /**
+     * @param $account
+     * @param string $platform
+     * @return Account
+     */
     public function getAccountByTag($account, $platform = 'xbl')
     {
         /** @var Account $account */
