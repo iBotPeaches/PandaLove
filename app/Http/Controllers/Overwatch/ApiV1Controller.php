@@ -47,7 +47,7 @@ class ApiV1Controller extends Controller
     {
         $all = $this->request->all();
 
-        if (isset($all['google_id'])) {
+        if (isset($all['google_id']) && isset($all['gamertag']) && $all['gamertag'] == '') {
             try {
                 /** @var User $user */
                 $user = User::where('google_id', $all['google_id'])
