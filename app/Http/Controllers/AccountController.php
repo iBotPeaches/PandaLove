@@ -30,23 +30,8 @@ class AccountController extends Controller
 
     public function getIndex()
     {
-        $recent_h5 = Halo5Data::with('warzone', 'account')
-            ->whereHas('warzone', function ($query) {
-                $query->where('totalKills', '!=', 0);
-            })
-            ->orderBy('created_at', 'DESC')
-            ->limit(5)
-            ->get();
-
-        $recent_destiny = DestinyData::with('account', 'characters')->orderBy('created_at', 'DESC')->limit(5)->get();
-
-        // attempt hash cache
-        Hashes::cacheDataHashes($recent_destiny);
-
         return view('account.index', [
             'title'   => 'PandaLove Account Adder',
-            'h5'      => $recent_h5,
-            'destiny' => $recent_destiny,
         ]);
     }
 
