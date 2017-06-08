@@ -54,6 +54,7 @@
                     </div>
                     @foreach ($account->overwatches as $overwatch)
                         <div class="ui bottom attached tab" data-tab="season-{{ $overwatch->season }}">
+                            @include('includes.overwatch.profile.season-tab', ['season' => $overwatch])
                         </div>
                     @endforeach
                 </div>

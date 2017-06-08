@@ -55,9 +55,24 @@ class Character extends Model
         return \GuzzleHttp\json_decode($data);
     }
 
+    public function getCharacterAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public function playtimeFancy()
+    {
+        $value = $this->playtime;
+
+        if ($value < 1) {
+            return (60 * $value) . ' mins';
+        }
+        return $value . ' hours';
+    }
 
     public function stats()
     {
@@ -66,7 +81,7 @@ class Character extends Model
 
     public function image()
     {
-        return asset('/images/overwatch/' . $this->character . '.png');
+        return asset('/images/overwatch/' . $this->getOriginal('character') . '.png');
     }
 
 }

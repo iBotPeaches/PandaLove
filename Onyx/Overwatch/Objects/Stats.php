@@ -143,7 +143,7 @@ class Stats extends Model
 
     public function characters()
     {
-        return $this->hasMany('Onyx\Overwatch\Objects\Character', 'account_id', 'id');
+        return $this->hasMany('Onyx\Overwatch\Objects\Character', 'account_id', 'id')->orderBy('playtime', 'DESC');
     }
 
     public function mainCharacter()
