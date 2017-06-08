@@ -58,14 +58,14 @@ class Client extends Http
     }
 
     /**
-     * @param $account
+     * @param $gamertag
      * @param string $platform
      * @return Account
      */
-    public function getAccountByTag($account, $platform = 'xbl')
+    public function getAccountByTag($gamertag, $platform = 'xbl')
     {
         /** @var Account $account */
-        $account = $this->checkCacheForTag($account, $platform);
+        $account = $this->checkCacheForTag($gamertag, $platform);
 
         if ($account !== null && $account->overwatch->first() !== null) {
             return $account;
@@ -74,7 +74,7 @@ class Client extends Http
         // Account does not exist. Make it.
         if ($account === null) {
             $account = Account::firstOrCreate([
-                'gamertag'    => $account,
+                'gamertag'    => $gamertag,
                 'accountType' => $platform,
             ]);
         }

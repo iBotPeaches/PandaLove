@@ -73,9 +73,14 @@ class ApiV1Controller extends Controller
                         'msg'   => $msg,
                     ], 200);
                 } else {
+                    $client = new Client();
+
+                    /** @var Account $account */
+                    $client->getAccountByTag($user->account->seo, $user->account->accountType);
+
                     return Response::json([
                         'error' => false,
-                        'msg'   => 'bitch pls. You need to confirm your gamertag on PandaLove so I know who you are.',
+                        'msg'   => 'First time entry. Command will work next time. Stats being created.',
                     ], 200);
                 }
             } catch (ModelNotFoundException $e) {
