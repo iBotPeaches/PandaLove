@@ -58,7 +58,13 @@ class ApiV1Controller extends Controller
 
                     $this->dispatch(new UpdateOverwatchAccount($user->account));
 
-                    $new = $user->account->mainOverwatchSeason();
+                    /** @var Account $account */
+                    $account = Account::where('seo', $user->account->seo)
+                        ->with('overwatch')
+                        ->where('accountType', $user->account->accountType)
+                        ->first();
+
+                    $new = $account->mainOverwatchSeason();
 
                     $msg = MessageGenerator::buildOverwatchUpdateMessage($user->account, $old, $new);
 
