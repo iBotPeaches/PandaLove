@@ -39,8 +39,8 @@ class ProfileController extends Controller
 
             return view('overwatch.profile', [
                 'account'     => $account,
-                'overall'     => $account->overwatch->first(),
-                'main'        => $account->overwatch->first()->mainCharacter()
+                'overall'     => $account->overwatch,
+                'main'        => $account->overwatch->mainCharacter()
             ]);
         } catch (ModelNotFoundException $e) {
             \App::abort(404, 'We could not find this Overwatch Profile.');
@@ -63,7 +63,7 @@ class ProfileController extends Controller
                 }
 
                 // check for 10 inactive checks
-                if ($account->mainOverwatchSeason()->inactive_counter >= $this->inactiveCounter) {
+                if ($account->overwatch->inactive_counter >= $this->inactiveCounter) {
                     return response()->json([
                         'updated'     => false,
                         'frozen'      => true,
@@ -72,20 +72,20 @@ class ProfileController extends Controller
                     ]);
                 }
 
-                if ($account->mainOverwatchSeason()->updated_at->diffInMinutes() >= $this->refreshRateInMinutes) {
+                if ($account->overwatch->updated_at->diffInMinutes() >= $this->refreshRateInMinutes) {
                     $this->dispatch(new UpdateOverwatchAccount($account));
 
                     return response()->json([
                         'updated'     => true,
                         'frozen'      => false,
-                        'last_update' => $account->mainOverwatchSeason()->getLastUpdatedRelative(),
+                        'last_update' => $account->overwatch->getLastUpdatedRelative(),
                     ]);
                 }
 
                 return response()->json([
                     'updated'     => false,
                     'frozen'      => false,
-                    'last_update' => $account->mainOverwatchSeason()->getLastUpdatedRelative(),
+                    'last_update' => $account->overwatch->getLastUpdatedRelative(),
                 ]);
             } catch (ModelNotFoundException $e) {
                 return response()->json([
@@ -105,7 +105,7 @@ class ProfileController extends Controller
                     ->where('accountType', $platform)
                     ->firstOrFail();
 
-                $inactive = $account->mainOverwatchSeason()->inactive_counter;
+                $inactive = $account->overwatch->inactive_counter;
 
                 $this->dispatch(new UpdateOverwatchAccount($account));
 
@@ -115,7 +115,7 @@ class ProfileController extends Controller
                     ->where('accountType', $platform)
                     ->firstOrFail();
 
-                if ($account->mainOverwatchSeason()->inactive_counter > $inactive) {
+                if ($account->overwatch->inactive_counter > $inactive) {
                     // they manually refreshed a profile with no data changes. ugh
                     return redirect('overwatch/profile/'.$account->seo.'/'.$account->accountType)
                         ->with('flash_message', [

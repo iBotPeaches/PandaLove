@@ -43,7 +43,7 @@
                         <a class="active item" data-tab="overview">
                             Overview
                         </a>
-                        @foreach ($account->overwatch as $overwatch)
+                        @foreach ($account->overwatches as $overwatch)
                             <a class="item" data-tab="season-{{ $overwatch->season }}">
                                 Season {{ $overwatch->season }}
                             </a>
@@ -52,7 +52,7 @@
                     <div class="ui bottom attached active tab" data-tab="overview">
                         @include('includes.overwatch.profile.overview-tab')
                     </div>
-                    @foreach ($account->overwatch as $overwatch)
+                    @foreach ($account->overwatches as $overwatch)
                         <div class="ui bottom attached tab" data-tab="season-{{ $overwatch->season }}">
                         </div>
                     @endforeach

@@ -53,8 +53,8 @@ class ApiV1Controller extends Controller
                 $user = User::where('google_id', $all['google_id'])
                     ->firstOrFail();
 
-                if ($user->account_id != 0 && $user->account->mainOverwatchSeason() !== null) {
-                    $old = clone $user->account->mainOverwatchSeason();
+                if ($user->account_id != 0 && $user->account->overwatch !== null) {
+                    $old = clone $user->account->overwatch;
 
                     $this->dispatch(new UpdateOverwatchAccount($user->account));
 
@@ -64,7 +64,7 @@ class ApiV1Controller extends Controller
                         ->where('accountType', $user->account->accountType)
                         ->first();
 
-                    $new = $account->mainOverwatchSeason();
+                    $new = $account->overwatch;
 
                     $msg = MessageGenerator::buildOverwatchUpdateMessage($user->account, $old, $new);
 
@@ -102,8 +102,8 @@ class ApiV1Controller extends Controller
                     ->where('accountType', $platform)
                     ->first();
 
-                $old = $account->mainOverwatchSeason();
-                $new = $account->mainOverwatchSeason();
+                $old = $account->overwatch;
+                $new = $account->overwatch;
 
                 $msg = MessageGenerator::buildOverwatchUpdateMessage($account, $old, $new);
 

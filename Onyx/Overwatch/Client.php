@@ -67,7 +67,7 @@ class Client extends Http
         /** @var Account $account */
         $account = $this->checkCacheForTag($gamertag, $platform);
 
-        if ($account !== null && $account->overwatch->first() !== null) {
+        if ($account !== null && $account->overwatch !== null) {
             return $account;
         }
 

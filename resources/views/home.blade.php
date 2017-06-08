@@ -18,7 +18,7 @@
                     </header>
                     <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
                     <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
-                    <a href="#" class="button big scrolly">Overwatch</a>
+                    <a href="{{ Url::action('Overwatch\RosterController@getIndex') }}" class="button big scrolly">Overwatch</a>
                 </div>
             </div>
         </article>

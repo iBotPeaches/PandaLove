@@ -24,7 +24,8 @@ use Onyx\Halo5\Objects\HistoricalStat;
  * @property string $destiny_membershipId
  * @property Data $destiny
  * @property \Onyx\Halo5\Objects\Data $h5
- * @property Collection $overwatch
+ * @property Collection $overwatches
+ * @property Stats $overwatch
  */
 class Account extends Model
 {
@@ -80,7 +81,7 @@ class Account extends Model
     /**
      * @return Stats
      */
-    public function overwatch()
+    public function overwatches()
     {
         return $this->hasMany('Onyx\Overwatch\Objects\Stats', 'account_id', 'id');
     }
@@ -88,9 +89,9 @@ class Account extends Model
     /**
      * @return Stats
      */
-    public function mainOverwatchSeason()
+    public function overwatch()
     {
-        return $this->overwatch->sortByDesc('season')->first();
+        return $this->hasOne('Onyx\Overwatch\Objects\Stats', 'account_id', 'id')->orderBy('season', 'DESC');
     }
 
     /**
