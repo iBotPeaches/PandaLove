@@ -19,7 +19,7 @@ class MessageGenerator
 
         $random_key = array_rand($old->getAttributes(), 1);
 
-        while ($random_key == 'avatar' || $random_key == 'rank_image') {
+        while ($random_key == 'avatar' || $random_key == 'rank_image' || $random_key == 'account_id' || $random_key == 'season' || $random_key == 'id') {
             $random_key = array_rand($old->getAttributes(), 1);
         }
 
