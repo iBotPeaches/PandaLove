@@ -56,7 +56,7 @@ class ApiV1Controller extends Controller
                 if ($user->account_id != 0 && $user->account->mainOverwatchSeason() !== null) {
                     $old = clone $user->account->mainOverwatchSeason();
 
-                    //$this->dispatch(new UpdateOverwatchAccount($user->account));
+                    $this->dispatch(new UpdateOverwatchAccount($user->account));
 
                     $new = $user->account->mainOverwatchSeason();
 

@@ -28,7 +28,7 @@ class Text
      */
     public static function seoGamertag($gamertag)
     {
-        return Str::lower(str_replace(' ', '-', $gamertag));
+        return Str::lower(str_replace(' ', '-', str_replace('"', null, str_replace("'", null, $gamertag))));
     }
 
     /**
