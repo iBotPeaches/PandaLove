@@ -39,11 +39,11 @@ class Client extends Http
 
         $data = $this->getJson($url);
 
-        if (isset($data['any'])) {
+        if (isset($data['any']) && isset($data['any']['stats']['competitive'])) {
             return $data['any'];
         }
 
-        throw new OWApiNetworkException('Could not find account.');
+        throw new OWApiNetworkException('Could not find account (Either no competitive data or does not exist).');
     }
 
     /**
