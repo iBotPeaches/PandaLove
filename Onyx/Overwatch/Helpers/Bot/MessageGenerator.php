@@ -23,15 +23,14 @@ class MessageGenerator
         $msg = '';
 
         $stats = [];
-        $random_key = array_rand($old->getAttributes(), 1);
+        $random_keys = array_rand($old->getAttributes(), 8);
 
-        while (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
-            $random_key = array_rand($old->getAttributes(), 1);
-
-            $difference = $new->$random_key - $old->$random_key;
-            $stats[$random_key] = $difference;
+        foreach ($random_keys as $random_key) {
+            if (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
+                $difference = $new->$random_key - $old->$random_key;
+                $stats[$random_key] = $difference;
+            }
         }
-
 
         $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated!<br />';
         $msg .= 'Level: <strong>' . $new->totalLevel() . "</strong><br />";
