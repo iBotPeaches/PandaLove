@@ -83,8 +83,8 @@ class ApiV1Controller extends Controller
                         'msg'   => 'First time entry. Command will work next time. Stats being created.',
                     ], 200);
                 }
-            } catch (ModelNotFoundException $e) {
-                return $this->_error('User account could not be found.');
+            } catch (\Exception $e) {
+                return $this->_error($e->getMessage());
             }
         }
 
