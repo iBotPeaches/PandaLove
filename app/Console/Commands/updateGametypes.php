@@ -54,6 +54,7 @@ class updateGametypes extends Command
         if (is_array($gametypes)) {
             foreach ($gametypes as $gametype) {
                 try {
+                    /** @var Gametype $_gametype */
                     $_gametype = Gametype::where('uuid', $gametype['id'])->firstOrFail();
 
                     $this->info('Gametype '.$_gametype['name'].' already exists. Updating.');
