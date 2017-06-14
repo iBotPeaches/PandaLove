@@ -163,4 +163,30 @@ class Stats extends Model
         return (100 * $this->prestige) + $this->level;
     }
 
+    public function highestPlaytime()
+    {
+        return $this->mainCharacter()->playtime;
+    }
+
+    public function winRate()
+    {
+        return round($this->win_rate, 2);
+    }
+
+    public function winRateColor()
+    {
+        $winRate = $this->winRate();
+
+        switch (true) {
+            case $winRate >= 65:
+                return 'green';
+
+            case $winRate >= 35 && $winRate < 65:
+                return 'yellow';
+
+            case $winRate < 35:
+                return 'red';
+        }
+    }
+
 }

@@ -52,7 +52,7 @@ class Character extends Model
 
     public function getDataAttribute($data)
     {
-        return \GuzzleHttp\json_decode($data);
+        return \GuzzleHttp\json_decode($data, true);
     }
 
     public function getCharacterAttribute($value)
@@ -82,6 +82,58 @@ class Character extends Model
     public function image()
     {
         return asset('/images/overwatch/' . $this->getOriginal('character') . '.png');
+    }
+
+    public function kd()
+    {
+        $kills = $this->g('general_stats.eliminations');
+        $deaths = $this->g('general_stats.deaths');
+
+        if ($deaths == 0) {
+            return $kills;
+        }
+
+        return round($kills / $deaths, 2);
+    }
+
+    public function kdColor()
+    {
+        $kd = $this->kd();
+
+        switch (true) {
+            case $kd >= 1:
+                return 'green';
+            case $kd < 1:
+                return 'red';
+        }
+    }
+
+    public function winRate()
+    {
+        $win_percentage = $this->g('general_stats.win_percentage');
+
+        return round($win_percentage * 100, 2);
+    }
+
+    public function winRateColor()
+    {
+        $winRate = $this->winRate();
+
+        switch (true) {
+            case $winRate >= 65:
+                return 'green';
+
+            case $winRate >= 35 && $winRate < 65:
+                return 'yellow';
+
+            case $winRate < 35:
+                return 'red';
+        }
+    }
+
+    public function g($key)
+    {
+        return array_get($this->data, $key, 0);
     }
 
 }

@@ -1,5 +1,5 @@
 <h3 class="ui top attached header">
-    Overall Stats
+    Current Season Stats
 </h3>
 <div class="ui attached segment">
     <div class="row">
