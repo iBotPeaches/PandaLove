@@ -10,7 +10,7 @@ class MessageGenerator
     /**
      * @var array
      */
-    private static $ignoredAttributes = ['avatar', 'rank_image', 'account_id', 'season', 'id'];
+    private static $ignoredAttributes = ['avatar', 'rank_image', 'account_id', 'season', 'id', 'created_at', 'updated_at'];
 
     /**
      * @param Account $account
@@ -23,12 +23,25 @@ class MessageGenerator
         $msg = '';
 
         $stats = [];
-        $random_keys = array_rand($old->getAttributes(), 8);
+        $random_keys = array_rand($old->getAttributes(), count($old->getAttributes()));
 
         foreach ($random_keys as $random_key) {
             if (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
                 $difference = $new->$random_key - $old->$random_key;
-                $stats[$random_key] = $difference;
+
+                if ($difference != 0) {
+                    $stats[$random_key] = $difference;
+                }
+            }
+        }
+
+        // If no stats were changed, just grab 3.
+        if (count($stats) === 0) {
+            foreach ($random_keys as $random_key) {
+                if (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
+                    $difference = $new->$random_key - $old->$random_key;
+                    $stats[$random_key] = $difference;
+                }
             }
         }
 
