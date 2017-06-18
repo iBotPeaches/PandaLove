@@ -10,7 +10,8 @@ var paths = {
     'fonts': './resources/fonts/',
     'themes': './resources/themes/',
     'storage': './storage/app/',
-    'weapons': './resources/images/weapons/'
+    'weapons': './resources/images/weapons/',
+    'semantic': './node_modules/semantic-ui/dist',
 };
 
 /*
@@ -32,11 +33,7 @@ elixir(function(mix) {
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
      .copy(paths.fonts, 'public/fonts')
      .copy(paths.weapons, 'public/images/weapons/')
-     .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
-     .copy(paths.images + 'unknown-weapon.png', 'public/images/')
-     .copy(paths.images + 'xbl.png', 'public/images/')
-     .copy(paths.images + 'psn.png', 'public/images/')
-     .copy(paths.images + 'overwatch', 'public/images/overwatch/')
+     .copy(paths.images, 'public/css/images/')
      .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
      .copy(paths.themes, 'public/themes/')
      .copy(paths.css, 'public/css/')

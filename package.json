@@ -1,11 +1,12 @@
 {
   "devDependencies": {
+    "font-awesome": "4.2.0",
     "gulp": "^3.8.8",
-    "laravel-elixir": "*",
     "jquery": "1.11.1",
-    "font-awesome": "4.2.0"
+    "laravel-elixir": "*"
   },
   "dependencies": {
-    "chart.js": "^2.1.3"
+    "chart.js": "^2.1.3",
+    "semantic-ui": "^2.2.10"
   }
 }
