@@ -32,9 +32,11 @@ laravel_build:
 laravel_test:
   stage: test
   script:
+    - "printenv"
     - "php artisan config:cache"
     - "php artisan migrate --env=testing"
     - "php artisan db:seed --env=testing"
+    - "printenv"
     - "php artisan halo5:batch-metadata"
     - "gulp"
     - "./vendor/bin/phpunit --colors=never"
