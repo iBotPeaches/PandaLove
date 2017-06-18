@@ -27,13 +27,12 @@ host('pandalove.club')
 // Tasks
 
 desc('Restart PHP-FPM service');
-task('php-fpm:restart', function () {
-    // The user must have rights for restart service
-    // /etc/sudoers: username ALL=NOPASSWD:/bin/systemctl restart php-fpm.service
-    run('whoami');
-    run('sudo systemctl restart php-fpm.service');
+task('gulp:asset', function () {
+    cd('{{release_path}}');
+    run('yarn global add gulp');
+    run('gulp --production');
 });
-after('deploy:symlink', 'php-fpm:restart');
+after('deploy:symlink', 'gulp:asset');
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
