@@ -15,6 +15,7 @@ class DestinyHashSeeder extends Seeder
         date_default_timezone_set('America/Chicago');
 
         if (\App::environment() != 'production') {
+            DB::table('destiny_metadata')->truncate();
         }
 
         Hash::create([
