@@ -8,10 +8,9 @@ var paths = {
     'js': './resources/js/',
     'images': './resources/images/',
     'fonts': './resources/fonts/',
-    'themes': './resources/themes/',
     'storage': './storage/app/',
     'weapons': './resources/images/weapons/',
-    'semantic': './node_modules/semantic-ui/dist',
+    'semantic': './semantic/dist/'
 };
 
 /*
@@ -32,21 +31,21 @@ elixir(function(mix) {
      .copy(paths.fontawesome + 'css/font-awesome.min.css', 'public/css/font-awesome.min.css')
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
      .copy(paths.fonts, 'public/fonts')
-     .copy(paths.weapons, 'public/images/weapons/')
-     .copy(paths.images, 'public/css/images/')
+     .copy(paths.images, 'public/images/')
      .copy(paths.storage + 'resources/images/h5-medals.png', 'public/css/images/h5-medals.png')
-     .copy(paths.themes, 'public/themes/')
+     .copy(paths.images + 'bg.png', 'public/css/images/bg.png')
+     .copy(paths.semantic + '/themes/', 'public/build/css/themes/')
      .copy(paths.css, 'public/css/')
      .copy(paths.js, 'public/js/')
      .styles([
          paths.css + 'fonts.css',
          paths.css + 'main.css',
-         paths.css + 'semantic.css',
+         paths.semantic + 'semantic.css',
          paths.storage + 'resources/css/h5-sprites.css'
      ], "public/css/app.css")
      .scripts([
          paths.js + 'main.js',
-         paths.js + 'semantic.min.js',
+         paths.semantic + 'semantic.min.js',
          paths.js + 'tablesort.js'
      ], "public/js/app.js")
      .version(["public/css/app.css", "public/js/app.js"]);

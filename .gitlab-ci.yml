@@ -3,7 +3,6 @@ cache:
   paths:
   - vendor/
   - node_modules/
-  - semantic/
 
 laravel_clean:
   stage: clean
@@ -18,17 +17,21 @@ laravel_build:
     - "php artisan key:generate"
     - "php artisan clear-compiled"
     - "yarn install"
-    - "cd semantic; gulp build; cd ..;"
+    - "cd node_modules/semantic-ui; gulp build; cd ../..;"
+    - "gulp"
   artifacts:
     paths:
     - bootstrap/cache/
-    - semantic/
+    - public/build
+    - public/css
+    - public/fonts
+    - public/images
+    - public/js
     expire_in: 1 hour
 
 laravel_test:
   stage: test
   script:
-    - "gulp"
     - "php artisan migrate --env=testing"
     - "php artisan db:seed --env=testing"
     - "php artisan halo5:batch-metadata"
