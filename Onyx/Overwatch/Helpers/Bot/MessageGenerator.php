@@ -10,7 +10,8 @@ class MessageGenerator
     /**
      * @var array
      */
-    private static $ignoredAttributes = ['avatar', 'rank_image', 'account_id', 'season', 'id', 'created_at', 'updated_at'];
+    private static $ignoredAttributes = ['avatar', 'rank_image', 'account_id',
+        'season', 'id', 'created_at', 'updated_at', 'inactive_counter'];
 
     /**
      * @param Account $account
@@ -46,7 +47,16 @@ class MessageGenerator
             }
         }
 
-        $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated!<br />';
+        $oldLevel = $old->totalLevel();
+        $newLevel = $new->totalLevel();
+        $additionalGames = $new->games_played - $old->games_played;
+
+        if ($oldLevel !== $newLevel) {
+            $msg .= '<strong>'.$account->gamertag.'</strong> has leveled up in ' . $additionalGames . ' games.' . '<br />';
+        } else {
+            $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated!<br />';
+        }
+
         $msg .= 'Level: <strong>' . $new->totalLevel() . "</strong><br />";
         $msg .= 'SR (current/high): <strong>' . $new->comprank . ' / ' . $new->max_comprank . '</strong><br />';
 
