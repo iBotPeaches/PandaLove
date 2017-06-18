@@ -7,7 +7,7 @@ cache:
 laravel_clean:
   stage: clean
   script:
-    - "./clean_mysql.sh $DB_USERNAME $DB_PASSWORD $DB_DATABASE"
+    - "sh clean_mysql.sh $DB_USERNAME $DB_PASSWORD $DB_DATABASE"
 
 laravel_build:
   stage: build
