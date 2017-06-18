@@ -8,7 +8,6 @@ require 'recipe/laravel.php';
 set('repository', 'ssh://git@gitlab.connortumbleson.com:22774/iBotPeaches/PandaLove.git');
 set('keep_releases', 1);
 set('git_tty', true);
-set('ssh_multiplexing', false);
 
 add('shared_files', []);
 add('shared_dirs', []);

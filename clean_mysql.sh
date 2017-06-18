@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-mysql --user=$DB_USERNAME --password=$DB_PASSWORD -BNe "show tables" $DB_DATABASE | tr '\n' ',' | sed -e 's/,$//' | awk '{print "SET FOREIGN_KEY_CHECKS = 0;DROP TABLE IF EXISTS " $1 ";SET FOREIGN_KEY_CHECKS = 1;"}' | mysql --user=$DB_USERNAME --password=$DB_PASSWORD $DB_DATABASE;
+mysql --user=`echo $DB_USERNAME` --password=`echo $DB_PASSWORD` -BNe "show tables" echo `$DB_DATABASE` | tr '\n' ',' | sed -e 's/,$//' | awk '{print "SET FOREIGN_KEY_CHECKS = 0;DROP TABLE IF EXISTS " $1 ";SET FOREIGN_KEY_CHECKS = 1;"}' | mysql --user=`echo $DB_USERNAME` --password=`echo $DB_PASSWORD` `echo $DB_DATABASE`;
