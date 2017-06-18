@@ -40,6 +40,7 @@ desc('Restart PHP-FPM service');
 task('gulp:asset', function () {
     cd('{{release_path}}');
     run('yarn add gulp');
+    run('php artisan halo5:batch-metadata');
     run('gulp --production');
 });
 after('deploy:symlink', 'gulp:asset');
