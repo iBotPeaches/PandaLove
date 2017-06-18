@@ -25,6 +25,7 @@ Thumbs.db
 
 # Other
 _ide_helper.php
+deployer.phar
 composer.phar
 error_log
 

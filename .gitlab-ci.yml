@@ -1,4 +1,52 @@
-job1:
+cache:
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+  - vendor/
+  - node_modules/
+  - semantic/
+
+laravel_clean:
+  stage: clean
   script:
-    - "chmod a+x build_script.sh"
-    - ./build_script.sh
+    - "sh clean_mysql.sh"
+
+laravel_build:
+  stage: build
+  script:
+    - "composer install"
+    - "curl -o- -L https://yarnpkg.com/install.sh | bash"
+    - "php artisan key:generate"
+    - "php artisan clear-compiled"
+    - "yarn install"
+    - "cd semantic; gulp build; cd ..;"
+  artifacts:
+    paths:
+    - bootstrap/cache/
+    - semantic/
+    expire_in: 1 hour
+
+laravel_test:
+  stage: test
+  script:
+    - "gulp"
+    - "php artisan migrate --env=testing"
+    - "php artisan db:seed --env=testing"
+    - "php artisan halo5:batch-metadata"
+    - "./vendor/bin/phpunit --coverage-text --colors=never"
+  dependencies:
+  - laravel_build
+
+laravel_deploy_production:
+  stage: deploy
+  environment: production
+  script:
+    - "curl -LO https://deployer.org/deployer.phar"
+    - "php deployer.phar deploy production -vvv"
+  only:
+  - production
+
+stages:
+  - clean
+  - build
+  - test
+  - deploy
