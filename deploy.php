@@ -39,7 +39,7 @@ host('pandalove.club')
 desc('Restart PHP-FPM service');
 task('gulp:asset', function () {
     cd('{{release_path}}');
-    run('yarn global add gulp');
+    run('yarn add gulp');
     run('gulp --production');
 });
 after('deploy:symlink', 'gulp:asset');
