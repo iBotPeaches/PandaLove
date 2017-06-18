@@ -24,6 +24,7 @@ class MessageGenerator
 
         $stats = [];
         $random_keys = array_rand($old->getAttributes(), count($old->getAttributes()));
+        shuffle($random_keys);
 
         foreach ($random_keys as $random_key) {
             if (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
