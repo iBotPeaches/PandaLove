@@ -11,7 +11,17 @@ set('git_tty', true);
 
 add('shared_files', []);
 add('shared_dirs', []);
-add('writable_dirs', []);
+add('writable_dirs', [
+    'public/images/enemies',
+    'public/images/gametypes',
+    'public/images/maps',
+    'public/images/overwatch',
+    'public/images/teams',
+    'public/images/vehicles',
+    'public/images/weapons',
+    'public/images/wireframes',
+    'public/uploads',
+]);
 
 
 // Hosts
