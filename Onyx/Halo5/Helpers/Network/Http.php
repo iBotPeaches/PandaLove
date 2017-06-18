@@ -49,7 +49,7 @@ class Http
         DebugBar::startMeasure($sum, $url);
 
         $response = $this->guzzle->get($url, [
-            'headers' => ['Ocp-Apim-Subscription-Key' => env('HALO5_KEY')],
+            'headers' => ['Ocp-Apim-Subscription-Key' => config('services.halo5.key')],
         ]);
 
         DebugBar::stopMeasure($sum);
@@ -80,7 +80,7 @@ class Http
 
         try {
             $response = $this->guzzle->get($url, [
-                'headers' => ['Ocp-Apim-Subscription-Key' => env('HALO5_KEY')],
+                'headers' => ['Ocp-Apim-Subscription-Key' => config('services.halo5.key')],
             ]);
         } catch (ServerException $e) {
             return;

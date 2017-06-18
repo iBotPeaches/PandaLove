@@ -44,4 +44,12 @@ return [
         'group_id' => env('BOT_HANGOUT'),
     ],
 
+    'halo5' => [
+        'key' => env('HALO5_KEY')
+    ],
+
+    'xbox' => [
+        'key' => env('XBOXAPI_KEY')
+    ]
+
 ];

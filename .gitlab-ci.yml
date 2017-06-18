@@ -1,5 +1,5 @@
 cache:
-  key: "$CI_BUILD_REF_NAME"
+  key: "$CI_COMMIT_REF_NAME"
   paths:
   - vendor/
   - node_modules/
@@ -32,10 +32,12 @@ laravel_build:
 laravel_test:
   stage: test
   script:
+    - "php artisan config:cache"
     - "php artisan migrate --env=testing"
     - "php artisan db:seed --env=testing"
     - "php artisan halo5:batch-metadata"
-    - "./vendor/bin/phpunit --coverage-text --colors=never"
+    - "gulp"
+    - "./vendor/bin/phpunit --colors=never"
   dependencies:
   - laravel_build
 

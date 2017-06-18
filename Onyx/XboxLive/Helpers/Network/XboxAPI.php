@@ -29,7 +29,7 @@ class XboxAPI
 
         $response = $this->guzzle->get($url, [
             'headers' => [
-                'X-AUTH' => env('XBOXAPI_KEY'),
+                'X-AUTH' => config('services.xbox.key'),
                 'Accept' => 'application/json',
             ],
         ]);
