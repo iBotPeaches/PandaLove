@@ -81,10 +81,10 @@ class Gametype extends Model
 
     public function getImage()
     {
-        $path = public_path('images/gametypes/');
+        $path = public_path('uploads/h5/images/gametypes/');
 
         if (file_exists($path.$this->uuid.'.png')) {
-            return asset('images/gametypes/'.$this->uuid.'.png');
+            return asset('uploads/h5/images/gametypes/'.$this->uuid.'.png');
         } else {
             return asset('images/unknown-weapon.png');
         }

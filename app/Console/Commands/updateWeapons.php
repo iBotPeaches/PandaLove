@@ -5,6 +5,7 @@ namespace PandaLove\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Enums\MetadataType;
@@ -47,6 +48,12 @@ class updateWeapons extends Command
         $client = new Client();
         $this->info('Getting new Weapon data from 343');
         $weapons = $client->getWeapons();
+        $path = 'public/uploads/h5/images/weapons/';
+
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0775, true);
+        }
+
 
         if (is_array($weapons)) {
             $this->info('We found Weapon data. Adding to table.');
@@ -80,16 +87,14 @@ class updateWeapons extends Command
                     $w->uuid = $weapon['id'];
                     $w->contentId = $weapon['contentId'];
                     $w->save();
+                }
 
-                    $path = 'resources/images/weapons/';
+                if (!file_exists($path.$weapon['id'].'.png')) {
+                    $icon = file_get_contents($weapon['smallIconImageUrl']);
 
-                    if (!file_exists($path.$weapon['id'].'.png')) {
-                        $icon = file_get_contents($weapon['smallIconImageUrl']);
-
-                        /** @var $image \Intervention\Image\Image */
-                        $image = Image::make($icon);
-                        $image->save($path.$weapon['id'].'.png');
-                    }
+                    /** @var $image \Intervention\Image\Image */
+                    $image = Image::make($icon);
+                    $image->save($path.$weapon['id'].'.png');
                 }
             }
         }

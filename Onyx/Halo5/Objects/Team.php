@@ -53,10 +53,10 @@ class Team extends Model
      */
     public function getImage()
     {
-        $path = public_path('images/teams/');
+        $path = public_path('uploads/h5/images/teams/');
 
         if (file_exists($path.$this->id.'.png')) {
-            return asset('images/teams/'.$this->id.'.png');
+            return asset('uploads/h5/images/teams/'.$this->id.'.png');
         } else {
             return asset('images/unknown-weapon.png');
         }

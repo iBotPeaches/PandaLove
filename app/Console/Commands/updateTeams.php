@@ -46,7 +46,7 @@ class updateTeams extends Command
         $this->info('Getting teams from 343');
 
         $teams = $client->getTeams();
-        $path = 'public/images/teams/';
+        $path = 'public/uploads/h5/images/teams/';
 
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
@@ -69,15 +69,15 @@ class updateTeams extends Command
                     $t->color = $team['color'];
                     $t->contentId = $team['contentId'];
                     $t->save();
+                }
 
-                    if ($team['iconUrl'] != null) {
-                        if (!file_exists($path.$team['id'].'.png')) {
-                            $icon = file_get_contents($team['iconUrl']);
+                if ($team['iconUrl'] != null) {
+                    if (!file_exists($path.$team['id'].'.png')) {
+                        $icon = file_get_contents($team['iconUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$team['id'].'.png');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$team['id'].'.png');
                     }
                 }
             }

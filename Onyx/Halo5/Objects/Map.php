@@ -68,10 +68,10 @@ class Map extends Model
 
     public function getImage()
     {
-        $path = public_path('images/maps/');
+        $path = public_path('uploads/h5/images/maps/');
 
         if (file_exists($path.$this->uuid.'.jpg')) {
-            return asset('images/maps/'.$this->uuid.'.jpg');
+            return asset('uploads/h5/images/maps/'.$this->uuid.'.jpg');
         } else {
             return asset('images/unknown-weapon.png');
         }

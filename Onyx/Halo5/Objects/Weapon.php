@@ -54,6 +54,20 @@ class Weapon extends Model
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        $path = public_path('uploads/h5/images/weapons/');
+
+        if (file_exists($path.$this->uuid.'.png')) {
+            return asset('uploads/h5/images/weapons/'.$this->uuid.'.png');
+        } else {
+            return asset('images/unknown-weapon.png');
+        }
+    }
+
     public static function getAll()
     {
         return \Cache::remember('weapons-metadata', 120, function () {

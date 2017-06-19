@@ -48,7 +48,7 @@ class updateEnemies extends Command
         $client = new Client();
         $this->info('Getting enemies from 343');
         $enemies = $client->getEnemies();
-        $path = 'public/images/enemies/';
+        $path = 'public/uploads/h5/images/enemies/';
 
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
@@ -84,25 +84,25 @@ class updateEnemies extends Command
                     $e->name = $enemy['name'];
                     $e->description = $enemy['description'];
                     $e->save();
+                }
 
-                    if ($enemy['smallIconImageUrl'] != null) {
-                        if (!file_exists($path.$enemy['id'].'.png')) {
-                            $icon = file_get_contents($enemy['smallIconImageUrl']);
+                if ($enemy['smallIconImageUrl'] != null) {
+                    if (!file_exists($path.$enemy['id'].'.png')) {
+                        $icon = file_get_contents($enemy['smallIconImageUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$enemy['id'].'-small.png');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$enemy['id'].'-small.png');
                     }
+                }
 
-                    if ($enemy['largeIconImageUrl'] != null) {
-                        if (!file_exists($path.$enemy['id'].'.png')) {
-                            $icon = file_get_contents($enemy['largeIconImageUrl']);
+                if ($enemy['largeIconImageUrl'] != null) {
+                    if (!file_exists($path.$enemy['id'].'.png')) {
+                        $icon = file_get_contents($enemy['largeIconImageUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$enemy['id'].'-large.png');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$enemy['id'].'-large.png');
                     }
                 }
             }
