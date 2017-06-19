@@ -66,7 +66,7 @@ class Event extends Model
 
     public function botDate()
     {
-        return $this->start->format('M j (D) - g:ia');
+        return $this->start->format('M j (D) - g:ia T');
     }
 
     public function count()
