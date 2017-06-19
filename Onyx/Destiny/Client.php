@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Onyx\Account;
-use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\Network\Http;
 use Onyx\Destiny\Helpers\String\Hashes;
 use Onyx\Destiny\Helpers\String\Text;
@@ -18,6 +17,7 @@ use Onyx\Destiny\Objects\Data;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\Objects\GamePlayer;
 use Onyx\Destiny\Objects\PVP;
+use Onyx\XboxLive\Enums\Console;
 use PandaLove\Commands\UpdateGamertag;
 
 class Client extends Http

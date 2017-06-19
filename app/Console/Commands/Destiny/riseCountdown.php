@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Destiny;
 
 use Illuminate\Console\Command;
 use Onyx\Destiny\Helpers\Bot\MessageGenerator;

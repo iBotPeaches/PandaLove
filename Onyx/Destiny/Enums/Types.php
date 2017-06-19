@@ -90,6 +90,17 @@ abstract class Types
 
             case 'Forge':
                 return 'Forge';
+
+            case 'Competitive':
+            case 'comp':
+                return 'Competitive';
+
+            case 'qp':
+            case 'quickplay':
+                return 'Quickplay';
+
+            case 'elimination':
+                return 'Elimination';
         }
     }
 }

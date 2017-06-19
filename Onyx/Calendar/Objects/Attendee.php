@@ -3,6 +3,10 @@
 namespace Onyx\Calendar\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Account;
+use Onyx\Destiny\Objects\Character;
+use Onyx\Halo5\Objects\Data;
+use Onyx\User;
 
 /**
  * Class Attendee.
@@ -13,6 +17,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $account_id
  * @property int $user_id
  * @property bool $attended
+ * @property Account $account
+ * @property Character $character
+ * @property Data $h5
+ * @property User $user
+ * @property Event $event
  */
 class Attendee extends Model
 {
@@ -51,6 +60,16 @@ class Attendee extends Model
     public function h5()
     {
         return $this->belongsTo('Onyx\Halo5\Objects\Data', 'account_id', 'account_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function ow()
+    {
+        return $this
+            ->hasOne('Onyx\Overwatch\Objects\Stats', 'account_id', 'account_id')
+            ->orderBy('season', 'DESC');
     }
 
     public function user()

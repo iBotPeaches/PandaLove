@@ -4,13 +4,13 @@ namespace Onyx\Halo5\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 use Onyx\Account;
-use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\CustomTraits\Stats;
 use Onyx\Halo5\Helpers\Date\DateHelper;
 use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Laravel\Helpers\Text as LaravelText;
+use Onyx\XboxLive\Enums\Console;
 use Ramsey\Uuid\Uuid;
 
 /**

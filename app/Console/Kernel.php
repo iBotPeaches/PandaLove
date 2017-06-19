@@ -4,26 +4,24 @@ namespace PandaLove\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use PandaLove\Console\Commands\addHistoricAccount;
-use PandaLove\Console\Commands\addMatchEvent;
-use PandaLove\Console\Commands\alertSender;
-use PandaLove\Console\Commands\batchHalo5Metadata;
-use PandaLove\Console\Commands\riseCountdown;
-use PandaLove\Console\Commands\updateCsrs;
-use PandaLove\Console\Commands\updateEnemies;
-use PandaLove\Console\Commands\updateGametypes;
-use PandaLove\Console\Commands\updateH5Pandas;
-use PandaLove\Console\Commands\updateHistoricStats;
-use PandaLove\Console\Commands\updateImpulses;
-use PandaLove\Console\Commands\updateMaps;
-use PandaLove\Console\Commands\updateMedals;
-use PandaLove\Console\Commands\updatePandas;
-use PandaLove\Console\Commands\updatePlaylists;
-use PandaLove\Console\Commands\updateRanks;
-use PandaLove\Console\Commands\updateSeasons;
-use PandaLove\Console\Commands\updateTeams;
-use PandaLove\Console\Commands\updateVehicles;
-use PandaLove\Console\Commands\updateWeapons;
+use PandaLove\Console\Commands\Calendar\alertSender;
+use PandaLove\Console\Commands\Destiny\riseCountdown;
+use PandaLove\Console\Commands\Destiny\updatePandas;
+use PandaLove\Console\Commands\Halo5\addMatchEvent;
+use PandaLove\Console\Commands\Halo5\batchHalo5Metadata;
+use PandaLove\Console\Commands\Halo5\updateCsrs;
+use PandaLove\Console\Commands\Halo5\updateEnemies;
+use PandaLove\Console\Commands\Halo5\updateGametypes;
+use PandaLove\Console\Commands\Halo5\updateHistoricStats;
+use PandaLove\Console\Commands\Halo5\updateImpulses;
+use PandaLove\Console\Commands\Halo5\updateMaps;
+use PandaLove\Console\Commands\Halo5\updateMedals;
+use PandaLove\Console\Commands\Halo5\updatePlaylists;
+use PandaLove\Console\Commands\Halo5\updateRanks;
+use PandaLove\Console\Commands\Halo5\updateSeasons;
+use PandaLove\Console\Commands\Halo5\updateTeams;
+use PandaLove\Console\Commands\Halo5\updateVehicles;
+use PandaLove\Console\Commands\Halo5\updateWeapons;
 
 class Kernel extends ConsoleKernel
 {
@@ -33,16 +31,21 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        updatePandas::class,
+        // calendar
         alertSender::class,
+
+        // destiny
+        updatePandas::class,
+        riseCountdown::class,
+
+        // halo 5
         updateMedals::class,
         updateCsrs::class,
         updatePlaylists::class,
         updateSeasons::class,
+        \PandaLove\Console\Commands\Halo5\updatePandas::class,
         updateWeapons::class,
         updateHistoricStats::class,
-        updateH5Pandas::class,
-        addHistoricAccount::class,
         addMatchEvent::class,
         updateGametypes::class,
         updateMaps::class,

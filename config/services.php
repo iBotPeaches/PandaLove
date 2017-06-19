@@ -45,11 +45,11 @@ return [
     ],
 
     'halo5' => [
-        'key' => env('HALO5_KEY')
+        'key' => env('HALO5_KEY'),
     ],
 
     'xbox' => [
-        'key' => env('XBOXAPI_KEY')
-    ]
+        'key' => env('XBOXAPI_KEY'),
+    ],
 
 ];

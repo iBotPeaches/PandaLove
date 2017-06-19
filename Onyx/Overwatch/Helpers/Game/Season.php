@@ -5,43 +5,44 @@ namespace Onyx\Overwatch\Helpers\Game;
 use Carbon\Carbon;
 
 /**
- * Class Season
- * @package Onyx\Overwatch\Helpers\Game
+ * Class Season.
  */
 class Season
 {
     public static $seasons = [
         1 => [
-            'start' => 'June 28, 2016',
-            'end' => 'August 18, 2016',
+            'start'  => 'June 28, 2016',
+            'end'    => 'August 18, 2016',
             'season' => 1,
         ],
         2 => [
-            'start' => 'September 1, 2016',
-            'end' => 'November 23, 2016',
+            'start'  => 'September 1, 2016',
+            'end'    => 'November 23, 2016',
             'season' => 2,
         ],
         3 => [
-            'start' => 'December 1, 2016',
-            'end' => 'February 22, 2017',
+            'start'  => 'December 1, 2016',
+            'end'    => 'February 22, 2017',
             'season' => 3,
         ],
         4 => [
-            'start' => 'March 1, 2017',
-            'end' => 'May 29, 2017',
+            'start'  => 'March 1, 2017',
+            'end'    => 'May 29, 2017',
             'season' => 4,
         ],
         5 => [
-            'start' => 'June 1, 2017',
-            'end' => 'August 24, 2017',
+            'start'  => 'June 1, 2017',
+            'end'    => 'August 24, 2017',
             'season' => 5,
         ],
     ];
 
     /**
      * @param $date
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public static function getSeason($date)
     {
@@ -54,6 +55,6 @@ class Season
             }
         }
 
-        throw new \Exception('Uh oh. We have no season for this date - ' . $date);
+        throw new \Exception('Uh oh. We have no season for this date - '.$date);
     }
 }

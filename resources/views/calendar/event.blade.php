@@ -30,6 +30,8 @@
                     @else
                         @if ($event->isDestiny())
                             @include('includes.calendar.destiny.attending_table')
+                        @elseif ($event->isOverwatch())
+                            @include('includes.calendar.overwatch.attending_table')
                         @else
                             @include('includes.calendar.halo5.attending_table')
                         @endif

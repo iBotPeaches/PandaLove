@@ -5,11 +5,11 @@ namespace Onyx;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Onyx\Overwatch\Objects\Stats;
-use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Data;
 use Onyx\Halo5\Objects\HistoricalStat;
+use Onyx\Overwatch\Objects\Stats;
+use Onyx\XboxLive\Enums\Console;
 
 /**
  * Class Account.

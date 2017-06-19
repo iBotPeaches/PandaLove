@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddOWTables extends Migration
 {
@@ -32,7 +32,7 @@ class AddOWTables extends Migration
             $table->integer('ties', false, true);
             $table->integer('losses', false, true);
             $table->integer('wins', false, true);
-            $table->mediumInteger('level' , false, true);
+            $table->mediumInteger('level', false, true);
             $table->decimal('win_rate', 4, 2);
             $table->smallInteger('prestige');
             $table->integer('games', false, true);
@@ -104,7 +104,6 @@ class AddOWTables extends Migration
 
             $table->foreign('account_id')->references('id')->on('overwatch_stats');
         });
-
     }
 
     /**

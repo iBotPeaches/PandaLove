@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Destiny;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -26,14 +26,18 @@ class updatePandas extends Command
      */
     protected $description = 'Update all Pandas present';
 
+    /**
+     * @var int
+     */
     public $inactiveCounter = 10;
 
+    /**
+     * @var int
+     */
     public $refreshRateInMinutes = 10;
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * updatePandas constructor.
      */
     public function __construct()
     {

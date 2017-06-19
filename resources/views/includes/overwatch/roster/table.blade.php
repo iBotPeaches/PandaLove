@@ -25,7 +25,7 @@
             <td class="level-table center aligned">{{ $member->overwatch->totalLevel() }}</td>
             <td class="highest-sr-table center aligned">{{ $member->overwatch->max_comprank }}</td>
             <td class="center aligned {{ $member->overwatch->win_rate >= 50 ? "positive" : "warning" }} win-rate-table">{{ $member->overwatch->win_rate }}</td>
-            <td class="center aligned games-table">{{ $member->overwatch->games }}</td>
+            <td class="center aligned gamesplayed-table">{{ $member->overwatch->games }}</td>
             <td class="center aligned medals-table">{{ $member->overwatch->medals }}</td>
             <td class="center aligned eliminations-table">{{ $member->overwatch->eliminations }}</td>
         </tr>

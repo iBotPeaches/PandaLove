@@ -224,6 +224,21 @@
 .avglevel-table:after {
 	content: " Avg Level";
 }
+.level-table:before {
+	content: "Level ";
+}
+.highest-sr-table:after {
+	content: " SR";
+}
+.win-rate-table:after {
+	content: "% WinRate";
+}
+.medals-table:after {
+	content: " Medals";
+}
+.eliminations-table {
+	content: " Eliminations";
+}
 .gamesplayed-table:after {
 	content: " Games Played";
 }

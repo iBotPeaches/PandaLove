@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Halo5;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -53,7 +53,6 @@ class updateWeapons extends Command
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
         }
-
 
         if (is_array($weapons)) {
             $this->info('We found Weapon data. Adding to table.');

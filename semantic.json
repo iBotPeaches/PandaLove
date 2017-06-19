@@ -19,6 +19,7 @@
   "permission": false,
   "rtl": false,
   "components": [
+    "header",
     "button",
     "container",
     "divider",

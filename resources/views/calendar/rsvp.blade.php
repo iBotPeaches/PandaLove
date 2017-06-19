@@ -17,6 +17,8 @@
                         <p>Currently <strong>{{ $event->count() }}</strong> of <strong> {{ $event->max_players }}</strong> attending.</p>
                         @if ($event->isDestiny())
                             @include('includes.calendar.destiny.attending_table')
+                        @elseif ($event->isOverwatch())
+                            @include('includes.calendar.overwatch.attending_table')
                         @else
                             @include('includes.calendar.halo5.attending_table')
                         @endif
@@ -32,6 +34,8 @@
                             @if (! $event->isFull())
                                 @if ($event->isDestiny())
                                     @include('includes.calendar.destiny.select_character')
+                                @elseif ($event->isOverwatch())
+                                    @include('includes.calendar.overwatch.select_character')
                                 @else
                                     @include('includes.calendar.halo5.select_character')
                                 @endif
