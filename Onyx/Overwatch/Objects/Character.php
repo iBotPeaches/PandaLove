@@ -5,13 +5,13 @@ namespace Onyx\Overwatch\Objects;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Stats
+ * Class Stats.
+ *
  * @property int $id
  * @property int $account_id
  * @property string $character
  * @property float $playtime
  * @property array $data
- * @package Onyx\Overwatch\Objects
  */
 class Character extends Model
 {
@@ -69,9 +69,10 @@ class Character extends Model
         $value = $this->playtime;
 
         if ($value < 1) {
-            return (60 * $value) . ' mins';
+            return (60 * $value).' mins';
         }
-        return $value . ' hours';
+
+        return $value.' hours';
     }
 
     public function stats()
@@ -81,7 +82,7 @@ class Character extends Model
 
     public function image()
     {
-        return asset('/images/overwatch/' . $this->getOriginal('character') . '.png');
+        return asset('/images/overwatch/'.$this->getOriginal('character').'.png');
     }
 
     public function kd()
@@ -135,5 +136,4 @@ class Character extends Model
     {
         return array_get($this->data, $key, 0);
     }
-
 }

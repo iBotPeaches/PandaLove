@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Onyx\Account;
-use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Halo5\Client as Client;
 use Onyx\Halo5\Collections\SeasonCollection;
@@ -14,6 +13,7 @@ use Onyx\Halo5\Helpers\String\Text as Halo5Text;
 use Onyx\Halo5\Objects\Medal;
 use Onyx\Halo5\Objects\Warzone;
 use Onyx\Halo5\Objects\Weapon;
+use Onyx\XboxLive\Enums\Console;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Controllers\Controller;
 

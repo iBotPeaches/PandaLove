@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Onyx\Account;
-use Onyx\XboxLive\Enums\Console;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Halo5\Collections\GameHistoryCollection;
 use Onyx\Halo5\Collections\LeaderboardCollection;
@@ -26,6 +25,7 @@ use Onyx\Halo5\Objects\Playlist;
 use Onyx\Halo5\Objects\PlaylistData;
 use Onyx\Halo5\Objects\Season;
 use Onyx\Halo5\Objects\Warzone;
+use Onyx\XboxLive\Enums\Console;
 use PandaLove\Jobs\Halo5EmblemDownloader;
 use Ramsey\Uuid\Uuid;
 

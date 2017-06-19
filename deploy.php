@@ -1,4 +1,5 @@
 <?php
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
@@ -15,7 +16,6 @@ add('shared_dirs', [
 ]);
 add('writable_dirs', []);
 
-
 // Hosts
 host('pandalove.club')
     ->stage('production')
@@ -24,7 +24,6 @@ host('pandalove.club')
     ->port(22774)
     ->user('pandalove')
     ->set('deploy_path', '/home/pandalove/deploys');
-
 
 // Tasks
 

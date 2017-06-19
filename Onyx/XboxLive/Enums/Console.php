@@ -19,7 +19,7 @@ abstract class Console
     const PSN = 2;
 
     /**
-     * PC
+     * PC.
      *
      * On xbox
      */
@@ -27,24 +27,25 @@ abstract class Console
 
     /**
      * @param $id
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public static function getOverwatchTag($id)
     {
-        switch ($id)
-        {
-            case Console::Xbox:
+        switch ($id) {
+            case self::Xbox:
                 return 'xbl';
 
-            case Console::PSN:
+            case self::PSN:
                 return 'psn';
 
-            case Console::PC:
+            case self::PC:
                 return 'pc';
 
             default:
-                throw new \Exception('Unknown ID - ' . $id);
+                throw new \Exception('Unknown ID - '.$id);
         }
     }
 }

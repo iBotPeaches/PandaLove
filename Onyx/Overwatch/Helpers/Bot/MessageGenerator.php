@@ -11,12 +11,13 @@ class MessageGenerator
      * @var array
      */
     private static $ignoredAttributes = ['avatar', 'rank_image', 'account_id', 'prestige',
-        'season', 'id', 'created_at', 'updated_at', 'inactive_counter'];
+        'season', 'id', 'created_at', 'updated_at', 'inactive_counter', ];
 
     /**
      * @param Account $account
-     * @param Stats $old
-     * @param Stats $new
+     * @param Stats   $old
+     * @param Stats   $new
+     *
      * @return string
      */
     public static function buildOverwatchUpdateMessage($account, $old, $new)
@@ -28,7 +29,7 @@ class MessageGenerator
         shuffle($random_keys);
 
         foreach ($random_keys as $random_key) {
-            if (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
+            if (!in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
                 $difference = $new->$random_key - $old->$random_key;
 
                 if ($difference != 0) {
@@ -40,7 +41,7 @@ class MessageGenerator
         // If no stats were changed, just grab 3.
         if (count($stats) === 0) {
             foreach ($random_keys as $random_key) {
-                if (! in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
+                if (!in_array($random_key, self::$ignoredAttributes) && count($stats) < 3) {
                     $difference = $new->$random_key - $old->$random_key;
                     $stats[$random_key] = $difference;
                 }
@@ -52,18 +53,18 @@ class MessageGenerator
         $additionalGames = $new->games_played - $old->games_played;
 
         if ($oldLevel !== $newLevel) {
-            $msg .= '<strong>'.$account->gamertag.'</strong> has leveled up in ' . $additionalGames . ' games.' . '<br />';
+            $msg .= '<strong>'.$account->gamertag.'</strong> has leveled up in '.$additionalGames.' games.'.'<br />';
         } else {
             $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated!<br />';
         }
 
-        $msg .= 'Level: <strong>' . $new->totalLevel() . "</strong><br />";
-        $msg .= 'SR (current/high): <strong>' . $new->comprank . ' / ' . $new->max_comprank . '</strong><br />';
+        $msg .= 'Level: <strong>'.$new->totalLevel().'</strong><br />';
+        $msg .= 'SR (current/high): <strong>'.$new->comprank.' / '.$new->max_comprank.'</strong><br />';
 
         $msg .= '<br />Random Stats:<br />';
         foreach ($stats as $key => $difference) {
-            $msg .= ucfirst(str_replace('_', ' ', $key)) . ': ';
-            $msg .= $new->$key . ' (' . sprintf("%+d", $difference) . ') <br />';
+            $msg .= ucfirst(str_replace('_', ' ', $key)).': ';
+            $msg .= $new->$key.' ('.sprintf('%+d', $difference).') <br />';
         }
 
         return $msg;

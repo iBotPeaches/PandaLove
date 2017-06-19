@@ -14,8 +14,7 @@ use Onyx\Overwatch\Objects\Stats;
 use Onyx\XboxLive\Enums\Console;
 
 /**
- * Class Client
- * @package Onyx\Overwatch
+ * Class Client.
  */
 class Client extends Http
 {
@@ -26,7 +25,7 @@ class Client extends Http
 
     /**
      * @param Account $account
-     * @param int $platform
+     * @param int     $platform
      *
      * @throws OWApiNetworkException
      *
@@ -48,6 +47,7 @@ class Client extends Http
 
     /**
      * @param Account $account
+     *
      * @return bool
      */
     public function updateAccount($account)
@@ -60,6 +60,7 @@ class Client extends Http
     /**
      * @param $gamertag
      * @param string $platform
+     *
      * @return Account
      */
     public function getAccountByTag($gamertag, $platform = 'xbl')
@@ -90,6 +91,7 @@ class Client extends Http
     /**
      * @param $account
      * @param int $platform
+     *
      * @return mixed
      */
     public function checkCacheForTag($account, $platform = Console::Xbox)
@@ -107,10 +109,9 @@ class Client extends Http
 
         if ($account !== null) {
             $this->account_cached[$seo] = $account;
+
             return $account;
         }
-
-        return null;
     }
 
     //---------------------------------------------------------------------------------
@@ -119,7 +120,8 @@ class Client extends Http
 
     /**
      * @param Account $account
-     * @param array $data
+     * @param array   $data
+     *
      * @return bool
      */
     private function updateOrInsertStats($account, $data)
@@ -133,8 +135,8 @@ class Client extends Http
 
         if ($stats === null) {
             $stats = Stats::firstOrCreate([
-                'season' => $season['season'],
-                'account_id' => $account->id
+                'season'     => $season['season'],
+                'account_id' => $account->id,
             ]);
         }
 
@@ -170,9 +172,10 @@ class Client extends Http
     }
 
     /**
-     * @param Stats $stats
+     * @param Stats  $stats
      * @param string $char
-     * @param array $data
+     * @param array  $data
+     *
      * @return bool
      */
     private function updateOrInsertCharacterStats($stats, $char, $data)
@@ -185,7 +188,7 @@ class Client extends Http
         if ($character === null) {
             $character = Character::firstOrCreate([
                 'account_id' => $stats->id,
-                'character' => $char
+                'character'  => $char,
             ]);
         }
 

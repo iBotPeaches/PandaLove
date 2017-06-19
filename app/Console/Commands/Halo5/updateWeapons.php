@@ -54,7 +54,6 @@ class updateWeapons extends Command
             File::makeDirectory($path, 0775, true);
         }
 
-
         if (is_array($weapons)) {
             $this->info('We found Weapon data. Adding to table.');
 

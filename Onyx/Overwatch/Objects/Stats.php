@@ -8,7 +8,8 @@ use Illuminate\Support\Collection;
 use Onyx\Account;
 
 /**
- * Class Stats
+ * Class Stats.
+ *
  * @property int $id
  * @property int $account_id
  * @property int $season
@@ -81,10 +82,8 @@ use Onyx\Account;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int $inactive_counter
- *
  * @property Account $account
  * @property Collection $characters
- * @package Onyx\Overwatch\Objects
  */
 class Stats extends Model
 {
@@ -188,5 +187,4 @@ class Stats extends Model
                 return 'red';
         }
     }
-
 }

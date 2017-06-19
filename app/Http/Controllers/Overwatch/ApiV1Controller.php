@@ -2,7 +2,6 @@
 
 namespace PandaLove\Http\Controllers\Overwatch;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
@@ -75,7 +74,7 @@ class ApiV1Controller extends Controller
                 } else {
                     $client = new Client();
 
-                    /** @var Account $account */
+                    /* @var Account $account */
                     $client->getAccountByTag($user->account->seo, $user->account->accountType);
 
                     return Response::json([
@@ -94,7 +93,7 @@ class ApiV1Controller extends Controller
             $client = new Client();
 
             try {
-                /** @var Account $account */
+                /* @var Account $account */
                 $client->getAccountByTag($all['gamertag'], $platform);
 
                 $account = Account::where('seo', Text::seoGamertag($all['gamertag']))
@@ -112,7 +111,7 @@ class ApiV1Controller extends Controller
                     'msg'   => $msg,
                 ], 200);
             } catch (\Exception $ex) {
-                return $this->_error('Account could not be found - ' . $all['gamertag']);
+                return $this->_error('Account could not be found - '.$all['gamertag']);
             }
         }
     }

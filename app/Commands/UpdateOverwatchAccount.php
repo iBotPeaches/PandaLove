@@ -7,15 +7,14 @@ use Onyx\Account;
 use Onyx\Overwatch\Client;
 
 /**
- * Class UpdateOverwatchAccount
- * @package PandaLove\Commands
+ * Class UpdateOverwatchAccount.
  */
 class UpdateOverwatchAccount extends Command implements SelfHandling
 {
     private $account;
 
     /**
-     * Create a new command instance
+     * Create a new command instance.
      */
     public function __construct(Account $account)
     {

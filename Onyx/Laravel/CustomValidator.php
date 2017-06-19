@@ -19,7 +19,6 @@ use Onyx\Overwatch\Client as OverwatchClient;
 use Onyx\Overwatch\Helpers\Network\OWApiNetworkException;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
-use Onyx\XboxLive\Enums\Console;
 
 class CustomValidator extends Validator
 {
@@ -94,7 +93,6 @@ class CustomValidator extends Validator
 
         try {
             $account = $client->getAccountByTag($value, $this->data['platform']);
-
         } catch (OWApiNetworkException $ex) {
             return false;
         }

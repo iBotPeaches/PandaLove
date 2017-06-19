@@ -12,8 +12,7 @@ use PandaLove\Commands\UpdateOverwatchAccount;
 use PandaLove\Http\Controllers\Controller;
 
 /**
- * Class ProfileController
- * @package PandaLove\Http\Controllers\Overwatch
+ * Class ProfileController.
  */
 class ProfileController extends Controller
 {
@@ -40,7 +39,7 @@ class ProfileController extends Controller
             return view('overwatch.profile', [
                 'account'     => $account,
                 'overall'     => $account->overwatch,
-                'main'        => $account->overwatch->mainCharacter()
+                'main'        => $account->overwatch->mainCharacter(),
             ]);
         } catch (ModelNotFoundException $e) {
             \App::abort(404, 'We could not find this Overwatch Profile.');

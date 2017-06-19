@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Onyx\Account;
 use Onyx\Halo5\Objects\HistoricalStat;
-use Onyx\Hangouts\Helpers\Messages;
 
 class updateHistoricStats extends Command
 {
