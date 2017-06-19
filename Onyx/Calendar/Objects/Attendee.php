@@ -62,6 +62,16 @@ class Attendee extends Model
         return $this->belongsTo('Onyx\Halo5\Objects\Data', 'account_id', 'account_id');
     }
 
+    /**
+     * @return mixed
+     */
+    public function ow()
+    {
+        return $this
+            ->hasOne('Onyx\Overwatch\Objects\Stats', 'account_id', 'account_id')
+            ->orderBy('season', 'DESC');
+    }
+
     public function user()
     {
         return $this->belongsTo('Onyx\User', 'user_id', 'id');

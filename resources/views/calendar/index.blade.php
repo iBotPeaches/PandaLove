@@ -12,7 +12,10 @@
                 </div>
             </div>
             <div class="desktop only">
-                Legend: <button class="ui tiny green button">Destiny</button><button class="ui tiny red button">Halo 5</button>
+                Legend:
+                <button class="ui tiny green button">Destiny</button>
+                <button class="ui tiny red button">Halo 5</button>
+                <button class="ui tiny black button">Overwatch</button>
             </div>
         </article>
     </div>

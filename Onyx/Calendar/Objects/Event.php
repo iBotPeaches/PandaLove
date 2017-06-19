@@ -97,6 +97,9 @@ class Event extends Model
 
             case 'h5':
                 return '#D95C5C';
+
+            case 'ow':
+                return '#000000';
         }
     }
 
@@ -108,6 +111,9 @@ class Event extends Model
 
             case 'h5':
                 return 'Halo 5';
+
+            case 'ow':
+                return 'Overwatch';
         }
     }
 
@@ -156,6 +162,15 @@ class Event extends Model
                 }
 
                 return 4;
+
+            case 'ow':
+                switch ($this->type) {
+                    case 'Elimination':
+                        return 3;
+
+                    default:
+                        return 6;
+                }
         }
     }
 
@@ -183,5 +198,15 @@ class Event extends Model
     public function isDestiny()
     {
         return $this->game == 'destiny';
+    }
+
+    public function isOverwatch()
+    {
+        return $this->game == 'ow';
+    }
+
+    public function isHalo5()
+    {
+        return $this->game == 'h5';
     }
 }

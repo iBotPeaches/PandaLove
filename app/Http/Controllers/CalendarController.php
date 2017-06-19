@@ -4,6 +4,7 @@ namespace PandaLove\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Onyx\Calendar\Objects\Attendee;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Hangouts\Helpers\Messages;
@@ -35,6 +36,7 @@ class CalendarController extends Controller
 
     public function getEvents(Request $request)
     {
+        /** @var Collection $events */
         $events = GameEvent::whereBetween('start', [$request->get('start'), $request->get('end')])->get();
 
         $events->each(function ($event) {
@@ -115,6 +117,7 @@ class CalendarController extends Controller
         $game_id = $request->get('game_id');
 
         try {
+            /** @var GameEvent $event */
             $event = GameEvent::where('id', intval($game_id))->firstOrFail();
 
             $attendee = new Attendee();

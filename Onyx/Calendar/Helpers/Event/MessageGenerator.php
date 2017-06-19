@@ -151,6 +151,9 @@ class MessageGenerator
         if ($event->isDestiny()) {
             $msg .= $count++.') - <a href="'.\URL::action('Destiny\ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]).
                 '">'.$attendee->account->gamertag.'</a> ('.$attendee->character->name().')<br />';
+        } elseif ($event->isOverwatch()) {
+            $msg .= $count++.') - <a href="'.\URL::action('Overwatch\ProfileController@index', [$attendee->account->seo, $attendee->account->accountType]).
+                '">'.$attendee->account->gamertag.'</a> ('.$attendee->ow->totalLevel().')<br />';
         } else {
             $msg .= $count++.') - <a href="'.\URL::action('Halo5\ProfileController@index', [$attendee->account->seo]).
                 '">'.$attendee->account->gamertag.'</a> (Spartan Rank: '.$attendee->h5->spartanRank.')<br />';
