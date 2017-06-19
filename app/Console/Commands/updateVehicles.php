@@ -48,7 +48,7 @@ class updateVehicles extends Command
         $client = new Client();
         $this->info('Getting vehicles from 343');
         $vehicles = $client->getVehicles();
-        $path = 'public/images/vehicles/';
+        $path = 'public/uploads/h5/images/vehicles/';
 
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
@@ -83,25 +83,25 @@ class updateVehicles extends Command
                     $v->description = $vehicle['description'];
                     $v->useableByPlayer = boolval($vehicle['isUsableByPlayer']);
                     $v->save();
+                }
 
-                    if ($vehicle['smallIconImageUrl'] != null) {
-                        if (!file_exists($path.$vehicle['id'].'.png')) {
-                            $icon = file_get_contents($vehicle['smallIconImageUrl']);
+                if ($vehicle['smallIconImageUrl'] != null) {
+                    if (!file_exists($path.$vehicle['id'].'.png')) {
+                        $icon = file_get_contents($vehicle['smallIconImageUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$vehicle['id'].'-small.png');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$vehicle['id'].'-small.png');
                     }
+                }
 
-                    if ($vehicle['largeIconImageUrl'] != null) {
-                        if (!file_exists($path.$vehicle['id'].'.png')) {
-                            $icon = file_get_contents($vehicle['largeIconImageUrl']);
+                if ($vehicle['largeIconImageUrl'] != null) {
+                    if (!file_exists($path.$vehicle['id'].'.png')) {
+                        $icon = file_get_contents($vehicle['largeIconImageUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$vehicle['id'].'-large.png');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$vehicle['id'].'-large.png');
                     }
                 }
             }

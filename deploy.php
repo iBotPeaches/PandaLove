@@ -7,21 +7,13 @@ require 'recipe/laravel.php';
 
 set('repository', 'ssh://git@gitlab.connortumbleson.com:22774/iBotPeaches/PandaLove.git');
 set('keep_releases', 1);
-set('git_tty', true);
+set('git_tty', false);
 
 add('shared_files', []);
-add('shared_dirs', []);
-add('writable_dirs', [
-    'public/images/enemies',
-    'public/images/gametypes',
-    'public/images/maps',
-    'public/images/overwatch',
-    'public/images/teams',
-    'public/images/vehicles',
-    'public/images/weapons',
-    'public/images/wireframes',
+add('shared_dirs', [
     'public/uploads',
 ]);
+add('writable_dirs', []);
 
 
 // Hosts
@@ -40,7 +32,6 @@ desc('Restart PHP-FPM service');
 task('gulp:asset', function () {
     cd('{{release_path}}');
     run('yarn add gulp');
-    run('php artisan halo5:batch-metadata');
     run('gulp --production');
 });
 after('deploy:symlink', 'gulp:asset');

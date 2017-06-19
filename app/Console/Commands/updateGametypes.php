@@ -45,7 +45,7 @@ class updateGametypes extends Command
         $client = new Client();
         $this->info('Getting base game types from 343');
         $gametypes = $client->getGametypes();
-        $path = 'public/images/gametypes/';
+        $path = 'public/uploads/h5/images/gametypes/';
 
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
@@ -72,15 +72,15 @@ class updateGametypes extends Command
                     $g->uuid = $gametype['id'];
                     $g->contentId = $gametype['contentId'];
                     $g->save();
+                }
 
-                    if ($gametype['iconUrl'] != null) {
-                        if (!file_exists($path.$gametype['id'].'.png')) {
-                            $icon = file_get_contents($gametype['iconUrl']);
+                if ($gametype['iconUrl'] != null) {
+                    if (!file_exists($path.$gametype['id'].'.png')) {
+                        $icon = file_get_contents($gametype['iconUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$gametype['id'].'.png');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$gametype['id'].'.png');
                     }
                 }
             }

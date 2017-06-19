@@ -45,7 +45,7 @@ class updateMaps extends Command
         $client = new Client();
         $this->info('Getting maps from 343.');
         $maps = $client->getMaps();
-        $path = 'public/images/maps/';
+        $path = 'public/uploads/h5/images/maps/';
 
         if (!File::exists($path)) {
             File::makeDirectory($path, 0775, true);
@@ -72,15 +72,15 @@ class updateMaps extends Command
                     $m->game_modes = $map['supportedGameModes'];
 
                     $m->save();
+                }
 
-                    if ($map['imageUrl'] != null) {
-                        if (!file_exists($path.$map['id'].'.jpg')) {
-                            $icon = file_get_contents($map['imageUrl']);
+                if ($map['imageUrl'] != null) {
+                    if (!file_exists($path.$map['id'].'.jpg')) {
+                        $icon = file_get_contents($map['imageUrl']);
 
-                            /** @var $image \Intervention\Image\Image */
-                            $image = Image::make($icon);
-                            $image->save($path.$map['id'].'.jpg');
-                        }
+                        /** @var $image \Intervention\Image\Image */
+                        $image = Image::make($icon);
+                        $image->save($path.$map['id'].'.jpg');
                     }
                 }
             }

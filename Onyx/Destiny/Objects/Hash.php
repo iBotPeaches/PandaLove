@@ -53,7 +53,7 @@ class Hash extends Model
             return asset($live_path.$filename);
         }
 
-        return $value;
+        return 'http://bungie.net/'.$value;
     }
 
     public function getExtraSecondaryAttribute($value)
@@ -66,7 +66,7 @@ class Hash extends Model
             return asset($live_path.$filename);
         }
 
-        return $value;
+        return 'http://bungie.net/'.$value;
     }
 
     //---------------------------------------------------------------------------------
