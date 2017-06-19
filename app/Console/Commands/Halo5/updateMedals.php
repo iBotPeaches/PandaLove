@@ -1,12 +1,11 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Halo5;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Onyx\Halo5\Client;
 use Onyx\Halo5\Enums\MetadataType;

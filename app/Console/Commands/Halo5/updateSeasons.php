@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Halo5;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;

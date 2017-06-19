@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Halo5;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -51,8 +51,6 @@ class updateHistoricStats extends Command
             ->orderBy('gamertag', 'ASC')
             ->get();
 
-        $messenger = new Messages();
-
         /** @var $pandas \Onyx\Account[] */
         $insertedDate = new Carbon();
         foreach ($pandas as $panda) {
@@ -68,7 +66,5 @@ class updateHistoricStats extends Command
             $historic->date = $insertedDate;
             $historic->save();
         }
-
-        //$messenger->sendGroupMessage('Hi pandas. I have updated the rolling KD/KDA chart automatically.');
     }
 }

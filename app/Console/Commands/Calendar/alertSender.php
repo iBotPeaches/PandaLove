@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Calendar;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -52,6 +52,7 @@ class alertSender extends Command
      */
     public function handle()
     {
+        /** @var GameEvent[] $events */
         $events = GameEvent::where('start', '>=', Carbon::now('America/Chicago'))
             ->orderBy('start', 'ASC')
             ->get();

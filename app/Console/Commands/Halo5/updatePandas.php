@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Halo5;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -8,7 +8,7 @@ use Onyx\Account;
 use Onyx\Halo5\Objects\Data;
 use PandaLove\Commands\UpdateHalo5Account;
 
-class updateH5Pandas extends Command
+class updatePandas extends Command
 {
     use DispatchesCommands;
 

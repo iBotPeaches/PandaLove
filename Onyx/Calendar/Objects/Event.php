@@ -19,6 +19,7 @@ use Onyx\Destiny\Enums\Types;
  * @property bool $alert_5
  * @property bool $alert_15
  * @property string $game destiny|h5
+ * @property Attendee[] $attendees
  */
 class Event extends Model
 {

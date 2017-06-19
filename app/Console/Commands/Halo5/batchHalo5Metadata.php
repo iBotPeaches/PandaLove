@@ -1,9 +1,8 @@
 <?php
 
-namespace PandaLove\Console\Commands;
+namespace PandaLove\Console\Commands\Halo5;
 
 use Illuminate\Console\Command;
-use Onyx\Halo5\Objects\CSR;
 
 class batchHalo5Metadata extends Command
 {
