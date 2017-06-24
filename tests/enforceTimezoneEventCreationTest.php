@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class enforceTimezoneEventCreationTest extends TestCase
 {
     use DatabaseTransactions;
+    use WithoutMiddleware;
 
     public $exampleResponse = [
         'google_id' => '112346535434889804882',
