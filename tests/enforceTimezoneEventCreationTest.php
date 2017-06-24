@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Onyx\User;
 
 class enforceTimezoneEventCreationTest extends TestCase
 {
@@ -24,8 +25,12 @@ class enforceTimezoneEventCreationTest extends TestCase
      */
     public function testCentralDate()
     {
+        $user = factory(User::class)->create(['admin' => true]);
+
         $this->exampleResponse['start'] = 'August 15, 2016 5:00pm CST';
-        $response = $this->post('/xbox/api/v1/add-event', $this->exampleResponse)
+        $response = $this
+            ->actingAs($user)
+            ->post('/xbox/api/v1/add-event', $this->exampleResponse)
             ->seeJson(['error' => false])
             ->response->getContent();
 
@@ -38,8 +43,12 @@ class enforceTimezoneEventCreationTest extends TestCase
 
     public function testEasternDaylightDate()
     {
+        $user = factory(User::class)->create(['admin' => true]);
+
         $this->exampleResponse['start'] = 'August 15, 2016 5:00pm EST';
-        $response = $this->post('/xbox/api/v1/add-event', $this->exampleResponse)
+        $response = $this
+            ->actingAs($user)
+            ->post('/xbox/api/v1/add-event', $this->exampleResponse)
             ->seeJson(['error' => false])
             ->response->getContent();
 
@@ -52,8 +61,12 @@ class enforceTimezoneEventCreationTest extends TestCase
 
     public function testEasternNoDaylightDate()
     {
+        $user = factory(User::class)->create(['admin' => true]);
+
         $this->exampleResponse['start'] = 'August 15, 2016 5:00pm EDT';
-        $response = $this->post('/xbox/api/v1/add-event', $this->exampleResponse)
+        $response = $this
+            ->actingAs($user)
+            ->post('/xbox/api/v1/add-event', $this->exampleResponse)
             ->seeJson(['error' => false])
             ->response->getContent();
 
