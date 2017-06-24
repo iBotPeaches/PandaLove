@@ -109,7 +109,7 @@ class Client extends XboxAPI
                                     $found = true;
                                     $gt = $accounts->where('seo', $seo)->first();
                                     $user_string .= '<strong>'.$gt->gamertag.': </strong>'.$title['name'];
-                                    if (isset($title['activity'])) {
+                                    if (isset($title['activity']) && isset($title['activity']['richPresence'])) {
                                         $user_string .= ' ('.$title['activity']['richPresence'].')';
                                     }
                                     $user_string .= '<br/>';
