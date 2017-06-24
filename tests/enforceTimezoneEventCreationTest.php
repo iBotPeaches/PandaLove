@@ -1,0 +1,64 @@
+<?php
+
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class enforceTimezoneEventCreationTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    public $exampleResponse = [
+        'google_id' => '112346535434889804882',
+        'game' => 'ow',
+        'type' => 'comp',
+        'title' => 'fii',
+        'max_players' => 6,
+        'start' => 'August 15, 2016 5:00pm CST'
+    ];
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testCentralDate()
+    {
+        $this->exampleResponse['start'] = 'August 15, 2016 5:00pm CST';
+        $response = $this->post('/xbox/api/v1/add-event', $this->exampleResponse)
+            ->seeJson(['error' => false])
+            ->response->getContent();
+
+        $json = json_decode($response, true);
+
+        /** @var \Onyx\Calendar\Objects\Event $gameEvent */
+        $gameEvent = \Onyx\Calendar\Objects\Event::find($json['id']);
+        $this->assertEquals($gameEvent->botDate(), 'Aug 15 (Mon) - 5:00pm CST');
+    }
+
+    public function testEasternDaylightDate()
+    {
+        $this->exampleResponse['start'] = 'August 15, 2016 5:00pm EST';
+        $response = $this->post('/xbox/api/v1/add-event', $this->exampleResponse)
+            ->seeJson(['error' => false])
+            ->response->getContent();
+
+        $json = json_decode($response, true);
+
+        /** @var \Onyx\Calendar\Objects\Event $gameEvent */
+        $gameEvent = \Onyx\Calendar\Objects\Event::find($json['id']);
+        $this->assertEquals($gameEvent->botDate(), 'Aug 15 (Mon) - 4:00pm CST');
+    }
+
+    public function testEasternNoDaylightDate()
+    {
+        $this->exampleResponse['start'] = 'August 15, 2016 5:00pm EDT';
+        $response = $this->post('/xbox/api/v1/add-event', $this->exampleResponse)
+            ->seeJson(['error' => false])
+            ->response->getContent();
+
+        $json = json_decode($response, true);
+
+        /** @var \Onyx\Calendar\Objects\Event $gameEvent */
+        $gameEvent = \Onyx\Calendar\Objects\Event::find($json['id']);
+        $this->assertEquals($gameEvent->botDate(), 'Aug 15 (Mon) - 3:00pm CST');
+    }
+}

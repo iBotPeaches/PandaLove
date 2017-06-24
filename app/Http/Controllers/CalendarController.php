@@ -20,7 +20,6 @@ class CalendarController extends Controller
     {
         parent::__construct();
         $this->middleware('auth.panda');
-        date_default_timezone_set('America/Chicago');
     }
 
     /**
@@ -39,12 +38,19 @@ class CalendarController extends Controller
         /** @var Collection $events */
         $events = GameEvent::whereBetween('start', [$request->get('start'), $request->get('end')])->get();
 
-        $events->each(function ($event) {
+        $events->each(function (GameEvent $event) {
             $event->url = action('CalendarController@getEvent', [$event->id]);
             $event->backgroundColor = $event->getBackgroundColor();
         });
 
-        return $events->toJson();
+        $events = $events->toArray();
+
+        // Stupid recursive date problem
+        foreach ($events as &$event) {
+            $event['start'] = $event['start']->toIso8601String();
+        }
+
+        return \GuzzleHttp\json_encode($events);
     }
 
     public function getEvent($id)

@@ -30,7 +30,6 @@ class ApiV1Controller extends Controller
         $this->view = $view;
         $this->request = $request;
         $this->redirect = $redirect;
-        date_default_timezone_set('America/Chicago');
     }
 
     public function getEvents()
@@ -97,6 +96,7 @@ class ApiV1Controller extends Controller
                 return Response::json([
                     'error' => false,
                     'msg'   => $msg,
+                    'id'    => $gameEvent->id,
                 ], 200);
             } catch (ModelNotFoundException $e) {
                 return $this->_error('User does not have permission to make events.');

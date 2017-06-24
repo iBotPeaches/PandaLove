@@ -17,8 +17,6 @@ abstract class Controller extends BaseController
 
     public function __construct()
     {
-        date_default_timezone_set('America/Chicago');
-
         $this->user = \Auth::user();
 
         if ($this->user instanceof User) {
