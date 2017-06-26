@@ -3,6 +3,7 @@
 namespace Onyx\Overwatch\Helpers\Bot;
 
 use Onyx\Account;
+use Onyx\Overwatch\Helpers\Game\Character;
 use Onyx\Overwatch\Objects\Stats;
 
 class MessageGenerator
@@ -17,10 +18,10 @@ class MessageGenerator
      * @param Account $account
      * @param Stats   $old
      * @param Stats   $new
-     *
+     * @param string  $char
      * @return string
      */
-    public static function buildOverwatchUpdateMessage($account, $old, $new)
+    public static function buildOverwatchUpdateMessage(Account $account, Stats $old, Stats $new, string $char)
     {
         $msg = '';
 
@@ -65,6 +66,32 @@ class MessageGenerator
         foreach ($stats as $key => $difference) {
             $msg .= ucfirst(str_replace('_', ' ', $key)).': ';
             $msg .= $new->$key.' ('.sprintf('%+d', $difference).') <br />';
+        }
+
+        $character = null;
+        // Grab a random character
+        if ($char !== 'unknown') {
+            $char = Character::getValidCharacter($char);
+
+            if ($char !== 'unknown') {
+                $character = $new->specificCharacter($char);
+            }
+        }
+
+        $character = $character ?? $new->randomCharacter();
+        $msg .= '<br />' . $character->character . ' Stats: <br />';
+
+        $random_keys = array_rand($character->heroStats(), count($character->heroStats()));
+        shuffle($random_keys);
+        $statCount = 0;
+
+        foreach ($random_keys as $random_key) {
+            if (!in_array($random_key, self::$ignoredAttributes) && $statCount < 3) {
+
+                $msg .= ucfirst(str_replace('_', ' ', $random_key)).': ';
+                $msg .= number_format($character->heroStats()[$random_key]) . "<br />";
+                $statCount++;
+            }
         }
 
         return $msg;

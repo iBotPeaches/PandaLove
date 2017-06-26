@@ -150,6 +150,20 @@ class Stats extends Model
         return $this->characters->sortByDesc('playtime')->first();
     }
 
+    public function randomCharacter() : Character
+    {
+        return $this->characters->filter(function (Character $character) {
+            return $character->playtime >= .10;
+        })->random(1);
+    }
+
+    public function specificCharacter(string $char)
+    {
+        return $this->characters->first(function(int $key, Character $character) use ($char) {
+            return $character->getOriginal('character') == $char;
+        });
+    }
+
     public function getLastUpdatedRelative()
     {
         $date = new Carbon($this->updated_at);

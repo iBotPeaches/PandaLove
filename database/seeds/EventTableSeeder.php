@@ -11,8 +11,6 @@ class EventTableSeeder extends Seeder
      */
     public function run()
     {
-        date_default_timezone_set('America/Chicago');
-
         if (\App::environment() != 'production') {
             DB::table('calendar_game_events')->truncate();
             DB::table('calendar_attendees')->truncate();

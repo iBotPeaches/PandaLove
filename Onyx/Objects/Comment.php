@@ -50,7 +50,6 @@ class Comment extends Model
     public function getCreatedAtAttribute($value)
     {
         $date = new Carbon($value);
-        $date = $date->timezone('America/Chicago');
 
         if ($date->diffInDays() > 30) {
             return $date->format('M j, Y - g:ma');
