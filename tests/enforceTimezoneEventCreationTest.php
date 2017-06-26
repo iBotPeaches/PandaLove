@@ -25,9 +25,12 @@ class enforceTimezoneEventCreationTest extends TestCase
      */
     public function testCentralDate()
     {
+        /** @var User $user */
         $user = factory(User::class)->create(['admin' => true]);
 
         $this->exampleResponse['start'] = 'August 15, 2016 5:00pm CST';
+        $this->exampleResponse['google_id'] = $user->google_id;
+
         $response = $this
             ->actingAs($user)
             ->post('/xbox/api/v1/add-event', $this->exampleResponse)
@@ -43,9 +46,12 @@ class enforceTimezoneEventCreationTest extends TestCase
 
     public function testEasternDaylightDate()
     {
+        /** @var User $user */
         $user = factory(User::class)->create(['admin' => true]);
 
         $this->exampleResponse['start'] = 'August 15, 2016 5:00pm EST';
+        $this->exampleResponse['google_id'] = $user->google_id;
+
         $response = $this
             ->actingAs($user)
             ->post('/xbox/api/v1/add-event', $this->exampleResponse)
@@ -61,9 +67,12 @@ class enforceTimezoneEventCreationTest extends TestCase
 
     public function testEasternNoDaylightDate()
     {
+        /** @var User $user */
         $user = factory(User::class)->create(['admin' => true]);
 
         $this->exampleResponse['start'] = 'August 15, 2016 5:00pm EDT';
+        $this->exampleResponse['google_id'] = $user->google_id;
+
         $response = $this
             ->actingAs($user)
             ->post('/xbox/api/v1/add-event', $this->exampleResponse)

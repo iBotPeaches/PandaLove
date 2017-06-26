@@ -15,6 +15,7 @@
 $factory->define(Onyx\User::class, function (Faker\Generator $faker) {
     return [
         'name'           => $faker->name,
+        'google_id'      => $faker->numberBetween(1000, 1000000),
         'email'          => $faker->email,
         'remember_token' => str_random(10),
     ];
