@@ -26,43 +26,40 @@ PandaLove was a website devoted to tracking our weekly raid Tuesdays, PVP destru
 * Validation of Ownership of Destiny account
 * Admin Support via commands to API via Google Hangouts bot
 
-## How to install
-1. Get [Composer](https://getcomposer.org/)
-2. Get [NodeJs](http://nodejs.org/)
-3. `git clone git@github.com:iBotPeaches/PandaLove.git`
-4. `cd PandaLove`
-5. `composer install`
-6. `npm install`
-7. `npm install -g gulp`
-8. `cp .env.example .env`
-9. Create a local database, `MySQL` preferred.
-10. Edit `.env` using those database credentials.
-    1. Edit `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
-11. Get ready to go online and register for 3 API keys. Some sites don't have instant activation.
-12. Go here https://xboxapi.com/ - Get an XboxAPI API Key and put it in `XBOXAPI_KEY` in `.env` file.
-13. Go here https://www.bungie.net/en/User/API - Get a Destiny API Key and put it in `BUNGIE_KEY` in `.env` file.
-14. Go here https://developer.haloapi.com/ - Get a Halo API Key and put it in `HALO5_KEY` in `.env` file.
-15. `php artisan migrate`
-16. `php artisan db:seed`
-17. Now we need to utilize those APIs to get some data. If you don't have API keys for the above 3 systems. This will fail.
-    18. `php artisan halo5:batch-metadata`
-23. Go here https://console.developers.google.com - "Create a Project"
-    24. After creating project on Google Developer go to "Enable APIs and get credentials like keys"
-    25. Find "Google+ API" and enable it. Then click on it. Click "Credentials" on sidebar.
-    26. Create a "Web Application" application to get "ClientID", "Client Secret" and redirect URL.
-    27. Redirect URL will be `$URL/auth/callback`. In the case of `php serve` - `http://localhost:8000/auth/callback`.
-    28. Once created replace `GOOGLE_REDIRECT` with the RedirectURL in `.env` file.
-    29. Replace `GOOGLE_ID` with the ClientID in `.env` file.
-    30. Replace `GOOGLE_SECRET` with the Client Secret in `.env` file.
-31. `gulp`
-32. `php artisan serve`
-33. Click the GooglePlus sign in button on top navigation.
-34. (The first user to sign in automatically becomes admin)
-35. Sign in with GoogleAccount, this should prompt the sign in you made on previous steps.
-36. Now go to `/usercp` via gear icon in navigation.
-37. Add gamertag (assuming you play Xbox One - Destiny) to Destiny section.
-38. Add gamertag (assuming you play Xbox One - Halo5) to Halo 5 section.
-39. Celebrate.
+## APIs
+- Get ready to go online and register for 3 API keys. Some sites don't have instant activation.
+- Go here https://xboxapi.com/ - Get an XboxAPI API Key and put it in `XBOXAPI_KEY` in `.env` file.
+- Go here https://www.bungie.net/en/User/API - Get a Destiny API Key and put it in `BUNGIE_KEY` in `.env` file.
+- Go here https://developer.haloapi.com/ - Get a Halo API Key and put it in `HALO5_KEY` in `.env` file.
+- Now we need to utilize those APIs to get some data. If you don't have API keys for the above 3 systems. This will fail.
+    - `php artisan halo5:batch-metadata`
+- Go here https://console.developers.google.com - "Create a Project"
+    - After creating project on Google Developer go to "Enable APIs and get credentials like keys"
+    - Find "Google+ API" and enable it. Then click on it. Click "Credentials" on sidebar.
+    - Create a "Web Application" application to get "ClientID", "Client Secret" and redirect URL.
+    - Redirect URL will be `$URL/auth/callback`. In the case of `php serve` - `http://localhost:8000/auth/callback`.
+    - Once created replace `GOOGLE_REDIRECT` with the RedirectURL in `.env` file.
+    - Replace `GOOGLE_ID` with the ClientID in `.env` file.
+    - Replace `GOOGLE_SECRET` with the Client Secret in `.env` file.
+
+## How to install (PHP 7.0)
+- `sudo apt-get install apache2 mysql-server php7.0 libapache2-mod-php7.0 php7.0-mbstring php7.0-xml php7.0-mysql`
+- Get [Composer](https://getcomposer.org/)
+- Get [NodeJs](http://nodejs.org/)
+- `curl -o- -L https://yarnpkg.com/install.sh | bash`
+- `cp .env.example .env`
+- `php artisan key:generate`
+- `php artisan clear-compiled`
+- `npm install`
+- `composer install && yarn install`
+- `sudo npm install -g gulp`
+- `cd node_modules/semantic-ui; gulp build; cd ../..;`
+- Create DB and user and add to .env
+- Go do API stuff above
+- `php artisan migrate`
+- `php artisan db:seed`
+- `php artisan halo5:batch-metadata`
+- `php artisan serve`
 
 ## Thanks
 * 343 - Halo 5 API - [https://developer.haloapi.com](https://developer.haloapi.com)
