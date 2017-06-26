@@ -136,4 +136,12 @@ class Character extends Model
     {
         return array_get($this->data, $key, 0);
     }
+
+    public function heroStats()
+    {
+        if (count($this->data['hero_stats']) === 0) {
+            return $this->data['general_stats'];
+        }
+        return $this->data['hero_stats'];
+    }
 }

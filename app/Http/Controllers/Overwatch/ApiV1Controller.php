@@ -64,7 +64,7 @@ class ApiV1Controller extends Controller
 
                     $new = $account->overwatch;
 
-                    $msg = MessageGenerator::buildOverwatchUpdateMessage($user->account, $old, $new);
+                    $msg = MessageGenerator::buildOverwatchUpdateMessage($user->account, $old, $new, $all['character'] ?? 'unknown');
 
                     return Response::json([
                         'error' => false,
@@ -103,7 +103,7 @@ class ApiV1Controller extends Controller
                 $old = $account->overwatch;
                 $new = $account->overwatch;
 
-                $msg = MessageGenerator::buildOverwatchUpdateMessage($account, $old, $new);
+                $msg = MessageGenerator::buildOverwatchUpdateMessage($account, $old, $new, $all['character'] ?? 'unknown');
 
                 return Response::json([
                     'error' => false,
