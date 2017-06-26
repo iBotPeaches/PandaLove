@@ -39,7 +39,7 @@ class Messages extends Http
     /**
      * @param \Onyx\User $user
      *
-     * @return array
+     * @return int
      */
     public function findUserOrChatId($user)
     {

@@ -27,7 +27,7 @@ class Event extends Model
 
     protected $fillable = ['title', 'type', 'start', 'max_players', 'game'];
 
-    protected $dates = ['start', 'created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     public $timestamps = true;
 
@@ -37,7 +37,24 @@ class Event extends Model
 
     public function setStartAttribute($value)
     {
-        $this->attributes['start'] = new Carbon(str_replace('"', null, $value), 'America/Chicago');
+        if ($value instanceof \DateTime) {
+            $value->setTimezone(new \DateTimeZone('UTC'));
+            $this->attributes['start'] = $value;
+            return;
+        }
+
+        $date = str_replace('"', null, $value);
+        $date = new Carbon($date);
+        $date->setTimezone('UTC');
+
+        $this->attributes['start'] = $date;
+    }
+
+    public function getStartAttribute($value)
+    {
+        $date = new Carbon($value, 'UTC');
+        $date->setTimezone('CST');
+        return $date;
     }
 
     public function setTitleAttribute($value)
@@ -61,7 +78,7 @@ class Event extends Model
 
     public function humanDate()
     {
-        return $this->start->format('F j - g:ia');
+        return $this->start->format('F j - g:ia T');
     }
 
     public function botDate()

@@ -25,7 +25,6 @@ class LeafApiController extends Controller
         $this->view = $view;
         $this->request = $request;
         $this->redirect = $redirect;
-        date_default_timezone_set('America/Chicago');
     }
 
     //---------------------------------------------------------------------------------

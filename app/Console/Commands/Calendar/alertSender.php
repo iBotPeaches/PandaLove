@@ -42,7 +42,6 @@ class alertSender extends Command
     public function __construct()
     {
         parent::__construct();
-        date_default_timezone_set('America/Chicago');
     }
 
     /**
@@ -53,7 +52,8 @@ class alertSender extends Command
     public function handle()
     {
         /** @var GameEvent[] $events */
-        $events = GameEvent::where('start', '>=', Carbon::now('America/Chicago'))
+        $events = GameEvent::where('alert_5', 0)
+            ->where('alert_15', 0)
             ->orderBy('start', 'ASC')
             ->get();
 
