@@ -66,8 +66,8 @@ class Character
             case 'mercy':
                 return 'mercy';
 
-            case 'repear':
-                return 'repear';
+            case 'reaper':
+                return 'reaper';
 
             case 'soldier76':
             case '76':
@@ -75,6 +75,9 @@ class Character
 
             case 'osira':
                 return 'osira';
+
+            case 'sombra':
+                return 'sombra';
 
             default:
                 return 'unknown';
