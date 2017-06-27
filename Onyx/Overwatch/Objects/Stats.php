@@ -79,6 +79,11 @@ use Onyx\Account;
  * @property int $games_tied
  * @property int $melee_final_blows
  * @property int $defensive_assists
+ * @property int $shots_fired
+ * @property int $ultimates_earned
+ * @property float $time_holding_ultimate
+ * @property int $damage_blocked
+ * @property int $ultimates_used
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property int $inactive_counter
