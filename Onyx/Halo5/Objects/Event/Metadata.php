@@ -98,7 +98,7 @@ class Metadata extends Model
                 break;
         }
 
-        return asset('images/'.$path.'/'.$this->uuid.$size.'.png');
+        return asset('uploads/h5/images/'.$path.'/'.$this->uuid.$size.'.png');
     }
 
     /**
