@@ -1,16 +1,15 @@
 <?php
 
 namespace Onyx\Overwatch\Helpers\Game;
+
 /**
- * Class Character
- * @package Onyx\Overwatch\Helpers\Game
+ * Class Character.
  */
 class Character
 {
     public static function getValidCharacter(string $char) : string
     {
-        switch ($char)
-        {
+        switch ($char) {
             case 'reinhardt':
             case 'rein':
                 return 'reinhardt';

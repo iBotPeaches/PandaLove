@@ -153,8 +153,8 @@ class Client extends Http
                 } else {
                     // Overwatch API is not a real API, its a scraped div API, so column names can change
                     // This reports additional columns so we know when new data was added.
-                    if (! starts_with($key, 'overwatchguid')) {
-                        \Log::warning('[OW] ' . $account->gamertag . ' had a new column: ' . $key);
+                    if (!starts_with($key, 'overwatchguid')) {
+                        \Log::warning('[OW] '.$account->gamertag.' had a new column: '.$key);
                     }
                 }
             }

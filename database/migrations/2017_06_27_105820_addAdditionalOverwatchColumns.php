@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddAdditionalOverwatchColumns extends Migration
 {
@@ -34,7 +34,7 @@ class AddAdditionalOverwatchColumns extends Migration
                 'ultimates_earned',
                 'time_holding_ultimate',
                 'damage_blocked',
-                'ultimates_used'
+                'ultimates_used',
             ]);
         });
     }

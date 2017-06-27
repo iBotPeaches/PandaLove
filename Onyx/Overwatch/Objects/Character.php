@@ -142,6 +142,7 @@ class Character extends Model
         if (count($this->data['hero_stats']) === 0) {
             return $this->data['general_stats'];
         }
+
         return $this->data['hero_stats'];
     }
 }

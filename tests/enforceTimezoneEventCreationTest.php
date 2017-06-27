@@ -10,12 +10,12 @@ class enforceTimezoneEventCreationTest extends TestCase
     use WithoutMiddleware;
 
     public $exampleResponse = [
-        'google_id' => '112346535434889804882',
-        'game' => 'ow',
-        'type' => 'comp',
-        'title' => 'fii',
+        'google_id'   => '112346535434889804882',
+        'game'        => 'ow',
+        'type'        => 'comp',
+        'title'       => 'fii',
         'max_players' => 6,
-        'start' => 'August 15, 2016 5:00pm CST'
+        'start'       => 'August 15, 2016 5:00pm CST',
     ];
 
     /**
