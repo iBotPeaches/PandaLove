@@ -115,6 +115,7 @@ class ProfileController extends Controller
                     ->firstOrFail();
 
                 if ($account->overwatch->inactive_counter > $inactive) {
+                    \Log::warning('[OW]' . $account->gamertag . ' was updated with no data (' . \Request::ip() . ')');
                     // they manually refreshed a profile with no data changes. ugh
                     return redirect('overwatch/profile/'.$account->seo.'/'.$account->accountType)
                         ->with('flash_message', [

@@ -130,6 +130,7 @@ class ProfileController extends Controller
                 $account = Account::with('h5.playlists.stock')->where('seo', $seo)->firstOrFail();
 
                 if ($account->h5->inactiveCounter > $inactive) {
+                    \Log::warning('[H5]' . $account->gamertag . ' was updated with no data (' . \Request::ip() . ')');
                     // they manually refreshed a profile with no data changes. ugh
                     return redirect('h5/profile/'.$seo)
                         ->with('flash_message', [
