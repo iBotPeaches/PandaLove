@@ -7,7 +7,7 @@
         <div class="card">
             <div class="image">
                 @if (isset($weapon->name))
-                    <img src="/images/weapons/{{ $weapon->uuid }}.png" />
+                    <img src="{{ $weapon->getImage() }}" />
                 @else
                     <img src="/images/unknown-weapon.png" />
                 @endif
