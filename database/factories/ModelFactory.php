@@ -21,14 +21,14 @@ $factory->define(Onyx\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(\Onyx\Calendar\Objects\Event::class, function(Faker\Generator $faker) {
+$factory->define(\Onyx\Calendar\Objects\Event::class, function (Faker\Generator $faker) {
     return [
-        'title' => $faker->sentence(3),
-        'type' => 'competitive',
-        'start' => $faker->dateTime,
+        'title'       => $faker->sentence(3),
+        'type'        => 'competitive',
+        'start'       => $faker->dateTime,
         'max_players' => $faker->numberBetween(1, 6),
-        'alert_5' => 0,
-        'alert_15' => 0,
-        'game' => 'overwatch'
+        'alert_5'     => 0,
+        'alert_15'    => 0,
+        'game'        => 'overwatch',
     ];
 });

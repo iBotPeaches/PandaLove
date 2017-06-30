@@ -19,6 +19,7 @@ class MessageGenerator
      * @param Stats   $old
      * @param Stats   $new
      * @param string  $char
+     *
      * @return string
      */
     public static function buildOverwatchUpdateMessage(Account $account, Stats $old, Stats $new, string $char)
@@ -79,7 +80,7 @@ class MessageGenerator
         }
 
         $character = $character ?? $new->randomCharacter();
-        $msg .= '<br />' . $character->character . ' Stats: <br />';
+        $msg .= '<br />'.$character->character.' Stats: <br />';
 
         $random_keys = array_rand($character->heroStats(), count($character->heroStats()));
         shuffle($random_keys);
@@ -87,9 +88,8 @@ class MessageGenerator
 
         foreach ($random_keys as $random_key) {
             if (!in_array($random_key, self::$ignoredAttributes) && $statCount < 3) {
-
                 $msg .= ucfirst(str_replace('_', ' ', $random_key)).': ';
-                $msg .= number_format($character->heroStats()[$random_key]) . "<br />";
+                $msg .= number_format($character->heroStats()[$random_key]).'<br />';
                 $statCount++;
             }
         }

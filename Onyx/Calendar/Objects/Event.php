@@ -40,6 +40,7 @@ class Event extends Model
         if ($value instanceof \DateTime) {
             $value->setTimezone(new \DateTimeZone('UTC'));
             $this->attributes['start'] = $value;
+
             return;
         }
 
@@ -54,6 +55,7 @@ class Event extends Model
     {
         $date = new Carbon($value, 'UTC');
         $date->setTimezone('CST');
+
         return $date;
     }
 

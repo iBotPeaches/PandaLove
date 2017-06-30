@@ -164,7 +164,7 @@ class Stats extends Model
 
     public function specificCharacter(string $char)
     {
-        return $this->characters->first(function(int $key, Character $character) use ($char) {
+        return $this->characters->first(function (int $key, Character $character) use ($char) {
             return $character->getOriginal('character') == $char;
         });
     }

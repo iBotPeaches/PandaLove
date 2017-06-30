@@ -93,7 +93,8 @@ class ProfileController extends Controller
                     ->firstOrFail();
 
                 if ($account->destiny->inactiveCounter > $inactive) {
-                    \Log::warning('[Destiny]' . $account->gamertag . ' was updated with no data (' . \Request::ip() . ')');
+                    \Log::warning('[Destiny]'.$account->gamertag.' was updated with no data ('.\Request::ip().')');
+
                     return redirect('destiny/profile/'.$account->accountType.'/'.$account->seo)
                         ->with('flash_message', [
                             'close'  => 'true',
