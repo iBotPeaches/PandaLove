@@ -2,6 +2,7 @@
 
 namespace PandaLove\Console;
 
+use Bugsnag\BugsnagLaravel\Commands\DeployCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use PandaLove\Console\Commands\Calendar\alertSender;
@@ -56,6 +57,9 @@ class Kernel extends ConsoleKernel
         updateVehicles::class,
         batchHalo5Metadata::class,
         riseCountdown::class,
+
+        // system
+        DeployCommand::class,
     ];
 
     /**

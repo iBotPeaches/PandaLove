@@ -1,6 +1,6 @@
 ## PandaLove Website (Destiny/H5/Xbox APIs)
 
-[![build status](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/badges/master/build.svg)](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/commits/master) [![license](https://img.shields.io/badge/license-dbad-green.svg)](http://www.dbad-license.org/)
+[![build status](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/badges/master/build.svg)](https://gitlab.connortumbleson.com/iBotPeaches/PandaLove/commits/master)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 PandaLove was a website devoted to tracking our weekly raid Tuesdays, PVP destruction and more in Destiny. It quickly grew to be more than that
 supporting now 3 full games (Destiny, Halo 5 & Overwatch) with countless plugins from Xbox API, Google Hangouts, Calendar and more.

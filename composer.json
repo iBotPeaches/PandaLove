@@ -15,7 +15,7 @@
 		"jenssegers/agent": "~2.1",
 		"barryvdh/laravel-debugbar": "~2.0",
 		"doctrine/dbal": "^2.5",
-		"bugsnag/bugsnag-laravel": "1.*",
+		"bugsnag/bugsnag-laravel": "^2.0",
 		"ramsey/uuid": "^3.3"
 	},
 	"require-dev": {
