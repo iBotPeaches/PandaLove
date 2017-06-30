@@ -7,18 +7,18 @@ cache:
 laravel_clean:
   stage: clean
   script:
-    - "sh clean_mysql.sh $DB_USERNAME $DB_PASSWORD $DB_DATABASE"
+    - sh clean_mysql.sh $DB_USERNAME $DB_PASSWORD $DB_DATABASE
 
 laravel_build:
   stage: build
   script:
-    - "composer install"
-    - "curl -o- -L https://yarnpkg.com/install.sh | bash"
-    - "php artisan key:generate"
-    - "php artisan clear-compiled"
-    - "yarn install"
-    - "cd node_modules/semantic-ui; gulp build; cd ../..;"
-    - "gulp"
+    - composer install
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - php artisan key:generate
+    - php artisan clear-compiled
+    - yarn install
+    - cd node_modules/semantic-ui; gulp build; cd ../..;
+    - gulp
   artifacts:
     paths:
     - bootstrap/cache/
@@ -32,12 +32,12 @@ laravel_build:
 laravel_test:
   stage: test
   script:
-    - "php artisan config:cache"
-    - "php artisan migrate --env=testing"
-    - "php artisan db:seed --env=testing"
-    - "php artisan halo5:batch-metadata"
-    - "gulp"
-    - "./vendor/bin/phpunit --colors=never"
+    - php artisan config:cache
+    - php artisan migrate --env=testing
+    - php artisan db:seed --env=testing
+    - php artisan halo5:batch-metadata
+    - gulp
+    - ./vendor/bin/phpunit --colors=never
   dependencies:
   - laravel_build
 
@@ -45,8 +45,9 @@ laravel_deploy_production:
   stage: deploy
   environment: production
   script:
-    - "curl -LO https://deployer.org/deployer.phar"
-    - "php deployer.phar deploy production -vvv"
+    - curl -LO https://deployer.org/deployer.phar
+    - php deployer.phar deploy production -vvv
+    - php artisan bugsnag:deploy --repository "$CI_PROJECT_URL" --branch "$CI_COMMIT_REF_NAME" --revision "$CI_COMMIT_SHA"
   only:
   - production
 

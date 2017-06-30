@@ -165,7 +165,7 @@ return [
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Jenssegers\Agent\AgentServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
-        'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider',
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -175,7 +175,6 @@ return [
         'PandaLove\Providers\ConfigServiceProvider',
         'PandaLove\Providers\EventServiceProvider',
         'PandaLove\Providers\RouteServiceProvider',
-
     ],
 
     /*
@@ -228,8 +227,7 @@ return [
         'Socialite'   => 'Laravel\Socialite\Facades\Socialite',
         'Agent'       => 'Jenssegers\Agent\Facades\Agent',
         'Debugbar'    => 'Barryvdh\Debugbar\Facade',
-        'Bugsnag'     => 'Bugsnag\BugsnagLaravel\BugsnagFacade',
-
+        'Bugsnag'     => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
     ],
 
 ];
