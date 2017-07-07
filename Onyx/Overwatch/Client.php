@@ -78,12 +78,20 @@ class Client extends Http
                 'gamertag'    => $gamertag,
                 'accountType' => $platform,
             ]);
+        } else {
+            $account->gamertag = $gamertag;
         }
 
         $data = $this->fetchBlobStat($account, $platform);
 
         // Insert data
         $this->updateOrInsertStats($account, $data);
+
+        // check for mismatch GT
+        if ($account->gamertag !== $gamertag) {
+            $account->gamertag = $gamertag;
+            $account->save();
+        }
 
         return $account;
     }
