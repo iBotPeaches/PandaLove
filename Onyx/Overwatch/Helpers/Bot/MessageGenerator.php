@@ -83,7 +83,7 @@ class MessageGenerator
         $msg .= '<br />'.$character->character.' Stats: <br />';
 
         $random_keys = array_rand($character->heroStats(), count($character->heroStats()));
-        $random_keys = !is_array($random_keys) ?  [$random_keys] : $random_keys;
+        $random_keys = !is_array($random_keys) ? [$random_keys] : $random_keys;
         shuffle($random_keys);
         $statCount = 0;
 
