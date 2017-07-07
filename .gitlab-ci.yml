@@ -47,7 +47,7 @@ laravel_deploy_production:
   script:
     - curl -LO https://deployer.org/deployer.phar
     - php deployer.phar deploy production -vvv
-    - php artisan bugsnag:deploy --repository "$CI_PROJECT_URL" --branch "$CI_COMMIT_REF_NAME" --revision "$CI_COMMIT_SHA" --appVersion `git describe --tags --abbrev=0` --provider gitlab-onpremise
+    - curl -d "apiKey=$BUGSNAG_API_KEY&appVersion=`git describe --tags --abbrev=0`&repository=$CI_PROJECT_URL&branch=$CI_COMMIT_REF_NAME&revision=$CI_COMMIT_SHA&provider=gitlab-onpremise" https://notify.bugsnag.com/deploy
   only:
   - production
 
