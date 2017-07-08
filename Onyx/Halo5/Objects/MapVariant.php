@@ -56,6 +56,16 @@ class MapVariant extends Model
     // Public Methods
     //---------------------------------------------------------------------------------
 
+    public function isSumo() : bool
+    {
+        $sumoMapIds = [
+            '921f5fde-e3b4-47e8-a413-5c937a54a678',
+            'f9d07b11-c6d2-44e9-bc25-990e68840b3d'
+        ];
+
+        return in_array($this->uuid, $sumoMapIds);
+    }
+
     public static function getAll()
     {
         return \Cache::remember('map_variants-metadata', 120, function () {
