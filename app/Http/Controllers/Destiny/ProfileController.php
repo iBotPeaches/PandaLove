@@ -44,6 +44,10 @@ class ProfileController extends Controller
                 ->where('accountType', $console)
                 ->firstOrFail();
 
+            if (! isset($account->destiny)) {
+                \App::abort(404, 'This account no longer has Destiny Data. It must have been renamed.');
+            }
+
             $games = GamePlayer::with('game')
                 ->select('destiny_game_players.*', 'destiny_games.occurredAt')
                 ->leftJoin('destiny_games', 'destiny_game_players.game_id', '=', 'destiny_games.instanceId')
