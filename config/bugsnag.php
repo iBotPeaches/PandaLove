@@ -170,7 +170,7 @@ return [
     |
     */
 
-    'release_stage' => env('BUGSNAG_RELEASE_STAGE', 'production'),
+    'release_stage' => null,
 
     /*
     |--------------------------------------------------------------------------
