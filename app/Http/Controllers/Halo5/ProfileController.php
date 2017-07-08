@@ -2,6 +2,7 @@
 
 namespace PandaLove\Http\Controllers\Halo5;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -173,6 +174,9 @@ class ProfileController extends Controller
                 'page'  => $page,
             ])->render();
         } catch (ModelNotFoundException $e) {
+            return \Response::json(['false']);
+        } catch (ClientException $ex) {
+            $this->dispatch(new UpdateHalo5Account($account));
             return \Response::json(['false']);
         }
     }

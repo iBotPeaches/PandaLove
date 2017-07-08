@@ -157,7 +157,7 @@ return [
     |
     */
 
-    'bindings' => env('BUGSNAG_QUERY_BINDINGS', false),
+    'bindings' => env('BUGSNAG_QUERY_BINDINGS', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +170,7 @@ return [
     |
     */
 
-    'release_stage' => env('BUGSNAG_RELEASE_STAGE', 'production'),
+    'release_stage' => null,
 
     /*
     |--------------------------------------------------------------------------

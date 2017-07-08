@@ -54,6 +54,7 @@ class batchHalo5Metadata extends Command
 
         foreach ($commands as $command) {
             $exitCode = \Artisan::call($command);
+            $this->info(\Artisan::output());
 
             $this->info('Ran command ('.$command.') with output of: '.$exitCode);
 
