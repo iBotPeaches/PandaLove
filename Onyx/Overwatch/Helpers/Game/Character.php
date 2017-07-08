@@ -78,6 +78,10 @@ class Character
             case 'sombra':
                 return 'sombra';
 
+            case 'doomfist':
+            case 'doom':
+                return 'doomfist';
+
             default:
                 return 'unknown';
         }
