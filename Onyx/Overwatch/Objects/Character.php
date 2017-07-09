@@ -3,6 +3,7 @@
 namespace Onyx\Overwatch\Objects;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Stats.
@@ -47,6 +48,14 @@ class Character extends Model
 
     public function setDataAttribute(array $data)
     {
+        foreach ($data as $category => $items) {
+            foreach ($items as $item => $value) {
+                if (Str::startsWith($item,'overwatchguid')) {
+                    unset($data[$category][$item]);
+                }
+            }
+        }
+
         $this->attributes['data'] = \GuzzleHttp\json_encode($data);
     }
 
