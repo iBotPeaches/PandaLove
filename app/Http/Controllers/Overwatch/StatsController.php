@@ -2,7 +2,7 @@
 
 namespace PandaLove\Http\Controllers\Overwatch;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Onyx\Overwatch\Helpers\Game\Character;
 use PandaLove\Http\Controllers\Controller;
@@ -36,10 +36,11 @@ class StatsController extends Controller
             throw new \Exception('This character could not be located');
         }
 
-        $heros = CharacterModel::with(['stats.account.user' => function (HasOne $query) {
-            $query->where('isPanda', true);
-        }])
+        $heros = CharacterModel::with(['stats.account.user'])
             ->where('character', $character)
+            ->whereHas('stats.account.user', function(Builder $query) {
+                $query->where('isPanda', true);
+            })
             ->orderBy('playtime', 'desc')
             ->get()
             ->toArray();

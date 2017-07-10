@@ -65,8 +65,8 @@ class Character
             case 'rein':
                 return 'reinhardt';
 
-            case 'mcree':
-                return 'mcree';
+            case 'mccree':
+                return 'mccree';
 
             case 'winston':
                 return 'winston';
@@ -135,6 +135,9 @@ class Character
 
             case 'bastion':
                 return 'bastion';
+
+            case 'mei':
+                return 'mei';
 
             default:
                 return 'unknown';
