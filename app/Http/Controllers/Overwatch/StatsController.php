@@ -2,13 +2,9 @@
 
 namespace PandaLove\Http\Controllers\Overwatch;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
-use Onyx\Account;
-use Onyx\Overwatch\Client;
 use Onyx\Overwatch\Helpers\Game\Character;
-use Onyx\Overwatch\Helpers\String\Text;
 use PandaLove\Http\Controllers\Controller;
 use Onyx\Overwatch\Objects\Character as CharacterModel;
 
