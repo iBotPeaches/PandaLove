@@ -54,6 +54,7 @@ class Character extends Model
                     unset($data[$category][$item]);
                 }
             }
+            ksort($data[$category]);
         }
 
         $this->attributes['data'] = \GuzzleHttp\json_encode($data);

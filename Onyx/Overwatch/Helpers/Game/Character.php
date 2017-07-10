@@ -7,6 +7,56 @@ namespace Onyx\Overwatch\Helpers\Game;
  */
 class Character
 {
+    /**
+     * @return array
+     */
+    public static function getCharacters() : array
+    {
+        $characters = [
+            'ana' => 'Ana',
+            'bastion' => 'Bastion',
+            'dva' => 'D.Va',
+            'genji' => 'Genji',
+            'hanzo' => 'Hanzo',
+            'junkrat' => 'Junkrat',
+            'lucio' => 'Lúcio',
+            'mccree' => 'McCree',
+            'mei' => 'Mei',
+            'mercy' => 'Mercy',
+            'pharah' => 'Pharah',
+            'reaper' => 'Reaper',
+            'reinhardt' => 'Reinhardt',
+            'roadhog' => 'Roadhog',
+            'soldier76' => 'Soldier: 76',
+            'symmetra' => 'Symmetra',
+            'torbjorn' => 'Torbjörn',
+            'tracer' => 'Tracer',
+            'widowmaker' => 'Widowmaker',
+            'winston' => 'Winston',
+            'zarya' => 'Zarya',
+            'zenyatta' => 'Zenyatta',
+            'sombra' => 'Sombra',
+            'orisa' => 'Orisa',
+            'doomfist' => 'Doomfist'
+        ];
+
+        asort($characters);
+        return $characters;
+    }
+
+    /**
+     * @param string $character
+     * @return string
+     */
+    public static function image(string $character) : string
+    {
+        return asset('/images/overwatch/'.$character.'.png');
+    }
+
+    /**
+     * @param string $char
+     * @return string
+     */
     public static function getValidCharacter(string $char) : string
     {
         switch ($char) {
@@ -81,6 +131,9 @@ class Character
             case 'doomfist':
             case 'doom':
                 return 'doomfist';
+
+            case 'bastion':
+                return 'bastion';
 
             default:
                 return 'unknown';
