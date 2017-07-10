@@ -113,6 +113,11 @@ class Stats extends Model
      */
     public $timestamps = true;
 
+    /**
+     * @var array
+     */
+    public $appends = ['totalLevel'];
+
     public static function boot()
     {
         parent::boot();
@@ -134,6 +139,11 @@ class Stats extends Model
     public function getTierAttribute($value)
     {
         return ucfirst($value);
+    }
+
+    public function getTotalLevelAttribute($value)
+    {
+        return $this->totalLevel();
     }
 
     //---------------------------------------------------------------------------------

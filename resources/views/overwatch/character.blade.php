@@ -4,39 +4,28 @@
     <div class="wrapper style1">
         <article class="container no-image" id="top">
             <div class="row">
-                <div class="12u">
-                    <div class="ui dropdown button" style="overflow: inherit;">
-                        <span class="text">Choose {{ $hero->character }} Stat Category</span>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            @foreach ($hero->data as $category => $items)
-                                <div class="item">
-                                    <i class="dropdown icon"></i>
-                                    <span class="text">{{ Onyx\Overwatch\Helpers\String\Text::label($category) }}</span>
-                                    <div class="menu">
-                                        @foreach($items as $key => $item)
-                                            <div class="item">{{ Onyx\Overwatch\Helpers\String\Text::label($key) }}</div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endforeach
+                <div class="3u">
+                    <div class="ui fluid card">
+                        <div class="image">
+                            <img src="{{ Onyx\Overwatch\Helpers\Game\Character::image($hero['character']) }}" />
+                        </div>
+                        <div class="content">
+                            <div class="left floated author">
+                                <strong>{{ $hero['character'] }}</strong> {{ Onyx\Overwatch\Helpers\String\Text::label($stat) ?? null }}
+                            </div>
                         </div>
                     </div>
+                    <div class="ui bottom attached segment">
+                        @include('includes.overwatch.stats.filter_dropdown', ['hero' => $hero])
+                    </div>
+                    <div class="ui blue segment">
+                        <a href="{{ action('Overwatch\StatsController@getIndex') }}" class="ui blue fluid button">Change Hero</a>
+                    </div>
+                </div>
+                <div class="9u">
+                    @include('includes.overwatch.stats.leaderboard', ['heros' => $heros, 'main' => $hero])
                 </div>
             </div>
         </article>
     </div>
 @endsection
-
-@section('inline-js')
-    <script type="text/javascript">
-        $(function () {
-            $('.ui.dropdown')
-                .dropdown({
-                    direction: 'downward',
-                    allowCategorySelection: false
-                })
-            ;
-        });
-    </script>
-@append

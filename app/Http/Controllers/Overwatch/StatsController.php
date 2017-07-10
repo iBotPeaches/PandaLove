@@ -2,10 +2,15 @@
 
 namespace PandaLove\Http\Controllers\Overwatch;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
+use Onyx\Account;
 use Onyx\Overwatch\Client;
 use Onyx\Overwatch\Helpers\Game\Character;
+use Onyx\Overwatch\Helpers\String\Text;
 use PandaLove\Http\Controllers\Controller;
+use Onyx\Overwatch\Objects\Character as CharacterModel;
 
 class StatsController extends Controller
 {
@@ -27,26 +32,31 @@ class StatsController extends Controller
         ]);
     }
 
-    public function getCharacter(string $character = '', string $stat = 'time_spent_on_fire_average')
+    public function getCharacter(string $character = '', string $category = 'average_stats', string $stat = 'time_spent_on_fire_average')
     {
-        $client = new Client();
         $character = Character::getValidCharacter($character);
 
         if ($character === 'unknown') {
             throw new \Exception('This character could not be located');
         }
 
-        // load viable options
-        $hero = $client->getMostPlaytimeChar($character);
+        $heros = CharacterModel::with(['stats.account.user' => function (HasOne $query) {
+            $query->where('isPanda', true);
+        }])
+            ->where('character', $character)
+            ->orderBy('playtime', 'desc')
+            ->get()
+            ->toArray();
 
-        if ($hero === null) {
+        if (empty($heros)) {
             throw new \Exception('This character could not be loaded.');
         }
 
         return view('overwatch.character', [
-            'hero' => $hero
+            'hero' => $heros[0],
+            'stat' => $stat,
+            'category' => $category,
+            'heros' => Character::orderBasedOnStats($heros, $category, $stat)
         ]);
-        $options = '';
-        $test = '';
     }
 }

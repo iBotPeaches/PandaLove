@@ -50,6 +50,7 @@ class Character
      */
     public static function image(string $character) : string
     {
+        $character = strtolower($character);
         return asset('/images/overwatch/'.$character.'.png');
     }
 
@@ -138,5 +139,28 @@ class Character
             default:
                 return 'unknown';
         }
+    }
+
+    /**
+     * @param array $data
+     * @param string $category
+     * @param string $stat
+     * @return array
+     * @throws \Exception
+     */
+    public static function orderBasedOnStats(array $data, string $category, string $stat) : array
+    {
+        $heros = collect($data);
+
+        // Check if stat exists.
+        $hero = $heros->first();
+        if (array_get($hero['data'], $category.'.'.$stat) === null) {
+            throw new \Exception('This stat does not exist.');
+        }
+
+        // Order based on that stat
+        return $heros->sortByDesc(function($hero) use ($category, $stat) {
+            return array_get($hero['data'], $category.'.'.$stat, 0);
+        })->toArray();
     }
 }
