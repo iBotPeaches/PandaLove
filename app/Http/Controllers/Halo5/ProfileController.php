@@ -178,18 +178,19 @@ class ProfileController extends Controller
             return view('includes.message', [
                 'message' => [
                     'header' => 'Uh oh',
-                    'type' => 'red',
-                    'body' => 'We encountered a major error and could not recover :('
-                ]
+                    'type'   => 'red',
+                    'body'   => 'We encountered a major error and could not recover :(',
+                ],
             ]);
         } catch (ClientException $ex) {
             $this->dispatch(new UpdateHalo5Account($account));
+
             return view('includes.message', [
                 'message' => [
                     'header' => 'Uh oh',
-                    'type' => 'red',
-                    'body' => 'We encountered a major error and could not recover :('
-                ]
+                    'type'   => 'red',
+                    'body'   => 'We encountered a major error and could not recover :(',
+                ],
             ]);
         }
     }

@@ -13,49 +13,53 @@ class Character
     public static function getCharacters() : array
     {
         $characters = [
-            'ana' => 'Ana',
-            'bastion' => 'Bastion',
-            'dva' => 'D.Va',
-            'genji' => 'Genji',
-            'hanzo' => 'Hanzo',
-            'junkrat' => 'Junkrat',
-            'lucio' => 'Lúcio',
-            'mccree' => 'McCree',
-            'mei' => 'Mei',
-            'mercy' => 'Mercy',
-            'pharah' => 'Pharah',
-            'reaper' => 'Reaper',
-            'reinhardt' => 'Reinhardt',
-            'roadhog' => 'Roadhog',
-            'soldier76' => 'Soldier: 76',
-            'symmetra' => 'Symmetra',
-            'torbjorn' => 'Torbjörn',
-            'tracer' => 'Tracer',
+            'ana'        => 'Ana',
+            'bastion'    => 'Bastion',
+            'dva'        => 'D.Va',
+            'genji'      => 'Genji',
+            'hanzo'      => 'Hanzo',
+            'junkrat'    => 'Junkrat',
+            'lucio'      => 'Lúcio',
+            'mccree'     => 'McCree',
+            'mei'        => 'Mei',
+            'mercy'      => 'Mercy',
+            'pharah'     => 'Pharah',
+            'reaper'     => 'Reaper',
+            'reinhardt'  => 'Reinhardt',
+            'roadhog'    => 'Roadhog',
+            'soldier76'  => 'Soldier: 76',
+            'symmetra'   => 'Symmetra',
+            'torbjorn'   => 'Torbjörn',
+            'tracer'     => 'Tracer',
             'widowmaker' => 'Widowmaker',
-            'winston' => 'Winston',
-            'zarya' => 'Zarya',
-            'zenyatta' => 'Zenyatta',
-            'sombra' => 'Sombra',
-            'orisa' => 'Orisa',
-            'doomfist' => 'Doomfist'
+            'winston'    => 'Winston',
+            'zarya'      => 'Zarya',
+            'zenyatta'   => 'Zenyatta',
+            'sombra'     => 'Sombra',
+            'orisa'      => 'Orisa',
+            'doomfist'   => 'Doomfist',
         ];
 
         asort($characters);
+
         return $characters;
     }
 
     /**
      * @param string $character
+     *
      * @return string
      */
     public static function image(string $character) : string
     {
         $character = strtolower($character);
+
         return asset('/images/overwatch/'.$character.'.png');
     }
 
     /**
      * @param string $char
+     *
      * @return string
      */
     public static function getValidCharacter(string $char) : string
@@ -155,11 +159,13 @@ class Character
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $category
      * @param string $stat
-     * @return array
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public static function orderBasedOnStats(array $data, string $category, string $stat) : array
     {
@@ -173,7 +179,7 @@ class Character
             if ($stat === 'time_spent_on_fire_average') {
                 $stat = 'objective_time_average';
                 if (array_get($hero['data'], $category.'.'.$stat) === null) {
-                    throw new \Exception('This stat does not exist: ' . $stat);
+                    throw new \Exception('This stat does not exist: '.$stat);
                 }
             } else {
                 throw new \Exception('This stat does not exist.');
@@ -181,7 +187,7 @@ class Character
         }
 
         // Order based on that stat
-        return $heros->sortByDesc(function($hero) use ($category, $stat) {
+        return $heros->sortByDesc(function ($hero) use ($category, $stat) {
             return array_get($hero['data'], $category.'.'.$stat, 0);
         })->toArray();
     }

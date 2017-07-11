@@ -5,8 +5,8 @@ namespace PandaLove\Http\Controllers\Overwatch;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Onyx\Overwatch\Helpers\Game\Character;
-use PandaLove\Http\Controllers\Controller;
 use Onyx\Overwatch\Objects\Character as CharacterModel;
+use PandaLove\Http\Controllers\Controller;
 
 class StatsController extends Controller
 {
@@ -24,7 +24,7 @@ class StatsController extends Controller
     public function getIndex()
     {
         return view('overwatch.stats', [
-            'heros' => Character::getCharacters()
+            'heros' => Character::getCharacters(),
         ]);
     }
 
@@ -39,7 +39,7 @@ class StatsController extends Controller
         $heros = CharacterModel::with(['stats.account.user'])
             ->where('character', $character)
             ->where('playtime', '>', 0)
-            ->whereHas('stats.account.user', function(Builder $query) {
+            ->whereHas('stats.account.user', function (Builder $query) {
                 $query->where('isPanda', true);
             })
             ->orderBy('playtime', 'desc')
@@ -50,18 +50,18 @@ class StatsController extends Controller
         if (empty($heros)) {
             return view('alert', [
                 'message' => [
-                    'body' => 'Character has no stats.',
+                    'body'   => 'Character has no stats.',
                     'header' => 'Uh oh',
-                    'type' => 'red'
-                ]
+                    'type'   => 'red',
+                ],
             ]);
         }
 
         return view('overwatch.character', [
-            'hero' => $heros[0],
-            'stat' => $stat,
+            'hero'     => $heros[0],
+            'stat'     => $stat,
             'category' => $category,
-            'heros' => Character::orderBasedOnStats($heros, $category, $stat)
+            'heros'    => Character::orderBasedOnStats($heros, $category, $stat),
         ]);
     }
 }

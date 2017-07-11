@@ -50,7 +50,7 @@ class Character extends Model
     {
         foreach ($data as $category => $items) {
             foreach ($items as $item => $value) {
-                if (Str::startsWith($item,'overwatchguid')) {
+                if (Str::startsWith($item, 'overwatchguid')) {
                     unset($data[$category][$item]);
                 }
             }
