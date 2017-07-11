@@ -3,6 +3,7 @@
 //# Overwatch
 Route::controller('/overwatch/api/v1', 'Overwatch\ApiV1Controller');
 Route::controller('/overwatch/roster', 'Overwatch\RosterController');
+Route::controller('/overwatch/stats', 'Overwatch\StatsController');
 Route::get('/overwatch/profile/check-for-update/{gamertag}/{console}', 'Overwatch\ProfileController@checkForUpdate');
 Route::get('/overwatch/profile/manual-update/{gamertag}/{console}', 'Overwatch\ProfileController@manualUpdate');
 Route::get('/overwatch/profile/{gamertag}/{console}/', 'Overwatch\ProfileController@index');

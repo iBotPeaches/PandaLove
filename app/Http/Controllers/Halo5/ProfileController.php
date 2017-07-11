@@ -177,6 +177,7 @@ class ProfileController extends Controller
             return \Response::json(['false']);
         } catch (ClientException $ex) {
             $this->dispatch(new UpdateHalo5Account($account));
+
             return \Response::json(['false']);
         }
     }

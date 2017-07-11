@@ -44,7 +44,7 @@ class ProfileController extends Controller
                 ->where('accountType', $console)
                 ->firstOrFail();
 
-            if (! isset($account->destiny)) {
+            if (!isset($account->destiny)) {
                 \App::abort(404, 'This account no longer has Destiny Data. It must have been renamed.');
             }
 

@@ -122,6 +122,18 @@ class Client extends Http
         }
     }
 
+    /**
+     * @param string $char
+     * @return mixed
+     */
+    public function getMostPlaytimeChar(string $char)
+    {
+        return Character::where('character', $char)
+            ->orderBy('playtime', 'desc')
+            ->take(1)
+            ->first();
+    }
+
     //---------------------------------------------------------------------------------
     // Private Functions
     //---------------------------------------------------------------------------------
