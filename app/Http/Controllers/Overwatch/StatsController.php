@@ -38,10 +38,12 @@ class StatsController extends Controller
 
         $heros = CharacterModel::with(['stats.account.user'])
             ->where('character', $character)
+            ->where('playtime', '>', 0)
             ->whereHas('stats.account.user', function(Builder $query) {
                 $query->where('isPanda', true);
             })
             ->orderBy('playtime', 'desc')
+            ->limit(20)
             ->get()
             ->toArray();
 

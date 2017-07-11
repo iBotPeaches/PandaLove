@@ -2,10 +2,11 @@
     <thead class="desktop only">
     <tr>
         <th>Gamertag</th>
+        <th>Season</th>
         <th>Level</th>
         <th>Max SR</th>
         <th>Playtime</th>
-        <th>{{ $stat }}</th>
+        <th>{{ Onyx\Overwatch\Helpers\String\Text::label($stat) }}</th>
     </tr>
     </thead>
     <tbody>
@@ -20,16 +21,19 @@
                 </span>
             </td>
             <td>
+                {{ $hero['stats']['season'] }}
+            </td>
+            <td>
                 {{ $hero['stats']['totalLevel'] }}
             </td>
             <td>
                 {{ $hero['stats']['max_comprank'] }}
             </td>
             <td>
-                {{ $hero['playtime'] }} hour(s)
+                {{ Onyx\Overwatch\Helpers\String\Text::playtimeFormat($hero['playtime']) }}
             </td>
             <td>
-                {{ array_get($hero['data'], $category.'.'.$stat, 0) }}
+                {{ Onyx\Overwatch\Helpers\String\Text::heuristicFormat($stat, array_get($hero['data'], $category.'.'.$stat, 0)) }}
             </td>
         </tr>
     @endforeach

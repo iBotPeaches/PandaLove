@@ -139,6 +139,12 @@ class Character
             case 'mei':
                 return 'mei';
 
+            case 'tracer':
+                return 'tracer';
+
+            case 'orisa':
+                return 'orisa';
+
             default:
                 return 'unknown';
         }
