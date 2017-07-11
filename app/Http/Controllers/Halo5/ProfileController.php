@@ -74,6 +74,7 @@ class ProfileController extends Controller
             try {
                 $account = Account::with('h5', 'h5.warzone')
                     ->where('seo', Text::seoGamertag($gamertag))
+                    ->where('accountType', Console::Xbox)
                     ->firstOrFail();
 
                 // We don't care about non-panda members
@@ -174,11 +175,22 @@ class ProfileController extends Controller
                 'page'  => $page,
             ])->render();
         } catch (ModelNotFoundException $e) {
-            return \Response::json(['false']);
+            return view('includes.message', [
+                'message' => [
+                    'header' => 'Uh oh',
+                    'type' => 'red',
+                    'body' => 'We encountered a major error and could not recover :('
+                ]
+            ]);
         } catch (ClientException $ex) {
             $this->dispatch(new UpdateHalo5Account($account));
-
-            return \Response::json(['false']);
+            return view('includes.message', [
+                'message' => [
+                    'header' => 'Uh oh',
+                    'type' => 'red',
+                    'body' => 'We encountered a major error and could not recover :('
+                ]
+            ]);
         }
     }
 }
