@@ -293,6 +293,15 @@
 .advanced-table:before {
 	content: "Advanced Stats: ";
 }
+.season-table:before {
+	content: "Season: ";
+}
+.rank-table:before {
+	content: "SR: ";
+}
+.playtime-table:before {
+	content: "Playtime: ";
+}
 .ui.statistics.four > .statistic > .value {
 	font-size: 2.1rem !important;
 }

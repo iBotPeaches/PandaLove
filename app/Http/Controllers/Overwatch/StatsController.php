@@ -48,7 +48,13 @@ class StatsController extends Controller
             ->toArray();
 
         if (empty($heros)) {
-            throw new \Exception('This character could not be loaded.');
+            return view('alert', [
+                'message' => [
+                    'body' => 'Character has no stats.',
+                    'header' => 'Uh oh',
+                    'type' => 'red'
+                ]
+            ]);
         }
 
         return view('overwatch.character', [

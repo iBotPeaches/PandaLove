@@ -20,22 +20,32 @@
                         </a>
                 </span>
             </td>
-            <td>
+            <td class="season-table">
                 {{ $hero['stats']['season'] }}
             </td>
-            <td>
+            <td class="level-table">
                 {{ $hero['stats']['totalLevel'] }}
             </td>
-            <td>
+            <td class="rank-table">
                 {{ $hero['stats']['max_comprank'] }}
             </td>
-            <td>
+            <td class="playtime-table">
                 {{ Onyx\Overwatch\Helpers\String\Text::playtimeFormat($hero['playtime']) }}
             </td>
-            <td>
+            <td class="{{ $stat }}-table">
                 {{ Onyx\Overwatch\Helpers\String\Text::heuristicFormat($stat, array_get($hero['data'], $category.'.'.$stat, 0)) }}
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+
+@section('inline-css')
+    <style type="text/css">
+        @media (max-width: 736px) {
+            .{{ $stat }}-table:before {
+                content: "{{ Onyx\Overwatch\Helpers\String\Text::label($stat) }}:";
+            }
+        }
+    </style>
+@append

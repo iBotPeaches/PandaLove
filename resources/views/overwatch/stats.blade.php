@@ -22,7 +22,7 @@
                                             <img src="{{ Onyx\Overwatch\Helpers\Game\Character::image($key) }}" />
                                         </a>
                                     </div>
-                                    <div class="content">
+                                    <div class="desktop only content">
                                         <a class="header" href="{{ action('Overwatch\StatsController@getCharacter', [$key]) }}">{{ $hero }}</a>
                                     </div>
                                 </div>

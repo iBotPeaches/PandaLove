@@ -145,6 +145,10 @@ class Character
             case 'orisa':
                 return 'orisa';
 
+            case 'widow':
+            case 'widowmaker':
+                return 'widowmaker';
+
             default:
                 return 'unknown';
         }
@@ -164,7 +168,16 @@ class Character
         // Check if stat exists.
         $hero = $heros->first();
         if (array_get($hero['data'], $category.'.'.$stat) === null) {
-            throw new \Exception('This stat does not exist.');
+
+            // try another random stat
+            if ($stat === 'time_spent_on_fire_average') {
+                $stat = 'objective_time_average';
+                if (array_get($hero['data'], $category.'.'.$stat) === null) {
+                    throw new \Exception('This stat does not exist: ' . $stat);
+                }
+            } else {
+                throw new \Exception('This stat does not exist.');
+            }
         }
 
         // Order based on that stat

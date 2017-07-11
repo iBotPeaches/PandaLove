@@ -1,4 +1,4 @@
-@if (($message = Session::get('flash_message', isset($flash_message) ? $flash_message : null)) !== null)
+@if (($message = Session::get('flash_message', $flash_message ?? $message ?? null)) !== null)
     <div class="ui {{ $message['type'] or 'green' }} message top-message">
         @if (isset($message['close']) && $message['close'])
             <i class="close icon"></i>
