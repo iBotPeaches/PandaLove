@@ -158,11 +158,7 @@ class Game
                     continue;
                 } elseif ($event->killer_id == $event->victim_id) {
                     if ($match->isTeamGame) {
-                        if ($match->mapVariant->isSumo()) {
-                            $data[$currentRound][$team_map[$event->victim_id]][$event->victim_id]['extras']['deathCount'] = $deathCount++;
-                        } else {
-                            $data[$currentRound][$team_map[$event->victim_id]]['extras']['deathCount'] = $deathCount++;
-                        }
+                        $data[$currentRound][$team_map[$event->victim_id]][$event->victim_id]['extras']['deathCount'] = $deathCount++;
                         $data[$currentRound][$team_map[$event->victim_id]][$event->victim_id]['deaths'] += 1;
                         continue;
                     }
@@ -191,11 +187,7 @@ class Game
                 } else {
                     $data[$currentRound][$team_killer_id][$event->killer_id]['kills'] += 1;
                     $data[$currentRound][$team_victim_id][$event->victim_id]['deaths'] += 1;
-                    if ($match->mapVariant->isSumo()) {
-                        $data[$currentRound][$team_victim_id][$event->victim_id]['extras']['deathCount'] = $deathCount++;
-                    } else {
-                        $data[$currentRound][$team_victim_id][$event->victim_id]['extras']['deathCount'] = $deathCount++;
-                    }
+                    $data[$currentRound][$team_victim_id][$event->victim_id]['extras']['deathCount'] = $deathCount++;
                 }
 
                 if (count($event->assists) > 0) {

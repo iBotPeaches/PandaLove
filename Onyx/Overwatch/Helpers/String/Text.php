@@ -1,11 +1,11 @@
 <?php
 
 namespace Onyx\Overwatch\Helpers\String;
+
 use Illuminate\Support\Str;
 
 /**
- * Class Text
- * @package Onyx\Overwatch\Helpers\String
+ * Class Text.
  */
 class Text
 {
@@ -16,6 +16,7 @@ class Text
 
     /**
      * @param string $word
+     *
      * @return string
      */
     public static function label(string $word)
@@ -26,6 +27,7 @@ class Text
     /**
      * @param string $stat
      * @param string $value
+     *
      * @return string
      */
     public static function heuristicFormat(string $stat, string $value) : string
@@ -45,6 +47,7 @@ class Text
 
     /**
      * @param string $playtime
+     *
      * @return string
      */
     public static function playtimeFormat(string $playtime) : string
@@ -52,8 +55,9 @@ class Text
         $playtime = (float) $playtime;
 
         if ($playtime < 1) {
-            return (self::$MINS_IN_HOUR * $playtime) . ' mins';
+            return (self::$MINS_IN_HOUR * $playtime).' mins';
         }
-        return $playtime . ' hour(s)';
+
+        return $playtime.' hour(s)';
     }
 }

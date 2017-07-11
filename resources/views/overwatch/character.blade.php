@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="3u">
                     <div class="ui fluid card">
-                        <div class="image">
+                        <div class="desktop only image">
                             <img src="{{ Onyx\Overwatch\Helpers\Game\Character::image($hero['character']) }}" />
                         </div>
                         <div class="content">
