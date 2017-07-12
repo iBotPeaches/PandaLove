@@ -39,6 +39,9 @@ class Kernel extends ConsoleKernel
         updatePandas::class,
         riseCountdown::class,
 
+        // overwatch
+        \PandaLove\Console\Commands\Overwatch\updatePandas::class,
+
         // halo 5
         updateMedals::class,
         updateCsrs::class,
