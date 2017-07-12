@@ -1,17 +1,21 @@
-<div class="ui black fluid dropdown button" style="overflow: inherit;">
+<div class="ui black fluid pointing scrolling dropdown button" style="overflow: inherit;">
     <span class="text">Choose Stat Category</span>
     <i class="dropdown icon"></i>
     <div class="menu">
+        <div class="ui icon search input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="Search tags...">
+        </div>
+        <div class="divider"></div>
         @foreach ($hero['data'] as $category => $items)
-            <div class="item">
-                <i class="dropdown icon"></i>
-                <span class="text">{{ Onyx\Overwatch\Helpers\String\Text::label($category) }}</span>
-                <div class="menu">
-                    @foreach($items as $key => $item)
-                        <div data-category="{{ $category }}" data-value="{{ $key }}" class="item">{{ Onyx\Overwatch\Helpers\String\Text::label($key) }}</div>
-                    @endforeach
-                </div>
+            <div class="header">
+                <i class="tags icon"></i>
+                {{ Onyx\Overwatch\Helpers\String\Text::label($category) }}
             </div>
+            <div class="divider"></div>
+            @foreach($items as $key => $item)
+                <div data-category="{{ $category }}" data-value="{{ $key }}" class="item">{{ Onyx\Overwatch\Helpers\String\Text::label($key) }}</div>
+            @endforeach
         @endforeach
     </div>
 </div>
@@ -24,6 +28,7 @@
             $('.ui.dropdown')
                 .dropdown({
                     direction: 'downward',
+                    fullTextSearch: 'exact',
                     allowCategorySelection: false,
                     onChange: function(value, text, $choice) {
                         window.location.href = $baseUrl + $choice.data('category') + '/' + $choice.data('value');
