@@ -53,7 +53,7 @@ class alertSender extends Command
     {
         /** @var GameEvent[] $events */
         $events = GameEvent::where('alert_5', 0)
-            ->where('alert_15', 0)
+            ->orWhere('alert_15', 0)
             ->orderBy('start', 'ASC')
             ->get();
 
