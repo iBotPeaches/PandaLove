@@ -62,8 +62,16 @@ class alertSender extends Command
         if (count($events) > 0) {
             foreach ($events as $event) {
                 $this->info('Checking event: '.$event->title);
-                $diff = $event->start->diffInSeconds(Carbon::now('America/Chicago'));
+                $diff = Carbon::now('America/Chicago')->diffInSeconds($event->start, false);
                 $this->info('Event happens in '.$diff.' seconds.');
+
+                // Uh oh, we missed this event. Skip it.
+                if ($diff <= 0) {
+                    $this->info('Event: ' . $event->title . ' has expired. Skipping');
+                    $event->alert_5 = true;
+                    $event->alert_15 = true;
+                    $event->save();
+                }
 
                 if (!$event->alert_15) {
                     if ($diff <= $this->seconds_in_15minutes) {
