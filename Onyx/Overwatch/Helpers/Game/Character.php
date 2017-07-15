@@ -186,6 +186,10 @@ class Character
             }
         }
 
+        $heros = $heros->filter(function ($hero) use ($category, $stat) {
+            return array_get($hero['data'], $category.'.'.$stat, 0) > 0;
+        });
+
         // Order based on that stat
         return $heros->sortByDesc(function ($hero) use ($category, $stat) {
             return array_get($hero['data'], $category.'.'.$stat, 0);
