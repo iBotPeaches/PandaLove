@@ -23,6 +23,7 @@
                                     <span class="item">Save that field. Don't worry you can change it right back after this validation.</span>
                                     <span class="item">Once done. Enter your Gamertag below and submit.</span>
                                     <span class="item">If we find that text above in your profile. You "claim" ownership of that gamertag.</span>
+                                    <span class="item">If things don't work. You might need to add our developer account as a friend temporarily - <a href="https://account.xbox.com/en-US/Profile?gamerTag=LeafApp">LeafApp</a></span>
                                 </div>
                                 </p>
                             </div>
