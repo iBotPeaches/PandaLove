@@ -176,8 +176,8 @@ class Character
         if (array_get($hero['data'], $category.'.'.$stat) === null) {
 
             // try another random stat
-            if ($stat === 'time_spent_on_fire_average') {
-                $stat = 'objective_time_average';
+            if ($stat === 'all_damage_done') {
+                $stat = 'all_damage_done_most_in_game';
                 if (array_get($hero['data'], $category.'.'.$stat) === null) {
                     throw new \Exception('This stat does not exist: '.$stat);
                 }
