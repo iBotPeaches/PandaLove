@@ -28,7 +28,7 @@ class StatsController extends Controller
         ]);
     }
 
-    public function getCharacter(string $character = '', string $category = 'average_stats', string $stat = 'time_spent_on_fire_average')
+    public function getCharacter(string $character = '', string $category = 'general_stats', string $stat = 'all_damage_done')
     {
         $character = Character::getValidCharacter($character);
 

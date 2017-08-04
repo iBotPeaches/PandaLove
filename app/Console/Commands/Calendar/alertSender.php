@@ -67,7 +67,7 @@ class alertSender extends Command
 
                 // Uh oh, we missed this event. Skip it.
                 if ($diff <= 0) {
-                    $this->info('Event: ' . $event->title . ' has expired. Skipping');
+                    $this->info('Event: '.$event->title.' has expired. Skipping');
                     $event->alert_5 = true;
                     $event->alert_15 = true;
                     $event->save();
