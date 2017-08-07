@@ -14,7 +14,7 @@ class MessageGenerator
     /**
      * @var string
      */
-    public static $eastern = 'connor';
+    public static $eastern = 'connor/mitch';
 
     /**
      * @var string
