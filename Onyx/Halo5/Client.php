@@ -119,6 +119,7 @@ class Client extends Http
                 \DB::rollBack();
                 \Cache::flush();
                 \Bugsnag::notifyException($e);
+
                 throw $e;
             }
         }
@@ -165,6 +166,7 @@ class Client extends Http
         foreach ($data as $entry) {
             if ($entry['ResultCode'] != 0) {
                 \Bugsnag::notifyError('Account Failed', $entry['Id'], $entry);
+
                 throw new \Exception('This account: '.$entry['Id'].' Could not be loaded');
             }
 
@@ -188,6 +190,7 @@ class Client extends Http
                 app('Illuminate\Bus\Dispatcher')->dispatch(new Halo5EmblemDownloader($account));
             } catch (QueryException $e) {
                 \Bugsnag::notifyException($e);
+
                 throw $e;
             }
         }
@@ -357,6 +360,7 @@ class Client extends Http
             // We will check another endpoint (Xbox) and if that returns false. We are
             // marking this H5 account as disabled.
             $xbox = new \Onyx\XboxLive\Client();
+
             try {
                 $check = $xbox->fetchAccountBio($account);
             } catch (\Exception $e) {

@@ -57,6 +57,7 @@ class Images
 
         if ($hash instanceof Hash) {
             $manager = new ImageManager();
+
             try {
                 $img = $manager->make($url);
                 $img->save($location.$filename);
