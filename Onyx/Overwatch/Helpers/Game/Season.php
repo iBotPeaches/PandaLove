@@ -32,7 +32,7 @@ class Season
         ],
         5 => [
             'start'  => 'June 1, 2017',
-            'end'    => 'August 24, 2017',
+            'end'    => 'August 28, 2017',
             'season' => 5,
         ],
     ];
