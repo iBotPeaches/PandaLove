@@ -126,9 +126,12 @@ class Client extends Http
 
                 if ($cache == false) {
                     $cache = Account::firstOrCreate([
-                        'gamertag'    => $item['displayName'],
+                        'seo'         => Text::seoGamertag($item['displayName']),
                         'accountType' => $item['membershipType'],
                     ]);
+
+                    $cache->gamertag = $item['displayName'];
+                    $cache->save();
 
                     try {
                         $data = Data::firstOrCreate([

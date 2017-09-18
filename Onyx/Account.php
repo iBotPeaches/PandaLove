@@ -41,7 +41,7 @@ class Account extends Model
      *
      * @var array
      */
-    protected $fillable = ['gamertag', 'destiny_membershipId', 'accountType'];
+    protected $fillable = ['gamertag', 'destiny_membershipId', 'accountType', 'account_id'];
 
     public static function boot()
     {
