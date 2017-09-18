@@ -37,6 +37,7 @@ class ProfileController extends Controller
             /** @var $account Account */
             $account = Account::with('h5.playlists.stock', 'h5.playlists.current_csr', 'h5.playlists.high_csr', 'h5.playlists.season', 'h5.warzone')
                 ->where('seo', Text::seoGamertag($gamertag))
+                ->where('accountType', Console::Xbox)
                 ->firstOrFail();
 
             \Session::put('previousHaloProfile', [
