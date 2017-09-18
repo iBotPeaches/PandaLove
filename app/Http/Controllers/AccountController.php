@@ -45,6 +45,8 @@ class AccountController extends Controller
 
             if (!$account->h5 instanceof Halo5Data) {
                 $this->dispatch(new UpdateHalo5Account($account));
+            } else {
+                $this->dispatch(new UpdateHalo5Account($account));
             }
 
             return \Redirect::action('Halo5\ProfileController@index', [$account->seo]);
