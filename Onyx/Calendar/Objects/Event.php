@@ -45,8 +45,8 @@ class Event extends Model
         }
 
         $date = str_replace('"', null, $value);
-        $date = new Carbon($date);
-        $date->setTimezone('UTC');
+        $date = new Carbon($date, new \DateTimeZone('CST'));
+        $date->setTimezone(new \DateTimeZone('UTC'));
 
         $this->attributes['start'] = $date;
     }
@@ -54,7 +54,7 @@ class Event extends Model
     public function getStartAttribute($value)
     {
         $date = new Carbon($value, 'UTC');
-        $date->setTimezone('CST');
+        $date->setTimezone(new \DateTimeZone('CST'));
 
         return $date;
     }
@@ -128,6 +128,9 @@ class Event extends Model
             case 'destiny':
                 return 'Destiny';
 
+            case 'destiny2':
+                return 'Destiny 2';
+
             case 'h5':
                 return 'Halo 5';
 
@@ -151,6 +154,9 @@ class Event extends Model
 
             case 'PVP':
                 return 'PVP';
+
+            case 'Trials':
+                return 'Trials of the Nine';
         }
     }
 
@@ -190,6 +196,16 @@ class Event extends Model
                     default:
                         return 6;
                 }
+
+            case 'destiny2':
+                switch ($this->type) {
+                    case 'Raid':
+                    case 'Flawless':
+                        return 6;
+
+                    default:
+                        return 4;
+                }
         }
     }
 
@@ -227,5 +243,10 @@ class Event extends Model
     public function isHalo5()
     {
         return $this->game == 'h5';
+    }
+
+    public function isDestiny2()
+    {
+        return $this->game == 'destiny2';
     }
 }
