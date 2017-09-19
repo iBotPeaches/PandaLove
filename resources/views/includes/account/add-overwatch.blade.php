@@ -27,7 +27,6 @@
     </ul>
 {!! Form::close()  !!}
 
-
 @section('inline-js')
     <script type="text/javascript">
         $(document).on('ready', function() {

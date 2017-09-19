@@ -13,6 +13,8 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Destiny\Objects\Character;
 use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\PlayerNotFoundException;
+use Onyx\Destiny2\Client as Destiny2Client;
+use Onyx\Destiny2\Helpers\Network\Bungie2OfflineException;
 use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Halo5\H5PlayerNotFoundException;
 use Onyx\Overwatch\Client as OverwatchClient;
@@ -69,6 +71,17 @@ class CustomValidator extends Validator
             return false;
         }
 
+        return true;
+    }
+
+    public function validateDestiny2TagExists($attribute, $value, $parameters)
+    {
+        $client = new Destiny2Client();
+        try {
+            $account = $client->getAccountByName($value, $this->data['platform']);
+        } catch (Bungie2OfflineException $ex) {
+            return false;
+        }
         return true;
     }
 

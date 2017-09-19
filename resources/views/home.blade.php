@@ -11,12 +11,13 @@
                     <header>
                         <h1>Hi. We are <strong>Panda Love</strong>.</h1>
                     </header>
-                    <p>An <strong>Xbox</strong> clan who plays <strong>Halo 5</strong>, <strong>Destiny</strong> and <strong>Overwatch</strong>.</p>
+                    <p>An <strong>Xbox</strong> clan who plays <strong>Halo 5</strong>, <strong>Destiny</strong>, <strong>Destiny 2</strong> and <strong>Overwatch</strong>.</p>
 
                     <header>
                         <h3>Meet the Team</h3>
                     </header>
                     <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
+                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny 2</a>
                     <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
                     <a href="{{ Url::action('Overwatch\RosterController@getIndex') }}" class="button big scrolly">Overwatch</a>
                 </div>

@@ -11,6 +11,7 @@ use Onyx\Halo5\Objects\Data as Halo5Data;
 use Onyx\Overwatch\Client as OverwatchClient;
 use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Commands\UpdateHalo5Account;
+use PandaLove\Http\Requests\AddDestiny2GamertagRequest;
 use PandaLove\Http\Requests\AddDestinyGamertagRequest;
 use PandaLove\Http\Requests\AddHalo5GamertagRequest;
 use PandaLove\Http\Requests\AddOverwatchRequest;
@@ -81,6 +82,11 @@ class AccountController extends Controller
                 'body'   => 'We could not find this name on either Xbox/PS/PC',
             ]);
         }
+    }
+
+    public function postAddDestiny2Gamertag(AddDestiny2GamertagRequest $request)
+    {
+        dd($request);
     }
 
     public function postAddDestinyGamertag(AddDestinyGamertagRequest $request)
