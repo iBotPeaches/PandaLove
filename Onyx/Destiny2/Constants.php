@@ -17,4 +17,11 @@ class Constants
      * @var string
      */
     public static $platformDestiny = 'https://www.bungie.net/Platform/Destiny2/%1$d/Profile/%2$s?lc=en&components=100,103,200,205';
+
+    /**
+     * Get information about a singlular entity.
+     *
+     * @var string
+     */
+    public static $entityDefinition = 'https://www.bungie.net/Platform/Destiny2/Manifest/%1$s/%2$s';
 }

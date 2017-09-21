@@ -11,9 +11,47 @@ use Onyx\Destiny2\Objects\Data;
 
 class Client extends Http
 {
+    /**
+     * @var array
+     */
+    protected static $instances = [];
+
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @param $type
+     * @param $hash
+     * @return mixed
+     */
+    public function getHash($type, $hash)
+    {
+        $instance = array_get(static::$instances, "$type.$hash");
+
+        if (! $instance) {
+            $storage = storage_path('d2');
+
+            if (!\File::exists($storage)) {
+                \File::makeDirectory($storage, 0775, true);
+            }
+
+            if (!\File::exists($storage.'/'.$type)) {
+                \File::makeDirectory($storage.'/'.$type, 0775, true);
+            }
+
+            $file = $storage . '/' . $type . '/' . $hash . '.php';
+            if (\File::exists($file)) {
+                return include $file;
+            }
+
+            $data = $this->getEntity($type, $hash);
+            \File::put($file, '<?php return '.var_export($data, true).";\n");
+            return $data;
+        }
+
+        return $instance;
+    }
 
     /**
      * @param $gamertag
@@ -171,6 +209,25 @@ class Client extends Http
         }
 
         throw new Bungie2OfflineException('Could not locate Destiny 2 Profile.');
+    }
+
+    /**
+     * @param $type
+     * @param $hash
+     * @return mixed
+     * @throws Bungie2OfflineException
+     */
+    private function getEntity($type, $hash)
+    {
+        $url = sprintf(Constants::$entityDefinition, $type, $hash);
+
+        $result = $this->getJson($url);
+
+        if (isset($result['Response'])) {
+            return $result['Response'];
+        }
+
+        throw new Bungie2OfflineException('Could not find this hash');
     }
 
     /**

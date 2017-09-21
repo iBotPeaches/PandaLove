@@ -4,10 +4,7 @@ namespace Onyx\Destiny2\Objects;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Onyx\Destiny\Enums\MaxStats;
-use Onyx\Destiny\Helpers\Assets\Images;
-use Onyx\Destiny\Helpers\String\Hashes;
-use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny2\Helpers\String\Hashes;
 
 /**
  * Class Character.
@@ -69,10 +66,19 @@ class Character extends Model
 
     public function name()
     {
-        return 'Class';
+        return $this->destinyClass();
     }
 
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------
+
+    /**
+     * @return mixed
+     */
+    private function destinyClass()
+    {
+        $hash = Hashes::getHash('DestinyClassDefinition', $this->classHash);
+        return array_get($hash, 'displayProperties.name');
+    }
 }

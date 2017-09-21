@@ -34,7 +34,6 @@ class ApiV1Controller extends Controller
 
     public function getLightLeaderboard()
     {
-
         /** @var Account[] $pandas */
         $pandas = Account::with('user', 'destiny2.character1', 'destiny2.character2', 'destiny2.character3')
             ->whereHas('user', function ($query) {
@@ -52,7 +51,7 @@ class ApiV1Controller extends Controller
             foreach ($panda->destiny2->characters() as $character) {
                 if ($character->max_light > 240) {
                     $p[$character->max_light][] = [
-                        'name' => $panda->gamertag . $character->name(),
+                        'name' => $panda->gamertag .' '.$character->name(),
                         'maxLight' => $character->max_light,
                         'light' => $character->light
                     ];
@@ -107,7 +106,7 @@ class ApiV1Controller extends Controller
 
                     $msg = 'Stats for: <strong>'.$user->account->gamertag.'</strong> have been updated. <br /><br />';
                     foreach ($user->account->destiny2->characters() as $character) {
-                        $msg .= $character->name() . ' - ' . $character->max_light;
+                        $msg .= $character->name() . ' - ' . $character->max_light. '<br />';
                     }
 
                     return Response::json([
