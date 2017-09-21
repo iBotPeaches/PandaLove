@@ -18,7 +18,7 @@ use Onyx\Destiny\Enums\Types;
  * @property int $max_players
  * @property bool $alert_5
  * @property bool $alert_15
- * @property string $game destiny|h5
+ * @property string $game destiny|h5|ow|destiny2|d2
  * @property Attendee[] $attendees
  */
 class Event extends Model
@@ -111,6 +111,8 @@ class Event extends Model
     public function getBackgroundColor()
     {
         switch ($this->game) {
+            case 'd2':
+            case 'destiny2':
             case 'destiny':
                 return '#5BBD72';
 
@@ -129,6 +131,7 @@ class Event extends Model
                 return 'Destiny';
 
             case 'destiny2':
+            case 'd2':
                 return 'Destiny 2';
 
             case 'h5':
@@ -198,6 +201,7 @@ class Event extends Model
                 }
 
             case 'destiny2':
+            case 'd2':
                 switch ($this->type) {
                     case 'Raid':
                     case 'Flawless':
@@ -247,6 +251,6 @@ class Event extends Model
 
     public function isDestiny2()
     {
-        return $this->game == 'destiny2';
+        return $this->game == 'destiny2' || $this->game == 'd2';
     }
 }

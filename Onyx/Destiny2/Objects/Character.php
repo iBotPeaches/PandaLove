@@ -69,6 +69,16 @@ class Character extends Model
         return $this->destinyClass();
     }
 
+    public function nameWithLight()
+    {
+        return $this->name().' - ' . $this->max_light;
+    }
+
+    public function emblem()
+    {
+        return url('https://www.bungie.net/'.$this->emblemPath);
+    }
+
     //---------------------------------------------------------------------------------
     // Private Methods
     //---------------------------------------------------------------------------------

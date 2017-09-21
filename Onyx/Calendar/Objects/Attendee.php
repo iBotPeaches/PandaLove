@@ -19,6 +19,7 @@ use Onyx\User;
  * @property bool $attended
  * @property Account $account
  * @property Character $character
+ * @property \Onyx\Destiny2\Objects\Character $d2charater
  * @property Data $h5
  * @property User $user
  * @property Event $event
@@ -55,6 +56,11 @@ class Attendee extends Model
     public function character()
     {
         return $this->belongsTo('Onyx\Destiny\Objects\Character', 'characterId', 'characterId');
+    }
+
+    public function d2character()
+    {
+        return $this->belongsTo('Onyx\Destiny2\Objects\Character', 'characterId', 'characterId');
     }
 
     public function h5()

@@ -134,6 +134,11 @@ class CalendarController extends Controller
                 $attendee->characterId = $request->get('character', 0);
             }
 
+            if ($event->isDestiny2()) {
+                $attendee->membershipId = $this->user->account->destiny2->membershipId;
+                $attendee->characterId = $request->get('character', null);
+            }
+
             $attendee->account_id = $this->user->account->id;
             $attendee->user_id = $this->user->id;
             $attendee->save();

@@ -4,7 +4,6 @@ namespace Onyx\Calendar\Helpers\Event;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Calendar\Objects\Attendee;
-use Onyx\Calendar\Objects\Event;
 use Onyx\Calendar\Objects\Event as GameEvent;
 use Onyx\Destiny\Objects\Character;
 use Onyx\User;
@@ -60,6 +59,7 @@ class MessageGenerator
     public static function buildRSVPResponse($user, $all)
     {
         try {
+            /** @var GameEvent $event */
             $event = GameEvent::where('id', intval($all['game_id']))->firstOrFail();
 
             if ($event->isFull()) {
@@ -76,6 +76,35 @@ class MessageGenerator
 
             if (!$event->isDestiny()) {
                 return self::_buildAttendeeModel($user, $event, null);
+            } elseif ($event->isDestiny2()) {
+                if (intval($all['char_id']) == 0) {
+                    $count = 0;
+                    $msg = 'I need to know which character you want to be <strong>'.$user->account->gamertag.'</strong> for this event. Below are your characters with a number next to them. <br /><br />';
+                    foreach ($user->account->destiny2->getCharacters() as $char) {
+                        $msg .= ++$count.'. - '.$char->name().' '.$char->max_light.'/'.$char->light.'<br />';
+                    }
+
+                    $msg .= '<br />Your new command will be <strong>/bot rsvp '.$all['game_id'].' #</strong> Where # is one of the numbers above.';
+
+                    return $msg;
+                } else {
+                    // does this char even exist
+                    $char = $user->account->destiny2->characterAtPosition($all['char_id']);
+
+                    if ($char instanceof \Onyx\Destiny2\Objects\Character) {
+                        return self::_buildAttendeeModel($user, $event, $char);
+                    } else {
+                        $count = 0;
+                        $msg = 'Trying to be funny I see. That character does not exist for you. I guess I have to remind you. <br /><br />';
+                        foreach ($user->account->destiny2->getCharacters() as $char) {
+                            $msg .= ++$count.'. - '.$char->name().' '.$char->max_light.'/'.$char->light.'<br />';
+                        }
+
+                        $msg .= '<br />Your new command will be <strong>/bot rsvp '.$all['game_id'].' #</strong> Where # is one of the numbers above.';
+
+                        return $msg;
+                    }
+                }
             } else {
                 if (intval($all['char_id']) == 0) {
                     $count = 0;
@@ -112,19 +141,22 @@ class MessageGenerator
     }
 
     /**
-     * @param $user
-     * @param $event
+     * @param User $user
+     * @param GameEvent $event
      * @param $char
      *
      * @return string
      */
-    private static function _buildAttendeeModel($user, $event, $char)
+    private static function _buildAttendeeModel(User $user, $event, $char)
     {
         $attendee = new Attendee();
         $attendee->game_id = $event->id;
 
         if ($event->isDestiny()) {
             $attendee->membershipId = $user->account->destiny->membershipId;
+            $attendee->characterId = $char->characterId;
+        } elseif ($event->isDestiny2()) {
+            $attendee->membershipId = $user->account->destiny2->membershipId;
             $attendee->characterId = $char->characterId;
         }
 
@@ -141,7 +173,7 @@ class MessageGenerator
     /**
      * @param $count integer
      * @param $attendee Attendee
-     * @param $event Event
+     * @param $event GameEvent
      * @param $msg string
      *
      * @return string
@@ -149,8 +181,11 @@ class MessageGenerator
     private static function _buildSingleEventRow(&$count, $attendee, $event, $msg)
     {
         if ($event->isDestiny()) {
-            $msg .= $count++.') - <a href="'.\URL::action('Destiny\ProfileController@index', [$attendee->account->seo, $attendee->character->characterId]).
-                '">'.$attendee->account->gamertag.'</a> ('.$attendee->character->name().')<br />';
+            $msg .= $count++ . ') - <a href="' . \URL::action('Destiny\ProfileController@index', [$attendee->account->accountType, $attendee->account->seo, $attendee->character->characterId]) .
+                '">' . $attendee->account->gamertag . '</a> (' . $attendee->character->name() . ')<br />';
+        } elseif ($event->isDestiny2()) {
+            $msg .= $count++ . ') - <a href="' . \URL::action('Destiny2\ProfileController@index', [$attendee->account->accountType, $attendee->account->seo, $attendee->d2character->characterId]) .
+                '">' . $attendee->account->gamertag . '</a> (' . $attendee->d2character->nameWithLight() . ')<br />';
         } elseif ($event->isOverwatch()) {
             $msg .= $count++.') - <a href="'.\URL::action('Overwatch\ProfileController@index', [$attendee->account->seo, $attendee->account->accountType]).
                 '">'.$attendee->account->gamertag.'</a> ('.$attendee->ow->totalLevel().')<br />';

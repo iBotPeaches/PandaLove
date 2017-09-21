@@ -57,6 +57,18 @@ class Data extends Model
         ];
     }
 
+    /**
+     * @return Character[]
+     */
+    public function getCharacters()
+    {
+        return [
+            $this->character1,
+            $this->character2,
+            $this->character3
+        ];
+    }
+
     public function character1()
     {
         return $this->hasOne('Onyx\Destiny2\Objects\Character', 'characterId', 'character_1');
@@ -79,6 +91,17 @@ class Data extends Model
             $this->character_2,
             $this->character_3,
         ];
+    }
+
+    public function characterAtPosition($id)
+    {
+        $chars = $this->getCharacters();
+
+        if (isset($chars[$id])) {
+            return $chars[$id];
+        }
+
+        return false;
     }
 
     public function account()

@@ -19,6 +19,8 @@
                             @include('includes.calendar.destiny.attending_table')
                         @elseif ($event->isOverwatch())
                             @include('includes.calendar.overwatch.attending_table')
+                        @elseif ($event->isDestiny2())
+                            @include('includes.calendar.destiny2.attending_table')
                         @else
                             @include('includes.calendar.halo5.attending_table')
                         @endif
@@ -36,6 +38,8 @@
                                     @include('includes.calendar.destiny.select_character')
                                 @elseif ($event->isOverwatch())
                                     @include('includes.calendar.overwatch.select_character')
+                                @elseif ($event->isDestiny2())
+                                    @include('includes.calendar.destiny2.select_character')
                                 @else
                                     @include('includes.calendar.halo5.select_character')
                                 @endif

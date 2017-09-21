@@ -118,7 +118,14 @@ class CustomValidator extends Validator
         try {
             $character = Character::where('characterId', $value)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            return false;
+
+            // lets try for a D2 one now
+            try {
+                $character = \Onyx\Destiny2\Objects\Character::where('characterId', $value)->firstOrFail();
+                return true;
+            } catch (ModelNotFoundException $ex) {
+                return false;
+            }
         }
 
         return true;
