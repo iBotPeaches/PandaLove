@@ -97,7 +97,6 @@ class AccountController extends Controller
             $account = $client->getAccountByName($gamertag, $platform);
 
             return \Redirect::action('Destiny2\ProfileController@index', [$account->accountType, $account->seo]);
-
         } catch (\Exception $ex) {
             return redirect('/account')
                 ->with('flash_message', [

@@ -71,7 +71,7 @@ class Character extends Model
 
     public function nameWithLight()
     {
-        return $this->name().' - ' . $this->max_light;
+        return $this->name().' - '.$this->max_light;
     }
 
     public function emblem()
@@ -89,6 +89,7 @@ class Character extends Model
     private function destinyClass()
     {
         $hash = Hashes::getHash('DestinyClassDefinition', $this->classHash);
+
         return array_get($hash, 'displayProperties.name');
     }
 }

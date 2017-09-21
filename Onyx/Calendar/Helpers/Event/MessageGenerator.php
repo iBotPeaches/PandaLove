@@ -141,7 +141,7 @@ class MessageGenerator
     }
 
     /**
-     * @param User $user
+     * @param User      $user
      * @param GameEvent $event
      * @param $char
      *
@@ -181,11 +181,11 @@ class MessageGenerator
     private static function _buildSingleEventRow(&$count, $attendee, $event, $msg)
     {
         if ($event->isDestiny()) {
-            $msg .= $count++ . ') - <a href="' . \URL::action('Destiny\ProfileController@index', [$attendee->account->accountType, $attendee->account->seo, $attendee->character->characterId]) .
-                '">' . $attendee->account->gamertag . '</a> (' . $attendee->character->name() . ')<br />';
+            $msg .= $count++.') - <a href="'.\URL::action('Destiny\ProfileController@index', [$attendee->account->accountType, $attendee->account->seo, $attendee->character->characterId]).
+                '">'.$attendee->account->gamertag.'</a> ('.$attendee->character->name().')<br />';
         } elseif ($event->isDestiny2()) {
-            $msg .= $count++ . ') - <a href="' . \URL::action('Destiny2\ProfileController@index', [$attendee->account->accountType, $attendee->account->seo, $attendee->d2character->characterId]) .
-                '">' . $attendee->account->gamertag . '</a> (' . $attendee->d2character->nameWithLight() . ')<br />';
+            $msg .= $count++.') - <a href="'.\URL::action('Destiny2\ProfileController@index', [$attendee->account->accountType, $attendee->account->seo, $attendee->d2character->characterId]).
+                '">'.$attendee->account->gamertag.'</a> ('.$attendee->d2character->nameWithLight().')<br />';
         } elseif ($event->isOverwatch()) {
             $msg .= $count++.') - <a href="'.\URL::action('Overwatch\ProfileController@index', [$attendee->account->seo, $attendee->account->accountType]).
                 '">'.$attendee->account->gamertag.'</a> ('.$attendee->ow->totalLevel().')<br />';

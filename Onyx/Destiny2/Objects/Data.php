@@ -40,7 +40,6 @@ class Data extends Model
     // Accessors & Mutators
     //---------------------------------------------------------------------------------
 
-
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
@@ -53,7 +52,7 @@ class Data extends Model
         return [
             $this->character1,
             $this->character2,
-            $this->character3
+            $this->character3,
         ];
     }
 
@@ -65,7 +64,7 @@ class Data extends Model
         return [
             $this->character1,
             $this->character2,
-            $this->character3
+            $this->character3,
         ];
     }
 

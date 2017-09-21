@@ -36,7 +36,7 @@ class ProfileController extends Controller
             }
 
             return view('destiny2.profile', [
-                'account' => $account
+                'account' => $account,
             ]);
         } catch (ModelNotFoundException $e) {
             \App::abort(404, 'Da Gone!!! We have no idea what you are looking for.');

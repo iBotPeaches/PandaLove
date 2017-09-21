@@ -108,7 +108,7 @@ class enforceTimezoneEventCreationTest extends TestCase
         $gameEvent = \Onyx\Calendar\Objects\Event::find($json['id']);
         $diff = Carbon::now('America/Chicago')->diffInSeconds($gameEvent->start, false);
 
-        $this->assertTrue($diff > 600, 'This is at '. $diff);
+        $this->assertTrue($diff > 600, 'This is at '.$diff);
         $this->assertEquals($gameEvent->botDate(), $date->format('M j (D) - g:ia T'));
     }
 }

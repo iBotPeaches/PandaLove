@@ -50,14 +50,14 @@ class ApiV1Controller extends Controller
         $p = [];
         foreach ($pandas as $panda) {
             foreach ($panda->destiny2->characters() as $character) {
-                if (! $character instanceof Character) {
+                if (!$character instanceof Character) {
                     continue;
                 }
                 if ($character->max_light > 240) {
                     $p[$character->max_light][] = [
-                        'name' => $panda->gamertag .' ('.$character->name().')',
+                        'name'     => $panda->gamertag.' ('.$character->name().')',
                         'maxLight' => $character->max_light,
-                        'light' => $character->light
+                        'light'    => $character->light,
                     ];
                 }
             }
@@ -110,7 +110,7 @@ class ApiV1Controller extends Controller
 
                     $msg = 'Stats for: <strong>'.$user->account->gamertag.'</strong> have been updated. <br /><br />';
                     foreach ($user->account->destiny2->characters() as $character) {
-                        $msg .= $character->name() . ' - ' . $character->max_light. '<br />';
+                        $msg .= $character->name().' - '.$character->max_light.'<br />';
                     }
 
                     return Response::json([

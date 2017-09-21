@@ -23,13 +23,14 @@ class Client extends Http
     /**
      * @param $type
      * @param $hash
+     *
      * @return mixed
      */
     public function getHash($type, $hash)
     {
         $instance = array_get(static::$instances, "$type.$hash");
 
-        if (! $instance) {
+        if (!$instance) {
             $storage = storage_path('d2');
 
             if (!\File::exists($storage)) {
@@ -40,13 +41,14 @@ class Client extends Http
                 \File::makeDirectory($storage.'/'.$type, 0775, true);
             }
 
-            $file = $storage . '/' . $type . '/' . $hash . '.php';
+            $file = $storage.'/'.$type.'/'.$hash.'.php';
             if (\File::exists($file)) {
                 return include $file;
             }
 
             $data = $this->getEntity($type, $hash);
             \File::put($file, '<?php return '.var_export($data, true).";\n");
+
             return $data;
         }
 
@@ -56,8 +58,10 @@ class Client extends Http
     /**
      * @param $gamertag
      * @param int $platform
-     * @return Account
+     *
      * @throws Bungie2OfflineException
+     *
+     * @return Account
      */
     public function getAccountByName($gamertag, $platform = 1)
     {
@@ -73,8 +77,8 @@ class Client extends Http
 
         if ($account === null) {
             $account = Account::firstOrCreate([
-                'gamertag' => $gamertag,
-                'accountType' => $platform
+                'gamertag'    => $gamertag,
+                'accountType' => $platform,
             ]);
         } else {
             $account->gamertag = $gamertag;
@@ -83,7 +87,7 @@ class Client extends Http
         $results = $this->searchDestinyPlayer($gamertag, $platform);
 
         $membershipId = null;
-        foreach($results as $result) {
+        foreach ($results as $result) {
             if ($result['membershipType'] == $platform) {
                 $membershipId = $result['membershipId'];
             }
@@ -110,6 +114,7 @@ class Client extends Http
 
     /**
      * @param Account $account
+     *
      * @return Account
      */
     public function updateAccount(Account $account)
@@ -133,23 +138,24 @@ class Client extends Http
         return Character::updateOrCreate([
             'characterId' => $character['characterId'],
         ], [
-            'characterId' => $character['characterId'],
-            'lastPlayed' => $character['dateLastPlayed'],
+            'characterId'        => $character['characterId'],
+            'lastPlayed'         => $character['dateLastPlayed'],
             'minutesPlayedTotal' => $character['minutesPlayedTotal'],
-            'light' => $character['light'],
-            'raceHash' => $character['raceHash'],
-            'genderHash' => $character['genderHash'],
-            'classHash' => $character['classHash'],
-            'emblemPath' => $character['emblemPath'],
-            'backgroundPath' => $character['emblemBackgroundPath'],
-            'emblemHash' => $character['emblemHash'],
-            'level' => $character['baseCharacterLevel']
+            'light'              => $character['light'],
+            'raceHash'           => $character['raceHash'],
+            'genderHash'         => $character['genderHash'],
+            'classHash'          => $character['classHash'],
+            'emblemPath'         => $character['emblemPath'],
+            'backgroundPath'     => $character['emblemBackgroundPath'],
+            'emblemHash'         => $character['emblemHash'],
+            'level'              => $character['baseCharacterLevel'],
         ]);
     }
 
     /**
      * @param Account $account
-     * @param array $data
+     * @param array   $data
+     *
      * @return mixed
      */
     private function updateOrCreateData(Account $account, array $data)
@@ -162,21 +168,23 @@ class Client extends Http
         $character_3 = $characterIds[2] ?? null;
 
         return Data::updateOrCreate([
-            'account_id' => $account->id
-        ], [
             'account_id' => $account->id,
+        ], [
+            'account_id'   => $account->id,
             'membershipId' => $membershipId,
-            'character_1' => $character_1,
-            'character_2' => $character_2,
-            'character_3' => $character_3
+            'character_1'  => $character_1,
+            'character_2'  => $character_2,
+            'character_3'  => $character_3,
         ]);
     }
 
     /**
      * @param $membershipType
      * @param $membershipId
-     * @return mixed
+     *
      * @throws Bungie2OfflineException
+     *
+     * @return mixed
      */
     private function getProfile($membershipType, $membershipId)
     {
@@ -194,8 +202,10 @@ class Client extends Http
     /**
      * @param $gamertag
      * @param $platform
-     * @return mixed
+     *
      * @throws Bungie2OfflineException
+     *
+     * @return mixed
      */
     private function searchDestinyPlayer($gamertag, $platform)
     {
@@ -214,8 +224,10 @@ class Client extends Http
     /**
      * @param $type
      * @param $hash
-     * @return mixed
+     *
      * @throws Bungie2OfflineException
+     *
+     * @return mixed
      */
     private function getEntity($type, $hash)
     {
@@ -233,6 +245,7 @@ class Client extends Http
     /**
      * @param $gamertag
      * @param $platform
+     *
      * @return Account
      */
     private function checkCacheForTag($gamertag, $platform)
@@ -246,7 +259,6 @@ class Client extends Http
 
         return $account;
     }
-
 }
 
 class PlayerNotFoundException extends \Exception
