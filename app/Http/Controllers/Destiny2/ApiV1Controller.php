@@ -55,7 +55,7 @@ class ApiV1Controller extends Controller
                 }
                 if ($character->max_light > 240) {
                     $p[$character->max_light][] = [
-                        'name' => $panda->gamertag .' '.$character->name(),
+                        'name' => $panda->gamertag .' ('.$character->name().')',
                         'maxLight' => $character->max_light,
                         'light' => $character->light
                     ];
