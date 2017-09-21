@@ -22,7 +22,8 @@ use Onyx\XboxLive\Enums\Console;
  * @property Carbon $updated_at
  * @property string $xuid
  * @property string $destiny_membershipId
- * @property Data $destiny
+ * @property \Onyx\Destiny\Objects\Data $destiny
+ * @property \Onyx\Destiny2\Objects\Data $destiny2
  * @property \Onyx\Halo5\Objects\Data $h5
  * @property Collection $overwatches
  * @property Stats $overwatch
@@ -68,6 +69,14 @@ class Account extends Model
     public function destiny()
     {
         return $this->hasOne('Onyx\Destiny\Objects\Data', 'account_id', 'id');
+    }
+
+    /**
+     * @return \Onyx\Destiny2\Objects\Data
+     */
+    public function destiny2()
+    {
+        return $this->hasOne('Onyx\Destiny2\Objects\Data', 'account_id', 'id');
     }
 
     /**

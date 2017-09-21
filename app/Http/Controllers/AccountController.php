@@ -5,6 +5,7 @@ namespace PandaLove\Http\Controllers;
 use Illuminate\Contracts\Auth\Guard;
 use Onyx\Account;
 use Onyx\Destiny\Client as DestinyClient;
+use Onyx\Destiny2\Client as Destiny2Client;
 use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Halo5\H5PlayerNotFoundException;
 use Onyx\Halo5\Objects\Data as Halo5Data;
@@ -86,7 +87,26 @@ class AccountController extends Controller
 
     public function postAddDestiny2Gamertag(AddDestiny2GamertagRequest $request)
     {
-        dd($request);
+        try {
+            $client = new Destiny2Client();
+
+            $gamertag = $request->request->get('gamertag');
+            $platform = $request->request->get('platform');
+
+            /** @var Account $account */
+            $account = $client->getAccountByName($gamertag, $platform);
+
+            return \Redirect::action('Destiny2\ProfileController@index', [$account->accountType, $account->seo]);
+
+        } catch (\Exception $ex) {
+            return redirect('/account')
+                ->with('flash_message', [
+                    'close'  => 'true',
+                    'type'   => 'yellow',
+                    'header' => 'Uh oh',
+                    'body'   => 'We could not find this name on either PSN or Xbox.',
+                ]);
+        }
     }
 
     public function postAddDestinyGamertag(AddDestinyGamertagRequest $request)

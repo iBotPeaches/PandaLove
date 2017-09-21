@@ -17,6 +17,10 @@ Route::get('/destiny/profile/check-for-update/{console}/{gamertag}', 'Destiny\Pr
 Route::get('/destiny/profile/manual-update/{console}/{seo}', 'Destiny\ProfileController@manualUpdate');
 Route::get('/destiny/profile/{console}/{gamertag}/{characterId?}', 'Destiny\ProfileController@index');
 
+//# Destiny 2
+Route::controller('/destiny2/api/v1', 'Destiny2\ApiV1Controller');
+Route::get('/destiny2/profile/{console}/{gamertag}/{characterId?}', 'Destiny2\ProfileController@index');
+
 //# Xbox
 Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 
