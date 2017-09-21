@@ -8,6 +8,7 @@ use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\Factory as View;
 use Onyx\Account;
+use Onyx\Destiny2\Objects\Character;
 use Onyx\User;
 use PandaLove\Commands\UpdateDestiny2Account;
 use PandaLove\Http\Controllers\Controller;
@@ -49,6 +50,9 @@ class ApiV1Controller extends Controller
         $p = [];
         foreach ($pandas as $panda) {
             foreach ($panda->destiny2->characters() as $character) {
+                if (! $character instanceof Character) {
+                    continue;
+                }
                 if ($character->max_light > 240) {
                     $p[$character->max_light][] = [
                         'name' => $panda->gamertag .' '.$character->name(),
