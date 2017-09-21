@@ -74,7 +74,7 @@ class MessageGenerator
                 return 'Sorry this event has ended. No more RSVPs are allowed.';
             }
 
-            if (!$event->isDestiny()) {
+            if (!$event->isDestiny() && !$event->isDestiny2()) {
                 return self::_buildAttendeeModel($user, $event, null);
             } elseif ($event->isDestiny2()) {
                 if (intval($all['char_id']) == 0) {
