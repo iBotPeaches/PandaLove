@@ -32,6 +32,7 @@ laravel_build:
 laravel_test:
   stage: test
   script:
+    - php artisan key:generate
     - php artisan config:cache
     - php artisan migrate --env=testing
     - php artisan db:seed --env=testing
