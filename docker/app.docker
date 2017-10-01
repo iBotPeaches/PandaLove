@@ -1,6 +1,7 @@
 FROM php:7-fpm
 
-RUN apt-get update && apt-get install -y libmcrypt-dev mysql-client git zip libpng-dev \
+RUN apt-get update && apt-get install -y libmcrypt-dev mysql-client git zip libpng-dev wget libjpeg-dev \
+    && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-install mcrypt pdo_mysql bcmath zip gd
 
 # Make sure we're installing what we think we're installing!
@@ -16,5 +17,17 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
 
 # Installing yarn
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+
+# Installing xdebug
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_connect_back=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_host=192.168.1.208" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.idekey=xdebug" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+# Install global gulp
+RUN npm install -g gulp
 
 WORKDIR /var/www
