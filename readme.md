@@ -24,6 +24,10 @@ supporting now 3 full games (Destiny, Halo 5 & Overwatch) with countless plugins
         * Determines Xur loadout, API endpoint for Google Hangouts
     * Grimoire Module
         * Determines grimoire over API for any user
+* Destiny 2
+    * Profile Pages
+        * Character gear
+        * Light, playtime
 * Halo 5
     * Profile Pages
         * Warzone (Overview, Medals, Weapons)
@@ -78,6 +82,7 @@ supporting now 3 full games (Destiny, Halo 5 & Overwatch) with countless plugins
         * Update Destiny stats via `/bot destiny`
         * Update Overwatch stats via `/bot ow`
         * Update Halo5 stats via `/bot h5`
+        * Update Destiny2 stats via `/bot d2`
         
 ## Contributors
  * [Contributors](https://github.com/iBotPeaches/PandaLove/graphs/contributors)
@@ -116,6 +121,21 @@ supporting now 3 full games (Destiny, Halo 5 & Overwatch) with countless plugins
 - `php artisan db:seed`
 - `php artisan halo5:batch-metadata`
 - `php artisan serve`
+
+## How to install (Docker)
+- `docker-compose up --build`
+- `docker exec -it pandalove bash`
+- (context inside that container)
+- `cp .env.example .env`
+- `composer install`
+- `yarn install`
+- `npm install -g gulp`
+- `cd node_modules/semantic-ui; gulp build; cd ../..;`
+- Go do API stuff above
+- `php artisan migrate`
+- `php artisan db:seed`
+- `php artisan halo5:batch-metadata`
+- visit `localhost:8080` in browser
 
 ## Thanks
 * 343 - Halo 5 API - [https://developer.haloapi.com](https://developer.haloapi.com)
