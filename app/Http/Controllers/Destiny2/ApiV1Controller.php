@@ -110,7 +110,9 @@ class ApiV1Controller extends Controller
 
                     $msg = 'Stats for: <strong>'.$user->account->gamertag.'</strong> have been updated. <br /><br />';
                     foreach ($user->account->destiny2->characters() as $character) {
-                        $msg .= $character->name().' - '.$character->max_light.'<br />';
+                        if (! empty($character)) {
+                            $msg .= $character->name().' - '.$character->max_light.'<br />';
+                        }
                     }
 
                     return Response::json([
