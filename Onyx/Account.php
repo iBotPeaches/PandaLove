@@ -108,7 +108,13 @@ class Account extends Model
      */
     public function h5_emblem()
     {
-        return $this->h5()->select('id', 'account_id');
+        $h5 = $this->h5();
+
+        if (! empty($h5)) {
+            return $h5->select('id', 'account_id');
+        }
+
+        return null;
     }
 
     /**

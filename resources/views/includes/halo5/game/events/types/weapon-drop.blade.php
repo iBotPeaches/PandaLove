@@ -1,7 +1,7 @@
 <?php
 /** @var $event \Onyx\Halo5\Objects\MatchEvent */
 ?>
-@if (isset($event->killer) && $event->killer != null)
+@if (isset($event->killer) && $event->killer != null && $event->killer->h5_emblem != null)
     <img class="ui avatar image mobile-hidden" src="{{ $event->killer->h5_emblem->getEmblem() }}">
 @endif
 <div class="content">
