@@ -45,7 +45,11 @@ class ProfileController extends Controller
                 'gamertag' => $account->gamertag,
             ]);
 
-            $seasons = new SeasonCollection($account, $account->h5->playlists);
+            if ($account->h5 === null) {
+                $this->dispatch(new UpdateHalo5Account($account));
+            }
+
+            $seasons = new SeasonCollection($account, $account->h5->playlists ?? []);
 
             if ($account->h5->disabled) {
                 return view('errors.404', [
