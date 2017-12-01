@@ -40,6 +40,11 @@ class Season
             'end'    => 'October 30, 2017',
             'season' => 6,
         ],
+        7 => [
+            'start' => 'November 1, 2017',
+            'end' => 'December 30, 2017',
+            'season' => 7,
+        ],
     ];
 
     /**
