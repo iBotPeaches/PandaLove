@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed537403adbd0713a290a72206573b85",
+    "content-hash": "8d4ec226a43bf585f938f0b1d25d30c5",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -404,6 +404,52 @@
                 "preload"
             ],
             "time": "2017-12-10T11:40:39+00:00"
+        },
+        {
+            "name": "coinbase/coinbase",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coinbase/coinbase-php.git",
+                "reference": "c06ecd941444ed63ce1a3e2c9a9949a38ed0b101"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coinbase/coinbase-php/zipball/c06ecd941444ed63ce1a3e2c9a9949a38ed0b101",
+                "reference": "c06ecd941444ed63ce1a3e2c9a9949a38ed0b101",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0",
+                "psr/http-message": "^1.0",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coinbase\\Wallet\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Coinbase API library",
+            "homepage": "http://coinbase.com",
+            "keywords": [
+                "bitcoin",
+                "coinbase"
+            ],
+            "time": "2016-07-26T01:32:38+00:00"
         },
         {
             "name": "composer/ca-bundle",
