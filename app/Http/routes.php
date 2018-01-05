@@ -40,6 +40,9 @@ Route::controller('/backstage/destiny', 'Backstage\DestinyController');
 Route::controller('/backstage/halo5', 'Backstage\Halo5Controller');
 Route::controller('/backstage', 'Backstage\IndexController');
 
+//# Coinmarket
+Route::controller('/coinmarket/api/v1', 'Coinmarket\ApiV1Controller');
+
 //# Other
 Route::controller('/account', 'AccountController');
 Route::controller('/comment', 'CommentController');
