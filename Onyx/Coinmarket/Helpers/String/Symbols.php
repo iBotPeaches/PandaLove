@@ -22,6 +22,12 @@ class Symbols
                 return 'bitcoin';
             case 'ltc':
                 return 'litecoin';
+            case 'trx':
+                return 'tron';
+            case 'xrp':
+                return 'ripple';
+            case 'ftc':
+                return 'feathercoin';
             default:
                 return $name;
         }
