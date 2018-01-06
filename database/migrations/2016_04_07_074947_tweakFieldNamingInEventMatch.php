@@ -27,6 +27,11 @@ class TweakFieldNamingInEventMatch extends Migration
         });
 
         Schema::table('halo5_match_events', function (Blueprint $table) {
+            $table->integer('victim_id', false, true)->change();
+            $table->integer('killer_id', false, true)->change();
+        });
+
+        Schema::table('halo5_match_events', function (Blueprint $table) {
             $table->index('victim_weapon_id');
             $table->index('killer_weapon_id');
 
