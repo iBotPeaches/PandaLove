@@ -28,6 +28,14 @@ class Symbols
                 return 'ripple';
             case 'ftc':
                 return 'feathercoin';
+            case 'powr':
+                return 'power-ledger';
+            case 'wtc':
+                return 'walton';
+            case 'xlm':
+                return 'stellar';
+            case 'xvg':
+                return 'verge';
             default:
                 return $name;
         }
