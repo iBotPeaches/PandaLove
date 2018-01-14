@@ -30,6 +30,8 @@ class Client extends XboxAPI
         '1145574011',           // Titanfall 2
         '1386529057',           // Battlefield 1
         '144389848',            // Destiny 2 - Base Game
+        '545844082',            // Call of Duty - WWII
+        '267695549',            // Fortnite Battle Royale
     ];
 
     /**
