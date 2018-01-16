@@ -19,6 +19,7 @@ Route::get('/destiny/profile/{console}/{gamertag}/{characterId?}', 'Destiny\Prof
 
 //# Destiny 2
 Route::controller('/destiny2/api/v1', 'Destiny2\ApiV1Controller');
+Route::controller('/destiny2/roster', 'Destiny2\RosterController');
 Route::get('/destiny2/profile/{console}/{gamertag}/{characterId?}', 'Destiny2\ProfileController@index');
 
 //# Xbox

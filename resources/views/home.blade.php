@@ -17,9 +17,10 @@
                         <h3>Meet the Team</h3>
                     </header>
                     <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny</a>
-                    <a href="{{ URL::action('Destiny\RosterController@getIndex') }}" class="button big scrolly">Destiny 2</a>
+                    <a href="{{ URL::action('Destiny2\RosterController@getIndex') }}" class="button big scrolly">Destiny 2</a>
                     <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
                     <a href="{{ Url::action('Overwatch\RosterController@getIndex') }}" class="button big scrolly">Overwatch</a>
+                    <a href="#" class="button big scrolly">Fortnite</a>
                 </div>
             </div>
         </article>
@@ -50,7 +51,7 @@
                         <section class="box style1">
                             <i class="massive pink thumbs up icon desktop-only"></i>
                             <h3>Enhanced Stats</h3>
-                            <p>We leverage the APIs that Bungie & 343 provide to build this site.</p>
+                            <p>We leverage the APIs that companies provide to build this site.</p>
                         </section>
                     </div>
                 </div>
