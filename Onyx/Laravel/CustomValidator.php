@@ -15,10 +15,12 @@ use Onyx\Destiny\Objects\Game;
 use Onyx\Destiny\PlayerNotFoundException;
 use Onyx\Destiny2\Client as Destiny2Client;
 use Onyx\Destiny2\Helpers\Network\Bungie2OfflineException;
+use Onyx\Fortnite\Helpers\Network\FortniteApiNetworkException;
 use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Halo5\H5PlayerNotFoundException;
 use Onyx\Overwatch\Client as OverwatchClient;
 use Onyx\Overwatch\Helpers\Network\OWApiNetworkException;
+use Onyx\Fortnite\Client as FortniteClient;
 use Onyx\User;
 use Onyx\XboxLive\Client as XboxClient;
 
@@ -109,6 +111,19 @@ class CustomValidator extends Validator
         try {
             $account = $client->getAccountByTag($value, $this->data['platform']);
         } catch (OWApiNetworkException $ex) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateFortniteReal($attribute, $value, $parameters)
+    {
+        $client = new FortniteClient();
+
+        try {
+            $account = $client->getAccountByTag($value, $this->data['platform']);
+        } catch (FortniteApiNetworkException $ex) {
             return false;
         }
 

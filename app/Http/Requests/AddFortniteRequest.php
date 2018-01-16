@@ -2,9 +2,13 @@
 
 namespace PandaLove\Http\Requests;
 
-class AddOverwatchRequest extends Request
+/**
+ * Class AddFortniteRequest
+ * @package PandaLove\Http\Requests
+ */
+class AddFortniteRequest extends Request
 {
-    protected $errorBag = 'overwatch';
+    protected $errorBag = 'fortnite';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +30,7 @@ class AddOverwatchRequest extends Request
         \Input::merge(array_map('trim', \Input::all()));
 
         return [
-            'gamertag' => 'required|min:3|overwatch-real',
+            'gamertag' => 'required|min:3|fortnite-real',
             'platform' => 'required|in:0,1,2',
         ];
     }

@@ -10,10 +10,12 @@ use Onyx\Halo5\Client as Halo5Client;
 use Onyx\Halo5\H5PlayerNotFoundException;
 use Onyx\Halo5\Objects\Data as Halo5Data;
 use Onyx\Overwatch\Client as OverwatchClient;
+use Onyx\Fortnite\Client as FortniteClient;
 use PandaLove\Commands\UpdateDestinyAccount;
 use PandaLove\Commands\UpdateHalo5Account;
 use PandaLove\Http\Requests\AddDestiny2GamertagRequest;
 use PandaLove\Http\Requests\AddDestinyGamertagRequest;
+use PandaLove\Http\Requests\AddFortniteRequest;
 use PandaLove\Http\Requests\AddHalo5GamertagRequest;
 use PandaLove\Http\Requests\AddOverwatchRequest;
 
@@ -75,6 +77,25 @@ class AccountController extends Controller
             $account = $client->getAccountByTag($gamertag, $platform);
 
             return \Redirect::action('Overwatch\ProfileController@index', [$account->seo, $account->accountType]);
+        } catch (\Exception $ex) {
+            return redirect('/account', [
+                'close'  => true,
+                'type'   => 'yellow',
+                'header' => 'Uh oh',
+                'body'   => 'We could not find this name on either Xbox/PS/PC',
+            ]);
+        }
+    }
+
+    public function postAddFortniteGamertag(AddFortniteRequest $request)
+    {
+        try {
+            $client = new FortniteClient();
+
+            $gamertag = $request->request->get('gamertag');
+            $platform = $request->request->get('platform');
+
+            dd($gamertag, $platform);
         } catch (\Exception $ex) {
             return redirect('/account', [
                 'close'  => true,

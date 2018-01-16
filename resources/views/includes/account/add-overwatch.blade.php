@@ -1,13 +1,13 @@
 {!! Form::open(['action' => 'AccountController@postAddOverwatchGamertag', 'class' => 'form']) !!}
-    @foreach ($errors->all() as $error)
+    @foreach ($errors->overwatch->all() as $error)
         <p class="ui red message">{{ $error }}</p>
     @endforeach
     <div class="two fields">
-        <div class="field {{ $errors->has('gamertag') ? 'error' : '' }}">
+        <div class="field {{ $errors->overwatch->has('gamertag') ? 'error' : '' }}">
             <label>Gamertag / PSN / PC</label>
             <input type="text" name="gamertag" id="gamertag" placeholder="Gamertag" />
         </div>
-        <div class="field {{ $errors->has('platform') ? 'error' : '' }}">
+        <div class="field {{ $errors->overwatch->has('platform') ? 'error' : '' }}">
             <label>Platform</label>
             <div class="ui selection dropdown">
                 <input type="hidden" name="platform">

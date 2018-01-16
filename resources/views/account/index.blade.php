@@ -28,6 +28,17 @@
                     @include('includes.account.add-overwatch')
                 </div>
             </div>
+            <div class="ui divider"></div>
+            <div class="ui two column very relaxed stackable grid">
+                <div class="column">
+                    @include('includes.account.add-fortnite')
+                </div>
+                <div class="column">
+                    <div class="ui info message">
+                        TODO: Another game
+                    </div>
+                </div>
+            </div>
         </article>
     </div>
 @endsection

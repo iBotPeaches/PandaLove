@@ -92,7 +92,8 @@ supporting now 3 full games (Destiny, Halo 5 & Overwatch) with countless plugins
 - Go here https://xboxapi.com/ - Get an XboxAPI API Key and put it in `XBOXAPI_KEY` in `.env` file.
 - Go here https://www.bungie.net/en/User/API - Get a Destiny API Key and put it in `BUNGIE_KEY` in `.env` file.
 - Go here https://developer.haloapi.com/ - Get a Halo API Key and put it in `HALO5_KEY` in `.env` file.
-- Go here https://github.com/SunDwarf/OWAPI - You don't need an API key, but be reasonable. Toss the dev some money.
+- Go here https://github.com/SunDwarf/OWAPI - You don't need an API key for Overwatch, but be reasonable. Toss the dev some money.
+- Go here https://github.com/qlaffont/fortnite-api#init - You need the OAUTH keys harvested from an account.
 - Now we need to utilize those APIs to get some data. If you don't have API keys for the above 3 systems. This will fail.
     - `php artisan halo5:batch-metadata`
 - Go here https://console.developers.google.com - "Create a Project"

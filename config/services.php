@@ -52,4 +52,11 @@ return [
         'key' => env('XBOXAPI_KEY'),
     ],
 
+    'fortnite' => [
+        'email' => env('FORTNITE_USER_EMAIL'),
+        'password' => env('FORTNITE_USER_PASSWORD'),
+        'launcher' => env('FORTNITE_LAUNCHER_TOKEN'),
+        'client' => env('FORTNITE_CLIENT_TOKEN'),
+    ],
+
 ];
