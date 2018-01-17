@@ -4,21 +4,8 @@
 @endforeach
 <div class="two fields">
     <div class="field {{ $errors->fortnite->has('gamertag') ? 'error' : '' }}">
-        <label>Username</label>
-        <input type="text" name="gamertag" id="gamertag" placeholder="Username" />
-    </div>
-    <div class="field {{ $errors->fortnite->has('platform') ? 'error' : '' }}">
-        <label>Platform</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="platform">
-            <i class="dropdown icon"></i>
-            <div class="default text">Platform</div>
-            <div class="menu">
-                <div class="item" data-value="{{ \Onyx\XboxLive\Enums\Console::Xbox }}">Xbox</div>
-                <div class="item" data-value="{{ \Onyx\XboxLive\Enums\Console::PSN }}">PSN</div>
-                <div class="item" data-value="{{ \Onyx\XboxLive\Enums\Console::PC }}">PC</div>
-            </div>
-        </div>
+        <label>Epic Username</label>
+        <input type="text" name="gamertag" id="gamertag" placeholder="EPIC Username" />
     </div>
 </div>
 <br />
@@ -26,13 +13,3 @@
     <li><input type="submit" value="Add Fortnite Account" /></li>
 </ul>
 {!! Form::close()  !!}
-
-@section('inline-js')
-    <script type="text/javascript">
-        $(document).on('ready', function() {
-            $('.ui.dropdown')
-                .dropdown()
-            ;
-        });
-    </script>
-@append

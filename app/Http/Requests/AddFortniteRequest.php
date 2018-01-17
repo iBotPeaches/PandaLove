@@ -31,7 +31,7 @@ class AddFortniteRequest extends Request
 
         return [
             'gamertag' => 'required|min:3|fortnite-real',
-            'platform' => 'required|in:0,1,2',
+            //'platform' => 'required|in:0,1,2',
         ];
     }
 }

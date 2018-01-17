@@ -18,5 +18,5 @@ class Constants
 
     public static $PvE = 'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/%d/client/QueryProfile?profileId=athena&rvn=-1';
 
-    public static $PvP = 'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/%d/bulk/window/alltime';
+    public static $PvP = 'https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/stats/accountId/%s/bulk/window/alltime';
 }

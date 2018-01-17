@@ -26,6 +26,7 @@ Route::get('/destiny2/profile/{console}/{gamertag}/{characterId?}', 'Destiny2\Pr
 Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 
 //# Fortnite
+Route::get('/fortnite/profile/{id}', 'Fortnite\ProfileController@index');
 
 //# Halo 5
 Route::controller('/h5/api/v1', 'Halo5\ApiV1Controller');
