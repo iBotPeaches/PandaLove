@@ -88,6 +88,14 @@ class Account extends Model
     }
 
     /**
+     * @return \Onyx\Fortnite\Objects\Stats
+     */
+    public function fortnite()
+    {
+        return $this->hasOne(\Onyx\Fortnite\Objects\Stats::class, 'account_id', 'id');
+    }
+
+    /**
      * @return Stats
      */
     public function overwatches()

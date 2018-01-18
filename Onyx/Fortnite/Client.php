@@ -2,9 +2,13 @@
 
 namespace Onyx\Fortnite;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Onyx\Account;
+use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Fortnite\Helpers\Network\FortniteApiNetworkException;
 use Onyx\Fortnite\Helpers\Network\Http;
 use Onyx\Fortnite\Objects\Stats;
+use Onyx\XboxLive\Enums\Console;
 
 /**
  * Class Client.
@@ -14,10 +18,12 @@ class Client extends Http
     /**
      * @param Account $account
      * @param string $id
-     * @return array
+     * @return Stats
+     * @throws FortniteApiNetworkException
      * @throws \Exception
+     * @throws \Throwable
      */
-    public function getAccountRoyaleStats(Account $account, string $id)
+    public function getAccountRoyaleStats(Account $account, string $id): Stats
     {
         $url = sprintf(Constants::$PvP, $id);
 
@@ -25,31 +31,125 @@ class Client extends Http
         $platform = $this->getPlatformType($data);
 
         $normalized = $this->statNormalizer($data, $platform);
+        $stats = $this->getStatsModel($id, $account);
 
-        return $normalized;
+        if ($this->updateStatsModel($stats, $normalized, $platform)) {
+            return $stats;
+        }
+
+        throw new FortniteApiNetworkException();
+    }
+
+    /**
+     * @param string $id
+     * @return string
+     * @throws \Exception
+     */
+    public function getPlatformViaEndpoint(string $id): string
+    {
+        $url = sprintf(Constants::$PvP, $id);
+
+        $data = $this->getJson($url);
+        return $this->getPlatformType($data);
     }
 
     /**
      * @param string $name
      * @param string $platform
      * @return array
+     * @throws FortniteApiNetworkException
+     * @throws \Exception
+     * @throws \Throwable
      */
     public function getAccountByTag(string $name, string $platform): array
     {
         $url = sprintf(Constants::$lookup, $name);
-
+        $expectedPlatform = Console::getFortniteTag($platform);
         $data = $this->getJson($url);
 
-        return [$data['id'], new Account()];
+        if (isset($data['id'])) {
+            $this->checkPlatforms($expectedPlatform, $this->getPlatformViaEndpoint($data['id']));
+
+            // Load a specific account based on platform
+            try {
+                $account = Account::where('seo', Text::seoGamertag($data['displayName']))
+                    ->where('accountType', $platform)
+                    ->firstOrFail();
+            } catch (ModelNotFoundException $ex) {
+                $account = new Account([
+                    'gamertag' => $data['displayName'],
+                    'accountType' => $platform
+                ]);
+
+                $account->saveOrFail();
+            }
+        }
+
+        return [$data['id'], $account];
     }
 
     //---------------------------------------------------------------------------------
     // Private Functions
     //---------------------------------------------------------------------------------
 
-    private function getStatsModel(string $id): Stats
+    /**
+     * @param string $expected
+     * @param string $obtained
+     * @throws FortniteApiNetworkException
+     */
+    private function checkPlatforms(string $expected, string $obtained): void
     {
-        // TODO create Stat model
+        if ($expected !== $obtained) {
+            throw new FortniteApiNetworkException();
+        }
+    }
+
+    /**
+     * @param string $id
+     * @param Account|null $account
+     * @return Stats
+     */
+    private function getStatsModel(string $id, Account $account = null): Stats
+    {
+        try {
+            $stats = Stats::where('epic_id', $id)->firstOrFail();
+        } catch (ModelNotFoundException $ex) {
+            $stats = new Stats([
+                'epic_id' => $id
+            ]);
+
+            if ($account !== null) {
+                $stats->account_id = $account->id;
+            }
+        }
+
+        return $stats;
+    }
+
+    /**
+     * @param Stats $statModel
+     * @param array $normalized
+     * @param string $platform
+     * @return bool
+     * @throws \Throwable
+     */
+    private function updateStatsModel(Stats $statModel, array $normalized, string $platform): bool
+    {
+        $allowedAttributes = ['kills', 'matchesplayed', 'score', 'minutesplayed', 'lastmodified', 'top1', 'top3', 'top5',
+            'top6', 'top10', 'top12', 'top25'];
+
+        foreach ($normalized[$platform] as $group => $stats) {
+            foreach ($stats as $key => $item) {
+                if (! in_array($key, $allowedAttributes)) {
+                    continue;
+                }
+
+                $key = $group . '_' . $key;
+                $statModel->setAttribute($key, $item['alltime']);
+            }
+        }
+
+        return $statModel->saveOrFail();
     }
 
     /**

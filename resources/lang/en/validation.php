@@ -38,6 +38,7 @@ return [
     'digits_between'          => 'The :attribute must be between :min and :max digits.',
     'email'                   => 'The :attribute must be a valid email address.',
     'filled'                  => 'The :attribute field is required.',
+    'fortnite_real'           => 'The :attribute was not found on the selected platform',
     'exists'                  => 'The selected :attribute is invalid.',
     'gamertag_exists'         => 'The :attribute is not in our system to be validated.',
     'gamertag_real'           => 'The :attribute is not a real gamertag.',

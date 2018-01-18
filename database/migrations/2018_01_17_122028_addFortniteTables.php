@@ -16,6 +16,7 @@ class AddFortniteTables extends Migration
             $table->increments('id');
             $table->string('epic_id', 128);
             $table->integer('account_id', false, true)->nullable();
+            $table->integer('user_id', false, true)->nullable();
 
             $this->types($table, 'solo');
             $this->places($table, 'solo');
@@ -28,6 +29,7 @@ class AddFortniteTables extends Migration
 
             $table->timestamps();
             $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -43,8 +45,9 @@ class AddFortniteTables extends Migration
 
     private function types(Blueprint $table, string $type)
     {
+        $table->timestamp($type . '_lastmodified');
         $table->integer($type . '_kills', false, true);
-        $table->integer($type . '_matches', false, true);
+        $table->integer($type . '_matchesplayed', false, true);
         $table->integer($type . '_score', false, true);
         $table->integer($type . '_minutesplayed', false, true);
     }
@@ -54,7 +57,9 @@ class AddFortniteTables extends Migration
         $table->integer($type . '_top1', false, true);
         $table->integer($type . '_top3', false, true);
         $table->integer($type . '_top5', false, true);
+        $table->integer($type . '_top6', false, true);
         $table->integer($type . '_top10', false, true);
+        $table->integer($type . '_top12', false, true);
         $table->integer($type . '_top25', false, true);
     }
 }

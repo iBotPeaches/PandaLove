@@ -8,6 +8,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Onyx\Fortnite\Objects\Stats;
 
 /**
  * Class User.
@@ -79,5 +80,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function account()
     {
         return $this->hasOne('Onyx\Account', 'id', 'account_id');
+    }
+
+    /**
+     * @return Stats
+     */
+    public function fortnite()
+    {
+        return $this->hasOne(Stats::class, 'user_id', 'id');
     }
 }

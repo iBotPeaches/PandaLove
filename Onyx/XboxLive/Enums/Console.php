@@ -48,4 +48,20 @@ abstract class Console
                 throw new \Exception('Unknown ID - '.$id);
         }
     }
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws \Exception
+     */
+    public static function getFortniteTag(int $id)
+    {
+        switch ($id) {
+            case self::Xbox:
+                return 'xb1';
+
+            default:
+                return self::getOverwatchTag($id);
+        }
+    }
 }

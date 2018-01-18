@@ -4,6 +4,7 @@ namespace PandaLove\Http\Controllers\Fortnite;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Onyx\Fortnite\Objects\Stats;
 use Onyx\XboxLive\Enums\Console;
 use PandaLove\Http\Controllers\Controller;
 
@@ -26,7 +27,12 @@ class ProfileController extends Controller
     public function index(string $id)
     {
         try {
-            //
+            $stats = Stats::where('epic_id', $id)->firstOrFail();
+
+            return view('fortnite.profile', [
+                'account' => $stats->account,
+                'stats' => $stats
+            ]);
         } catch (ModelNotFoundException $e) {
             \App::abort(404, 'We could not find this Fortnite Profile.');
         }

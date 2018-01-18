@@ -122,7 +122,7 @@ class CustomValidator extends Validator
         $client = new FortniteClient();
 
         try {
-            $account = $client->getAccountByTag($value, '');
+            $account = $client->getAccountByTag($value, $this->data['platform']);
         } catch (FortniteApiNetworkException $ex) {
             return false;
         }

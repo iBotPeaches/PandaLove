@@ -93,9 +93,13 @@ class AccountController extends Controller
             $client = new FortniteClient();
 
             $gamertag = $request->request->get('gamertag');
+            $platform = $request->request->get('platform');
 
             /** @var Account $account */
-            [$id, $account] = $client->getAccountByTag($gamertag, '');
+            [$id, $account] = $client->getAccountByTag($gamertag, $platform);
+
+            // Update Stats
+            $client->getAccountRoyaleStats($account, $id);
 
             return \Redirect::action('Fortnite\ProfileController@index', [$id]);
         } catch (\Exception $ex) {

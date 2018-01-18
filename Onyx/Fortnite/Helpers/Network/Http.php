@@ -35,12 +35,18 @@ class Http
         $this->guzzle = new Guzzle();
     }
 
-    public function getJson($url): ?array
+    public function getJson($url, $minutes = 5): ?array
     {
+        $key = md5($url);
+
         $this->determineoAuthStatus();
 
         if (!$this->guzzle instanceof Guzzle) {
             $this->setupGuzzle();
+        }
+
+        if (\Cache::has($key)) {
+            return \Cache::get($key);
         }
 
         try {
@@ -55,7 +61,12 @@ class Http
                 throw new FortniteApiNetworkException();
             }
 
-            return json_decode($response->getBody(), true);
+            $data = \GuzzleHttp\json_decode($response->getBody(), true);
+
+            if ($minutes > 0) {
+                \Cache::put($key, $data, $minutes);
+            }
+            return $data;
         } catch (\Exception $ex) {
             return null;
         }
