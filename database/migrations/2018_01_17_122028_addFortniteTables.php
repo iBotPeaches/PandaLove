@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class AddFortniteTables extends Migration
 {
@@ -46,21 +46,21 @@ class AddFortniteTables extends Migration
 
     private function types(Blueprint $table, string $type)
     {
-        $table->timestamp($type . '_lastmodified');
-        $table->integer($type . '_kills', false, true);
-        $table->integer($type . '_matchesplayed', false, true);
-        $table->integer($type . '_score', false, true);
-        $table->integer($type . '_minutesplayed', false, true);
+        $table->timestamp($type.'_lastmodified');
+        $table->integer($type.'_kills', false, true);
+        $table->integer($type.'_matchesplayed', false, true);
+        $table->integer($type.'_score', false, true);
+        $table->integer($type.'_minutesplayed', false, true);
     }
 
     private function places(Blueprint $table, string $type)
     {
-        $table->integer($type . '_top1', false, true);
-        $table->integer($type . '_top3', false, true);
-        $table->integer($type . '_top5', false, true);
-        $table->integer($type . '_top6', false, true);
-        $table->integer($type . '_top10', false, true);
-        $table->integer($type . '_top12', false, true);
-        $table->integer($type . '_top25', false, true);
+        $table->integer($type.'_top1', false, true);
+        $table->integer($type.'_top3', false, true);
+        $table->integer($type.'_top5', false, true);
+        $table->integer($type.'_top6', false, true);
+        $table->integer($type.'_top10', false, true);
+        $table->integer($type.'_top12', false, true);
+        $table->integer($type.'_top25', false, true);
     }
 }

@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Onyx\Coinmarket\Helpers\String;
 
 /**
- * Class Symbols
- * @package Onyx\Coinmarket\Helpers\String
+ * Class Symbols.
  */
 class Symbols
 {
     /**
      * @param string $name
+     *
      * @return string
      */
     public static function getTickerId(string $name): string

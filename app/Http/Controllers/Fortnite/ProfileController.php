@@ -5,7 +5,6 @@ namespace PandaLove\Http\Controllers\Fortnite;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Onyx\Fortnite\Objects\Stats;
-use Onyx\XboxLive\Enums\Console;
 use PandaLove\Commands\UpdateFortniteAccount;
 use PandaLove\Http\Controllers\Controller;
 
@@ -32,14 +31,14 @@ class ProfileController extends Controller
 
             return view('fortnite.profile', [
                 'account' => $stats->account,
-                'stats' => $stats
+                'stats'   => $stats,
             ]);
         } catch (ModelNotFoundException $e) {
             \App::abort(404, 'We could not find this Fortnite Profile.');
         }
     }
 
-    public function checkForUpdate(string $id = "")
+    public function checkForUpdate(string $id = '')
     {
         if ($this->request->ajax() && !\Agent::isRobot()) {
             try {
@@ -84,7 +83,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function manualUpdate(string $id = "")
+    public function manualUpdate(string $id = '')
     {
         if (\Auth::check()) {
             try {

@@ -3,8 +3,7 @@
 namespace Onyx\Fortnite;
 
 /**
- * Class Constants
- * @package Onyx\Fortnite
+ * Class Constants.
  */
 class Constants
 {

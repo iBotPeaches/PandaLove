@@ -20,11 +20,13 @@ class Client extends Http
 
     /**
      * @param Account $account
-     * @param string $id
-     * @return Stats
+     * @param string  $id
+     *
      * @throws FortniteApiNetworkException
      * @throws \Exception
      * @throws \Throwable
+     *
+     * @return Stats
      */
     public function getAccountRoyaleStats(Account $account, string $id): Stats
     {
@@ -53,10 +55,12 @@ class Client extends Http
 
     /**
      * @param Account $account
-     * @return Stats
+     *
      * @throws FortniteApiNetworkException
      * @throws \Exception
      * @throws \Throwable
+     *
+     * @return Stats
      */
     public function updateAccount(Account $account): Stats
     {
@@ -65,24 +69,29 @@ class Client extends Http
 
     /**
      * @param string $id
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function getPlatformViaEndpoint(string $id): string
     {
         $url = sprintf(Constants::$PvP, $id);
 
         $data = $this->getJson($url);
+
         return $this->getPlatformType($data);
     }
 
     /**
      * @param string $name
      * @param string $platform
-     * @return array
+     *
      * @throws FortniteApiNetworkException
      * @throws \Exception
      * @throws \Throwable
+     *
+     * @return array
      */
     public function getAccountByTag(string $name, string $platform): array
     {
@@ -100,8 +109,8 @@ class Client extends Http
                     ->firstOrFail();
             } catch (ModelNotFoundException $ex) {
                 $account = new Account([
-                    'gamertag' => $data['displayName'],
-                    'accountType' => $platform
+                    'gamertag'    => $data['displayName'],
+                    'accountType' => $platform,
                 ]);
 
                 $account->saveOrFail();
@@ -118,6 +127,7 @@ class Client extends Http
     /**
      * @param string $expected
      * @param string $obtained
+     *
      * @throws FortniteApiNetworkException
      */
     private function checkPlatforms(string $expected, string $obtained): void
@@ -128,8 +138,9 @@ class Client extends Http
     }
 
     /**
-     * @param string $id
+     * @param string       $id
      * @param Account|null $account
+     *
      * @return Stats
      */
     private function getStatsModel(string $id, Account $account = null): Stats
@@ -138,7 +149,7 @@ class Client extends Http
             $stats = Stats::where('epic_id', $id)->firstOrFail();
         } catch (ModelNotFoundException $ex) {
             $stats = new Stats([
-                'epic_id' => $id
+                'epic_id' => $id,
             ]);
 
             if ($account !== null) {
@@ -150,26 +161,28 @@ class Client extends Http
     }
 
     /**
-     * @param Stats $statModel
-     * @param array $normalized
+     * @param Stats  $statModel
+     * @param array  $normalized
      * @param string $platform
-     * @return bool
+     *
      * @throws \Throwable
+     *
+     * @return bool
      */
     private function updateStatsModel(Stats $statModel, array $normalized, string $platform): bool
     {
         $allowedAttributes = ['kills', 'matchesplayed', 'score', 'minutesplayed', 'lastmodified', 'top1', 'top3', 'top5',
-            'top6', 'top10', 'top12', 'top25'];
+            'top6', 'top10', 'top12', 'top25', ];
 
         $oldMatches = $statModel->getMatchesSum();
 
         foreach ($normalized[$platform] as $group => $stats) {
             foreach ($stats as $key => $item) {
-                if (! in_array($key, $allowedAttributes)) {
+                if (!in_array($key, $allowedAttributes)) {
                     continue;
                 }
 
-                $key = $group . '_' . $key;
+                $key = $group.'_'.$key;
                 $statModel->setAttribute($key, $item['alltime']);
             }
         }
@@ -192,8 +205,10 @@ class Client extends Http
 
     /**
      * @param array $data
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     private function getPlatformType(array $data): string
     {
@@ -202,7 +217,7 @@ class Client extends Http
         $activeType = null;
         foreach ($data as $item) {
             foreach ($types as $type) {
-                if ($item['name'] === 'br_kills_' . $type . '_m0_p2') {
+                if ($item['name'] === 'br_kills_'.$type.'_m0_p2') {
                     return $type;
                 }
             }
@@ -212,10 +227,12 @@ class Client extends Http
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $platform
-     * @return array
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     private function statNormalizer(array $data, string $platform): array
     {
@@ -234,6 +251,7 @@ class Client extends Http
 
     /**
      * @param string $type
+     *
      * @return string
      */
     private function getSquadType(string $type): string
@@ -250,8 +268,10 @@ class Client extends Http
 
     /**
      * @param string $type
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     private function getStatType(string $type): string
     {
@@ -283,8 +303,7 @@ class Client extends Http
                 return 'top1';
 
             default:
-                throw new \Exception('Unknown new stat - ' . $type);
+                throw new \Exception('Unknown new stat - '.$type);
         }
     }
-
 }

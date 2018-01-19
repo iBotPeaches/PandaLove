@@ -3,8 +3,7 @@
 namespace PandaLove\Http\Requests;
 
 /**
- * Class AddFortniteRequest
- * @package PandaLove\Http\Requests
+ * Class AddFortniteRequest.
  */
 class AddFortniteRequest extends Request
 {

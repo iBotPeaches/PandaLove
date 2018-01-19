@@ -13,6 +13,7 @@ class Client extends Http
 
     /**
      * @param string $name
+     *
      * @return array
      */
     public function getTicker(string $name): array

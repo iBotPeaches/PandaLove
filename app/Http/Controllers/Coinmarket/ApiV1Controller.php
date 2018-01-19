@@ -36,12 +36,12 @@ class ApiV1Controller extends Controller
         $data = $client->getTicker($name);
 
         if (empty($data)) {
-            return $this->_error('Could not find symbol: ' . $name);
+            return $this->_error('Could not find symbol: '.$name);
         }
 
         return Response::json([
-            'error' => false,
-            'message' => MessageGenerator::generateTickerMessage($data)
+            'error'   => false,
+            'message' => MessageGenerator::generateTickerMessage($data),
         ], 200);
     }
 

@@ -118,11 +118,9 @@ class Account extends Model
     {
         $h5 = $this->h5();
 
-        if (! empty($h5)) {
+        if (!empty($h5)) {
             return $h5->select('id', 'account_id');
         }
-
-        return null;
     }
 
     /**

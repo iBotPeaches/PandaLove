@@ -8,8 +8,8 @@ use Onyx\Account;
 use Onyx\User;
 
 /**
- * Class Stats
- * @package Onyx\Fortnite\Objects
+ * Class Stats.
+ *
  * @property int $id
  * @property string $epic_id
  * @property int $account_id
@@ -77,7 +77,7 @@ class Stats extends Model
         'duo_lastmodified',
         'squad_lastmodified',
         'updated_at',
-        'created_at'
+        'created_at',
     ];
 
     public static function boot()
