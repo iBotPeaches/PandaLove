@@ -50,7 +50,7 @@ class ApiV1Controller extends Controller
                     ->firstOrFail();
 
                 // With the user, we need gamertag and platform.
-                if (! isset($all['platform'])) {
+                if (!isset($all['platform'])) {
                     $all['platform'] = Console::Xbox;
                 } else {
                     $all['platform'] = Console::idFromString($all['platform']);
@@ -63,7 +63,8 @@ class ApiV1Controller extends Controller
                     return $this->_error('This username could not be found. We need EPIC username + platform of system (xbl/psn/pc');
                 }
 
-                $msg = 'Account (' . $id . ') was found. Added into system. `/bot fn` will work.';
+                $msg = 'Account ('.$id.') was found. Added into system. `/bot fn` will work.';
+
                 $client->setPandaAuth($user);
                 $client->getAccountRoyaleStats($account, $id);
 
@@ -71,7 +72,6 @@ class ApiV1Controller extends Controller
                     'error' => false,
                     'msg'   => $msg,
                 ], 200);
-
             } catch (\Exception $e) {
                 return $this->_error($e->getMessage());
             }
@@ -106,7 +106,6 @@ class ApiV1Controller extends Controller
                     'error' => false,
                     'msg'   => $msg,
                 ], 200);
-
             } catch (\Exception $e) {
                 return $this->_error($e->getMessage());
             }

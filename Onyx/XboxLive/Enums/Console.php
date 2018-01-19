@@ -51,6 +51,7 @@ abstract class Console
 
     /**
      * @param string $platform
+     *
      * @return int
      */
     public static function idFromString(string $platform): int
@@ -71,8 +72,10 @@ abstract class Console
 
     /**
      * @param int $id
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public static function getFortniteTag(int $id)
     {

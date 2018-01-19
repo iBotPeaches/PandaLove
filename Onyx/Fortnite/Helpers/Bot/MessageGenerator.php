@@ -11,12 +11,13 @@ class MessageGenerator
      * @var array
      */
     private static $ignoredAttributes = ['id', 'epic_id', 'account_id', 'user_id', 'solo_lastmodified',
-        'duo_lastmodified', 'squad_lastmodified', 'created_at', 'updated_at', 'inactiveCounter'];
+        'duo_lastmodified', 'squad_lastmodified', 'created_at', 'updated_at', 'inactiveCounter', ];
 
     /**
      * @param Account $account
-     * @param Stats $old
-     * @param Stats $new
+     * @param Stats   $old
+     * @param Stats   $new
+     *
      * @return string
      */
     public static function buildOverwatchUpdateMessage(Account $account, Stats $old, Stats $new)
@@ -49,18 +50,18 @@ class MessageGenerator
 
         $gameDifference = $new->getMatchesSum() - $old->getMatchesSum();
 
-        $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated in <strong>' . $gameDifference . '</strong> games.<br />';
+        $msg .= '<strong>'.$account->gamertag.'</strong> stats have been updated in <strong>'.$gameDifference.'</strong> games.<br />';
 
         if ($old->solo_top1 < $new->solo_top1) {
-            $msg .= 'Holy shit. We have a new SOLO TOP 1 (#1) FIRST PLACE' . '<br />';
+            $msg .= 'Holy shit. We have a new SOLO TOP 1 (#1) FIRST PLACE'.'<br />';
         }
 
         if ($old->duo_top1 < $new->duo_top1) {
-            $msg .= 'Wow. 1st place in DUOS. NICE!!!!' . '<br />';
+            $msg .= 'Wow. 1st place in DUOS. NICE!!!!'.'<br />';
         }
 
         if ($old->squad_top1 < $new->squad_top1) {
-            $msg .= 'PANDAS GETTING ANOTHER SQUAD WIN. #PNDA' . '<br />';
+            $msg .= 'PANDAS GETTING ANOTHER SQUAD WIN. #PNDA'.'<br />';
         }
 
         $msg .= '<br />Random Stats:<br />';

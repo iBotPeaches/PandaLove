@@ -52,8 +52,8 @@ class Http
         try {
             $response = $this->guzzle->get($url, [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->accessToken,
-                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer '.$this->accessToken,
+                    'Accept'        => 'application/json',
                 ],
             ]);
 
@@ -66,6 +66,7 @@ class Http
             if ($minutes > 0) {
                 \Cache::put($key, $data, $minutes);
             }
+
             return $data;
         } catch (\Exception $ex) {
             return null;
@@ -77,12 +78,14 @@ class Http
         // 1) We have a valid access token still
         if (\Cache::has($this->accessKeyCacheKey)) {
             $this->accessToken = \Cache::get($this->accessKeyCacheKey);
+
             return;
         }
 
         // 2) We have a valid refresh token
         if (\Cache::has($this->refreshKeyCacheKey)) {
             $this->oAuthRefresh(\Cache::get($this->refreshKeyCacheKey));
+
             return;
         }
 
@@ -92,22 +95,22 @@ class Http
     private function oAuthLogin()
     {
         $payload = [
-            'grant_type' => 'password',
-            'username' => $this->config['email'],
-            'password' => $this->config['password'],
-            'includePerms' => true
+            'grant_type'   => 'password',
+            'username'     => $this->config['email'],
+            'password'     => $this->config['password'],
+            'includePerms' => true,
         ];
 
-        if (! $this->guzzle instanceof Guzzle) {
+        if (!$this->guzzle instanceof Guzzle) {
             $this->setupGuzzle();
         }
 
         $response = $this->guzzle->post(Constants::$oAuthToken, [
             'headers' => [
-                'Authorization' => 'Basic ' . $this->config['launcher'],
-                'Accept' => 'application/json',
+                'Authorization' => 'Basic '.$this->config['launcher'],
+                'Accept'        => 'application/json',
             ],
-            'form_params' => $payload
+            'form_params' => $payload,
         ]);
 
         if ($response->getStatusCode() !== 200) {
@@ -125,9 +128,9 @@ class Http
     {
         $response = $this->guzzle->get(Constants::$oAuthExchange, [
             'headers' => [
-                'Authorization' => 'Bearer ' . $accessToken,
-                'Accept' => 'application/json'
-            ]
+                'Authorization' => 'Bearer '.$accessToken,
+                'Accept'        => 'application/json',
+            ],
         ]);
 
         if ($response->getStatusCode() !== 200) {
@@ -144,41 +147,16 @@ class Http
     private function oAuthEglToken(string $exchangeCode): array
     {
         $payload = [
-            'grant_type' => 'exchange_code',
+            'grant_type'    => 'exchange_code',
             'exchange_code' => $exchangeCode,
-            'includePerms' => true,
-            'token_type' => 'egl'
+            'includePerms'  => true,
+            'token_type'    => 'egl',
         ];
 
         $response = $this->guzzle->post(Constants::$oAuthToken, [
             'headers' => [
-                'Authorization' => 'Basic ' . $this->config['client'],
-                'Accept' => 'application/json',
-            ],
-            'form_params' => $payload
-        ]);
-
-        if ($response->getStatusCode() !== 200) {
-            throw new FortniteApiNetworkException();
-        }
-
-        $data = json_decode($response->getBody(), true);
-        $this->parseoAuthIntoCache($data);
-        return $data;
-    }
-
-    private function oAuthRefresh(string $refreshToken): array
-    {
-        $payload = [
-            'grant_type' => 'refresh_token',
-            'refresh_token' => $refreshToken,
-            'includePerms' => true
-        ];
-
-        $response = $this->guzzle->post(Constants::$oAuthToken, [
-            'headers' => [
-                'Authorization' => 'Basic ' . $this->config['client'],
-                'Accept' => 'application/json',
+                'Authorization' => 'Basic '.$this->config['client'],
+                'Accept'        => 'application/json',
             ],
             'form_params' => $payload,
         ]);
@@ -189,11 +167,39 @@ class Http
 
         $data = json_decode($response->getBody(), true);
         $this->parseoAuthIntoCache($data);
+
+        return $data;
+    }
+
+    private function oAuthRefresh(string $refreshToken): array
+    {
+        $payload = [
+            'grant_type'    => 'refresh_token',
+            'refresh_token' => $refreshToken,
+            'includePerms'  => true,
+        ];
+
+        $response = $this->guzzle->post(Constants::$oAuthToken, [
+            'headers' => [
+                'Authorization' => 'Basic '.$this->config['client'],
+                'Accept'        => 'application/json',
+            ],
+            'form_params' => $payload,
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new FortniteApiNetworkException();
+        }
+
+        $data = json_decode($response->getBody(), true);
+        $this->parseoAuthIntoCache($data);
+
         return $data;
     }
 
     /**
      * @param array $data
+     *
      * @throws FortniteApiNetworkException
      */
     private function parseoAuthIntoCache(array $data): void

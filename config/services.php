@@ -53,10 +53,10 @@ return [
     ],
 
     'fortnite' => [
-        'email' => env('FORTNITE_USER_EMAIL'),
+        'email'    => env('FORTNITE_USER_EMAIL'),
         'password' => env('FORTNITE_USER_PASSWORD'),
         'launcher' => env('FORTNITE_LAUNCHER_TOKEN'),
-        'client' => env('FORTNITE_CLIENT_TOKEN'),
+        'client'   => env('FORTNITE_CLIENT_TOKEN'),
     ],
 
 ];
