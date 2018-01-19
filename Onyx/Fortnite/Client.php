@@ -217,7 +217,7 @@ class Client extends Http
         $activeType = null;
         foreach ($data as $item) {
             foreach ($types as $type) {
-                if ($item['name'] === 'br_kills_'.$type.'_m0_p2') {
+                if ($item['name'] === 'br_lastmodified_'.$type.'_m0_p2' || $item['name'] === 'br_lastmodified_'.$type.'_m0_p9') {
                     return $type;
                 }
             }
