@@ -59,6 +59,10 @@ class ApiV1Controller extends Controller
                 // Check if platform exists.
                 [$id, $account] = $client->getAccountByTag($all['gamertag'], $all['platform']);
 
+                if ($account === null) {
+                    return $this->_error('This username could not be found. We need EPIC username + platform of system (xbl/psn/pc');
+                }
+
                 $msg = 'Account (' . $id . ') was found. Added into system. `/bot fn` will work.';
                 $client->setPandaAuth($user);
                 $client->getAccountRoyaleStats($account, $id);

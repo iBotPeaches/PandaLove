@@ -108,7 +108,7 @@ class Client extends Http
             }
         }
 
-        return [$data['id'], $account];
+        return [$data['id'], $account ?? null];
     }
 
     //---------------------------------------------------------------------------------
