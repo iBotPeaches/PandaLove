@@ -28,6 +28,7 @@ class AddFortniteTables extends Migration
             $this->places($table, 'squad');
 
             $table->timestamps();
+            $table->integer('inactiveCounter', false, true)->default(0);
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->foreign('user_id')->references('id')->on('users');
         });

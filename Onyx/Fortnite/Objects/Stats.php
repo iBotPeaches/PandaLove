@@ -52,6 +52,7 @@ use Onyx\User;
  * @property int $squad_top25
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property int $inactiveCounter
  * @property Account $account
  * @property User $user
  */
@@ -71,6 +72,13 @@ class Stats extends Model
      */
     protected $guarded = ['id'];
 
+    public $dates = [
+        'solo_lastmodified',
+        'duo_lastmodified',
+        'squad_lastmodified',
+        'updated_at',
+        'created_at'
+    ];
 
     public static function boot()
     {
@@ -99,6 +107,18 @@ class Stats extends Model
     //---------------------------------------------------------------------------------
     // Public Methods
     //---------------------------------------------------------------------------------
+
+    public function getLastUpdatedRelative(): string
+    {
+        $date = new Carbon($this->updated_at);
+
+        return $date->diffForHumans();
+    }
+
+    public function getMatchesSum(): int
+    {
+        return $this->squad_matchesplayed + $this->duo_matchesplayed + $this->solo_matchesplayed;
+    }
 
     public function account()
     {

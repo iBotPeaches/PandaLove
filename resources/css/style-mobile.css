@@ -302,6 +302,21 @@
 .playtime-table:before {
 	content: "Playtime: ";
 }
+.fnwins-table:before {
+	content: "Wins: ";
+}
+.fntop3-table:before {
+	content: "Top3: ";
+}
+.fnsolomatches-table:before {
+	content: "Solo Matches: ";
+}
+.fnduomatches-table:before {
+	content: "Duo Matches: ";
+}
+.fnsquadmatches-table:before {
+	content: "Squad Matches: ";
+}
 .ui.statistics.four > .statistic > .value {
 	font-size: 2.1rem !important;
 }

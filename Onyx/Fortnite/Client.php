@@ -41,6 +41,18 @@ class Client extends Http
     }
 
     /**
+     * @param Account $account
+     * @return Stats
+     * @throws FortniteApiNetworkException
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function updateAccount(Account $account): Stats
+    {
+        return $this->getAccountRoyaleStats($account, $account->fortnite->epic_id);
+    }
+
+    /**
      * @param string $id
      * @return string
      * @throws \Exception
@@ -138,6 +150,8 @@ class Client extends Http
         $allowedAttributes = ['kills', 'matchesplayed', 'score', 'minutesplayed', 'lastmodified', 'top1', 'top3', 'top5',
             'top6', 'top10', 'top12', 'top25'];
 
+        $oldMatches = $statModel->getMatchesSum();
+
         foreach ($normalized[$platform] as $group => $stats) {
             foreach ($stats as $key => $item) {
                 if (! in_array($key, $allowedAttributes)) {
@@ -147,6 +161,13 @@ class Client extends Http
                 $key = $group . '_' . $key;
                 $statModel->setAttribute($key, $item['alltime']);
             }
+        }
+
+        // Increment inactive-ness, if nothing changes
+        if ($oldMatches !== $statModel->getMatchesSum()) {
+            $statModel->inactiveCounter = 0;
+        } else {
+            $statModel->inactiveCounter++;
         }
 
         return $statModel->saveOrFail();
