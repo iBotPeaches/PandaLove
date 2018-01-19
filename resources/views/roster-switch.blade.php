@@ -13,7 +13,7 @@
                     <a href="{{ URL::action('Destiny2\RosterController@getIndex') }}" class="button big scrolly">Destiny 2</a>
                     <a href="{{ URL::action('Halo5\RosterController@getIndex') }}" class="button big scrolly">Halo 5</a>
                     <a href="{{ Url::action('Overwatch\RosterController@getIndex') }}" class="button big scrolly">Overwatch</a>
-                    <a href="#" class="button big scrolly">Fortnite</a>
+                    <a href="{{ Url::action('Fortnite\RosterController@getIndex') }}" class="button big scrolly">Fortnite</a>
                 </div>
             </div>
         </article>
