@@ -2,6 +2,7 @@
 
 namespace PandaLove\Http\Controllers\Fortnite;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request as Request;
 use Illuminate\Routing\Redirector as Redirect;
 use Illuminate\Support\Facades\Response;
@@ -63,7 +64,7 @@ class ApiV1Controller extends Controller
                     return $this->_error('This username could not be found. We need EPIC username + platform of system (xbl/psn/pc');
                 }
 
-                $msg = 'Account ('.$id.') was found. Added into system. `/bot fn` will work.';
+                $msg = 'Account (' . $id . ') was found. Added into system. `/bot fn` will work.';
 
                 $client->setPandaAuth($user);
                 $client->getAccountRoyaleStats($account, $id);
@@ -72,6 +73,8 @@ class ApiV1Controller extends Controller
                     'error' => false,
                     'msg'   => $msg,
                 ], 200);
+            } catch (ModelNotFoundException $ex) {
+                return $this->_error('Idiot. I dont know who you are. Sign into pandalove with your G+ and verify Xbox account.');
             } catch (\Exception $e) {
                 return $this->_error($e->getMessage());
             }
@@ -106,6 +109,8 @@ class ApiV1Controller extends Controller
                     'error' => false,
                     'msg'   => $msg,
                 ], 200);
+            } catch (ModelNotFoundException $ex) {
+                return $this->_error('Idiot. I dont know who you are. Sign into pandalove with your G+ and verify Xbox account.');
             } catch (\Exception $e) {
                 return $this->_error($e->getMessage());
             }
