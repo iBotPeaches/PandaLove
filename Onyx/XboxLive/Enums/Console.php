@@ -50,6 +50,26 @@ abstract class Console
     }
 
     /**
+     * @param string $platform
+     * @return int
+     */
+    public static function idFromString(string $platform): int
+    {
+        switch (strtolower($platform)) {
+            case 'xbl':
+            case 'xbox':
+            case 'xb1':
+                return self::Xbox;
+            case 'psn':
+            case 'playstation':
+                return self::PSN;
+            case 'pc':
+            default:
+                return self::PC;
+        }
+    }
+
+    /**
      * @param int $id
      * @return string
      * @throws \Exception

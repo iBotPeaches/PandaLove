@@ -18,6 +18,7 @@ class VerifyCsrfToken extends BaseVerifier
         'h5/api/*',
         'overwatch/api/*',
         'destiny2/api/*',
+        'fortnite/api/*',
     ];
 
     /**

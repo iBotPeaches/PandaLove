@@ -8,6 +8,7 @@ use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Fortnite\Helpers\Network\FortniteApiNetworkException;
 use Onyx\Fortnite\Helpers\Network\Http;
 use Onyx\Fortnite\Objects\Stats;
+use Onyx\User;
 use Onyx\XboxLive\Enums\Console;
 
 /**
@@ -15,6 +16,8 @@ use Onyx\XboxLive\Enums\Console;
  */
 class Client extends Http
 {
+    public $userId = null;
+
     /**
      * @param Account $account
      * @param string $id
@@ -38,6 +41,14 @@ class Client extends Http
         }
 
         throw new FortniteApiNetworkException();
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setPandaAuth(User $user)
+    {
+        $this->userId = $user->id;
     }
 
     /**
@@ -168,6 +179,12 @@ class Client extends Http
             $statModel->inactiveCounter = 0;
         } else {
             $statModel->inactiveCounter++;
+        }
+
+        // Add if Panda
+        if ($this->userId !== null) {
+            $statModel->user_id = $this->userId;
+            $this->userId = null;
         }
 
         return $statModel->saveOrFail();

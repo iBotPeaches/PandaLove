@@ -26,6 +26,7 @@ Route::get('/destiny2/profile/{console}/{gamertag}/{characterId?}', 'Destiny2\Pr
 Route::controller('/xbox/api/v1', 'Xbox\ApiV1Controller');
 
 //# Fortnite
+Route::controller('/fortnite/api/v1', 'Fortnite\ApiV1Controller');
 Route::controller('/fortnite/roster', 'Fortnite\RosterController');
 Route::get('/fortnite/profile/check-for-update/{id}', 'Fortnite\ProfileController@checkForUpdate');
 Route::get('/fortnite/profile/manual-update/{id}', 'Fortnite\ProfileController@manualUpdate');
