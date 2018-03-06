@@ -12,7 +12,7 @@ class MessageGenerator
      * @var array
      */
     private static $ignoredAttributes = ['avatar', 'rank_image', 'account_id', 'prestige',
-        'season', 'id', 'created_at', 'updated_at', 'inactive_counter', 'tier'];
+        'season', 'id', 'created_at', 'updated_at', 'inactive_counter', 'tier', ];
 
     /**
      * @param Account $account

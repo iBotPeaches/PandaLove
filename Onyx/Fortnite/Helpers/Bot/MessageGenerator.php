@@ -54,17 +54,17 @@ class MessageGenerator
 
         if ($old->solo_top1 < $new->solo_top1) {
             $diff = $new->solo_top1 - $old->solo_top1;
-            $msg .= 'Holy shit. We have <strong>' . $diff . '</strong> ' . 'new SOLO TOP 1 (#1) FIRST PLACE'.'<br />';
+            $msg .= 'Holy shit. We have <strong>'.$diff.'</strong> '.'new SOLO TOP 1 (#1) FIRST PLACE'.'<br />';
         }
 
         if ($old->duo_top1 < $new->duo_top1) {
             $diff = $new->duo_top1 - $old->duo_top1;
-            $msg .= 'Wow. <strong>' . $diff . '</strong> new 1st place in DUOS. NICE!!!!'.'<br />';
+            $msg .= 'Wow. <strong>'.$diff.'</strong> new 1st place in DUOS. NICE!!!!'.'<br />';
         }
 
         if ($old->squad_top1 < $new->squad_top1) {
             $diff = $new->squad_top1 - $old->squad_top1;
-            $msg .= 'PANDAS GETTING ANOTHER <strong>' . $diff . '</strong> SQUAD WIN(s). #PNDA'.'<br />';
+            $msg .= 'PANDAS GETTING ANOTHER <strong>'.$diff.'</strong> SQUAD WIN(s). #PNDA'.'<br />';
         }
 
         $msg .= '<br />Random Stats:<br />';

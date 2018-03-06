@@ -64,7 +64,7 @@ class ApiV1Controller extends Controller
                     return $this->_error('This username could not be found. We need EPIC username + platform of system (xbl/psn/pc');
                 }
 
-                $msg = 'Account (' . $id . ') was found. Added into system. `/bot fn` will work.';
+                $msg = 'Account ('.$id.') was found. Added into system. `/bot fn` will work.';
 
                 $client->setPandaAuth($user);
                 $client->getAccountRoyaleStats($account, $id);
