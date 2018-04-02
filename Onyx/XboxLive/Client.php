@@ -3,7 +3,7 @@
 namespace Onyx\XboxLive;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Promise as GuzzlePromise;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Cache;
 use Onyx\Account;
 use Onyx\XboxLive\Constants as XboxConstants;
@@ -46,7 +46,8 @@ class Client extends XboxAPI
         ]);
 
         // Set up getCommands
-        $requests = [];
+        $results = [];
+
         foreach ($accounts as $account) {
             if ($account->xuid == null) {
                 if ($this->getXuid($account) == null) {
@@ -55,12 +56,11 @@ class Client extends XboxAPI
             }
 
             $url = sprintf(XboxConstants::$getPresenceUrl, $account->xuid);
-            $requests[$account->seo] = $client->getAsync($url, [
-                'headers' => ['X-AUTH' => env('XBOXAPI_KEY')],
+
+            $results[$account->seo] = $client->get($url, [
+                'headers' => ['X-AUTH' => env('XBOXAPI_KEY')]
             ]);
         }
-
-        $results = GuzzlePromise\settle($requests)->wait();
 
         return $results;
     }
@@ -86,7 +86,7 @@ class Client extends XboxAPI
     }
 
     /**
-     * @param $presence
+     * @param Response[] $presence
      * @param $accounts Account[]
      *
      * @return string
@@ -102,10 +102,10 @@ class Client extends XboxAPI
             $found = false;
 
             foreach ($presence as $seo => $response) {
-                if ($response['state'] === 'rejected') {
+                if ($response->getReasonPhrase() !== 'OK') {
                     continue;
                 }
-                $data = json_decode($response['value']->getBody(), true);
+                $data = json_decode($response->getBody()->getContents(),true);
 
                 if (isset($data['state']) && $data['state'] == 'Online') {
                     foreach ($data['devices'] as $device) {
