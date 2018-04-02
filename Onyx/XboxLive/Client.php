@@ -60,7 +60,7 @@ class Client extends XboxAPI
             ]);
         }
 
-        $results = GuzzlePromise\Unwrap($requests);
+        $results = GuzzlePromise\settle($requests)->wait();
 
         return $results;
     }
@@ -102,7 +102,10 @@ class Client extends XboxAPI
             $found = false;
 
             foreach ($presence as $seo => $response) {
-                $data = json_decode($response->getBody(), true);
+                if ($response['state'] === 'rejected') {
+                    continue;
+                }
+                $data = json_decode($response['value']->getBody(), true);
 
                 if (isset($data['state']) && $data['state'] == 'Online') {
                     foreach ($data['devices'] as $device) {
