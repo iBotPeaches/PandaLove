@@ -3988,11 +3988,7 @@ istextorbinary@1.0.2:
     binaryextensions "~1.0.0"
     textextensions "~1.0.0"
 
-jquery@1.11.1:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.11.1.tgz#b6ec928590112ebed69e1e49cbfd0025ccd60ddb"
-
-jquery@^3.2.1:
+jquery@^3.0.0, jquery@^3.2.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
