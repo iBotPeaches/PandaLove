@@ -26,7 +26,7 @@ var paths = {
 
 elixir(function(mix) {
  mix
-     .copy(paths.jquery + 'cdn/jquery.min.js', 'public/js/jquery.min.js')
+     .copy(paths.jquery + 'jquery.min.js', 'public/js/jquery.min.js')
      .copy(paths.chartsjs + 'Chart.bundle.min.js', 'public/js/chart.js')
      .copy(paths.fontawesome + 'css/font-awesome.min.css', 'public/css/font-awesome.min.css')
      .copy(paths.fontawesome + 'fonts', 'public/fonts/')
