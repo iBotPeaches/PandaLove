@@ -58,7 +58,7 @@ class Client extends XboxAPI
             $url = sprintf(XboxConstants::$getPresenceUrl, $account->xuid);
 
             $results[$account->seo] = $client->get($url, [
-                'headers' => ['X-AUTH' => env('XBOXAPI_KEY')]
+                'headers' => ['X-AUTH' => env('XBOXAPI_KEY')],
             ]);
         }
 
@@ -105,7 +105,7 @@ class Client extends XboxAPI
                 if ($response->getReasonPhrase() !== 'OK') {
                     continue;
                 }
-                $data = json_decode($response->getBody()->getContents(),true);
+                $data = json_decode($response->getBody()->getContents(), true);
 
                 if (isset($data['state']) && $data['state'] == 'Online') {
                     foreach ($data['devices'] as $device) {
