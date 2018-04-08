@@ -32,6 +32,24 @@ class Text
     }
 
     /**
+     * @param string $gamertag
+     * @return string
+     */
+    public static function blizzard(string $gamertag): string
+    {
+        return str_replace('#', '-', $gamertag);
+    }
+
+    /**
+     * @param string $gamertag
+     * @return string
+     */
+    public static function blizzardSeo(string $gamertag): string
+    {
+        return self::seoGamertag(self::blizzard($gamertag));
+    }
+
+    /**
      * Returns value greatest used.
      *
      * @param $set
