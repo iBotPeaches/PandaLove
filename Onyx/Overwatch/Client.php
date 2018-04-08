@@ -5,6 +5,7 @@ namespace Onyx\Overwatch;
 use Carbon\Carbon;
 use Onyx\Account;
 use Onyx\Destiny\Helpers\String\Text as DestinyText;
+use Onyx\Destiny\Helpers\String\Text;
 use Onyx\Overwatch\Constants as OverwatchConstants;
 use Onyx\Overwatch\Helpers\Game\Season;
 use Onyx\Overwatch\Helpers\Network\Http;
@@ -34,12 +35,15 @@ class Client extends Http
     public function fetchBlobStat($account, $platform = Console::Xbox)
     {
         // xbl/pc/psn
-        $url = sprintf(OverwatchConstants::$getBlobStats, $account->gamertag, Console::getOverwatchTag($platform));
+        $url = sprintf(OverwatchConstants::$getBlobStats, Text::blizzard($account->gamertag), Console::getOverwatchTag($platform));
 
         $data = $this->getJson($url);
 
-        if (isset($data['any']) && isset($data['any']['stats']['competitive'])) {
-            return $data['any'];
+        $types = ['any', 'us', 'eu'];
+        foreach ($types as $type) {
+            if (isset($data[$type]) && isset($data[$type]['stats']['competitive'])) {
+                return $data[$type];
+            }
         }
 
         throw new OWApiNetworkException('Could not find account (Either no competitive data or does not exist).');
@@ -75,13 +79,12 @@ class Client extends Http
         // Account does not exist. Make it.
         if ($account === null) {
             $account = Account::firstOrCreate([
-                'gamertag'    => $gamertag,
+                'gamertag'    => Text::blizzardSeo($gamertag),
                 'accountType' => $platform,
             ]);
-        } else {
-            $account->gamertag = $gamertag;
         }
 
+        $account->gamertag = Text::blizzard($gamertag);
         $data = $this->fetchBlobStat($account, $platform);
 
         // Insert data
@@ -104,7 +107,7 @@ class Client extends Http
      */
     public function checkCacheForTag($account, $platform = Console::Xbox)
     {
-        $seo = DestinyText::seoGamertag($account);
+        $seo = DestinyText::blizzardSeo($account);
 
         if (isset($this->account_cached[$seo])) {
             return $this->account_cached[$seo];
