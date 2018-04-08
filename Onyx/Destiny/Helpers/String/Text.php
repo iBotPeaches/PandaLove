@@ -33,6 +33,7 @@ class Text
 
     /**
      * @param string $gamertag
+     *
      * @return string
      */
     public static function blizzard(string $gamertag): string
@@ -42,6 +43,7 @@ class Text
 
     /**
      * @param string $gamertag
+     *
      * @return string
      */
     public static function blizzardSeo(string $gamertag): string

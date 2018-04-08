@@ -4,8 +4,8 @@ namespace Onyx\Overwatch;
 
 use Carbon\Carbon;
 use Onyx\Account;
-use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Destiny\Helpers\String\Text;
+use Onyx\Destiny\Helpers\String\Text as DestinyText;
 use Onyx\Overwatch\Constants as OverwatchConstants;
 use Onyx\Overwatch\Helpers\Game\Season;
 use Onyx\Overwatch\Helpers\Network\Http;
