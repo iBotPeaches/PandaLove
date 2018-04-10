@@ -84,17 +84,18 @@ class Client extends Http
             ]);
         }
 
+        // check for mismatch GT
+        if (!str_contains($gamertag, '#') && $account->gamertag !== $gamertag) {
+            $account->gamertag = $gamertag;
+            $account->save();
+        }
+
         $account->gamertag = Text::blizzard($gamertag);
+
         $data = $this->fetchBlobStat($account, $platform);
 
         // Insert data
         $this->updateOrInsertStats($account, $data);
-
-        // check for mismatch GT
-        if ($account->gamertag !== $gamertag) {
-            $account->gamertag = $gamertag;
-            $account->save();
-        }
 
         return $account;
     }
