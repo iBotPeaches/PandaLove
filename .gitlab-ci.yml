@@ -13,10 +13,9 @@ laravel_build:
   stage: build
   script:
     - composer install
-    - curl -o- -L https://yarnpkg.com/install.sh | bash
     - php artisan key:generate
     - php artisan clear-compiled
-    - yarn install
+    - /opt/yarn-v1.7.0/bin/yarn install
     - cd node_modules/semantic-ui; gulp build; cd ../..;
     - gulp
   artifacts:
