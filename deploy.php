@@ -30,7 +30,7 @@ host('pandalove.club')
 desc('Restart PHP-FPM service');
 task('gulp:asset', function () {
     cd('{{release_path}}');
-    run('yarn add gulp');
+    run('/opt/yarn-v1.7.0/bin/yarn add gulp');
     run('gulp --production');
 });
 after('deploy:symlink', 'gulp:asset');
