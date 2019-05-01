@@ -62,8 +62,33 @@ class Season
         ],
         11 => [
             'start'  => 'June 28, 2018',
-            'end'    => 'August 27, 2018',
+            'end'    => 'August 28, 2018',
             'season' => 11,
+        ],
+        12 => [
+            'start'  => 'August 31, 2018',
+            'end'    => 'October 28, 2018',
+            'season' => 12,
+        ],
+        13 => [
+            'start'  => 'November 1, 2018',
+            'end'    => 'December 31, 2018',
+            'season' => 13,
+        ],
+        14 => [
+            'start'  => 'January 1, 2019',
+            'end'    => 'February 28, 2019',
+            'season' => 14,
+        ],
+        15 => [
+            'start'  => 'March 1, 2019',
+            'end'    => 'April 29, 2019',
+            'season' => 15,
+        ],
+        16 => [
+            'start'  => 'May 1, 2019',
+            'end'    => 'July 30, 2019',
+            'season' => 16,
         ],
     ];
 
